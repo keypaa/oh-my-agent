@@ -5,7 +5,7 @@ import {
   subagentSessions,
   syncSubagentSessions,
   updateSessionAgent,
-} from "../features/claude-code-session-state";
+} from "../features/session-state";
 import {
   clearBackgroundOutputConsumptionsForParentSession,
   clearBackgroundOutputConsumptionsForTaskSession,
@@ -15,48 +15,19 @@ import { resetMessageCursor } from "../shared";
 import { clearSessionModel, setSessionModel } from "../shared/session-model-state";
 import { clearSessionPromptParams } from "../shared/session-prompt-params-state";
 import { deleteSessionTools } from "../shared/session-tools-store";
-import { dispatchOpenClawEvent } from "../openclaw/runtime-dispatch";
+
 import { resolveMessageEventSessionID, resolveSessionEventID } from "../shared/event-session-id";
 import type { OhMyOpenCodeConfig } from "../config";
 import type { Managers } from "../create-managers";
 import type { FirstMessageVariantGate, PluginEventContext } from "./event-types";
 
-export const TMUX_ACTIVITY_EVENT_TYPES: ReadonlySet<string> = new Set([
-  "message.updated",
-  "message.part.updated",
-  "message.part.delta",
-  "message.part.removed",
-  "message.removed",
-]);
-
 export function isCompactionAgent(agent: string): boolean {
   return agent.trim().toLowerCase() === "compaction";
-}
-
-export async function dispatchOpenClawSessionEvent(args: {
-  pluginConfig: OhMyOpenCodeConfig;
-  pluginContext: PluginEventContext;
-  managers: Managers;
-  rawEvent: string;
-  sessionID: string;
-}): Promise<void> {
-  if (!args.pluginConfig.openclaw) return;
-
-  await dispatchOpenClawEvent({
-    config: args.pluginConfig.openclaw,
-    rawEvent: args.rawEvent,
-    context: {
-      sessionId: args.sessionID,
-      projectPath: args.pluginContext.directory,
-      tmuxPaneId: args.managers.tmuxSessionManager.getTrackedPaneId?.(args.sessionID) ?? process.env.TMUX_PANE,
-    },
-  });
 }
 
 export async function handleSessionCreatedEvent(args: {
   event: { type: string; properties?: unknown };
   props?: Record<string, unknown>;
-  tmuxIntegrationEnabled: boolean;
   pluginConfig: OhMyOpenCodeConfig;
   pluginContext: PluginEventContext;
   managers: Managers;
@@ -68,24 +39,10 @@ export async function handleSessionCreatedEvent(args: {
 
   if (!isSubagentSession) setMainSession(sessionID);
   args.firstMessageVariantGate.markSessionCreated(sessionInfo);
-
-  if (args.tmuxIntegrationEnabled && !isSubagentSession) {
-    await args.managers.tmuxSessionManager.onSessionCreated(
-      args.event as {
-        type: string;
-        properties?: { info?: { id?: string; parentID?: string; title?: string } };
-      },
-    );
-  }
-
-  if (sessionID && !isSubagentSession) {
-    await dispatchOpenClawSessionEvent({ ...args, rawEvent: args.event.type, sessionID });
-  }
 }
 
 export async function handleSessionDeletedEvent(args: {
   props?: Record<string, unknown>;
-  tmuxIntegrationEnabled: boolean;
   pluginConfig: OhMyOpenCodeConfig;
   pluginContext: PluginEventContext;
   managers: Managers;
@@ -96,7 +53,6 @@ export async function handleSessionDeletedEvent(args: {
   if (sessionID === getMainSessionID()) setMainSession(undefined);
   if (!sessionID) return;
 
-  await args.managers.monitorManager?.stopSessionMonitors(sessionID);
   const wasSyncSubagentSession = syncSubagentSessions.has(sessionID);
   clearSessionAgent(sessionID);
   args.clearModelFallbackSession(sessionID);
@@ -107,11 +63,9 @@ export async function handleSessionDeletedEvent(args: {
   clearSessionModel(sessionID);
   clearSessionPromptParams(sessionID);
   syncSubagentSessions.delete(sessionID);
-  await dispatchOpenClawSessionEvent({ ...args, rawEvent: "session.deleted", sessionID });
   if (wasSyncSubagentSession) subagentSessions.delete(sessionID);
   deleteSessionTools(sessionID);
   await args.managers.skillMcpManager.disconnectSession(sessionID);
-  if (args.tmuxIntegrationEnabled) await args.managers.tmuxSessionManager.onSessionDeleted({ sessionID });
 }
 
 export function handleMessageRemovedEvent(props?: Record<string, unknown>): void {

@@ -1,5 +1,6 @@
 import { getDailyActiveCaptureState } from "./activity-state"
-import { createTelemetryClient, isTelemetryClientEnabled } from "./posthog-client"
+
+
 import { getTelemetryDistinctId } from "./machine-id"
 import type {
   TelemetryDiagnosticInput,

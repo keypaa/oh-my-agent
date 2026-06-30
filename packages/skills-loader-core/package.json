@@ -64,7 +64,6 @@
     "test": "bun test src/*.test.ts src/**/*.test.ts"
   },
   "dependencies": {
-    "@oh-my-opencode/claude-code-compat-core": "workspace:*",
     "@oh-my-opencode/model-core": "workspace:*",
     "@oh-my-opencode/shared-skills": "workspace:*",
     "@oh-my-opencode/utils": "workspace:*",

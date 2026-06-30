@@ -25,13 +25,13 @@ export const HookNameSchema = z.enum([
   "interactive-bash-session",
 
   "tool-pair-validator",
-  "monitor-status-injector",
+
   "ralph-loop",
   "category-skill-reminder",
 
   "compaction-context-injector",
   "compaction-todo-preserver",
-  "claude-code-hooks",
+
   "auto-slash-command",
   "edit-error-recovery",
   "json-error-recovery",

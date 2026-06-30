@@ -14,7 +14,7 @@ import { clearFormatterCache } from "../tools/hashline-edit/formatter-trigger"
 import {
   clearRegisteredAgentNames,
   registerAgentName,
-} from "../features/claude-code-session-state";
+} from "../features/session-state";
 import { setDefaultAgentForSort } from "../shared/agent-sort-shim";
 import { getConfiguredDefaultAgent } from "./agent-config-assembly";
 

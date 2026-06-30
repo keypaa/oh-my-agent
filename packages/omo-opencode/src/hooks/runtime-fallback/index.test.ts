@@ -11,7 +11,7 @@ import { SessionCategoryRegistry } from "../../shared/session-category-registry"
 import {
   _resetForTesting as resetClaudeCodeSessionState,
   subagentSessions,
-} from "../../features/claude-code-session-state"
+} from "../../features/session-state"
 import {
   releaseAllPromptAsyncReservationsForTesting,
   releasePromptAsyncReservation,

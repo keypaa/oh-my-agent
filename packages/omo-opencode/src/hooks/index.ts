@@ -19,7 +19,7 @@ export {
   type ModelFallbackHook,
   type ModelFallbackState,
 } from "./model-fallback/hook";
-export { createClaudeCodeHooksHook } from "./claude-code-hooks";
+
 export { createRulesInjectorHook } from "./rules-injector";
 export { createBackgroundNotificationHook } from "./background-notification"
 export { createAutoUpdateCheckerHook } from "./auto-update-checker";
@@ -68,4 +68,3 @@ export { createLegacyPluginToastHook } from "./legacy-plugin-toast"
 export { createFsyncSkipWarningHook } from "./fsync-skip-warning"
 export { createNotepadWriteGuardHook } from "./notepad-write-guard"
 export { createPlanFormatValidatorHook } from "./plan-format-validator"
-export { createMonitorStatusInjectorHook } from "./monitor-status-injector"

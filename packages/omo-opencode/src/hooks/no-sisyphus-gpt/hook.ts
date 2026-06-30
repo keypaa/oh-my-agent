@@ -4,7 +4,7 @@ import {
   getSessionAgent,
   resolveRegisteredAgentName,
   updateSessionAgent,
-} from "../../features/claude-code-session-state"
+} from "../../features/session-state"
 import { AGENT_MODEL_REQUIREMENTS, log } from "../../shared"
 import { getAgentConfigKey } from "../../shared/agent-display-names"
 

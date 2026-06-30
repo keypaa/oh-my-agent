@@ -6,7 +6,7 @@ declare const expect: <T>(value: T) => {
 }
 
 import { createToolPairValidatorHook } from "./hook"
-import { _resetForTesting, subagentSessions } from "../../features/claude-code-session-state/state"
+import { _resetForTesting, subagentSessions } from "../../features/session-state/state"
 
 const TOOL_RESULT_PLACEHOLDER = "Tool output unavailable (context compacted)"
 const TOOL_RESULT_RECOVERY_CONTINUATION = "Recovered missing tool results. Continue from the repaired tool output."

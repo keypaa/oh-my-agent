@@ -1,7 +1,7 @@
 import type { DelegateTaskArgs, ToolContextWithMetadata } from "./types"
 import type { ExecutorContext, ParentContext, SessionMessage } from "./executor-types"
 import { getDeliverableTag, isPlanFamily } from "./constants"
-import { handedBackSyncSessions } from "../../features/claude-code-session-state"
+import { handedBackSyncSessions } from "../../features/session-state"
 import { publishToolMetadata } from "../../features/tool-metadata-store"
 import { getTaskToastManager } from "../../features/task-toast-manager"
 import { getAgentToolRestrictions } from "../../shared/agent-tool-restrictions"

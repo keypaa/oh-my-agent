@@ -746,7 +746,7 @@ describe("background-agent spawner fallback model promotion", () => {
       },
     }
 
-    const { _resetForTesting: resetState, getSessionAgent } = await import("../claude-code-session-state")
+    const { _resetForTesting: resetState, getSessionAgent } = await import("../session-state")
     resetState()
 
     const task = createTask({

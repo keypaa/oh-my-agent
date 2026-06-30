@@ -3,7 +3,7 @@ const { afterEach, describe, expect, spyOn, test } = require("bun:test")
 
 import { createEventHandler } from "./event"
 import { createChatMessageHandler } from "./chat-message"
-import { _resetForTesting, setSessionAgent } from "../features/claude-code-session-state"
+import { _resetForTesting, setSessionAgent } from "../features/session-state"
 import { clearPendingModelFallback, createModelFallbackHook, setSessionFallbackChain } from "../hooks/model-fallback/hook"
 import * as connectedProvidersCache from "../shared/connected-providers-cache"
 import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"

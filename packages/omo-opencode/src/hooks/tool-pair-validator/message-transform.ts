@@ -1,4 +1,4 @@
-import { subagentSessions } from "../../features/claude-code-session-state"
+import { subagentSessions } from "../../features/session-state"
 import {
   getMessageSessionID,
   repairMissingToolResults,

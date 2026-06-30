@@ -99,12 +99,10 @@ export function createToolGuardHooks(args: {
     ? safeHook("empty-task-response-detector", () => createEmptyTaskResponseDetectorHook(ctx))
     : null
 
-  const cc = pluginConfig.claude_code
-  const skipClaudeUserRules = cc?.hooks === false
   const rulesInjector = isHookEnabled("rules-injector")
     ? safeHook("rules-injector", () =>
         createRulesInjectorHook(ctx, modelCacheState, {
-          skipClaudeUserRules,
+          skipClaudeUserRules: false,
         }))
     : null
 

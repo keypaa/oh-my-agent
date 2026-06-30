@@ -12,7 +12,7 @@ import {
 import {
   getSessionAgent,
   resolveRegisteredAgentName,
-} from "../../features/claude-code-session-state/state"
+} from "../../features/session-state/state"
 import {
   findNearestMessageWithFields,
   findNearestMessageWithFieldsFromSDK,

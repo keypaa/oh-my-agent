@@ -6,8 +6,7 @@ import type { SkillContext } from "./skill-context"
 import type { PluginContext, ToolsRecord } from "./types"
 import type { ToolRegistryFactories } from "./tool-registry-factories"
 
-import { getMainSessionID } from "../features/claude-code-session-state"
-import * as openclawRuntimeDispatch from "../openclaw/runtime-dispatch"
+import { getMainSessionID } from "../features/session-state"
 import { log } from "../shared"
 import { getSisyphusJuniorModelOverride } from "./tool-registry-team-tools"
 import { createNativeSkills, getPluginInputNativeSkills } from "./native-skills"
@@ -17,7 +16,7 @@ import { createRuntimeSkillsResolver, readRuntimeHostSkills } from "./runtime-sk
 export function createCoreTools(args: {
   readonly ctx: PluginContext
   readonly pluginConfig: OhMyOpenCodeConfig
-  readonly managers: Pick<Managers, "backgroundManager" | "tmuxSessionManager" | "skillMcpManager" | "modelFallbackControllerAccessor">
+  readonly managers: Pick<Managers, "backgroundManager" | "skillMcpManager" | "modelFallbackControllerAccessor">
   readonly skillContext: SkillContext
   readonly availableCategories: AvailableCategory[]
   readonly factories: ToolRegistryFactories
@@ -70,28 +69,7 @@ export function createCoreTools(args: {
         parentID: event.parentID,
         title: event.title,
       })
-      await managers.tmuxSessionManager.onSessionCreated({
-        type: "session.created",
-        properties: {
-          info: {
-            id: event.sessionID,
-            parentID: event.parentID,
-            title: event.title,
-          },
-        },
-      })
 
-      if (pluginConfig.openclaw) {
-        await openclawRuntimeDispatch.dispatchOpenClawEvent({
-          config: pluginConfig.openclaw,
-          rawEvent: "session.created",
-          context: {
-            sessionId: event.sessionID,
-            projectPath: ctx.directory,
-            tmuxPaneId: managers.tmuxSessionManager.getTrackedPaneId?.(event.sessionID) ?? process.env.TMUX_PANE,
-          },
-        })
-      }
     },
   })
 
@@ -100,10 +78,7 @@ export function createCoreTools(args: {
     getLoadedSkills,
     getSessionID: getSessionIDForMcp,
   })
-  const commands = factories.discoverCommandsSync(ctx.directory, {
-    pluginsEnabled: pluginConfig.claude_code?.plugins ?? true,
-    enabledPluginsOverride: pluginConfig.claude_code?.plugins_override,
-  })
+  const commands = factories.discoverCommandsSync(ctx.directory)
   const skillTool = factories.createSkillTool({
     directory: ctx.directory,
     commands,
@@ -116,8 +91,7 @@ export function createCoreTools(args: {
     disabledSkills: skillContext.disabledSkills,
     teamModeEnabled: pluginConfig.team_mode?.enabled ?? false,
     nativeSkills,
-    pluginsEnabled: pluginConfig.claude_code?.plugins ?? true,
-    enabledPluginsOverride: pluginConfig.claude_code?.plugins_override,
+
     includeSkillsInDescription: true,
   })
 

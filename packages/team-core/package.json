@@ -48,7 +48,6 @@
     "test": "bun test src/*.test.ts src/**/*.test.ts"
   },
   "dependencies": {
-    "@oh-my-opencode/tmux-core": "workspace:*",
     "@oh-my-opencode/utils": "workspace:*",
     "zod": "^4.4.3"
   }

@@ -5,7 +5,7 @@ import {
   getSessionAgent,
   handedBackSyncSessions,
   resolveRegisteredAgentName,
-} from "../../features/claude-code-session-state"
+} from "../../features/session-state"
 import {
   createInternalAgentContinuationTextPart,
   isAmbiguousPostDispatchPromptFailure,

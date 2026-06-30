@@ -14,7 +14,7 @@ import {
   isAgentRegistered,
   registerAgentName,
   _resetForTesting as resetSessionStateForTesting,
-} from "../features/claude-code-session-state"
+} from "../features/session-state"
 import { applyAgentConfig } from "./agent-config-handler"
 import type { PluginComponents } from "./plugin-components-loader"
 

@@ -1,14 +1,11 @@
 import type { Hooks, Plugin, PluginModule } from "@opencode-ai/plugin"
 import type { HookName } from "../config"
 import { initConfigContext } from "../cli/config-manager/config-context"
-import { ensureTuiPluginEntry } from "../cli/config-manager/add-tui-plugin-to-tui-config"
 
 import { createHooks } from "../create-hooks"
 import { createManagers } from "../create-managers"
-import { createRuntimeTmuxConfig, isTmuxIntegrationEnabled } from "../create-runtime-tmux-config"
 import { createTools } from "../create-tools"
 import { createRuntimeSkillSourceServer, selectRuntimeSecuritySkills } from "../features/opencode-runtime-skills"
-import { initializeOpenClaw } from "../openclaw"
 import { createPluginDispose } from "../plugin-dispose"
 import { createPluginInterface } from "../plugin-interface"
 import { loadPluginConfig } from "../plugin-config"
@@ -37,7 +34,6 @@ import {
   setLiveParentWakeRoutingDisabled,
   warmLiveServerProbe,
 } from "../shared/live-server-route"
-import { startBackgroundCheck as startTmuxCheck } from "../tools/interactive-bash"
 
 type HooksWithRuntimeLifecycle = Hooks & {
   "experimental.compaction.autocontinue"?: CompactionAutocontinueHook
@@ -62,11 +58,7 @@ export type PluginModuleDeps = {
   loadPluginConfig: typeof loadPluginConfig
   recordPluginTelemetry: typeof recordPluginTelemetry
   initI18n: typeof initI18n
-  initializeOpenClaw: typeof initializeOpenClaw
-  isTmuxIntegrationEnabled: typeof isTmuxIntegrationEnabled
-  startTmuxCheck: typeof startTmuxCheck
   createFirstMessageVariantGate: typeof createFirstMessageVariantGate
-  createRuntimeTmuxConfig: typeof createRuntimeTmuxConfig
   createModelCacheState: typeof createModelCacheState
   createManagers: typeof createManagers
   createTools: typeof createTools
@@ -93,11 +85,7 @@ const defaultPluginModuleDeps: PluginModuleDeps = {
   loadPluginConfig,
   recordPluginTelemetry,
   initI18n,
-  initializeOpenClaw,
-  isTmuxIntegrationEnabled,
-  startTmuxCheck,
   createFirstMessageVariantGate,
-  createRuntimeTmuxConfig,
   createModelCacheState,
   createManagers,
   createTools,
@@ -138,15 +126,6 @@ export function createPluginModule(overrides: Partial<PluginModuleDeps> = {}): P
         error: error instanceof Error ? error.message : String(error),
       })
     }
-    if (pluginConfig.tui?.sidebar?.enabled !== false) {
-      try {
-        ensureTuiPluginEntry()
-      } catch (error) {
-        deps.log("[tui-sidebar] tui.json self-heal failed", {
-          error: error instanceof Error ? error.message : String(error),
-        })
-      }
-    }
     deps.initLiveServerRoute({ serverUrl: input.serverUrl, directory: input.directory, inProcessClient: input.client })
     deps.setLiveParentWakeRoutingDisabled(pluginConfig.experimental?.disable_live_parent_wake_routing === true)
     deps.warmLiveServerProbe()
@@ -163,9 +142,6 @@ export function createPluginModule(overrides: Partial<PluginModuleDeps> = {}): P
     deps.initI18n(pluginConfig.i18n?.locale ? { locale: pluginConfig.i18n.locale } : undefined)
     deps.setAgentSortOrder(pluginConfig.agent_order)
 
-    if (pluginConfig.openclaw) {
-      await deps.initializeOpenClaw(pluginConfig.openclaw)
-    }
     if (pluginConfig.team_mode?.enabled) {
       const teamModeConfig = pluginConfig.team_mode
       try {
@@ -186,10 +162,6 @@ export function createPluginModule(overrides: Partial<PluginModuleDeps> = {}): P
         }
       }
     }
-    const tmuxIntegrationEnabled = deps.isTmuxIntegrationEnabled(pluginConfig)
-    if (tmuxIntegrationEnabled) {
-      deps.startTmuxCheck()
-    }
     const disabledHooks = new Set(pluginConfig.disabled_hooks ?? [])
 
     const isHookEnabled = (hookName: HookName): boolean => !disabledHooks.has(hookName)
@@ -197,14 +169,11 @@ export function createPluginModule(overrides: Partial<PluginModuleDeps> = {}): P
 
     const firstMessageVariantGate = deps.createFirstMessageVariantGate()
 
-    const tmuxConfig = deps.createRuntimeTmuxConfig(pluginConfig)
-
     const modelCacheState = deps.createModelCacheState()
 
     const managers = deps.createManagers({
       ctx: input,
       pluginConfig,
-      tmuxConfig,
       modelCacheState,
       backgroundNotificationHookEnabled: isHookEnabled("background-notification"),
       runtimeSkillSourceUrl: runtimeSkillSource?.url,
@@ -222,7 +191,6 @@ export function createPluginModule(overrides: Partial<PluginModuleDeps> = {}): P
       modelCacheState,
       backgroundManager: managers.backgroundManager,
       modelFallbackControllerAccessor: managers.modelFallbackControllerAccessor,
-      monitorManager: managers.monitorManager,
       isHookEnabled,
       safeHookEnabled,
       mergedSkills: toolsResult.mergedSkills,

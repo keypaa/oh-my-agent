@@ -4,7 +4,7 @@ import type { CreatedHooks } from "../create-hooks";
 import type { Managers } from "../create-managers";
 import type { PluginContext } from "./types";
 
-import { getMainSessionID, subagentSessions, syncSubagentSessions } from "../features/claude-code-session-state";
+import { getMainSessionID, subagentSessions, syncSubagentSessions } from "../features/session-state";
 import { invalidateContextWindowUsageCache } from "../shared/dynamic-truncator";
 import { resolveSessionEventID } from "../shared/event-session-id";
 import { log } from "../shared/logger";
@@ -14,12 +14,10 @@ import { extractErrorMessage, extractErrorName } from "./event-error-utils";
 import { createEventHookDispatcher, createEventHookRunner, getEventSessionID } from "./event-hook-dispatcher";
 import { createModelFallbackEventHandler } from "./event-model-fallback";
 import {
-  dispatchOpenClawSessionEvent,
   handleMessageRemovedEvent,
   handleMessageUpdatedSessionState,
   handleSessionCreatedEvent,
   handleSessionDeletedEvent,
-  TMUX_ACTIVITY_EVENT_TYPES,
 } from "./event-session-lifecycle";
 import { createEventTeamHandlers } from "./event-team-handlers";
 import type { EventInput, FirstMessageVariantGate, PluginEventContext } from "./event-types";
@@ -34,7 +32,6 @@ export function createEventHandler(args: {
   hooks: CreatedHooks;
 }): (input: EventInput) => Promise<void> {
   const { ctx, pluginConfig, firstMessageVariantGate, managers, hooks } = args;
-  const tmuxIntegrationEnabled = pluginConfig.tmux?.enabled ?? false;
   const pluginContext = ctx as PluginEventContext;
   const isRuntimeFallbackEnabled =
     hooks.runtimeFallback !== null &&
@@ -76,7 +73,6 @@ export function createEventHandler(args: {
   };
 
   const dispatchIdleOnlyHooks = async (input: EventInput): Promise<void> => {
-    managers.tmuxSessionManager?.onEvent?.(input.event);
     await runEventHookSafely("teamIdleWakeHint", teamHandlers.teamIdleWakeHint, input);
     await runEventHookSafely("teamMemberStatusHandler", teamHandlers.teamMemberStatusHandler, input);
   };
@@ -93,13 +89,6 @@ export function createEventHandler(args: {
     if (!shouldDispatchIdleEvent(sessionID, now)) return;
 
     await dispatchToHooks(syntheticIdle);
-    await dispatchOpenClawSessionEvent({
-      pluginConfig,
-      pluginContext,
-      managers,
-      rawEvent: "session.idle",
-      sessionID,
-    });
     await dispatchIdleOnlyHooks(syntheticIdle);
   };
 
@@ -132,18 +121,12 @@ export function createEventHandler(args: {
     if (syntheticIdle) await dispatchSyntheticIdle(syntheticIdle);
 
     const { event } = input;
-    managers.tuiStateMirror?.onEvent(event);
     const props = event.properties as Record<string, unknown> | undefined;
-
-    if (tmuxIntegrationEnabled && TMUX_ACTIVITY_EVENT_TYPES.has(event.type)) {
-      managers.tmuxSessionManager.onEvent?.(event as { type: string; properties?: Record<string, unknown> });
-    }
 
     if (event.type === "session.created") {
       await handleSessionCreatedEvent({
         event,
         props,
-        tmuxIntegrationEnabled,
         pluginConfig,
         pluginContext,
         managers,
@@ -154,7 +137,6 @@ export function createEventHandler(args: {
     if (event.type === "session.deleted") {
       await handleSessionDeletedEvent({
         props,
-        tmuxIntegrationEnabled,
         pluginConfig,
         pluginContext,
         managers,
@@ -168,15 +150,7 @@ export function createEventHandler(args: {
     if (event.type === "message.removed") handleMessageRemovedEvent(props);
 
     if (event.type === "session.idle") {
-      const sessionID = resolveSessionEventID(props);
-      if (sessionID) {
-        await dispatchOpenClawSessionEvent({ pluginConfig, pluginContext, managers, rawEvent: event.type, sessionID });
-      }
       await dispatchIdleOnlyHooks(input);
-      await Promise.resolve().then(() => managers.monitorManager?.handleEvent({
-        type: "session.idle",
-        sessionId: resolveSessionEventID(props) ?? "",
-      }));
     }
 
     if (event.type === "message.updated") {

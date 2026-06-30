@@ -5,7 +5,7 @@ import type { PluginInput } from "@opencode-ai/plugin"
 import { createEventHandler, extractErrorMessage } from "./event"
 import { createChatMessageHandler } from "./chat-message"
 import * as openclawRuntimeDispatch from "../openclaw/runtime-dispatch"
-import { _resetForTesting, setMainSession, subagentSessions } from "../features/claude-code-session-state"
+import { _resetForTesting, setMainSession, subagentSessions } from "../features/session-state"
 import { clearPendingModelFallback, createModelFallbackHook } from "../hooks/model-fallback/hook"
 import { getSessionPromptParams, setSessionPromptParams } from "../shared/session-prompt-params-state"
 

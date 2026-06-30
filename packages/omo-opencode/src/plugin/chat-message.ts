@@ -1,6 +1,6 @@
 import type { OhMyOpenCodeConfig } from "../config"
 
-import { updateSessionAgent } from "../features/claude-code-session-state"
+import { updateSessionAgent } from "../features/session-state"
 import { isSyntheticOrInternalOnlyTextParts, log } from "../shared"
 import { applyUltraworkModelOverrideOnMessage } from "./ultrawork-model-override"
 import type { PluginContext } from "./types"

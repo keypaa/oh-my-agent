@@ -4,7 +4,7 @@ import {
   _resetForTesting,
   subagentSessions,
   syncSubagentSessions,
-} from "../../features/claude-code-session-state"
+} from "../../features/session-state"
 import { createEventHandler } from "../../plugin/event"
 
 function createMinimalEventHandler() {

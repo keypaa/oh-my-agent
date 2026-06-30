@@ -1,5 +1,5 @@
 import type { CommandDefinition } from "../claude-code-command-loader"
-import { isAgentRegistered } from "../claude-code-session-state"
+import { isAgentRegistered } from "../session-state"
 import type { BuiltinCommandName, BuiltinCommands } from "./types"
 import { RALPH_LOOP_TEMPLATE, ULW_LOOP_TEMPLATE, CANCEL_RALPH_TEMPLATE } from "./templates/ralph-loop"
 import { STOP_CONTINUATION_TEMPLATE } from "./templates/stop-continuation"

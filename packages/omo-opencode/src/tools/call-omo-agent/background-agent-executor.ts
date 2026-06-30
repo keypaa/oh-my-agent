@@ -1,7 +1,7 @@
 import type { BackgroundManager } from "../../features/background-agent"
 import type { PluginInput } from "@opencode-ai/plugin"
 import { resolveMessageContext } from "../../features/hook-message-injector"
-import { getSessionAgent } from "../../features/claude-code-session-state"
+import { getSessionAgent } from "../../features/session-state"
 import { log } from "../../shared"
 import type { CallOmoAgentArgs } from "./types"
 import type { ToolContextWithMetadata } from "./tool-context-with-metadata"

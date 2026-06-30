@@ -6,7 +6,7 @@ import { BabysittingConfigSchema } from "./babysitting"
 import { BackgroundTaskConfigSchema } from "./background-task"
 import { BrowserAutomationConfigSchema } from "./browser-automation"
 import { CategoriesConfigSchema } from "./categories"
-import { ClaudeCodeConfigSchema } from "./claude-code"
+
 import { CodegraphConfigSchema } from "./codegraph"
 import { CommentCheckerConfigSchema } from "./comment-checker"
 import { BuiltinCommandNameSchema } from "./commands"
@@ -16,17 +16,16 @@ import { GitMasterConfigSchema } from "./git-master"
 import { I18nConfigSchema } from "./i18n"
 import { KeywordDetectorConfigSchema } from "./keyword-detector"
 import { NotificationConfigSchema } from "./notification"
-import { OpenClawConfigSchema } from "./openclaw"
+
 import { ModelCapabilitiesConfigSchema } from "./model-capabilities"
-import { MonitorConfigSchema } from "./monitor"
+
 import { RalphLoopConfigSchema } from "./ralph-loop"
 import { RuntimeFallbackConfigSchema } from "./runtime-fallback"
 import { TeamModeConfigSchema } from "./team-mode"
 import { SkillsConfigSchema } from "./skills"
 import { SisyphusConfigSchema } from "./sisyphus"
 import { SisyphusAgentConfigSchema } from "./sisyphus-agent"
-import { TmuxConfigSchema } from "./tmux"
-import { TuiConfigSchema } from "./tui"
+
 import { StartWorkConfigSchema } from "./start-work"
 import { WebsearchConfigSchema } from "./websearch"
 
@@ -64,7 +63,7 @@ export const OhMyOpenCodeConfigSchema = z.object({
   model_fallback: z.boolean().optional(),
   agents: AgentOverridesSchema.optional(),
   categories: CategoriesConfigSchema.optional(),
-  claude_code: ClaudeCodeConfigSchema.optional(),
+
   sisyphus_agent: SisyphusAgentConfigSchema.optional(),
   comment_checker: CommentCheckerConfigSchema.optional(),
   experimental: ExperimentalConfigSchema.optional(),
@@ -80,10 +79,10 @@ export const OhMyOpenCodeConfigSchema = z.object({
   background_task: BackgroundTaskConfigSchema.optional(),
   notification: NotificationConfigSchema.optional(),
   model_capabilities: ModelCapabilitiesConfigSchema.optional(),
-  openclaw: OpenClawConfigSchema.optional(),
+
   /** Plugin i18n settings */
   i18n: I18nConfigSchema.optional(),
-  monitor: MonitorConfigSchema.optional(),
+
   codegraph: CodegraphConfigSchema.optional(),
   team_mode: TeamModeConfigSchema.optional(),
   keyword_detector: KeywordDetectorConfigSchema.optional(),
@@ -95,8 +94,7 @@ export const OhMyOpenCodeConfigSchema = z.object({
   }),
   browser_automation_engine: BrowserAutomationConfigSchema.optional(),
   websearch: WebsearchConfigSchema.optional(),
-  tmux: TmuxConfigSchema.optional(),
-  tui: TuiConfigSchema.default({ sidebar: { enabled: true } }).optional(),
+
   sisyphus: SisyphusConfigSchema.optional(),
   start_work: StartWorkConfigSchema.optional(),
   /** Default mode auto-activation settings (ultrawork, ralph loop) */

@@ -1,7 +1,7 @@
 import type { PluginContext } from "./types"
 import { randomUUID } from "node:crypto"
 
-import { getMainSessionID } from "../features/claude-code-session-state"
+import { getMainSessionID } from "../features/session-state"
 import { clearBoulderState } from "../features/boulder-state"
 import { log, replaceToolArgs } from "../shared"
 import { stripInvisibleAgentCharacters } from "../shared/agent-display-names"

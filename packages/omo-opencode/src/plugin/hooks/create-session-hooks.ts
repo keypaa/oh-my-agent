@@ -37,7 +37,6 @@ import {
 } from "../../shared"
 import { safeCreateHook } from "../../shared/safe-create-hook"
 import { sessionExists } from "../../tools"
-import { isTmuxIntegrationEnabled } from "../../create-runtime-tmux-config"
 import { createModelFallbackTitleUpdater } from "./model-fallback-title-updater"
 
 export type SessionHooks = {
@@ -159,11 +158,7 @@ export function createSessionHooks(args: {
     ? safeHook("non-interactive-env", () => createNonInteractiveEnvHook(ctx))
     : null
 
-  const interactiveBashSession =
-    isHookEnabled("interactive-bash-session") &&
-    isTmuxIntegrationEnabled(pluginConfig)
-    ? safeHook("interactive-bash-session", () => createInteractiveBashSessionHook(ctx))
-    : null
+  const interactiveBashSession = null
 
   const ralphLoop = isHookEnabled("ralph-loop")
     ? safeHook("ralph-loop", () =>

@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:
 import type { OhMyOpenCodeConfig } from "../config"
 import * as agents from "../agents"
 import * as commandLoader from "../features/claude-code-command-loader"
-import { isAgentRegistered } from "../features/claude-code-session-state"
+import { isAgentRegistered } from "../features/session-state"
 import * as builtinCommands from "../features/builtin-commands"
 import * as skillLoader from "../features/opencode-skill-loader"
 import * as agentLoader from "../features/claude-code-agent-loader"

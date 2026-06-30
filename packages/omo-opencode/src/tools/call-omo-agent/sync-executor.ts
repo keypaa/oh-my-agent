@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin"
-import { clearSessionAgent, handedBackSyncSessions, setSessionAgent, subagentSessions, syncSubagentSessions } from "../../features/claude-code-session-state"
+import { clearSessionAgent, handedBackSyncSessions, setSessionAgent, subagentSessions, syncSubagentSessions } from "../../features/session-state"
 import { dispatchInternalPrompt, isInternalPromptDispatchAccepted } from "../../hooks/shared/prompt-async-gate"
 import { getAgentToolRestrictions, isAmbiguousPostDispatchPromptFailure, log } from "../../shared"
 import { normalizeAgentForPrompt, stripAgentListSortPrefix } from "../../shared/agent-display-names"

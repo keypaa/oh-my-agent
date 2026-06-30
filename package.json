@@ -23,7 +23,9 @@
     "packages/skills-loader-core",
     "packages/agents-md-core",
     "packages/shared-skills",
-    "packages/omo-opencode"
+    "packages/omo-opencode",
+    "packages/tmux-core",
+    "packages/claude-code-compat-core"
   ],
   "bin": {
     "oh-my-agent": "bin/oh-my-opencode.js",
