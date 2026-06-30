@@ -168,11 +168,11 @@ Nothing yet.
 - Per-agent `displayName` for i18n. (PR #4081)
 - Grok family models with `reasoningEffort` support. (PR #4186)
 - CLI `setup` alias for `install`. (PR #4174)
-- Codex CLI Light edition (`omo-codex`) with one-command install via `bunx oh-my-openagent install --platform=codex` or `lazycodex` bin entry. (PR #5354)
+- Codex CLI Light edition (`omo-codex`) with one-command install via `bunx oh-my-agent install --platform=codex` or `lazycodex` bin entry. (PR #5354)
 - New `--platform <opencode|codex|both>` install flag.
 - New bin entries: `omo` (short alias) and `lazycodex` (auto-defaults `--platform=codex`).
 - PostHog telemetry stream `omo_codex_daily_active` for Codex edition.
-- Triple-publish to npm: `oh-my-opencode`, `oh-my-openagent`, and `lazycodex`.
+- Triple-publish to npm: `oh-my-agent`, `oh-my-agent`, and `lazycodex`.
 
 ### Changed
 
@@ -303,12 +303,12 @@ Nothing yet.
 - **Delegated child-session early-failure fallback (BLOCKER-4)**: PR #3825's `fac90d69f` was reverted by PR #4044 because its own regression test failed on clean root `bun test`. The delegate-task fallback bug for empty session history remains unaddressed in v4.2.0. Reland targets v4.2.1 once the regression test is stabilized against post-#4032 schema and the new gate semantics. See `docs/reference/known-issues.md` for details and workaround.
 - **First-prompt watchdog supersession history (L16)**: PR #3952 was superseded by PR #4051 (rebased over #4007/factory refactor with `internallyAbortedSessions` threading). The supersession represents conflict resolution, not a feature pivot. The final watchdog logic shipped via #4051 + `a130fa70d` covers subagent first-prompt silence past 90 seconds with cleanup via session.deleted.
 
-[Unreleased]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.14.0...HEAD
-[4.14.0]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.13.0...v4.14.0
-[4.13.0]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.12.1...v4.13.0
-[4.12.1]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.12.0...v4.12.1
-[4.12.0]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.11.1...v4.12.0
-[4.11.1]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.11.0...v4.11.1
-[4.11.0]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.2.3...v4.11.0
-[4.2.3]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.2.2...v4.2.3
-[4.2.0]: https://github.com/code-yeongyu/oh-my-openagent/compare/v4.1.2...v4.2.0
+[Unreleased]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.14.0...HEAD
+[4.14.0]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.13.0...v4.14.0
+[4.13.0]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.12.1...v4.13.0
+[4.12.1]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.12.0...v4.12.1
+[4.12.0]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.11.1...v4.12.0
+[4.11.1]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.11.0...v4.11.1
+[4.11.0]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.2.3...v4.11.0
+[4.2.3]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.2.2...v4.2.3
+[4.2.0]: https://github.com/code-yeongyu/oh-my-agent/compare/v4.1.2...v4.2.0

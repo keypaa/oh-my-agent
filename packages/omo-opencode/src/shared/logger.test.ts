@@ -14,7 +14,7 @@ import * as path from "path"
 
 type LoggerModule = typeof import("./logger")
 
-const TEST_PREFIX = "oh-my-opencode-logger-test"
+const TEST_PREFIX = "oh-my-agent-logger-test"
 
 function makeTempDir(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), `${TEST_PREFIX}-`))

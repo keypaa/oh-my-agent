@@ -15,14 +15,14 @@ const internalAllCompleteWake = `<system-reminder>
 [BACKGROUND TASK COMPLETED]
 [ALL BACKGROUND TASKS COMPLETE]
 </system-reminder>
-<!-- OMO_INTERNAL_INITIATOR -->
-<!-- OMO_INTERNAL_NOREPLY -->`
+<!-- OMA_INTERNAL_INITIATOR -->
+<!-- OMA_INTERNAL_NOREPLY -->`
 
 const markerCollisionText = `<system-reminder>
 [BACKGROUND TASK COMPLETED]
 [ALL BACKGROUND TASKS COMPLETE]
 </system-reminder>
-<!-- OMO_INTERNAL_INITIATOR -->`
+<!-- OMA_INTERNAL_INITIATOR -->`
 
 function createClientForMessages(messages: unknown[]): OpencodeClient {
   return unsafeTestValue<OpencodeClient>({

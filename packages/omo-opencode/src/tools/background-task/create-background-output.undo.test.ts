@@ -9,7 +9,7 @@ import { resetMessageCursor } from "../../shared/session-cursor"
 import type { BackgroundOutputClient, BackgroundOutputManager } from "./clients"
 import { createBackgroundOutput } from "./create-background-output"
 
-const projectDir = "/Users/yeongyu/local-workspaces/oh-my-opencode"
+const projectDir = "/Users/yeongyu/local-workspaces/oh-my-agent"
 
 const parentSessionID = "parent-session"
 const taskSessionID = "task-session"

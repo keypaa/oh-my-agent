@@ -12,7 +12,7 @@ import {
 } from "./install-script"
 
 describe("runAstGrepSkillInstall", () => {
-  test("#given install.sh exists #when provisioning runs #then OMO_AST_GREP_BIN_DIR targets the runtime slug", async () => {
+  test("#given install.sh exists #when provisioning runs #then OMA_AST_GREP_BIN_DIR targets the runtime slug", async () => {
     // given
     const invocations: Array<{ readonly command: string; readonly binDir: string | undefined }> = []
     const targetDir = astGrepRuntimeDir("/home/test/.omo", "darwin", "arm64")

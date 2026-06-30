@@ -6204,7 +6204,7 @@ describe("BackgroundManager.handleEvent - session.error", () => {
         part: {
           sessionID: "parent-session-part-wake",
           type: "text",
-          text: `${notification}\n<!-- OMO_INTERNAL_INITIATOR -->`,
+          text: `${notification}\n<!-- OMA_INTERNAL_INITIATOR -->`,
         },
       },
     })
@@ -6281,7 +6281,7 @@ describe("BackgroundManager.handleEvent - session.error", () => {
         messageID: "message-delta-wake",
         partID: "part-delta-wake",
         field: "text",
-        delta: "\n<!-- OMO_INTERNAL_INITIATOR -->",
+        delta: "\n<!-- OMA_INTERNAL_INITIATOR -->",
       },
     })
     expect(getDispatchedParentWakes(manager).has("parent-session-delta-wake")).toBe(true)
@@ -7976,7 +7976,7 @@ describe("BackgroundManager - tool permission spread order", () => {
 
     //#then
     expect(capturedTools).toBeDefined()
-    expect(capturedTools?.call_omo_agent).toBe(false)
+    expect(capturedTools?.call_OMA_agent).toBe(false)
     expect(capturedTools?.task).toBe(false)
     expect(capturedTools?.write).toBe(false)
     expect(capturedTools?.edit).toBe(false)
@@ -8080,7 +8080,7 @@ describe("BackgroundManager - tool permission spread order", () => {
       expect(promptCalls[1].body.agent).toBe("general")
       expect(task.agent).toBe("general")
       expect(getSessionAgent("session-manager-fallback")).toBe("general")
-      expect(getDelegatedChildSessionBootstrap("session-manager-fallback")?.tools?.call_omo_agent).toBe(true)
+      expect(getDelegatedChildSessionBootstrap("session-manager-fallback")?.tools?.call_OMA_agent).toBe(true)
     } finally {
       manager.shutdown()
       clearAllDelegatedChildSessionBootstrap()
@@ -8124,7 +8124,7 @@ describe("BackgroundManager - tool permission spread order", () => {
 
     //#then
     expect(capturedTools).toBeDefined()
-    expect(capturedTools?.call_omo_agent).toBe(false)
+    expect(capturedTools?.call_OMA_agent).toBe(false)
     expect(capturedTools?.task).toBe(false)
     expect(capturedTools?.write).toBe(false)
     expect(capturedTools?.edit).toBe(false)

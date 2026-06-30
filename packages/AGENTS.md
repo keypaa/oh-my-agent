@@ -19,7 +19,7 @@
 
 ## PLATFORM BINARIES (12)
 
-`oh-my-opencode-darwin-arm64`, `oh-my-opencode-darwin-x64`, `oh-my-opencode-darwin-x64-baseline`, `oh-my-opencode-linux-arm64`, `oh-my-opencode-linux-arm64-musl`, `oh-my-opencode-linux-x64`, `oh-my-opencode-linux-x64-baseline`, `oh-my-opencode-linux-x64-musl`, `oh-my-opencode-linux-x64-musl-baseline`, `oh-my-opencode-windows-x64`, `oh-my-opencode-windows-x64-baseline`, `oh-my-opencode-windows-arm64`.
+`oh-my-agent-darwin-arm64`, `oh-my-agent-darwin-x64`, `oh-my-agent-darwin-x64-baseline`, `oh-my-agent-linux-arm64`, `oh-my-agent-linux-arm64-musl`, `oh-my-agent-linux-x64`, `oh-my-agent-linux-x64-baseline`, `oh-my-agent-linux-x64-musl`, `oh-my-agent-linux-x64-musl-baseline`, `oh-my-agent-windows-x64`, `oh-my-agent-windows-x64-baseline`, `oh-my-agent-windows-arm64`.
 
 Each contains only a `bin/<binary>` and a `package.json`. Built by [`script/build-binaries.ts`](../script/build-binaries.ts) via `bun compile`. Published by the `publish-platform.yml` workflow.
 

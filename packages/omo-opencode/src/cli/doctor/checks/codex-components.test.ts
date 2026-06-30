@@ -224,7 +224,7 @@ describe("codex components doctor check", () => {
     expect(issue?.affects).toEqual(["ast-grep skill"])
   })
 
-  test("#given an OMO_AST_GREP_SG_PATH override #when checking components #then reports the env override source", async () => {
+  test("#given an OMA_AST_GREP_SG_PATH override #when checking components #then reports the env override source", async () => {
     // given
     const fixture = await createInstalledFixture({ provisionSg: false })
     const overridePath = join(fixture.root, "custom-sg")
@@ -232,12 +232,12 @@ describe("codex components doctor check", () => {
 
     // when
     const result = await checkCodexComponents(
-      buildDeps(fixture, { env: { OMO_AST_GREP_SG_PATH: overridePath } }),
+      buildDeps(fixture, { env: { OMA_AST_GREP_SG_PATH: overridePath } }),
     )
 
     // then
     expect(result.status).toBe("pass")
-    expect(result.details).toContain(`ast_grep: ok (env override OMO_AST_GREP_SG_PATH: ${overridePath})`)
+    expect(result.details).toContain(`ast_grep: ok (env override OMA_AST_GREP_SG_PATH: ${overridePath})`)
   })
 
   test("#given sg only resolvable through PATH #when checking components #then reports the PATH source", async () => {

@@ -3,8 +3,8 @@
 import { describe, expect, test } from "bun:test"
 import { releaseAllPromptAsyncReservationsForTesting } from "../../hooks/shared/prompt-async-gate"
 import {
-  OMO_INTERNAL_INITIATOR_MARKER,
-  OMO_INTERNAL_NOREPLY_MARKER,
+  OMA_INTERNAL_INITIATOR_MARKER,
+  OMA_INTERNAL_NOREPLY_MARKER,
 } from "../../shared/internal-initiator-marker"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 import { ParentWakeNotifier } from "./parent-wake-notifier"
@@ -255,7 +255,7 @@ describe("ParentWakeNotifier — assistant turn blocking", () => {
 
   test("#given a completed assistant followed by stacked noReply notification tails #when flushing a shouldReply wake #then it dispatches immediately instead of deadlocking", async () => {
     // given
-    const noReplyTailText = `task done\n${OMO_INTERNAL_INITIATOR_MARKER}\n${OMO_INTERNAL_NOREPLY_MARKER}`
+    const noReplyTailText = `task done\n${OMA_INTERNAL_INITIATOR_MARKER}\n${OMA_INTERNAL_NOREPLY_MARKER}`
     const promptAsyncCalls: PromptAsyncCall[] = []
     const client = unsafeTestValue<ParentWakeClient>({
       session: {

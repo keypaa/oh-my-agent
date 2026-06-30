@@ -74,7 +74,7 @@ describe("cli-program", () => {
     expect(doctorBlock?.[1]).toContain('new Option("--platform <platform>"')
     expect(doctorBlock?.[1]).toContain('.choices(["opencode", "codex"])')
     expect(cliProgramSource).toContain(
-      "resolveDoctorTarget(process.env.OMO_INVOCATION_NAME, options.platform ?? rootDoctorPlatform)",
+      "resolveDoctorTarget(process.env.OMA_INVOCATION_NAME, options.platform ?? rootDoctorPlatform)",
     )
   })
 })

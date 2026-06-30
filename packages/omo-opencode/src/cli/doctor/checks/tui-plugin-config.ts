@@ -280,7 +280,7 @@ export async function checkTuiPluginConfig(): Promise<CheckResult> {
         "The server plugin is registered in opencode.json, but the TUI plugin entry "
         + `("${server.entry ?? PLUGIN_NAME}") is missing from tui.json. The Roles · `
         + "Models sidebar section and TUI-only commands will not appear.",
-      fix: "Re-run the installer (`npx oh-my-openagent install`) to auto-write tui.json, "
+      fix: "Re-run the installer (`npx oh-my-agent install`) to auto-write tui.json, "
         + `or add "${server.entry ?? PLUGIN_NAME}" to the "plugin" array in ${tui.configPath}.`,
       affects: ["TUI sidebar", "TUI commands"],
       severity: "warning",
@@ -299,10 +299,10 @@ export async function checkTuiPluginConfig(): Promise<CheckResult> {
       title: "Server plugin entry missing from opencode.json",
       description:
         `The TUI plugin entry ("${PLUGIN_NAME}") is registered in tui.json, `
-        + "but the server plugin (oh-my-openagent) is missing from opencode.json. "
+        + "but the server plugin (oh-my-agent) is missing from opencode.json. "
         + "The plugin cannot function correctly without both halves — the server side "
         + "handles tool dispatch, hook execution, and SDK integration.",
-      fix: "Re-run the installer (`npx oh-my-openagent install`) to auto-write opencode.json, "
+      fix: "Re-run the installer (`npx oh-my-agent install`) to auto-write opencode.json, "
         + `or add "${PLUGIN_NAME}" to the "plugin" array in ${server.configPath ?? "opencode.json"}.`,
       affects: ["tool dispatch", "hook execution", "SDK integration"],
       severity: "warning",

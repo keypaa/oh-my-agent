@@ -245,25 +245,25 @@ describe("#given process cleanup registration", () => {
     })
   })
 
-  describe("#given OMO_DISABLE_PROCESS_CLEANUP env var", () => {
+  describe("#given OMA_DISABLE_PROCESS_CLEANUP env var", () => {
     let originalEnvValue: string | undefined
 
     beforeEach(() => {
-      originalEnvValue = process.env.OMO_DISABLE_PROCESS_CLEANUP
+      originalEnvValue = process.env.OMA_DISABLE_PROCESS_CLEANUP
     })
 
     afterEach(() => {
       if (originalEnvValue === undefined) {
-        delete process.env.OMO_DISABLE_PROCESS_CLEANUP
+        delete process.env.OMA_DISABLE_PROCESS_CLEANUP
       } else {
-        process.env.OMO_DISABLE_PROCESS_CLEANUP = originalEnvValue
+        process.env.OMA_DISABLE_PROCESS_CLEANUP = originalEnvValue
       }
     })
 
     test("#given env var is set to 1 #when registerManagerForCleanup runs #then uncaughtException handler is NOT registered", () => {
       const uncaughtExceptionListenersBefore = process.listeners("uncaughtException")
       const unhandledRejectionListenersBefore = process.listeners("unhandledRejection")
-      process.env.OMO_DISABLE_PROCESS_CLEANUP = "1"
+      process.env.OMA_DISABLE_PROCESS_CLEANUP = "1"
       const manager = { shutdown: mock(() => {}) }
       registeredManagers.push(manager)
 
@@ -275,7 +275,7 @@ describe("#given process cleanup registration", () => {
 
     test("#given env var is set to true #when registerManagerForCleanup runs #then handlers are NOT registered", () => {
       const uncaughtExceptionListenersBefore = process.listeners("uncaughtException")
-      process.env.OMO_DISABLE_PROCESS_CLEANUP = "true"
+      process.env.OMA_DISABLE_PROCESS_CLEANUP = "true"
       const manager = { shutdown: mock(() => {}) }
       registeredManagers.push(manager)
 
@@ -286,7 +286,7 @@ describe("#given process cleanup registration", () => {
 
     test("#given env var is set to 0 #when registerManagerForCleanup runs #then handlers ARE registered", () => {
       const uncaughtExceptionListenersBefore = process.listeners("uncaughtException")
-      process.env.OMO_DISABLE_PROCESS_CLEANUP = "0"
+      process.env.OMA_DISABLE_PROCESS_CLEANUP = "0"
       const manager = { shutdown: mock(() => {}) }
       registeredManagers.push(manager)
 
@@ -297,7 +297,7 @@ describe("#given process cleanup registration", () => {
 
     test("#given env var is unset #when registerManagerForCleanup runs #then handlers ARE registered", () => {
       const uncaughtExceptionListenersBefore = process.listeners("uncaughtException")
-      delete process.env.OMO_DISABLE_PROCESS_CLEANUP
+      delete process.env.OMA_DISABLE_PROCESS_CLEANUP
       const manager = { shutdown: mock(() => {}) }
       registeredManagers.push(manager)
 
@@ -307,7 +307,7 @@ describe("#given process cleanup registration", () => {
     })
 
     test("#given env var is set #when signals fire #then SIGINT/SIGTERM/beforeExit/exit handlers still run cleanup", () => {
-      process.env.OMO_DISABLE_PROCESS_CLEANUP = "yes"
+      process.env.OMA_DISABLE_PROCESS_CLEANUP = "yes"
       const shutdown = mock(() => {})
       const manager = { shutdown }
       registeredManagers.push(manager)
@@ -320,7 +320,7 @@ describe("#given process cleanup registration", () => {
     })
 
     test("#given env var is set AND process emits uncaughtException #when event fires #then manager shutdown is NOT invoked by our handler", async () => {
-      process.env.OMO_DISABLE_PROCESS_CLEANUP = "1"
+      process.env.OMA_DISABLE_PROCESS_CLEANUP = "1"
       const exitSpy = spyOn(process, "exit").mockImplementation((() => undefined) as never)
       const shutdown = mock(() => {})
       const manager = { shutdown }

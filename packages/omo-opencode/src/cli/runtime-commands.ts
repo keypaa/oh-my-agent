@@ -12,7 +12,7 @@ export function configureRuntimeCommands(program: Command): void {
   program
     .command("refresh-model-capabilities")
     .description("Refresh the cached models.dev-based model capabilities snapshot")
-    .option("-d, --directory <path>", "Working directory to read oh-my-opencode config from")
+    .option("-d, --directory <path>", "Working directory to read oh-my-agent config from")
     .option("--source-url <url>", "Override the models.dev source URL")
     .option("--json", "Output refresh summary as JSON")
     .action(async (options: { readonly directory?: string; readonly sourceUrl?: string; readonly json?: boolean }) => {

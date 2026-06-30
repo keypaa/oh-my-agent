@@ -69,14 +69,14 @@ const runnerModule: typeof runnerModuleType = await import(runnerModulePath)
 const { run } = runnerModule
 
 function enableTelemetryEnv(): void {
-  process.env.OMO_DISABLE_POSTHOG = "0"
-  process.env.OMO_SEND_ANONYMOUS_TELEMETRY = "1"
+  process.env.OMA_DISABLE_POSTHOG = "0"
+  process.env.OMA_SEND_ANONYMOUS_TELEMETRY = "1"
   process.env.POSTHOG_API_KEY = "test-api-key"
 }
 
 function clearTelemetryEnv(): void {
-  delete process.env.OMO_DISABLE_POSTHOG
-  delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+  delete process.env.OMA_DISABLE_POSTHOG
+  delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   delete process.env.POSTHOG_API_KEY
 }
 
@@ -105,7 +105,7 @@ function createRunConfigFixture(telemetry: boolean): string {
   const configDirectory = join(directory, ".opencode")
   mkdirSync(configDirectory, { recursive: true })
   writeFileSync(
-    join(configDirectory, "oh-my-openagent.jsonc"),
+    join(configDirectory, "oh-my-agent.jsonc"),
     JSON.stringify({ telemetry }),
   )
   return directory

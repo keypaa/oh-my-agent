@@ -115,7 +115,7 @@ describe("resolveSkillContent — nativeSkills integration", () => {
     mkdirSync(skillsDir, { recursive: true })
     writeFileSync(
       join(skillsDir, "SKILL.md"),
-      "---\nname: shared-name-test-skill\ndescription: from disk\n---\nOMO_DISK_BODY",
+      "---\nname: shared-name-test-skill\ndescription: from disk\n---\nOMA_DISK_BODY",
     )
     const native = makeNativeSkill(
       "shared-name-test-skill",
@@ -132,7 +132,7 @@ describe("resolveSkillContent — nativeSkills integration", () => {
 
     // then — OMO wins on name collision (mergeNativeSkills skips already-known names)
     expect(result.error).toBeNull()
-    expect(result.content).toContain("OMO_DISK_BODY")
+    expect(result.content).toContain("OMA_DISK_BODY")
     expect(result.content).not.toContain("NATIVE_BODY")
   })
 

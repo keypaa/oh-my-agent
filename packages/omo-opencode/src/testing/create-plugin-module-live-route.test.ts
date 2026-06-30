@@ -249,9 +249,9 @@ describe("createPluginModule() — live-server-route wiring", () => {
       const mockInitLiveServerRoute = mock(() => {})
       mockDetectDuplicateOmoPlugin.mockReturnValue({
         detected: true,
-        pluginName: "oh-my-openagent",
-        duplicatePlugins: ["oh-my-openagent@latest"],
-        allPlugins: ["oh-my-openagent@latest"],
+        pluginName: "oh-my-agent",
+        duplicatePlugins: ["oh-my-agent@latest"],
+        allPlugins: ["oh-my-agent@latest"],
       })
       mockGetDuplicateOmoPluginWarning.mockReturnValue("duplicate detected")
       const consoleWarn = mock(() => {})

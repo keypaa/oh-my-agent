@@ -65,7 +65,7 @@ function stubOpenCodeSuccess(): void {
   })
   spyOn(configManager, "writeOmoConfig").mockReturnValue({
     success: true,
-    configPath: "/tmp/oh-my-opencode.jsonc",
+    configPath: "/tmp/oh-my-agent.jsonc",
   })
 }
 
@@ -188,7 +188,7 @@ describe("runCliInstaller platform branching", () => {
     // then
     const output = consoleLogMock.mock.calls.map((call) => call.join(" ")).join("\n")
     expect(result).toBe(0)
-    expect(output).not.toContain("/user/starred/code-yeongyu/oh-my-openagent")
+    expect(output).not.toContain("/user/starred/code-yeongyu/oh-my-agent")
     expect(output).not.toContain("/user/starred/code-yeongyu/lazycodex")
   })
 

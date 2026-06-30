@@ -1,10 +1,10 @@
 # Manifesto
 
-The principles and philosophy behind oh-my-openagent (OmO).
+The principles and philosophy behind oh-my-agent (OmO).
 
 Project reality check:
 
-- Name: oh-my-openagent (renamed from oh-my-opencode; both npm packages still publish in tandem during the transition)
+- Name: oh-my-agent (renamed from oh-my-agent; both npm packages still publish in tandem during the transition)
 - Domain: https://omo.dev (legacy https://ohmyopenagent.com, https://ohmyopencode.org, https://ulw.dev, https://ultrawork.ai, https://ultrawork.dev, https://ultrawork.engineer all 301 to omo.dev)
 - Building in Public: https://discord.gg/PUwSMR9XNk
 - Maintained by Jobdori, an AI assistant running on a heavily customized OpenClaw fork

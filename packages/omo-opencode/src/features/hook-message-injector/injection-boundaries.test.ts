@@ -135,7 +135,7 @@ describe("hook message injection boundaries", () => {
 
     expect(part.id).toMatch(/^prt_[0-9a-f]{8}_\d{6}$/)
     expect(part.type).toBe("text")
-    expect(part.text).toBe("test content\n<!-- OMO_INTERNAL_INITIATOR -->")
+    expect(part.text).toBe("test content\n<!-- OMA_INTERNAL_INITIATOR -->")
     expect(part.synthetic).toBe(true)
     expect(part.messageID).toBe(message.id)
     expect(part.sessionID).toBe("ses_direct")

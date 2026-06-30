@@ -108,7 +108,7 @@ describe("runCliInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 
@@ -169,7 +169,7 @@ describe("runCliInstaller", () => {
         }),
         spyOn(configManager, "writeOmoConfig").mockReturnValue({
           success: true,
-          configPath: join(configDir, "oh-my-openagent.jsonc"),
+          configPath: join(configDir, "oh-my-agent.jsonc"),
         }),
       ]
 
@@ -284,7 +284,7 @@ describe("runCliInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 
@@ -344,7 +344,7 @@ describe("runCliInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 

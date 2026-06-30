@@ -16,7 +16,7 @@
 > [!TIP]
 > **Building in Public**
 >
-> メンテナーが Jobdori を使い、oh-my-openagent をリアルタイムで開発・メンテナンスしています。Jobdori は OpenClaw をベースに大幅カスタマイズされた AI アシスタントです。
+> メンテナーが Jobdori を使い、oh-my-agent をリアルタイムで開発・メンテナンスしています。Jobdori は OpenClaw をベースに大幅カスタマイズされた AI アシスタントです。
 > すべての機能開発、修正、Issue トリアージを Discord でライブでご覧いただけます。
 >
 > [![Building in Public](./.github/assets/building-in-public.png)](https://discord.gg/PUwSMR9XNk)
@@ -32,24 +32,24 @@
 > [!TIP]
 > 私たちと一緒に！
 >
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord コミュニティ](https://discord.gg/PUwSMR9XNk) に参加して、コントリビューターや他の `oh-my-openagent` ユーザーと交流しましょう。 |
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord コミュニティ](https://discord.gg/PUwSMR9XNk) に参加して、コントリビューターや他の `oh-my-agent` ユーザーと交流しましょう。 |
 > | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-openagent` のアップデートは以前、私の X アカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-agent` のアップデートは以前、私の X アカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
 > | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | さらに多くのプロジェクトを見たい場合は、GitHub で [@code-yeongyu](https://github.com/code-yeongyu) をフォローしてください。 |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-<a href="https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent"><img src="./.github/assets/omo-logo.png" alt="OmO" width="200" /></a>
+<a href="https://github.com/code-yeongyu/oh-my-agent#oh-my-agent"><img src="./.github/assets/omo-logo.png" alt="OmO" width="200" /></a>
 
-[![Oh My OpenAgent](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent)
+[![Oh My OpenAgent](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-agent#oh-my-agent)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent)
+[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-agent#oh-my-agent)
 
 </div>
 
-> これは oh-my-openagent の Team Mode 実行中の様子です。Kimi K2.6 と GPT-5.5 で動いています。
+> これは oh-my-agent の Team Mode 実行中の様子です。Kimi K2.6 と GPT-5.5 で動いています。
 
 > Anthropic は [**私たちのせいで OpenCode をブロックしました。**](https://x.com/thdxr/status/2010149530486911014) **これは本当の話です。**
 > 彼らはあなたを囲い込みたいのです。Claude Code は居心地の良い牢獄ですが、牢獄であることには変わりありません。
@@ -59,14 +59,14 @@
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases)
-[![npm downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fomo.dev%2Fapi%2Fnpm-downloads&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
-[![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
+[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-agent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/releases)
+[![npm downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fomo.dev%2Fapi%2Fnpm-downloads&style=flat-square)](https://www.npmjs.com/package/oh-my-agent)
+[![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-agent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-agent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-agent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-agent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-agent/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-agent)
 [![Docs](https://img.shields.io/badge/docs-omo.vibetip.help-369eff?labelColor=black&logo=readthedocs&logoColor=white&style=flat-square)](https://omo.vibetip.help/docs)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
@@ -85,7 +85,7 @@
 
 > 「Ohmyopencode と ralph loop を使って、4 万 5 千行の tauri アプリを一晩で SaaS ウェブアプリに変換しました。インタビューモードから始めて、私のプロンプトに対して質問や推奨事項を尋ねました。勝手に作業していくのを見るのは楽しかったし、今朝起きたらウェブサイトがほぼ動いているのを見て驚愕しました！」 - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> 「oh-my-opencode を使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> 「oh-my-agent を使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
 
 > 「何がどうすごいのかまだ上手く言語化できないんですが、開発体験が完全に異次元に到達してしまいました。」 - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
@@ -105,7 +105,7 @@ Claude Code、Codex、名前も聞いたことのない OSS モデル。それ�
 
 その作業はもう私たちが済ませました。すべてテストし、実戦で通用したものだけを残しています。
 
-oh-my-openagent をインストールして、`ultrawork` と入力する。それで終わりです。
+oh-my-agent をインストールして、`ultrawork` と入力する。それで終わりです。
 
 
 ## インストール
@@ -115,8 +115,8 @@ oh-my-openagent をインストールして、`ultrawork` と入力する。そ�
 以下のプロンプトをコピーして、あなたの LLM エージェント (Claude Code、AmpCode、Cursor など) に貼り付けてください:
 
 ```
-Install and configure oh-my-openagent by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+Install and configure oh-my-agent by following the instructions here:
+https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/refs/heads/dev/docs/guide/installation.md
 ```
 
 もしくは [インストールガイド](docs/guide/installation.md) を直接読んでもいいですが、マジでエージェントにやらせてください。人間は設定で必ずタイポします。
@@ -126,14 +126,14 @@ https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/do
 インストールガイドを取得して、それに従ってください:
 
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/refs/heads/dev/docs/guide/installation.md
 ```
 
-**注記**: 公開されている npm パッケージと CLI バイナリ名は引き続き `oh-my-opencode` です (移行期間中は `oh-my-openagent` としても同時に公開されています)。`opencode.json` 内では、互換性レイヤーがプラグインエントリ `oh-my-openagent` を優先するようになりました。従来の `oh-my-opencode` エントリも警告付きで引き続き読み込まれます。プラグイン設定ファイルは依然として `oh-my-opencode.json` または `oh-my-opencode.jsonc` が一般的で、移行期間中は従来のファイル名と改名後のファイル名の両方が認識されます。
+**注記**: 公開されている npm パッケージと CLI バイナリ名は引き続き `oh-my-agent` です (移行期間中は `oh-my-agent` としても同時に公開されています)。`opencode.json` 内では、互換性レイヤーがプラグインエントリ `oh-my-agent` を優先するようになりました。従来の `oh-my-agent` エントリも警告付きで引き続き読み込まれます。プラグイン設定ファイルは依然として `oh-my-agent.json` または `oh-my-agent.jsonc` が一般的で、移行期間中は従来のファイル名と改名後のファイル名の両方が認識されます。
 
-匿名のテレメトリは、アクティブなインストール数(DAU/WAU/MAU)の集計のためにデフォルトで有効になっています。マシン1台につきUTC日あたり最大1回イベントが送信され、ハッシュ化されたインストール識別子を使用し、生のホスト名は使用せず、PostHog person profile も作成されません。無効化するには `OMO_SEND_ANONYMOUS_TELEMETRY=0` または `OMO_DISABLE_POSTHOG=1` を設定してください。[プライバシーポリシー](docs/legal/privacy-policy.md)と[利用規約](docs/legal/terms-of-service.md)をご覧ください。
+匿名のテレメトリは、アクティブなインストール数(DAU/WAU/MAU)の集計のためにデフォルトで有効になっています。マシン1台につきUTC日あたり最大1回イベントが送信され、ハッシュ化されたインストール識別子を使用し、生のホスト名は使用せず、PostHog person profile も作成されません。無効化するには `OMA_SEND_ANONYMOUS_TELEMETRY=0` または `OMA_DISABLE_POSTHOG=1` を設定してください。[プライバシーポリシー](docs/legal/privacy-policy.md)と[利用規約](docs/legal/terms-of-service.md)をご覧ください。
 
-**Ultimate と Light:** oh-my-openagent は同じ製品の 2 つのエディションとして提供されます。**Ultimate エディション**（`bunx oh-my-openagent install` または `--platform=opencode`、デフォルト）は OpenCode 上のフル機能で、11 エージェント、54+ フック、Team Mode、すべての MCP、スラッシュコマンド、IntentGate モードを提供します。**Light エディション**（`npx lazycodex-ai install` または `bunx oh-my-openagent install --platform=codex`）は OpenAI Codex CLI のプラグインシステムへ綺麗に移植できる 8 コンポーネント（`rules`、`comment-checker`、`git-bash`、`lsp`、`ultrawork`、`ulw-loop`、`start-work-continuation`、`telemetry`）を提供します。両方を同時にインストールするには `--platform=both`。Codex 専用テレメトリは `OMO_CODEX_DISABLE_POSTHOG=1` または `OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0` で無効化できます。
+**Ultimate と Light:** oh-my-agent は同じ製品の 2 つのエディションとして提供されます。**Ultimate エディション**（`bunx oh-my-agent install` または `--platform=opencode`、デフォルト）は OpenCode 上のフル機能で、11 エージェント、54+ フック、Team Mode、すべての MCP、スラッシュコマンド、IntentGate モードを提供します。**Light エディション**（`npx lazycodex-ai install` または `bunx oh-my-agent install --platform=codex`）は OpenAI Codex CLI のプラグインシステムへ綺麗に移植できる 8 コンポーネント（`rules`、`comment-checker`、`git-bash`、`lsp`、`ultrawork`、`ulw-loop`、`start-work-continuation`、`telemetry`）を提供します。両方を同時にインストールするには `--platform=both`。Codex 専用テレメトリは `OMA_CODEX_DISABLE_POSTHOG=1` または `OMA_CODEX_SEND_ANONYMOUS_TELEMETRY=0` で無効化できます。
 
 ---
 
@@ -142,7 +142,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/head
 ドキュメントを読む時代は終わりました。このテキストをエージェントに貼り付けるだけです:
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/refs/heads/dev/README.md
 ```
 
 
@@ -184,7 +184,7 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 |   📋   | **Prometheus プランナー**                                | Ultimate | インタビューモードで、実行前に戦略的な計画から立てます。                                                                                                                                                                        |
 |   🔍   | **`/init-deep`**                                         | Ultimate | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成。トークン効率とエージェントのパフォーマンスの両方を向上させます。                                                                                            |
 
-> **Editions legend.** **Ultimate** = OpenCode 専用 (`bunx oh-my-openagent install`)。**Light** = Codex CLI 専用 (`bunx oh-my-openagent install --platform=codex`)。**Both** = 両エディションに提供、しばしば内部実装は若干異なる。
+> **Editions legend.** **Ultimate** = OpenCode 専用 (`bunx oh-my-agent install`)。**Light** = Codex CLI 専用 (`bunx oh-my-agent install --platform=codex`)。**Both** = 両エディションに提供、しばしば内部実装は若干異なる。
 
 ### 規律あるエージェント (Discipline Agents)
 
@@ -209,10 +209,10 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 
 エージェント 1 体でも速い。調和したチームは*圧倒的*です。
 
-**Team Mode** は oh-my-openagent を「サブエージェント付きの一体のエージェント」から、本物のマルチエージェントシステムへと変えます。リードエージェントがカテゴリ特化のメンバーチームを統括し、全員が**並列で**動き、専用ツール(`team_create`、`team_send_message`、`team_task_create`、`team_status`、…)で通信します。tmux レイアウトの focus + grid ウィンドウで、全メンバーの作業を同時に観察できます。
+**Team Mode** は oh-my-agent を「サブエージェント付きの一体のエージェント」から、本物のマルチエージェントシステムへと変えます。リードエージェントがカテゴリ特化のメンバーチームを統括し、全員が**並列で**動き、専用ツール(`team_create`、`team_send_message`、`team_task_create`、`team_status`、…)で通信します。tmux レイアウトの focus + grid ウィンドウで、全メンバーの作業を同時に観察できます。
 
 ```jsonc
-// .opencode/oh-my-openagent.jsonc
+// .opencode/oh-my-agent.jsonc
 {
   "team_mode": {
     "enabled": true,
@@ -320,19 +320,19 @@ project/
 
 ---
 
-> **oh-my-openagent は初めてですか？** 手に入れるものの全体像は **[Overview](docs/guide/overview.md)** を、エージェント同士の協調については **[Orchestration Guide](docs/guide/orchestration.md)** をお読みください。
+> **oh-my-agent は初めてですか？** 手に入れるものの全体像は **[Overview](docs/guide/overview.md)** を、エージェント同士の協調については **[Orchestration Guide](docs/guide/orchestration.md)** をお読みください。
 
 ## アンインストール
 
-oh-my-openagent を削除するには:
+oh-my-agent を削除するには:
 
 1. **OpenCode の設定からプラグインを削除する**
 
-   `~/.config/opencode/opencode.json` (または `opencode.jsonc`) を編集し、`plugin` 配列から `"oh-my-openagent"` または従来の `"oh-my-opencode"` エントリを削除します:
+   `~/.config/opencode/opencode.json` (または `opencode.jsonc`) を編集し、`plugin` 配列から `"oh-my-agent"` または従来の `"oh-my-agent"` エントリを削除します:
 
    ```bash
    # jq を使用
-   jq '.plugin = [.plugin[] | select(. != "oh-my-openagent" and . != "oh-my-opencode")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-agent" and . != "oh-my-agent")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```
@@ -341,12 +341,12 @@ oh-my-openagent を削除するには:
 
    ```bash
    # 互換期間中に認識されるプラグイン設定ファイルを削除
-   rm -f ~/.config/opencode/oh-my-openagent.jsonc ~/.config/opencode/oh-my-openagent.json \
-         ~/.config/opencode/oh-my-opencode.jsonc ~/.config/opencode/oh-my-opencode.json
+   rm -f ~/.config/opencode/oh-my-agent.jsonc ~/.config/opencode/oh-my-agent.json \
+         ~/.config/opencode/oh-my-agent.jsonc ~/.config/opencode/oh-my-agent.json
 
    # プロジェクト設定を削除 (存在する場合)
-   rm -f .opencode/oh-my-openagent.jsonc .opencode/oh-my-openagent.json \
-         .opencode/oh-my-opencode.jsonc .opencode/oh-my-opencode.json
+   rm -f .opencode/oh-my-agent.jsonc .opencode/oh-my-agent.json \
+         .opencode/oh-my-agent.jsonc .opencode/oh-my-agent.json
    ```
 
 3. **削除の確認**
@@ -380,7 +380,7 @@ oh-my-openagent を削除するには:
 - **組み込み MCP**: websearch (Exa)、context7 (ドキュメント)、grep_app (GitHub 検索)
 - **セッションツール**: セッション履歴のリスト・閲覧・検索・分析
 - **生産性機能**: Ralph Loop、Todo Enforcer、Comment Checker、Think Mode など
-- **Doctor コマンド**: 組み込みの診断 (`bunx oh-my-opencode doctor`) でプラグイン登録、設定、モデル、環境を検証
+- **Doctor コマンド**: 組み込みの診断 (`bunx oh-my-agent doctor`) でプラグイン登録、設定、モデル、環境を検証
 - **モデルフォールバック**: `fallback_models` で単純なモデル文字列と per-fallback オブジェクト設定を同じ配列に混在可能
 - **ファイルプロンプト**: エージェント設定で `file://` を使ってファイルからプロンプトを読み込み
 - **セッション回復**: セッションエラー、コンテキストウィンドウ上限、API 障害からの自動回復
@@ -393,7 +393,7 @@ oh-my-openagent を削除するには:
 詳細は [Configuration Documentation](docs/reference/configuration.md) を参照してください。
 
 **概要:**
-- **設定ファイルの場所**: 互換性レイヤーは `oh-my-openagent.json[c]` と従来の `oh-my-opencode.json[c]` の両方のプラグイン設定ファイルを認識します。既存のインストールは依然として従来のファイル名を使っていることが多いです。
+- **設定ファイルの場所**: 互換性レイヤーは `oh-my-agent.json[c]` と従来の `oh-my-agent.json[c]` の両方のプラグイン設定ファイルを認識します。既存のインストールは依然として従来のファイル名を使っていることが多いです。
 - **JSONC サポート**: コメントと末尾カンマをサポート
 - **エージェント**: どのエージェントについてもモデル、temperature、プロンプト、権限をオーバーライド可能
 - **組み込みスキル**: `playwright` (ブラウザ自動化)、`git-master` (atomic コミット)
@@ -416,7 +416,7 @@ oh-my-openagent を削除するには:
 
 私がぶつかったすべての問題とその解決策が、このプラグインに焼き込まれています。インストールして、ただ使ってください。
 
-OpenCode が Debian/Arch だとすれば、oh-my-openagent は Ubuntu/[Omarchy](https://omarchy.org/) です。
+OpenCode が Debian/Arch だとすれば、oh-my-agent は Ubuntu/[Omarchy](https://omarchy.org/) です。
 
 [AmpCode](https://ampcode.com) と [Claude Code](https://code.claude.com/docs/overview) から多大な影響を受けています。機能を移植し、多くは改善しました。今もまだ構築中です。これは **Open**Code ですから。
 

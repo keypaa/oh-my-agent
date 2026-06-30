@@ -5,7 +5,7 @@ export const INTERACTIVE_BASH_SESSION_STORAGE = join(
   "interactive-bash-session",
 );
 
-export const OMO_SESSION_PREFIX = "omo-";
+export const OMA_SESSION_PREFIX = "omo-";
 
 export function buildSessionReminderMessage(sessions: string[]): string {
   if (sessions.length === 0) return "";

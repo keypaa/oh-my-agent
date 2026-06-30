@@ -140,7 +140,7 @@ describe("createLspMcpConfig", () => {
     mkdirSync(join(packageRoot, "src", "mcp"), { recursive: true })
     mkdirSync(join(packageRoot, "packages", "lsp-daemon", "src"), { recursive: true })
     writeFileSync(sourceCliPath, "console.log('mcp')\n", "utf-8")
-    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-opencode" }), "utf-8")
+    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-agent" }), "utf-8")
     writeFileSync(
       join(packageRoot, "packages", "lsp-daemon", "package.json"),
       JSON.stringify({ name: "@code-yeongyu/lsp-daemon" }),
@@ -174,7 +174,7 @@ describe("createLspMcpConfig", () => {
     mkdirSync(join(packageRoot, "dist"), { recursive: true })
     mkdirSync(join(packageRoot, "packages", "lsp-daemon"), { recursive: true })
     mkdirSync(join(workspaceRoot, "packages", "lsp-daemon", "dist"), { recursive: true })
-    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-opencode" }), "utf-8")
+    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-agent" }), "utf-8")
     writeFileSync(
       join(packageRoot, "packages", "lsp-daemon", "package.json"),
       JSON.stringify({ name: "@code-yeongyu/lsp-daemon" }),
@@ -204,7 +204,7 @@ describe("createLspMcpConfig", () => {
     const nodePath = join(packageRoot, "bin", "node")
     const npmPath = join(packageRoot, "bin", "npm")
     mkdirSync(join(packageRoot, "dist"), { recursive: true })
-    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-opencode" }), "utf-8")
+    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-agent" }), "utf-8")
 
     // when
     const config = createLspMcpConfig({
@@ -226,7 +226,7 @@ describe("createLspMcpConfig", () => {
     const npmPath = join(packageRoot, "bin", "npm")
     mkdirSync(join(packageRoot, "dist"), { recursive: true })
     mkdirSync(join(packageRoot, "packages", "lsp-daemon"), { recursive: true })
-    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-opencode" }), "utf-8")
+    writeFileSync(join(packageRoot, "package.json"), JSON.stringify({ name: "oh-my-agent" }), "utf-8")
     writeFileSync(
       join(packageRoot, "packages", "lsp-daemon", "package.json"),
       JSON.stringify({ name: "@code-yeongyu/lsp-daemon" }),

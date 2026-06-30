@@ -7,7 +7,7 @@ import path from "node:path"
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import { spawn } from "bun"
 
-const LIVE = process.env.OMO_LIVE_TMUX === "1"
+const LIVE = process.env.OMA_LIVE_TMUX === "1"
 const HOSTNAME = "127.0.0.1"
 const layoutSpecifier = import.meta.resolve("./layout")
 

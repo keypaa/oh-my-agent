@@ -48,7 +48,7 @@ describe("session.next stream activity", () => {
       part: {
         sessionID: "ses-parent",
         type: "text",
-        text: "<system-reminder>done</system-reminder>\n<!-- OMO_INTERNAL_INITIATOR -->",
+        text: "<system-reminder>done</system-reminder>\n<!-- OMA_INTERNAL_INITIATOR -->",
       },
     }
 
@@ -56,7 +56,7 @@ describe("session.next stream activity", () => {
     const partInfo = resolveMessagePartInfo(properties)
 
     // then
-    expect(partInfo?.text).toContain("OMO_INTERNAL_INITIATOR")
+    expect(partInfo?.text).toContain("OMA_INTERNAL_INITIATOR")
     expect(hasOutputSignalFromPart(partInfo, "ses-parent")).toBe(true)
     expect(isInternalInitiatorTextPart(partInfo, "ses-parent")).toBe(true)
   })

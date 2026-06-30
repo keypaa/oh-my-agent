@@ -243,7 +243,7 @@ describe("ParentWakeNotifier — user message race guard (issue #4120)", () => {
           role: "user",
           time: { created: Date.now() - 4_000 },
         },
-        parts: [{ type: "text", text: "partial wake\n<!-- OMO_INTERNAL_INITIATOR -->" }],
+        parts: [{ type: "text", text: "partial wake\n<!-- OMA_INTERNAL_INITIATOR -->" }],
       },
     ]
     const { notifier, promptAsyncCalls } = createNotifier({
@@ -560,7 +560,7 @@ describe("ParentWakeNotifier — user message race guard (issue #4120)", () => {
             role: "user",
             time: { created: 99_500 },
           },
-          parts: [{ type: "text", text: "wake\n<!-- OMO_INTERNAL_INITIATOR -->" }],
+          parts: [{ type: "text", text: "wake\n<!-- OMA_INTERNAL_INITIATOR -->" }],
         },
       ],
     })
@@ -649,7 +649,7 @@ describe("ParentWakeNotifier — user message race guard (issue #4120)", () => {
             time: { created: 99_900 },
           },
           parts: [
-            { type: "text", text: "wake\n<!-- OMO_INTERNAL_INITIATOR -->" },
+            { type: "text", text: "wake\n<!-- OMA_INTERNAL_INITIATOR -->" },
             { type: "text", text: "real user follow-up" },
           ],
         },
@@ -701,7 +701,7 @@ describe("ParentWakeNotifier — user message race guard (issue #4120)", () => {
               role: "user",
               time: { created: 1_100 },
             },
-            parts: [{ type: "text", text: "task complete\n<!-- OMO_INTERNAL_INITIATOR -->" }],
+            parts: [{ type: "text", text: "task complete\n<!-- OMA_INTERNAL_INITIATOR -->" }],
           })
           now = 2_000
           return { data: {} }
@@ -778,7 +778,7 @@ describe("ParentWakeNotifier — user message race guard (issue #4120)", () => {
               role: "user",
               time: { created: 1_100 },
             },
-            parts: [{ type: "text", text: "task complete\n<!-- OMO_INTERNAL_INITIATOR -->" }],
+            parts: [{ type: "text", text: "task complete\n<!-- OMA_INTERNAL_INITIATOR -->" }],
           })
           now = 2_000
           throw new Error("JSON Parse error: Unexpected EOF")

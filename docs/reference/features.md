@@ -1,8 +1,8 @@
-# Oh-My-OpenAgent Features Reference
+# oh-my-agent Features Reference
 
 ## Agents
 
-Oh-My-OpenAgent provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
+oh-my-agent provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
 
 ### Core Agents
 
@@ -120,7 +120,7 @@ When running inside tmux:
 
 When running inside cmux (`cmux omo`), the same pane integration is routed through cmux's tmux compatibility command. OMO detects the cmux environment from `CMUX_SOCKET_PATH` or a cmux-provided `TMUX` value, so `tmux.enabled` can create cmux panes even when a real `tmux` binary is not installed.
 
-Customize agent models, prompts, and permissions in `oh-my-opencode.jsonc`.
+Customize agent models, prompts, and permissions in `oh-my-agent.jsonc`.
 
 ### Team Mode (experimental, OFF by default)
 
@@ -176,7 +176,7 @@ task({
 
 ### Custom Categories
 
-You can define custom categories in your plugin config file. During the rename transition, both `oh-my-openagent.json[c]` and legacy `oh-my-opencode.json[c]` basenames are recognized.
+You can define custom categories in your plugin config file. During the rename transition, both `oh-my-agent.json[c]` and legacy `oh-my-agent.json[c]` basenames are recognized.
 
 #### Category Configuration Schema
 
@@ -242,7 +242,7 @@ When you use a Category, a special agent called **Sisyphus-Junior** performs the
 
 ### Rename Compatibility
 
-The published package and binary remain `oh-my-opencode`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-opencode` entries still load with a warning. Plugin config files (`oh-my-openagent.json[c]` or legacy `oh-my-opencode.json[c]`) are recognized during the transition. Run `bunx oh-my-openagent doctor` to check for legacy package name warnings.
+The published package and binary remain `oh-my-agent`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-agent`, while legacy `oh-my-agent` entries still load with a warning. Plugin config files (`oh-my-agent.json[c]` or legacy `oh-my-agent.json[c]`) are recognized during the transition. Run `bunx oh-my-agent doctor` to check for legacy package name warnings.
 
 ### Fallback Models
 
@@ -482,7 +482,7 @@ Skill sets provide specialized workflows with embedded MCP servers and detailed 
 
 ### Browser Automation Options
 
-Oh-My-OpenAgent provides two browser automation providers, configurable via `browser_automation_engine.provider`.
+oh-my-agent provides two browser automation providers, configurable via `browser_automation_engine.provider`.
 
 #### Option 1: Playwright MCP (Default)
 
@@ -962,7 +962,7 @@ The plugin uses a three-tier MCP architecture:
 
 ### Native vs plugin-injected MCPs
 
-oh-my-openagent injects MCP servers at **runtime** through the OpenCode plugin API. This is fundamentally different from MCP servers you configure directly in `opencode.json`.
+oh-my-agent injects MCP servers at **runtime** through the OpenCode plugin API. This is fundamentally different from MCP servers you configure directly in `opencode.json`.
 
 Because `opencode mcp list` reads OpenCode's static configuration only, it **cannot see** MCPs that the plugin injects at runtime. This is expected behavior, not a bug:
 
@@ -972,18 +972,18 @@ $ opencode mcp list
 No MCP servers configured
 ```
 
-To inspect which MCP servers oh-my-openagent is actually providing, run the doctor command:
+To inspect which MCP servers oh-my-agent is actually providing, run the doctor command:
 
 ```bash
-bunx oh-my-openagent doctor --verbose
+bunx oh-my-agent doctor --verbose
 ```
 
 The three tiers of MCP servers and where they come from:
 
 | Tier | Source | Visible in `opencode mcp list`? |
 | ---- | ------ | ------------------------------- |
-| 1 — Built-in | Injected at runtime by oh-my-openagent (`websearch`, `context7`, `grep_app`) | No |
-| 2 — Claude Code `.mcp.json` | Loaded from `.mcp.json` files and merged in by oh-my-openagent at runtime | No |
+| 1 — Built-in | Injected at runtime by oh-my-agent (`websearch`, `context7`, `grep_app`) | No |
+| 2 — Claude Code `.mcp.json` | Loaded from `.mcp.json` files and merged in by oh-my-agent at runtime | No |
 | 3 — Skill-embedded | Declared in `SKILL.md` frontmatter, spun up on demand per session | No |
 | — Native OpenCode | Configured directly in `opencode.json` under the `mcp` key, without the plugin | Yes |
 
@@ -1051,7 +1051,7 @@ When a skill MCP has `oauth` configured:
 Pre-authenticate via CLI:
 
 ```bash
-bunx oh-my-openagent mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-agent mcp oauth login <server-name> --server-url https://api.example.com
 ```
 
 ## Model Capabilities
@@ -1063,7 +1063,7 @@ Model capabilities are models.dev-backed, with a refreshable cache and compatibi
 Update the local cache with the latest model information:
 
 ```bash
-bunx oh-my-openagent refresh-model-capabilities
+bunx oh-my-agent refresh-model-capabilities
 ```
 
 Configure automatic refresh at startup:
@@ -1081,7 +1081,7 @@ Configure automatic refresh at startup:
 
 ### Capability Diagnostics
 
-Run `bunx oh-my-openagent doctor` to see capability diagnostics including:
+Run `bunx oh-my-agent doctor` to see capability diagnostics including:
 - effective model resolution for agents and categories
 - warnings when configured models rely on compatibility fallback
 - override compatibility details alongside model resolution output

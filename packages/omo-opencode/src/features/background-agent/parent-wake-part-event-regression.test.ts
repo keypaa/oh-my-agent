@@ -90,7 +90,7 @@ describe("BackgroundManager parent-wake part event regression", () => {
           role: "user",
           part: {
             type: "text",
-            text: "done\n<!-- OMO_INTERNAL_INITIATOR -->",
+            text: "done\n<!-- OMA_INTERNAL_INITIATOR -->",
           },
         },
       })
@@ -126,7 +126,7 @@ describe("BackgroundManager parent-wake part event regression", () => {
           sessionID: "parent-session-user-part-delta",
           role: "user",
           field: "text",
-          delta: "done\n<!-- OMO_INTERNAL_INITIATOR -->",
+          delta: "done\n<!-- OMA_INTERNAL_INITIATOR -->",
         },
       })
 

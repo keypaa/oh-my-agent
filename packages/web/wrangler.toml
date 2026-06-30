@@ -1,5 +1,5 @@
 main = ".open-next/worker.js"
-name = "oh-my-openagent-web"
+name = "oh-my-agent-web"
 compatibility_date = "2026-05-18"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = false

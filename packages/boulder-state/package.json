@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Pure TypeScript boulder work-tracking state machine for oh-my-opencode.",
+  "description": "Pure TypeScript boulder work-tracking state machine for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

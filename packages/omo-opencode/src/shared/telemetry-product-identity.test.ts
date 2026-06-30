@@ -13,14 +13,14 @@ describe("createOpencodeTelemetryProductConfig", () => {
 
     // then
     expect(product).toMatchObject({
-      cacheDirName: "oh-my-opencode",
+      cacheDirName: "oh-my-agent",
       eventName: "omo_daily_active",
-      machineIdPrefix: "oh-my-openagent:",
-      packageName: "oh-my-openagent",
+      machineIdPrefix: "oh-my-agent:",
+      packageName: "oh-my-agent",
       packageVersion: expectedVersion,
-      platform: "oh-my-opencode",
+      platform: "oh-my-agent",
       productEnvPrefix: "OMO",
-      productName: "oh-my-openagent",
+      productName: "oh-my-agent",
       additionalProperties: {
         plugin_name: PLUGIN_NAME,
       },

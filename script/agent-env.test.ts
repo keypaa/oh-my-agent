@@ -71,7 +71,7 @@ describe("agent dev-environment scripts", () => {
       expect(body).toContain("tmux") // non-fatal warning path
       expect(body).toContain("bun install")
       expect(body).toContain("bun run build")
-      expect(body).toContain("OMO_AGENT_FORCE_BUILD") // idempotent skip-build guard
+      expect(body).toContain("OMA_AGENT_FORCE_BUILD") // idempotent skip-build guard
       expect(body).toContain(".env") // credential sourcing
       expect(body).toContain("--ignore-scripts")
       expect(body).toContain("1.3.12")
@@ -122,7 +122,7 @@ printf 'worker-log\\n'
           env: {
             ...process.env,
             CLAUDE_PROJECT_DIR: toBashPath(fixture.repo),
-            OMO_AGENT_CLEANUP_SYNC: "1",
+            OMA_AGENT_CLEANUP_SYNC: "1",
             TMPDIR: toBashPath(fixture.logDir),
           },
           stdout: "pipe",
@@ -132,7 +132,7 @@ printf 'worker-log\\n'
         // then
         expect(result.exitCode).toBe(0)
         expect(read(join(fixture.repo, "worker.marker"))).toBe("worker-ran\n")
-        expect(read(join(fixture.logDir, "oh-my-openagent-cleanup.log"))).toContain("worker-log")
+        expect(read(join(fixture.logDir, "oh-my-agent-cleanup.log"))).toContain("worker-log")
       } finally {
         rmSync(fixture.repo, { recursive: true, force: true })
         rmSync(fixture.logDir, { recursive: true, force: true })
@@ -173,7 +173,7 @@ printf 'worker-finished\\n' > "$CLAUDE_PROJECT_DIR/worker.marker"
         }
 
         expect(read(join(fixture.repo, "worker.marker"))).toBe("worker-finished\n")
-        expect(read(join(fixture.logDir, "oh-my-openagent-cleanup.log"))).toContain("worker-started")
+        expect(read(join(fixture.logDir, "oh-my-agent-cleanup.log"))).toContain("worker-started")
       } finally {
         rmSync(fixture.repo, { recursive: true, force: true })
         rmSync(fixture.logDir, { recursive: true, force: true })
@@ -196,8 +196,8 @@ printf 'safe-log\\n'
           env: {
             ...process.env,
             CLAUDE_PROJECT_DIR: toBashPath(fixture.repo),
-            OMO_AGENT_CLEANUP_LOG: toBashPath(hostileLog),
-            OMO_AGENT_CLEANUP_SYNC: "1",
+            OMA_AGENT_CLEANUP_LOG: toBashPath(hostileLog),
+            OMA_AGENT_CLEANUP_SYNC: "1",
             TMPDIR: toBashPath(fixture.logDir),
           },
           stdout: "pipe",
@@ -207,7 +207,7 @@ printf 'safe-log\\n'
         // then
         expect(result.exitCode).toBe(0)
         expect(read(hostileLog)).toBe("preserve-me\n")
-        expect(read(join(fixture.logDir, "oh-my-openagent-cleanup.log"))).toContain("safe-log")
+        expect(read(join(fixture.logDir, "oh-my-agent-cleanup.log"))).toContain("safe-log")
       } finally {
         rmSync(fixture.repo, { recursive: true, force: true })
         rmSync(fixture.logDir, { recursive: true, force: true })
@@ -219,7 +219,7 @@ printf 'safe-log\\n'
       const body = read(join(AGENT_DIR, "cleanup.sh"))
 
       // then
-      expect(body).toContain("oh-my-openagent") // package-name repo-root guard
+      expect(body).toContain("oh-my-agent") // package-name repo-root guard
       const dangerous = ["rm -rf /", "rm -rf ~", "rm -rf $HOME", "rm -rf src", "rm -rf packages"]
       for (const pattern of dangerous) {
         expect(body, `cleanup must never contain '${pattern}'`).not.toContain(pattern)
@@ -235,7 +235,7 @@ printf 'safe-log\\n'
       mkdirSync(join(repo, "node_modules", "pkg"), { recursive: true })
       mkdirSync(join(repo, ".git", "objects"), { recursive: true })
       copyFileSync(cleanup, join(tmpAgentDir, "cleanup.sh"))
-      writeFileSync(join(repo, "package.json"), '{ "name": "oh-my-openagent" }\n')
+      writeFileSync(join(repo, "package.json"), '{ "name": "oh-my-agent" }\n')
       writeFileSync(join(repo, "src", "app.tsbuildinfo"), "source transient")
       writeFileSync(join(repo, "src", ".DS_Store"), "source os transient")
       writeFileSync(join(repo, "node_modules", "pkg", "cache.tsbuildinfo"), "dependency cache")

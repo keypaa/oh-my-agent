@@ -3,8 +3,8 @@ import * as fs from "node:fs"
 import { join } from "node:path"
 
 const pluginConfigDetectionOptions = {
-  basenames: ["oh-my-openagent"],
-  legacyBasenames: ["oh-my-opencode"],
+  basenames: ["oh-my-agent"],
+  legacyBasenames: ["oh-my-agent"],
 } as const
 
 describe("detectPluginConfigFile memoization", () => {
@@ -17,7 +17,7 @@ describe("detectPluginConfigFile memoization", () => {
   test("returns cached result on repeated calls for the same directory", async () => {
     // given
     const existsSync = spyOn(fs, "existsSync").mockImplementation((filePath: fs.PathLike) => {
-      return String(filePath).endsWith("oh-my-openagent.jsonc")
+      return String(filePath).endsWith("oh-my-agent.jsonc")
     })
     const readdirSync = spyOn(fs, "readdirSync").mockImplementation(() => [])
 
@@ -37,7 +37,7 @@ describe("detectPluginConfigFile memoization", () => {
   test("clears cached result when requested", async () => {
     // given
     const existsSync = spyOn(fs, "existsSync").mockImplementation((filePath: fs.PathLike) => {
-      return String(filePath).endsWith("oh-my-openagent.jsonc")
+      return String(filePath).endsWith("oh-my-agent.jsonc")
     })
     const readdirSync = spyOn(fs, "readdirSync").mockImplementation(() => [])
 

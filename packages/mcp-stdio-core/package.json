@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Shared JSON-RPC stdio framing and dispatch primitives for oh-my-opencode MCP servers.",
+  "description": "Shared JSON-RPC stdio framing and dispatch primitives for oh-my-agent MCP servers.",
   "exports": {
     ".": {
       "types": "./src/index.ts",

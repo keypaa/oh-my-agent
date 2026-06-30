@@ -100,7 +100,7 @@ Each file ships with: visual theme, hex color palette + semantic roles, full typ
 | `composio.md` | Tool integration platform. Modern dark with colorful integration icons. |
 | `hashicorp.md` | Infrastructure automation. Enterprise-clean, black and white. |
 | `mongodb.md` | Document database. Green leaf branding, developer documentation focus. |
-| `posthog.md` | Product analytics. Playful hedgehog branding, developer-friendly dark UI. |
+| `telemetry.md` | Product analytics. Playful hedgehog branding, developer-friendly dark UI. |
 | `sanity.md` | Headless CMS. Red accent, content-first editorial layout. |
 | `sentry.md` | Error monitoring. Dark dashboard, data-dense, pink-purple accent. |
 | `supabase.md` | Open-source Firebase alternative. Dark emerald theme, code-first. |
@@ -186,6 +186,6 @@ Each file ships with: visual theme, hex color palette + semantic roles, full typ
 - **"Terminal / developer-native"** → `vercel.md`, `warp.md`, `voltagent.md`, `ollama.md`
 - **"AI browser / agentic browser / product-app launch"** → `aside.md`, `raycast.md`, `superhuman.md`
 - **"Warm / approachable / soft"** → `airbnb.md`, `notion.md`, `intercom.md`, `mastercard.md`
-- **"Data-dense / dashboard"** → `sentry.md`, `kraken.md`, `posthog.md`, `clickhouse.md`
+- **"Data-dense / dashboard"** → `sentry.md`, `kraken.md`, `telemetry.md`, `clickhouse.md`
 - **"Bold / sporty / monochrome punch"** → `nike.md`, `uber.md`, `tesla.md`, `binance.md`
 - **"Playful / colorful / friendly"** → `figma.md`, `airtable.md`, `zapier.md`, `lovable.md`

@@ -8,7 +8,7 @@ describe("git_bash MCP run schema", () => {
       { jsonrpc: "2.0", id: "tools", method: "tools/list" },
       {
         platform: "win32",
-        env: { OMO_CODEX_GIT_BASH_PATH: "C:\\Program Files\\Git\\bin\\bash.exe" },
+        env: { OMA_CODEX_GIT_BASH_PATH: "C:\\Program Files\\Git\\bin\\bash.exe" },
         exists: (path) => path === "C:\\Program Files\\Git\\bin\\bash.exe",
         where: () => [],
       },

@@ -17,18 +17,18 @@ interface PlatformTarget {
 }
 
 export const PLATFORMS: PlatformTarget[] = [
-  { platform: "darwin-arm64", packageName: "oh-my-opencode-darwin-arm64", packageDir: "oh-my-opencode-darwin-arm64", target: "bun-darwin-arm64", binary: "oh-my-opencode.js", description: "macOS ARM64" },
-  { platform: "darwin-x64", packageName: "oh-my-opencode-darwin-x64", packageDir: "oh-my-opencode-darwin-x64", target: "bun-darwin-x64", binary: "oh-my-opencode.js", description: "macOS x64" },
-  { platform: "darwin-x64-baseline", packageName: "oh-my-opencode-darwin-x64-baseline", packageDir: "oh-my-opencode-darwin-x64-baseline", target: "bun-darwin-x64-baseline", binary: "oh-my-opencode.js", description: "macOS x64 (no AVX2)" },
-  { platform: "linux-x64", packageName: "oh-my-opencode-linux-x64", packageDir: "oh-my-opencode-linux-x64", target: "bun-linux-x64", binary: "oh-my-opencode.js", description: "Linux x64 (glibc)" },
-  { platform: "linux-x64-baseline", packageName: "oh-my-opencode-linux-x64-baseline", packageDir: "oh-my-opencode-linux-x64-baseline", target: "bun-linux-x64-baseline", binary: "oh-my-opencode.js", description: "Linux x64 (glibc, no AVX2)" },
-  { platform: "linux-arm64", packageName: "oh-my-opencode-linux-arm64", packageDir: "oh-my-opencode-linux-arm64", target: "bun-linux-arm64", binary: "oh-my-opencode.js", description: "Linux ARM64 (glibc)" },
-  { platform: "linux-x64-musl", packageName: "oh-my-opencode-linux-x64-musl", packageDir: "oh-my-opencode-linux-x64-musl", target: "bun-linux-x64-musl", binary: "oh-my-opencode.js", description: "Linux x64 (musl)" },
-  { platform: "linux-x64-musl-baseline", packageName: "oh-my-opencode-linux-x64-musl-baseline", packageDir: "oh-my-opencode-linux-x64-musl-baseline", target: "bun-linux-x64-musl-baseline", binary: "oh-my-opencode.js", description: "Linux x64 (musl, no AVX2)" },
-  { platform: "linux-arm64-musl", packageName: "oh-my-opencode-linux-arm64-musl", packageDir: "oh-my-opencode-linux-arm64-musl", target: "bun-linux-arm64-musl", binary: "oh-my-opencode.js", description: "Linux ARM64 (musl)" },
-  { platform: "windows-x64", packageName: "oh-my-opencode-windows-x64", packageDir: "oh-my-opencode-windows-x64", target: "bun-windows-x64", binary: "oh-my-opencode.js", description: "Windows x64" },
-  { platform: "windows-x64-baseline", packageName: "oh-my-opencode-windows-x64-baseline", packageDir: "oh-my-opencode-windows-x64-baseline", target: "bun-windows-x64-baseline", binary: "oh-my-opencode.js", description: "Windows x64 (no AVX2)" },
-  { platform: "windows-arm64", packageName: "oh-my-opencode-windows-arm64", packageDir: "oh-my-opencode-windows-arm64", target: "bun-windows-x64", binary: "oh-my-opencode.js", description: "Windows ARM64 (x64 emulation / node fallback)" },
+  { platform: "darwin-arm64", packageName: "oh-my-agent-darwin-arm64", packageDir: "oh-my-agent-darwin-arm64", target: "bun-darwin-arm64", binary: "oh-my-agent.js", description: "macOS ARM64" },
+  { platform: "darwin-x64", packageName: "oh-my-agent-darwin-x64", packageDir: "oh-my-agent-darwin-x64", target: "bun-darwin-x64", binary: "oh-my-agent.js", description: "macOS x64" },
+  { platform: "darwin-x64-baseline", packageName: "oh-my-agent-darwin-x64-baseline", packageDir: "oh-my-agent-darwin-x64-baseline", target: "bun-darwin-x64-baseline", binary: "oh-my-agent.js", description: "macOS x64 (no AVX2)" },
+  { platform: "linux-x64", packageName: "oh-my-agent-linux-x64", packageDir: "oh-my-agent-linux-x64", target: "bun-linux-x64", binary: "oh-my-agent.js", description: "Linux x64 (glibc)" },
+  { platform: "linux-x64-baseline", packageName: "oh-my-agent-linux-x64-baseline", packageDir: "oh-my-agent-linux-x64-baseline", target: "bun-linux-x64-baseline", binary: "oh-my-agent.js", description: "Linux x64 (glibc, no AVX2)" },
+  { platform: "linux-arm64", packageName: "oh-my-agent-linux-arm64", packageDir: "oh-my-agent-linux-arm64", target: "bun-linux-arm64", binary: "oh-my-agent.js", description: "Linux ARM64 (glibc)" },
+  { platform: "linux-x64-musl", packageName: "oh-my-agent-linux-x64-musl", packageDir: "oh-my-agent-linux-x64-musl", target: "bun-linux-x64-musl", binary: "oh-my-agent.js", description: "Linux x64 (musl)" },
+  { platform: "linux-x64-musl-baseline", packageName: "oh-my-agent-linux-x64-musl-baseline", packageDir: "oh-my-agent-linux-x64-musl-baseline", target: "bun-linux-x64-musl-baseline", binary: "oh-my-agent.js", description: "Linux x64 (musl, no AVX2)" },
+  { platform: "linux-arm64-musl", packageName: "oh-my-agent-linux-arm64-musl", packageDir: "oh-my-agent-linux-arm64-musl", target: "bun-linux-arm64-musl", binary: "oh-my-agent.js", description: "Linux ARM64 (musl)" },
+  { platform: "windows-x64", packageName: "oh-my-agent-windows-x64", packageDir: "oh-my-agent-windows-x64", target: "bun-windows-x64", binary: "oh-my-agent.js", description: "Windows x64" },
+  { platform: "windows-x64-baseline", packageName: "oh-my-agent-windows-x64-baseline", packageDir: "oh-my-agent-windows-x64-baseline", target: "bun-windows-x64-baseline", binary: "oh-my-agent.js", description: "Windows x64 (no AVX2)" },
+  { platform: "windows-arm64", packageName: "oh-my-agent-windows-arm64", packageDir: "oh-my-agent-windows-arm64", target: "bun-windows-x64", binary: "oh-my-agent.js", description: "Windows ARM64 (x64 emulation / node fallback)" },
 ];
 
 const CLI_DIST_ENTRY = "dist/cli/index.js";
@@ -39,18 +39,18 @@ import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-const wrapperPackageRoot = process.env.OMO_WRAPPER_PACKAGE_ROOT;
+const wrapperPackageRoot = process.env.OMA_WRAPPER_PACKAGE_ROOT;
 const lazyCodexInvocationNames = new Set(["lazycodex", "lazycodex-ai"]);
 const lazyCodexInstallerCommands = new Set(["install", "setup", "update", "uninstall", "cleanup"]);
 
 if (!wrapperPackageRoot) {
-  console.error("oh-my-opencode: OMO_WRAPPER_PACKAGE_ROOT is required to launch the packaged CLI.");
+  console.error("oh-my-agent: OMA_WRAPPER_PACKAGE_ROOT is required to launch the packaged CLI.");
   process.exit(2);
 }
 
 function exitFromResult(result, failureLabel) {
   if (result.error) {
-    console.error(\`oh-my-opencode: \${failureLabel}: \${result.error.message}\`);
+    console.error(\`oh-my-agent: \${failureLabel}: \${result.error.message}\`);
     process.exit(2);
   }
 
@@ -66,7 +66,7 @@ function shouldRunLazyCodexInstaller() {
   const args = process.argv.slice(2);
   const command = readInstallerCommand(args);
   const platformArg = readPlatformArg(args);
-  if (lazyCodexInvocationNames.has(process.env.OMO_INVOCATION_NAME ?? "")) {
+  if (lazyCodexInvocationNames.has(process.env.OMA_INVOCATION_NAME ?? "")) {
     if ((command === "install" || command === "setup") && platformArg !== undefined && platformArg !== "codex") {
       return false;
     }
@@ -111,7 +111,7 @@ if (shouldRunLazyCodexInstaller()) {
   const lazyCodexInstallerPath = join(wrapperPackageRoot, "packages", "omo-codex", "scripts", "install-local.mjs");
 
   if (!existsSync(lazyCodexInstallerPath)) {
-    console.error(\`oh-my-opencode: lazycodex installer not found at \${lazyCodexInstallerPath}\`);
+    console.error(\`oh-my-agent: lazycodex installer not found at \${lazyCodexInstallerPath}\`);
     process.exit(2);
   }
 
@@ -126,14 +126,14 @@ const cliPath = join(wrapperPackageRoot, "dist", "cli", "index.js");
 const nodeCliPath = join(wrapperPackageRoot, "dist", "cli-node", "index.js");
 
 if (!existsSync(cliPath)) {
-  console.error(\`oh-my-opencode: packaged CLI not found at \${cliPath}\`);
+  console.error(\`oh-my-agent: packaged CLI not found at \${cliPath}\`);
   process.exit(2);
 }
 
 function runNodeCli(reason) {
   if (!existsSync(nodeCliPath)) return;
   if (reason) {
-    console.error(\`oh-my-opencode: \${reason}; falling back to the node CLI at \${nodeCliPath}\`);
+    console.error(\`oh-my-agent: \${reason}; falling back to the node CLI at \${nodeCliPath}\`);
   }
   const result = spawnSync(process.execPath, [nodeCliPath, ...process.argv.slice(2)], {
     stdio: "inherit",
@@ -142,7 +142,7 @@ function runNodeCli(reason) {
   exitFromResult(result, "failed to execute the node CLI");
 }
 
-if (process.env.OMO_RUNTIME === "node") {
+if (process.env.OMA_RUNTIME === "node") {
   runNodeCli();
 }
 
@@ -195,7 +195,7 @@ async function buildPlatform(platform: PlatformTarget): Promise<boolean> {
 }
 
 async function main() {
-  console.log("🔨 Building oh-my-opencode platform launchers");
+  console.log("🔨 Building oh-my-agent platform launchers");
   console.log(`   CLI entry: ${CLI_DIST_ENTRY}`);
   console.log(`   Platforms: ${PLATFORMS.length}`);
 

@@ -25,7 +25,7 @@ Standalone feature modules wired into `plugin/` layer. Each is self-contained wi
 | **boulder-state** | LOW | yes | Persistent state for boulder (active work plan tracking across sessions/worktrees) |
 | **context-injector** | LOW | no | AGENTS.md/README.md injection into session context |
 | **hook-message-injector** | LOW | no | System message injection helper used by hooks |
-| **run-continuation-state** | LOW | no | Persistent state for `oh-my-opencode run` continuation across invocations |
+| **run-continuation-state** | LOW | no | Persistent state for `oh-my-agent run` continuation across invocations |
 | **opencode-runtime-skills** | LOW–MED | no | Runtime security-skill source — `selectRuntimeSecuritySkills()` + `createRuntimeSkillSourceServer()` serve security skills to sessions at runtime |
 | **claude-code-command-loader** | LOW | no | Load `/commands` from `.opencode/commands/` and Claude Code plugins |
 | **claude-tasks** | MEDIUM | yes | Sisyphus task schema + atomic file storage + OpenCode todo API sync |

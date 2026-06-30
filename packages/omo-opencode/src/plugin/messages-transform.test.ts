@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test"
 
 import { createMessagesTransformHandler } from "./messages-transform"
 import { createToolPairValidatorHook } from "../hooks/tool-pair-validator/hook"
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../shared/internal-initiator-marker"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../shared/internal-initiator-marker"
 import type { CreatedHooks } from "../create-hooks"
 
 type TestPart = {
@@ -433,7 +433,7 @@ describe("createMessagesTransformHandler", () => {
         info: { role: "user" },
         parts: [{
           type: "text",
-          text: `[session recovered - continuing previous task]\n${OMO_INTERNAL_INITIATOR_MARKER}`,
+          text: `[session recovered - continuing previous task]\n${OMA_INTERNAL_INITIATOR_MARKER}`,
           synthetic: true,
           metadata: { compaction_continue: true },
         }],
@@ -674,7 +674,7 @@ describe("createMessagesTransformHandler", () => {
         info: { role: "user" },
         parts: [{
           type: "text",
-          text: `[session recovered - continuing previous task]\n${OMO_INTERNAL_INITIATOR_MARKER}`,
+          text: `[session recovered - continuing previous task]\n${OMA_INTERNAL_INITIATOR_MARKER}`,
           synthetic: true,
           metadata: { compaction_continue: true },
         }],
@@ -704,7 +704,7 @@ describe("createMessagesTransformHandler", () => {
         },
         parts: [{
           type: "text",
-          text: `[session recovered - continuing previous task]\n${OMO_INTERNAL_INITIATOR_MARKER}`,
+          text: `[session recovered - continuing previous task]\n${OMA_INTERNAL_INITIATOR_MARKER}`,
           synthetic: true,
           metadata: { compaction_continue: true },
         }],

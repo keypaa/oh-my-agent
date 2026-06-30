@@ -19,7 +19,7 @@ export async function FinalCtaSection(): Promise<JSX.Element> {
 
         <Button size="lg" className="rounded-full px-8 py-6 text-lg" asChild>
           <Link
-            href="https://github.com/code-yeongyu/oh-my-openagent"
+            href="https://github.com/code-yeongyu/oh-my-agent"
             target="_blank"
             rel="noopener noreferrer"
           >

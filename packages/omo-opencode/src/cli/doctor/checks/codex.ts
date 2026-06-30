@@ -78,7 +78,7 @@ export async function checkCodex(deps: CodexDoctorDeps = {}): Promise<CheckResul
     message: status === "pass" ? "Codex checks passed" : `${issues.length} Codex issue(s) detected`,
     details: [
       `Codex: ${summary.codexPath ?? summary.codexAppId ?? "not detected"}`,
-      `CLI: oh-my-openagent@${summary.installerVersion}`,
+      `CLI: oh-my-agent@${summary.installerVersion}`,
       `Marketplace: ${summary.marketplaceName}`,
       `Plugin: ${summary.pluginName}@${summary.pluginVersion ?? "unknown"}${summary.pluginVersionStamped ? "" : " (placeholder, not stamped)"}`,
       `Distribution: ${summary.packageName ?? "unknown"}@${summary.packageVersion ?? "unknown"}`,
@@ -114,7 +114,7 @@ function buildCodexIssues(summary: CodexDoctorSummary): DoctorIssue[] {
   } else if (!summary.pluginVersionStamped) {
     issues.push({
       title: "Codex plugin bundle is not version-stamped",
-      description: `The installed OMO Codex plugin reports the placeholder version ${summary.pluginVersion ?? "unknown"}${summary.packageVersion === null ? " and no distribution snapshot was found" : ""}. This usually means it was installed through the Codex app plugin UI instead of the CLI installer, so its version does not reflect the real release. Your CLI is oh-my-openagent ${summary.installerVersion}.`,
+      description: `The installed OMO Codex plugin reports the placeholder version ${summary.pluginVersion ?? "unknown"}${summary.packageVersion === null ? " and no distribution snapshot was found" : ""}. This usually means it was installed through the Codex app plugin UI instead of the CLI installer, so its version does not reflect the real release. Your CLI is oh-my-agent ${summary.installerVersion}.`,
       fix: "Run: npx lazycodex-ai install",
       severity: "warning",
       affects: ["version reporting"],

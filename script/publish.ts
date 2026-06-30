@@ -4,7 +4,7 @@ import { $ } from "bun"
 import { existsSync } from "node:fs"
 import { join } from "node:path"
 
-const PACKAGE_NAME = "oh-my-opencode"
+const PACKAGE_NAME = "oh-my-agent"
 const bump = process.env.BUMP as "major" | "minor" | "patch" | undefined
 const versionOverride = process.env.VERSION
 const republishMode = process.env.REPUBLISH === "true"
@@ -31,7 +31,7 @@ const PLATFORM_PACKAGES = PLATFORM_PACKAGE_IDS.map((platform) => ({
   packageDir: `${PACKAGE_NAME}-${platform}`,
 }))
 
-console.log("=== Publishing oh-my-opencode (multi-package) ===\n")
+console.log("=== Publishing oh-my-agent (multi-package) ===\n")
 
 async function fetchPreviousVersion(): Promise<string> {
   try {
@@ -152,7 +152,7 @@ async function getContributors(previous: string): Promise<string[]> {
 
   try {
     const compare =
-      await $`gh api "/repos/code-yeongyu/oh-my-openagent/compare/v${previous}...HEAD" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
+      await $`gh api "/repos/code-yeongyu/oh-my-agent/compare/v${previous}...HEAD" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
     const contributors = new Map<string, string[]>()
 
     for (const line of compare.split("\n").filter(Boolean)) {
@@ -348,7 +348,7 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
   await $`git config user.name "github-actions[bot]"`
   
   // Add all package.json files
-  await $`git add package.json assets/oh-my-opencode.schema.json`
+  await $`git add package.json assets/oh-my-agent.schema.json`
   for (const platformPackage of PLATFORM_PACKAGES) {
     await $`git add packages/${platformPackage.packageDir}/package.json`.nothrow()
   }

@@ -34,17 +34,17 @@ describe("published LazyCodex smoke workflow", () => {
       workflow.includes('[[ "$npx_doctor_output" == *"--model"* ]]') &&
       workflow.includes('[[ "$npx_doctor_output" == *"gpt-5.5-codex-mini"* ]]')
     const removedStrictInstallGate = !workflow.includes(
-      'test "$npx_install_output" = "npx --yes --package oh-my-openagent omo install --platform=codex --no-tui --codex-autonomous"',
+      'test "$npx_install_output" = "npx --yes --package oh-my-agent omo install --platform=codex --no-tui --codex-autonomous"',
     )
     const expectsWindowsSafeInstallShape = workflow.includes(
-      '"npx --yes oh-my-openagent@latest install --platform=codex --no-tui --codex-autonomous"',
+      '"npx --yes oh-my-agent@latest install --platform=codex --no-tui --codex-autonomous"',
     )
     const rejectsLegacyInstallShape = !workflow.includes(
-      '"npx --yes --package oh-my-openagent omo install --platform=codex --no-tui --codex-autonomous"',
+      '"npx --yes --package oh-my-agent omo install --platform=codex --no-tui --codex-autonomous"',
     )
     const removedStrictDoctorGate = !workflow.includes(
-      'test "$npx_doctor_output" = "npx --yes --package oh-my-openagent omo doctor"',
-) && !workflow.includes('[ "$npx_doctor_output" != "npx --yes --package oh-my-openagent omo doctor" ]')
+      'test "$npx_doctor_output" = "npx --yes --package oh-my-agent omo doctor"',
+) && !workflow.includes('[ "$npx_doctor_output" != "npx --yes --package oh-my-agent omo doctor" ]')
     const keepsDoctorAsCodexWorkflow = workflow.includes('[[ "$npx_doctor_output" != codex\\ exec\\ * ]]') &&
       workflow.includes("Use $omo:lcx-doctor") &&
       workflow.includes('[[ "$npx_doctor_output" == *"--model"* ]]')

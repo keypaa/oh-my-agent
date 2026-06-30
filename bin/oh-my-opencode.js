@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// bin/oh-my-opencode.js
+// bin/oh-my-agent.js
 // Wrapper script that detects platform and spawns the correct binary
 
 import { spawnSync } from "node:child_process";
@@ -85,9 +85,9 @@ function getPackageBaseName() {
 function getWrapperPackageName() {
   try {
     const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
-    return packageJson.name || "oh-my-opencode";
+    return packageJson.name || "oh-my-agent";
   } catch {
-    return "oh-my-opencode";
+    return "oh-my-agent";
   }
 }
 
@@ -107,8 +107,8 @@ function maybeRunLazyCodexNodeInstaller(invocationName) {
     stdio: "inherit",
     env: {
       ...process.env,
-      OMO_INVOCATION_NAME: invocationName,
-      OMO_WRAPPER_PACKAGE_ROOT: getWrapperPackageRoot(),
+      OMA_INVOCATION_NAME: invocationName,
+      OMA_WRAPPER_PACKAGE_ROOT: getWrapperPackageRoot(),
     },
   });
   if (result.signal) {
@@ -118,14 +118,14 @@ function maybeRunLazyCodexNodeInstaller(invocationName) {
 }
 
 /**
- * Determine which bin name the user invoked us with (oh-my-opencode, oh-my-openagent, omo, lazycodex).
- * Propagated to the compiled CLI binary via OMO_INVOCATION_NAME so it can route accordingly
+ * Determine which bin name the user invoked us with (oh-my-agent, oh-my-agent, omo, lazycodex).
+ * Propagated to the compiled CLI binary via OMA_INVOCATION_NAME so it can route accordingly
  * (e.g. `lazycodex` defaults to the Codex install flow).
  * @returns {string}
  */
 function getInvocationName(wrapperPackageName) {
-  if (process.env.OMO_INVOCATION_NAME) {
-    return process.env.OMO_INVOCATION_NAME;
+  if (process.env.OMA_INVOCATION_NAME) {
+    return process.env.OMA_INVOCATION_NAME;
   }
   const wrapperBareName = getPackageBareName(wrapperPackageName);
   if (wrapperBareName === "lazycodex" || wrapperBareName === "lazycodex-ai") {
@@ -133,7 +133,7 @@ function getInvocationName(wrapperPackageName) {
   }
   const argv1 = process.argv[1] ?? "";
   if (!argv1) {
-    return "oh-my-opencode";
+    return "oh-my-agent";
   }
   return basename(argv1, ".js").replace(/\.exe$/, "");
 }
@@ -158,7 +158,7 @@ function main() {
       packageBaseName,
     });
   } catch (error) {
-    console.error(`\noh-my-opencode: ${error.message}\n`);
+    console.error(`\noh-my-agent: ${error.message}\n`);
     process.exit(1);
   }
 
@@ -173,7 +173,7 @@ function main() {
     .filter((entry) => entry !== null);
 
   if (resolvedBinaries.length === 0) {
-    console.error(`\noh-my-opencode: Platform binary not installed.`);
+    console.error(`\noh-my-agent: Platform binary not installed.`);
     console.error(`\nYour platform: ${platform}-${arch}${libcFamily === "musl" ? "-musl" : ""}`);
     console.error(`Expected packages (in order): ${packageCandidates.join(", ")}`);
     console.error(`\nTo fix, run:`);
@@ -183,8 +183,8 @@ function main() {
 
   const childEnv = {
     ...process.env,
-    OMO_INVOCATION_NAME: invocationName,
-    OMO_WRAPPER_PACKAGE_ROOT: getWrapperPackageRoot(),
+    OMA_INVOCATION_NAME: invocationName,
+    OMA_WRAPPER_PACKAGE_ROOT: getWrapperPackageRoot(),
   };
 
   for (let index = 0; index < resolvedBinaries.length; index += 1) {
@@ -200,7 +200,7 @@ function main() {
         continue;
       }
 
-      console.error(`\noh-my-opencode: Failed to execute binary.`);
+      console.error(`\noh-my-agent: Failed to execute binary.`);
       console.error(`Error: ${result.error.message}\n`);
       process.exit(2);
     }

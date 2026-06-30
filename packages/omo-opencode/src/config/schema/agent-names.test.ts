@@ -1,7 +1,7 @@
 /// <reference path="../../../../../bun-test.d.ts" />
 
 import { describe, expect, test } from "bun:test"
-import { OhMyOpenCodeConfigSchema } from "./oh-my-opencode-config"
+import { OhMyOpenCodeConfigSchema } from "./oh-my-agent-config"
 
 describe("OhMyOpenCodeConfigSchema disabled_skills", () => {
   test("accepts review-work, shared aliases, and runtime security skills", () => {

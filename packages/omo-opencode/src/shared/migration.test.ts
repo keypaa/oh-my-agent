@@ -834,7 +834,7 @@ describe("migrateConfigFile _migrations tracking", () => {
   test("records migrations in _migrations field", () => {
     // given: Config with old model, no prior migrations
     const tmpDir = tempMigrationDir()
-    const configPath = path.join(tmpDir, "oh-my-opencode.json")
+    const configPath = path.join(tmpDir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       agents: {
         sisyphus: { model: "openai/gpt-5.4-codex" },
@@ -855,7 +855,7 @@ describe("migrateConfigFile _migrations tracking", () => {
   test("skips re-migration when _migrations contains the key", () => {
     // given: Config with old model BUT migration already recorded
     const tmpDir = tempMigrationDir()
-    const configPath = path.join(tmpDir, "oh-my-opencode.json")
+    const configPath = path.join(tmpDir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       agents: {
         sisyphus: { model: "openai/gpt-5.4-codex" },
@@ -878,7 +878,7 @@ describe("migrateConfigFile _migrations tracking", () => {
   test("migrates legacy in-config _migrations into the sidecar and appends new migrations (#3263)", () => {
     // given: Config with an existing legacy in-config _migrations history and a new migratable model
     const tmpDir = tempMigrationDir()
-    const configPath = path.join(tmpDir, "oh-my-opencode.json")
+    const configPath = path.join(tmpDir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       agents: {
         prometheus: { model: "anthropic/claude-opus-4-4" },
@@ -1370,7 +1370,7 @@ describe("migrateConfigFile with migration tracking via sidecar (#3263)", () => 
   function tempConfigPath(label: string): string {
     const workdir = fs.mkdtempSync(path.join(os.tmpdir(), `omo-migration-${label}-`))
     cleanupPaths.push(workdir)
-    return path.join(workdir, "oh-my-openagent.json")
+    return path.join(workdir, "oh-my-agent.json")
   }
 
   function sidecarPath(configPath: string): string {

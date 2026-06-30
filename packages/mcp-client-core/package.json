@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Harness-neutral MCP client lifecycle and OAuth primitives for oh-my-opencode adapters.",
+  "description": "Harness-neutral MCP client lifecycle and OAuth primitives for oh-my-agent adapters.",
   "exports": {
     ".": {
       "types": "./src/index.ts",

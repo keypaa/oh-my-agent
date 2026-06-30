@@ -1,5 +1,5 @@
 /**
- * Detects external plugins that may conflict with oh-my-opencode features.
+ * Detects external plugins that may conflict with oh-my-agent features.
  * Used to prevent crashes from concurrent notification plugins.
  */
 
@@ -8,7 +8,7 @@ import { log } from "./logger"
 import { CONFIG_BASENAME, PLUGIN_NAME } from "./plugin-identity"
 
 /**
- * Known notification plugins that conflict with oh-my-opencode's session-notification.
+ * Known notification plugins that conflict with oh-my-agent's session-notification.
  * Both plugins listen to session.idle and send notifications simultaneously,
  * which can cause crashes on Windows due to resource contention.
  */
@@ -19,7 +19,7 @@ const KNOWN_NOTIFICATION_PLUGINS = [
 ]
 
 /**
- * Known skill plugins that conflict with oh-my-opencode's skill loading.
+ * Known skill plugins that conflict with oh-my-agent's skill loading.
  * Both plugins scan ~/.config/opencode/skills/ and register tools independently,
  * causing "Duplicate tool names detected" warnings and HTTP 400 errors.
  */
@@ -28,11 +28,11 @@ const KNOWN_SKILL_PLUGINS = [
   "@opencode/skills",
 ]
 
-const OMO_PACKAGE_PLUGINS = [
-  "oh-my-opencode",
-  "oh-my-openagent",
-  "@code-yeongyu/oh-my-opencode",
-  "@code-yeongyu/oh-my-openagent",
+const OMA_PACKAGE_PLUGINS = [
+  "oh-my-agent",
+  "oh-my-agent",
+  "@code-yeongyu/oh-my-agent",
+  "@code-yeongyu/oh-my-agent",
 ]
 
 function matchesKnownPlugin(entry: string, knownPlugins: readonly string[]): string | null {
@@ -54,13 +54,13 @@ function isOmoFilePlugin(entry: string): boolean {
   const normalized = entry.toLowerCase().replaceAll("\\", "/")
   if (!normalized.startsWith("file://")) return false
 
-  return /\/(omo(?:-[^/]*)?|oh-my-opencode|oh-my-openagent)\/(src|dist)\/index\.(ts|js)$/.test(normalized)
+  return /\/(omo(?:-[^/]*)?|oh-my-agent|oh-my-agent)\/(src|dist)\/index\.(ts|js)$/.test(normalized)
 }
 
 function matchesOmoPlugin(entry: string): string | null {
-  const packageMatch = matchesKnownPlugin(entry, OMO_PACKAGE_PLUGINS)
+  const packageMatch = matchesKnownPlugin(entry, OMA_PACKAGE_PLUGINS)
   if (packageMatch) return packageMatch
-  if (isOmoFilePlugin(entry)) return "oh-my-openagent"
+  if (isOmoFilePlugin(entry)) return "oh-my-agent"
   return null
 }
 
@@ -140,13 +140,13 @@ export function detectDuplicateOmoPlugin(directory: string): DuplicateOmoPluginR
   const duplicatePlugins = plugins.filter((plugin) => matchesOmoPlugin(plugin) !== null)
 
   if (duplicatePlugins.length > 1) {
-    log("[oh-my-openagent] Duplicate OMO plugin entries detected", {
+    log("[oh-my-agent] Duplicate OMO plugin entries detected", {
       duplicatePlugins,
       allPlugins: plugins,
     })
     return {
       detected: true,
-      pluginName: "oh-my-openagent",
+      pluginName: "oh-my-agent",
       duplicatePlugins,
       allPlugins: plugins,
     }

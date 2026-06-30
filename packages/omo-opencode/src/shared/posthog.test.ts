@@ -31,14 +31,14 @@ function resetPostHogModuleTestSeams(): void {
 }
 
 function enableTelemetryEnv(): void {
-  process.env.OMO_DISABLE_POSTHOG = "0"
-  process.env.OMO_SEND_ANONYMOUS_TELEMETRY = "1"
+  process.env.OMA_DISABLE_POSTHOG = "0"
+  process.env.OMA_SEND_ANONYMOUS_TELEMETRY = "1"
   process.env.POSTHOG_API_KEY = "test-api-key"
 }
 
 function clearTelemetryEnv(): void {
-  delete process.env.OMO_DISABLE_POSTHOG
-  delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+  delete process.env.OMA_DISABLE_POSTHOG
+  delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   delete process.env.POSTHOG_API_KEY
   delete process.env.POSTHOG_HOST
 }
@@ -91,8 +91,8 @@ describe("posthog client creation", () => {
 
   it("creates a plugin client when os.cpus throws", async () => {
     // given
-    process.env.OMO_DISABLE_POSTHOG = "0"
-    process.env.OMO_SEND_ANONYMOUS_TELEMETRY = "1"
+    process.env.OMA_DISABLE_POSTHOG = "0"
+    process.env.OMA_SEND_ANONYMOUS_TELEMETRY = "1"
     process.env.POSTHOG_API_KEY = "test-api-key"
 
     const posthogModule = usePostHogModule(await importPostHogModule())
@@ -176,9 +176,9 @@ describe("posthog disable env var parsing", () => {
   const disableValues = ["TRUE", "True", "Yes", "YES", " 1 ", " true "]
 
   for (const value of disableValues) {
-    it(`treats OMO_DISABLE_POSTHOG=${JSON.stringify(value)} as disabled`, async () => {
+    it(`treats OMA_DISABLE_POSTHOG=${JSON.stringify(value)} as disabled`, async () => {
       // given
-      process.env.OMO_DISABLE_POSTHOG = value
+      process.env.OMA_DISABLE_POSTHOG = value
       process.env.POSTHOG_API_KEY = "test-api-key"
       const captured: CapturedPostHogMessage[] = []
       const posthogModule = usePostHogModule(await importPostHogModule())
@@ -200,9 +200,9 @@ describe("posthog disable env var parsing", () => {
   const sendFalsyValues = ["NO", "No", "FALSE", "False", " 0 "]
 
   for (const value of sendFalsyValues) {
-    it(`treats OMO_SEND_ANONYMOUS_TELEMETRY=${JSON.stringify(value)} as disabled`, async () => {
+    it(`treats OMA_SEND_ANONYMOUS_TELEMETRY=${JSON.stringify(value)} as disabled`, async () => {
       // given
-      process.env.OMO_SEND_ANONYMOUS_TELEMETRY = value
+      process.env.OMA_SEND_ANONYMOUS_TELEMETRY = value
       process.env.POSTHOG_API_KEY = "test-api-key"
       const captured: CapturedPostHogMessage[] = []
       const posthogModule = usePostHogModule(await importPostHogModule())
@@ -221,9 +221,9 @@ describe("posthog disable env var parsing", () => {
     })
   }
 
-  it("keeps OMO_SEND_ANONYMOUS_TELEMETRY=yes enabled for env compatibility", async () => {
+  it("keeps OMA_SEND_ANONYMOUS_TELEMETRY=yes enabled for env compatibility", async () => {
     // given
-    process.env.OMO_SEND_ANONYMOUS_TELEMETRY = "yes"
+    process.env.OMA_SEND_ANONYMOUS_TELEMETRY = "yes"
     process.env.POSTHOG_API_KEY = "test-api-key"
     const captured: CapturedPostHogMessage[] = []
     const posthogModule = usePostHogModule(await importPostHogModule())
@@ -271,7 +271,7 @@ describe("posthog trackActive emission contract", () => {
     clearTelemetryEnv()
   })
 
-  it("emits exactly one omo_daily_active and never omo_hourly_active when captureDaily is true", async () => {
+  it("emits exactly one OMA_daily_active and never OMA_hourly_active when captureDaily is true", async () => {
     // given
     enableTelemetryEnv()
     const captured: CapturedPostHogMessage[] = []
@@ -298,21 +298,21 @@ describe("posthog trackActive emission contract", () => {
     // then
     expect(captured).toHaveLength(1)
     const emittedEvents = captured.map((message) => message.event)
-    expect(emittedEvents).not.toContain("omo_hourly_active")
+    expect(emittedEvents).not.toContain("OMA_hourly_active")
     const [dailyEvent] = captured
     if (!dailyEvent) {
       throw new Error("Expected daily event")
     }
-    expect(dailyEvent?.event).toBe("omo_daily_active")
+    expect(dailyEvent?.event).toBe("OMA_daily_active")
     expect(dailyEvent?.distinctId).toBe("distinct-cli")
     const properties = dailyEvent.properties ?? {}
     const expectedPropertyKeys = ["$os", "$os_version", "$process_person_profile", "ci", "cpu_count", "cpu_model", "day_utc", "locale", "os_arch", "os_type", "package_name", "package_version", "platform", "plugin_name", "product_name", "reason", "runtime", "runtime_version", "shell", "source", "terminal", "timezone", "total_memory_gb"]
     expect(Object.keys(properties).sort()).toEqual(expectedPropertyKeys.sort())
     expect(properties).toMatchObject({
-      platform: "oh-my-opencode",
-      package_name: "oh-my-openagent",
-      plugin_name: "oh-my-openagent",
-      product_name: "oh-my-openagent",
+      platform: "oh-my-agent",
+      package_name: "oh-my-agent",
+      plugin_name: "oh-my-agent",
+      product_name: "oh-my-agent",
       source: "cli",
       $os: "linux",
       $os_version: "6.8.0-test",
@@ -327,7 +327,7 @@ describe("posthog trackActive emission contract", () => {
     })
   })
 
-  it("emits nothing and never omo_hourly_active when captureDaily is false", async () => {
+  it("emits nothing and never OMA_hourly_active when captureDaily is false", async () => {
     // given
     enableTelemetryEnv()
     const captured: CapturedPostHogMessage[] = []
@@ -345,8 +345,8 @@ describe("posthog trackActive emission contract", () => {
     // then
     expect(captured).toHaveLength(0)
     const emittedEvents = captured.map((message) => message.event)
-    expect(emittedEvents).not.toContain("omo_daily_active")
-    expect(emittedEvents).not.toContain("omo_hourly_active")
+    expect(emittedEvents).not.toContain("OMA_daily_active")
+    expect(emittedEvents).not.toContain("OMA_hourly_active")
   })
 
   it("records plugin load telemetry with the plugin_loaded reason", async () => {
@@ -369,7 +369,7 @@ describe("posthog trackActive emission contract", () => {
     if (!dailyEvent) {
       throw new Error("Expected plugin telemetry event")
     }
-    expect(dailyEvent.event).toBe("omo_daily_active")
+    expect(dailyEvent.event).toBe("OMA_daily_active")
     expect(dailyEvent.properties).toMatchObject({
       reason: "plugin_loaded",
       source: "plugin",

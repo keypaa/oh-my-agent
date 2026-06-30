@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "bun:test"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
 import { ContextCollector } from "./collector"
 import {
   createContextInjectorHook,
@@ -211,7 +211,7 @@ describe("createContextInjectorMessagesTransformHook", () => {
       createMockMessage("user", "Real user message", sessionID),
       createMockMessage(
         "user",
-        `Internal prompt\n${OMO_INTERNAL_INITIATOR_MARKER}`,
+        `Internal prompt\n${OMA_INTERNAL_INITIATOR_MARKER}`,
         sessionID,
       ),
     ]

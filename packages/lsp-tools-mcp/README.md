@@ -6,12 +6,12 @@ Standalone Language Server Protocol tools exposed as a stdio MCP server.
 
 ## Used By
 
-This package is the upstream source of truth for downstream plugins. In `oh-my-openagent`, it is vendored in-tree under `packages/lsp-tools-mcp/` so CI and release jobs do not need extra checkout initialization:
+This package is the upstream source of truth for downstream plugins. In `oh-my-agent`, it is vendored in-tree under `packages/lsp-tools-mcp/` so CI and release jobs do not need extra checkout initialization:
 
 | Project | Path | Role |
 |---------|------|------|
 | **[codex-lsp](https://github.com/code-yeongyu/codex-lsp)** | `packages/lsp-tools-mcp/` | Codex plugin that ships these LSP MCP tools plus a Codex-specific PostToolUse diagnostics hook. |
-| **[oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent)** (a.k.a. `oh-my-opencode`) | `packages/lsp-tools-mcp/` | OpenCode plugin that registers this server as a built-in Tier-1 stdio MCP. Exposes `lsp_diagnostics`, `lsp_goto_definition`, `lsp_find_references`, `lsp_symbols`, `lsp_prepare_rename`, `lsp_rename`, and `lsp_status` to all agents. |
+| **[oh-my-agent](https://github.com/code-yeongyu/oh-my-agent)** (a.k.a. `oh-my-agent`) | `packages/lsp-tools-mcp/` | OpenCode plugin that registers this server as a built-in Tier-1 stdio MCP. Exposes `lsp_diagnostics`, `lsp_goto_definition`, `lsp_find_references`, `lsp_symbols`, `lsp_prepare_rename`, `lsp_rename`, and `lsp_status` to all agents. |
 
 If you fix or extend the LSP runtime here, downstreams should sync the vendored package source rather than carrying divergent forks.
 
@@ -61,7 +61,7 @@ Path overrides via environment variables:
 - `LSP_TOOLS_MCP_PROJECT_CONFIG`
 - `LSP_TOOLS_MCP_USER_CONFIG`
 
-Examples (oh-my-openagent points the project config at `.opencode/lsp.json` via the env var):
+Examples (oh-my-agent points the project config at `.opencode/lsp.json` via the env var):
 
 ```bash
 LSP_TOOLS_MCP_PROJECT_CONFIG=.opencode/lsp.json node dist/cli.js mcp

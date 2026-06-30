@@ -1,5 +1,5 @@
 import { tool, type PluginInput, type ToolDefinition } from "@opencode-ai/plugin"
-import { ALLOWED_AGENTS, CALL_OMO_AGENT_DESCRIPTION } from "./constants"
+import { ALLOWED_AGENTS, CALL_OMA_AGENT_DESCRIPTION } from "./constants"
 import type { CallOmoAgentArgs, ToolContextWithMetadata } from "./types"
 import type { BackgroundManager } from "../../features/background-agent"
 import type { ModelFallbackControllerAccessor } from "../../hooks/model-fallback"
@@ -60,7 +60,7 @@ function resolveModelAndFallbackChain(args: {
     const normalized = parseModelString(agentOverride.model)
     if (normalized) {
       model = agentOverride.variant ? { ...normalized, variant: agentOverride.variant } : normalized
-      log("[call_omo_agent] Resolved model override from agent config", {
+      log("[call_OMA_agent] Resolved model override from agent config", {
         agent: subagentType,
         model: agentOverride.model,
         variant: agentOverride.variant,
@@ -71,7 +71,7 @@ function resolveModelAndFallbackChain(args: {
     if (normalized) {
       const variantToUse = agentOverride?.variant ?? agentCategoryVariant
       model = variantToUse ? { ...normalized, variant: variantToUse } : normalized
-      log("[call_omo_agent] Resolved model override from agent category", {
+      log("[call_OMA_agent] Resolved model override from agent category", {
         agent: subagentType,
         category: agentOverride?.category,
         model: agentCategoryModel,
@@ -84,7 +84,7 @@ function resolveModelAndFallbackChain(args: {
       const normalized = parseModelString(firstFallback.model)
       if (normalized) {
         model = firstFallback.variant ? { ...normalized, variant: firstFallback.variant } : normalized
-        log("[call_omo_agent] Resolved model from first fallbackChain entry", {
+        log("[call_OMA_agent] Resolved model from first fallbackChain entry", {
           agent: subagentType,
           model: firstFallback.model,
           variant: firstFallback.variant,
@@ -119,7 +119,7 @@ export function createCallOmoAgent(
   const agentDescriptions = ALLOWED_AGENTS.map(
     (name) => `- ${name}: Specialized agent for ${name} tasks`,
   ).join("\n");
-  const description = CALL_OMO_AGENT_DESCRIPTION.replace(
+  const description = CALL_OMA_AGENT_DESCRIPTION.replace(
     "{agents}",
     agentDescriptions,
   );
@@ -151,7 +151,7 @@ export function createCallOmoAgent(
     async execute(args: CallOmoAgentArgs, toolContext) {
       const toolCtx = toolContext as ToolContextWithMetadata;
       log(
-        `[call_omo_agent] Starting with agent: ${args.subagent_type}, background: ${args.run_in_background}`,
+        `[call_OMA_agent] Starting with agent: ${args.subagent_type}, background: ${args.run_in_background}`,
       );
 
       if (typeof args.subagent_type !== "string" || args.subagent_type.trim() === "") {

@@ -34,7 +34,7 @@ export const OhMyOpenCodeConfigSchema = z.object({
   $schema: z.string().optional(),
   /** Enable new task system (default: false) */
   new_task_system_enabled: z.boolean().optional(),
-  /** Default agent name for `oh-my-opencode run` (env: OPENCODE_DEFAULT_AGENT) */
+  /** Default agent name for `oh-my-agent run` (env: OPENCODE_DEFAULT_AGENT) */
   default_run_agent: z.string().optional(),
   /** Preferred display order for known agents. Invalid names are ignored with a toast warning. */
   agent_order: z.array(z.string().max(128)).max(64).optional(),

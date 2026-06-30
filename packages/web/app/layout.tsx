@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     "Meet Sisyphus: The batteries-included agent that codes like you. Multi-model orchestration, Team Mode, background agents, 60+ lifecycle hooks.",
   keywords: [
     "opencode",
-    "oh-my-opencode",
+    "oh-my-agent",
     "openagent",
-    "oh-my-openagent",
+    "oh-my-agent",
     "ai agent",
     "code agent",
     "sisyphus",

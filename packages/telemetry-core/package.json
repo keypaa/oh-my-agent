@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Harness-neutral telemetry primitives for oh-my-opencode products.",
+  "description": "Harness-neutral telemetry primitives for oh-my-agent products.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

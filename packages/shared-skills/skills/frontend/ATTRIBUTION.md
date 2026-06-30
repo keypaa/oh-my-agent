@@ -3,7 +3,7 @@
 This package (`@oh-my-opencode/shared-skills`) includes third-party content that is
 redistributed under its original license, consistent with the project's distribution
 license (see `LICENSE.md`: "All third party components incorporated into the
-oh-my-opencode Software are licensed under the original license provided by the owner of
+oh-my-agent Software are licensed under the original license provided by the owner of
 the applicable component"). Each upstream's license and required notices are reproduced
 below. Modifications to the original files are noted where applicable.
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
 import {
   detectSlashCommand,
   extractPromptText,
@@ -312,7 +312,7 @@ After`
       // given
       const parts = [
         { type: "text", text: "/commit from synthetic", synthetic: true },
-        { type: "text", text: `/commit from marker\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+        { type: "text", text: `/commit from marker\n${OMA_INTERNAL_INITIATOR_MARKER}` },
         { type: "text", text: "real request" },
       ]
 
@@ -329,7 +329,7 @@ After`
       // given
       const parts = [
         { type: "text", text: "/commit synthetic", synthetic: true },
-        { type: "text", text: `/plan internal\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+        { type: "text", text: `/plan internal\n${OMA_INTERNAL_INITIATOR_MARKER}` },
         { type: "text", text: "/real-command" },
       ]
 
@@ -344,7 +344,7 @@ After`
       // given
       const parts = [
         { type: "text", text: "/commit synthetic", synthetic: true },
-        { type: "text", text: `/plan internal\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+        { type: "text", text: `/plan internal\n${OMA_INTERNAL_INITIATOR_MARKER}` },
       ]
 
       // when

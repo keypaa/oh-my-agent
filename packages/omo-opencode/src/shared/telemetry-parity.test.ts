@@ -41,8 +41,8 @@ function resetPostHogModuleTestSeams(): void {
 }
 
 function resetTelemetryEnv(): void {
-  delete process.env.OMO_DISABLE_POSTHOG
-  delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+  delete process.env.OMA_DISABLE_POSTHOG
+  delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   process.env.POSTHOG_API_KEY = "test-api-key"
 }
 
@@ -98,8 +98,8 @@ async function captureWithEnv(
 
 afterEach(() => {
   resetPostHogModuleTestSeams()
-  delete process.env.OMO_DISABLE_POSTHOG
-  delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+  delete process.env.OMA_DISABLE_POSTHOG
+  delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   delete process.env.POSTHOG_API_KEY
   if (originalXdgDataHome === undefined) {
     delete process.env.XDG_DATA_HOME
@@ -123,7 +123,7 @@ describe("telemetry before/after parity", () => {
       dayUTC: "2026-06-28",
       captureDaily: true,
     }))
-    const expectedStateFilePath = join(xdgDataHome, "oh-my-opencode", "posthog-activity.json")
+    const expectedStateFilePath = join(xdgDataHome, "oh-my-agent", "posthog-activity.json")
 
     // when
     const distinctId = posthogModule.getPostHogDistinctId()
@@ -133,9 +133,9 @@ describe("telemetry before/after parity", () => {
     await client.shutdown()
 
     // then
-    expect(product.eventName).toBe("omo_daily_active")
-    expect(product.machineIdPrefix).toBe("oh-my-openagent:")
-    expect(product.cacheDirName).toBe("oh-my-opencode")
+    expect(product.eventName).toBe("OMA_daily_active")
+    expect(product.machineIdPrefix).toBe("oh-my-agent:")
+    expect(product.cacheDirName).toBe("oh-my-agent")
     expect(distinctId).toBe(EXPECTED_DISTINCT_ID_FOR_PARITY_HOST)
     expect(stateFilePath).toBe(expectedStateFilePath)
     expect(existsSync(stateFilePath)).toBe(false)
@@ -144,7 +144,7 @@ describe("telemetry before/after parity", () => {
     if (!dailyEvent) {
       throw new Error("Expected telemetry parity event")
     }
-    expect(dailyEvent.event).toBe("omo_daily_active")
+    expect(dailyEvent.event).toBe("OMA_daily_active")
     const payloadKeys = Object.keys(dailyEvent.properties ?? {}).sort()
     expect(payloadKeys).toContain("plugin_name")
     expect(payloadKeys).toContain("product_name")
@@ -152,10 +152,10 @@ describe("telemetry before/after parity", () => {
 
   it("preserves the legacy env opt-out matrix including yes as enabled", async () => {
     // given / when
-    const disabledByPostHogFlag = await captureWithEnv({ OMO_DISABLE_POSTHOG: "1" })
-    const disabledBySendZero = await captureWithEnv({ OMO_SEND_ANONYMOUS_TELEMETRY: "0" })
-    const enabledBySendYes = await captureWithEnv({ OMO_SEND_ANONYMOUS_TELEMETRY: "yes" })
-    const disabledBySendNo = await captureWithEnv({ OMO_SEND_ANONYMOUS_TELEMETRY: "no" })
+    const disabledByPostHogFlag = await captureWithEnv({ OMA_DISABLE_POSTHOG: "1" })
+    const disabledBySendZero = await captureWithEnv({ OMA_SEND_ANONYMOUS_TELEMETRY: "0" })
+    const enabledBySendYes = await captureWithEnv({ OMA_SEND_ANONYMOUS_TELEMETRY: "yes" })
+    const disabledBySendNo = await captureWithEnv({ OMA_SEND_ANONYMOUS_TELEMETRY: "no" })
     const enabledByUnset = await captureWithEnv({})
 
     // then

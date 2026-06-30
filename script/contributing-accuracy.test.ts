@@ -18,7 +18,7 @@ describe("CONTRIBUTING.md accuracy", () => {
 
     // then
     const forbidden: ReadonlyArray<readonly [token: string, defect: string]> = [
-      ["oh-my-opencode/dist/index.js", "D1 broken local plugin path (wrong clone dir + wrong relative root)"],
+      ["oh-my-agent/dist/index.js", "D1 broken local plugin path (wrong clone dir + wrong relative root)"],
       ["utils.ts", "D8/D13 prescribes a catch-all file the repo explicitly bans"],
       ["builtinTools", "D14 wrong tool registration entrypoint"],
       ["builtinAgents", "D9 wrong agent registration entrypoint"],

@@ -1,6 +1,6 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin"
 
-import type { OhMyOpenCodeConfig } from "../../config/schema/oh-my-opencode-config"
+import type { OhMyOpenCodeConfig } from "../../config/schema/oh-my-agent-config"
 import { checkMonitorCommandPermission, type BashPermissionAskInput } from "../../features/monitor/permission"
 import { createMonitorFilter } from "../../features/monitor/filter"
 import type { MonitorManager, MonitorMode, MonitorStartArgs } from "../../features/monitor/types"

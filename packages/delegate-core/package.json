@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Harness-neutral delegate task selection and retry primitives for oh-my-opencode.",
+  "description": "Harness-neutral delegate task selection and retry primitives for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

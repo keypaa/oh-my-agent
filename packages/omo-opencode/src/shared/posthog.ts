@@ -96,21 +96,21 @@ export function shouldDisablePostHog(env: TelemetryEnv, configEnabled: boolean |
     return true
   }
 
-  if (isTruthy(env.OMO_DISABLE_POSTHOG?.trim().toLowerCase())) {
+  if (isTruthy(env.OMA_DISABLE_POSTHOG?.trim().toLowerCase())) {
     return true
   }
 
-  return isFalsy(env.OMO_SEND_ANONYMOUS_TELEMETRY?.trim().toLowerCase())
+  return isFalsy(env.OMA_SEND_ANONYMOUS_TELEMETRY?.trim().toLowerCase())
 }
 
 function createCoreCompatibleTelemetryEnv(env: NodeJS.ProcessEnv): TelemetryEnv {
-  if (env.OMO_SEND_ANONYMOUS_TELEMETRY?.trim().toLowerCase() !== "yes") {
+  if (env.OMA_SEND_ANONYMOUS_TELEMETRY?.trim().toLowerCase() !== "yes") {
     return env
   }
 
   return {
     ...env,
-    OMO_SEND_ANONYMOUS_TELEMETRY: "1",
+    OMA_SEND_ANONYMOUS_TELEMETRY: "1",
   }
 }
 

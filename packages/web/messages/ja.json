@@ -29,7 +29,7 @@
       "totalDownloads": "累計{count}+ダウンロード",
       "monthlyDownloads": "月間{count}+ダウンロード",
       "lifecycleHooks": "{count}+ライフサイクルHooks",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "codexInstallCommand": "npx lazycodex-ai install",
       "codexLabel": "Codex CLI エディション",
       "getStarted": "始める",
@@ -42,7 +42,7 @@
         "name": "Ultimate",
         "platform": "OpenCode",
         "description": "11エージェント、Team Mode、バックグラウンドタスク、3-tier MCP、60+ライフサイクルフックを備えたフルプラグイン。",
-        "install": "bunx oh-my-openagent install"
+        "install": "bunx oh-my-agent install"
       },
       "light": {
         "name": "Light",
@@ -298,7 +298,7 @@
         "author": "Jacob Ferrari"
       },
       "review4": {
-        "text": "use oh-my-openagent, you will never go back",
+        "text": "use oh-my-agent, you will never go back",
         "author": "d0t3ch"
       },
       "review5": {
@@ -313,7 +313,7 @@
     "cta": {
       "title": "ボイラープレートを書くのをやめろ",
       "subtitle": "Oh My OpenAgentをインストールしてエージェントに任せよう。最初のulwコマンドまであと30秒。",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "installNow": "今すぐインストール",
       "readTheDocs": "ドキュメントを読む"
     }

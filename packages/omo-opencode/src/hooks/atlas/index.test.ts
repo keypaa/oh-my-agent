@@ -29,7 +29,7 @@ type MockAtlasInput = Parameters<typeof createAtlasHook>[0] & {
 
 describe("atlas hook", () => {
   let TEST_DIR: string
-  let OMO_DIR: string
+  let OMA_DIR: string
 
   function createMockPluginInput(overrides?: {
     promptMock?: ReturnType<typeof mock>
@@ -88,12 +88,12 @@ describe("atlas hook", () => {
     registerAgentName("atlas")
     registerAgentName("sisyphus")
     TEST_DIR = join(tmpdir(), `atlas-test-${randomUUID()}`)
-    OMO_DIR = join(TEST_DIR, ".omo")
+    OMA_DIR = join(TEST_DIR, ".omo")
     if (!existsSync(TEST_DIR)) {
       mkdirSync(TEST_DIR, { recursive: true })
     }
-    if (!existsSync(OMO_DIR)) {
-      mkdirSync(OMO_DIR, { recursive: true })
+    if (!existsSync(OMA_DIR)) {
+      mkdirSync(OMA_DIR, { recursive: true })
     }
     clearBoulderState(TEST_DIR)
     callerAgentBySession.clear()

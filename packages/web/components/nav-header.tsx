@@ -44,7 +44,7 @@ export function NavHeader(): JSX.Element {
         </div>
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/code-yeongyu/oh-my-openagent"
+            href="https://github.com/code-yeongyu/oh-my-agent"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex"
@@ -111,7 +111,7 @@ export function NavHeader(): JSX.Element {
             {t("manifesto")}
           </Link>
           <a
-            href="https://github.com/code-yeongyu/oh-my-openagent"
+            href="https://github.com/code-yeongyu/oh-my-agent"
             target="_blank"
             rel="noopener noreferrer"
             className="flex min-h-11 items-center gap-2 rounded-md px-3 transition-colors hover:bg-zinc-900 hover:text-cyan-400 sm:hidden"

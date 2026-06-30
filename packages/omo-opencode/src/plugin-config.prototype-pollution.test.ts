@@ -68,11 +68,11 @@ describe("plugin config prototype pollution guards", () => {
     mkdirSync(userConfigDir, { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       '{"mcp_env_allowlist":["USER_ONLY_TOKEN"],"agents":{"oracle":{"model":"user/model"}}}',
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       '{"__proto__":{"polluted":true},"mcp_env_allowlist":["PROJECT_TOKEN"],"agents":{"oracle":{"temperature":0.2}}}',
     )
 

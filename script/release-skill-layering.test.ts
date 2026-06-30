@@ -55,8 +55,8 @@ describe("release skill layering", () => {
     const missingReleaseSurfaces = files.flatMap((file) => {
       const text = normalizedText(file)
       return [
-        "oh-my-opencode",
-        "oh-my-openagent",
+        "oh-my-agent",
+        "oh-my-agent",
         "lazycodex-ai",
         "code-yeongyu/lazycodex",
       ]

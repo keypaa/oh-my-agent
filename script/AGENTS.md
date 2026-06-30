@@ -11,7 +11,7 @@ Build and publish automation scripts. Run via `bun run <script>` from root packa
 | File | Purpose |
 |------|---------|
 | `build-binaries.ts` | 11 platform binaries via `bun compile` (darwin/linux/windows, AVX2 + baseline) |
-| `build-schema.ts` | Zod schema to JSON Schema for `assets/oh-my-opencode.schema.json` |
+| `build-schema.ts` | Zod schema to JSON Schema for `assets/oh-my-agent.schema.json` |
 | `build-schema-document.ts` | Helper: `createOhMyOpenCodeJsonSchema()` for build-schema.ts |
 | `build-model-capabilities.ts` | Refresh the generated model capabilities artifact consumed by `packages/model-core/` |
 | `patch-node-require-shim.ts` | Patches `dist/index.js` for Node/Electron require compatibility |

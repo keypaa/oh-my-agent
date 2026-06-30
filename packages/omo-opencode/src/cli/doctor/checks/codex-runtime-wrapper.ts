@@ -5,7 +5,7 @@ import { join, resolve } from "node:path"
 import { resolveCodexInstallerBinDir } from "../../install-codex/install-codex"
 import type { CheckResult, DoctorIssue } from "../framework/types"
 
-const RUNTIME_WRAPPER_MARKER = "OMO_GENERATED_RUNTIME_WRAPPER"
+const RUNTIME_WRAPPER_MARKER = "OMA_GENERATED_RUNTIME_WRAPPER"
 const CHECK_NAME = "codex-runtime-wrapper"
 const REINSTALL_COMMAND = "npx --yes lazycodex-ai@latest install --no-tui"
 

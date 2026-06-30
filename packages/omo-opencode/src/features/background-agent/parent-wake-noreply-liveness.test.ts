@@ -463,7 +463,7 @@ describe("parent wake admitted-consumption drop (duplicate ALL-COMPLETE regressi
                 parts: [
                   {
                     type: "text",
-                    text: `${FINAL_WAKE}\n\n<!-- OMO_INTERNAL_INITIATOR -->`,
+                    text: `${FINAL_WAKE}\n\n<!-- OMA_INTERNAL_INITIATOR -->`,
                     synthetic: true,
                   },
                 ],

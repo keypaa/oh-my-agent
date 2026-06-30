@@ -244,10 +244,10 @@ describe("LazyCodex publish workflow", () => {
     const lazycodexStepUsesReleaseVersion =
       !workflow.includes('LAZYCODEX_VERSION: "0.1.0"') &&
       workflow.includes(".name = \"lazycodex-ai\" |") &&
-      workflow.includes(".version = $omo_version |")
+      workflow.includes(".version = $OMA_version |")
     const lazycodexStepUsesNodeInstallerBin =
       workflow.includes('.bin = { "lazycodex-ai": "packages/omo-codex/scripts/install-local.mjs", "lazycodex": "packages/omo-codex/scripts/install-local.mjs" }')
-    const lazycodexStepDoesNotRenameOptionalDeps = !workflow.includes('sub("^oh-my-opencode-"; "lazycodex-")')
+    const lazycodexStepDoesNotRenameOptionalDeps = !workflow.includes('sub("^oh-my-agent-"; "lazycodex-")')
     const lazycodexStepDropsLifecycleScripts = workflow.includes(".scripts = {}")
     const lazycodexStepDropsPlatformOptionalDeps = workflow.includes(".optionalDependencies = {}")
     const lazycodexStepDropsRuntimeDependencies = workflow.includes(".dependencies = {}")
@@ -270,7 +270,7 @@ describe("LazyCodex publish workflow", () => {
       publishMainJob.indexOf("bun run build:lsp-tools-mcp && bun run build:lsp-daemon && bun run build") >= 0 &&
       publishMainJob.indexOf("bun run build:lsp-tools-mcp && bun run build:lsp-daemon && bun run build") <
         publishMainJob.indexOf("name: Publish lazycodex-ai")
-    const shimKeepsLazycodexMappedForSharedWrapper = platformResolver.includes("lazycodex: \"oh-my-openagent\"")
+    const shimKeepsLazycodexMappedForSharedWrapper = platformResolver.includes("lazycodex: \"oh-my-agent\"")
 
     // #then
     expect(lazycodexStepUsesReleaseVersion, "lazycodex publish step must use the release version so unpublished versions are not reused").toBe(true)
@@ -308,7 +308,7 @@ describe("LazyCodex publish workflow", () => {
     const smokeRunsAfterPublishBeforeRestore = publishIndex >= 0 &&
       smokeIndex > publishIndex &&
       restoreIndex > smokeIndex
-    const smokesReleaseVersion = smokeStep.includes('smoke_lazycodex_package "lazycodex-ai@${OMO_VERSION}"')
+    const smokesReleaseVersion = smokeStep.includes('smoke_lazycodex_package "lazycodex-ai@${OMA_VERSION}"')
     const smokesStableLatestOnly = smokeStep.includes('if [ -z "$DIST_TAG" ]; then') &&
       smokeStep.includes('smoke_lazycodex_package "lazycodex-ai@latest"')
     const retriesRegistryPropagation = smokeStep.includes("for attempt in $(seq 1 12)") &&
@@ -318,21 +318,21 @@ describe("LazyCodex publish workflow", () => {
       smokeStep.includes('export CODEX_LOCAL_BIN_DIR="$SMOKE_DIR/bin"')
     const assertsDryRunRouting = smokeStep.includes('npx -y "$package_spec" --dry-run install --no-tui --codex-autonomous') &&
       smokeStep.includes('npx -y "$package_spec" --dry-run doctor') &&
-      smokeStep.includes('expected_install_output="npx --yes oh-my-openagent@latest install --platform=codex --no-tui --codex-autonomous"') &&
+      smokeStep.includes('expected_install_output="npx --yes oh-my-agent@latest install --platform=codex --no-tui --codex-autonomous"') &&
       smokeStep.includes('expected_doctor_output_prefix="codex exec ') &&
-      smokeStep.includes("npx --yes oh-my-openagent@latest install --platform=codex --no-tui --codex-autonomous") &&
+      smokeStep.includes("npx --yes oh-my-agent@latest install --platform=codex --no-tui --codex-autonomous") &&
       smokeStep.includes('case "$npx_doctor_output" in "$expected_doctor_output_prefix"*) true ;; *) false ;; esac') &&
       smokeStep.includes('case "$npx_doctor_output" in *"--sandbox danger-full-access"*) true ;; *) false ;; esac') &&
       smokeStep.includes("Use $omo:lcx-doctor") &&
       smokeStep.includes('case "$npx_doctor_output" in *"--model"*|*"gpt-5.5-codex-mini"*) false ;; *) true ;; esac') &&
-      !smokeStep.includes("npx --yes --package oh-my-openagent omo install") &&
+      !smokeStep.includes("npx --yes --package oh-my-agent omo install") &&
       !smokeStep.includes("--platform=claude-code") &&
       !smokeStep.includes("--platform=gemini")
     const installsRealPackageAndVerifiesOmoBin =
       smokeStep.includes('npx -y "$package_spec" install --no-tui --codex-autonomous') &&
       smokeStep.includes('[ -x "$CODEX_LOCAL_BIN_DIR/omo" ]') &&
-      smokeStep.includes('omo_version_output=$("$CODEX_LOCAL_BIN_DIR/omo" --version 2>&1)') &&
-      smokeStep.includes('[ "$omo_version_output" = "$OMO_VERSION" ]') &&
+      smokeStep.includes('OMA_version_output=$("$CODEX_LOCAL_BIN_DIR/omo" --version 2>&1)') &&
+      smokeStep.includes('[ "$OMA_version_output" = "$OMA_VERSION" ]') &&
       smokeStep.includes('ulw_loop_output=$("$CODEX_LOCAL_BIN_DIR/omo" ulw-loop --help 2>&1)') &&
       smokeStep.includes('printf "%s" "$ulw_loop_output" | grep -q "ulw-loop"')
 
@@ -357,8 +357,8 @@ describe("LazyCodex publish workflow", () => {
     // #when
     const installDepsIndex = publishMainJob.indexOf("npm --prefix packages/omo-codex/plugin ci")
     const buildComponentsIndex = publishMainJob.indexOf("bun run --cwd packages/omo-codex/plugin build")
-    const opencodePublishIndex = publishMainJob.indexOf("name: Publish oh-my-opencode")
-    const openagentPublishIndex = publishMainJob.indexOf("name: Publish oh-my-openagent")
+    const opencodePublishIndex = publishMainJob.indexOf("name: Publish oh-my-agent")
+    const openagentPublishIndex = publishMainJob.indexOf("name: Publish oh-my-agent")
     const lazycodexPublishIndex = publishMainJob.indexOf("name: Publish lazycodex-ai")
     const buildStepStart = publishMainJob.indexOf("name: Build Codex plugin components")
     const buildStepSection =
@@ -367,7 +367,7 @@ describe("LazyCodex publish workflow", () => {
     const buildsPluginComponents = buildComponentsIndex >= 0
     const installsPluginDepsBeforeBuild =
       installDepsIndex >= 0 && buildComponentsIndex >= 0 && installDepsIndex < buildComponentsIndex
-    // oh-my-opencode/oh-my-openagent tarballs feed the lazycodex plugin cache, so packing
+    // oh-my-agent/oh-my-agent tarballs feed the lazycodex plugin cache, so packing
     // them before the component build ships source-only hooks (lazycodex#45, 4.8.1).
     const buildsBeforeOpencodePublish =
       buildComponentsIndex >= 0 && opencodePublishIndex > buildComponentsIndex
@@ -387,8 +387,8 @@ describe("LazyCodex publish workflow", () => {
     expect(buildsPluginComponents, "publish-main must build the Codex plugin components so published tarballs ship compiled dist (B1)").toBe(true)
     expect(installsPluginDepsBeforeBuild, "publish-main must install nested Codex plugin deps before building the components").toBe(true)
     expect(stampsMetadataBeforeBuild, "publish-main must stamp the Codex plugin release version before building status messages").toBe(true)
-    expect(buildsBeforeOpencodePublish, "Codex plugin components must be built before the oh-my-opencode npm publish step").toBe(true)
-    expect(buildsBeforeOpenagentPublish, "Codex plugin components must be built before the oh-my-openagent npm publish step").toBe(true)
+    expect(buildsBeforeOpencodePublish, "Codex plugin components must be built before the oh-my-agent npm publish step").toBe(true)
+    expect(buildsBeforeOpenagentPublish, "Codex plugin components must be built before the oh-my-agent npm publish step").toBe(true)
     expect(buildsBeforeLazycodexPublish, "Codex plugin components must be built before the lazycodex-ai npm publish step").toBe(true)
     expect(buildStepRunsForEveryPluginShippingPackage, "plugin component build must run whenever any plugin-shipping package publishes").toBe(true)
   })

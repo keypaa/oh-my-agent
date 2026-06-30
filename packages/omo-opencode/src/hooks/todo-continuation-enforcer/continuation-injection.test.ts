@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "bun:test"
 
 import { injectContinuation } from "./continuation-injection"
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
 import {
   dispatchInternalPrompt,
   releaseAllPromptAsyncReservationsForTesting,
@@ -145,7 +145,7 @@ describe("injectContinuation", () => {
     // then
     expect(capturedTools).toEqual({ question: false, bash: true })
     expect(capturedNoReply).toBeUndefined()
-    expect(capturedPart?.text).toContain(OMO_INTERNAL_INITIATOR_MARKER)
+    expect(capturedPart?.text).toContain(OMA_INTERNAL_INITIATOR_MARKER)
     expect(capturedPart?.synthetic).toBe(true)
     expect(capturedPart?.metadata?.compaction_continue).toBe(true)
   })

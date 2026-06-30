@@ -3,7 +3,7 @@ import type { ToolContext } from "@opencode-ai/plugin/tool"
 
 import type { MonitorManager, MonitorRecord, MonitorStartOpts } from "../../features/monitor/types"
 import type { BashPermissionAskInput } from "../../features/monitor/permission"
-import type { OhMyOpenCodeConfig } from "../../config/schema/oh-my-opencode-config"
+import type { OhMyOpenCodeConfig } from "../../config/schema/oh-my-agent-config"
 import type { PluginContext } from "../../plugin/types"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 import { createMonitorStart } from "./monitor-start"

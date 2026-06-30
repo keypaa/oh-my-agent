@@ -11,7 +11,7 @@ export interface CleanupOptions {
 
 export function resolveCleanupPlatform(
   options: { readonly platform?: CleanupOptions["platform"] },
-  invocationName: string | undefined = process.env.OMO_INVOCATION_NAME,
+  invocationName: string | undefined = process.env.OMA_INVOCATION_NAME,
 ): CleanupOptions["platform"] | undefined {
   if (options.platform !== undefined) return options.platform
   return invocationName === "lazycodex" || invocationName === "lazycodex-ai" ? "codex" : undefined

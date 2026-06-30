@@ -34,7 +34,7 @@ describe("migrateConfigFile sidecar write ordering", () => {
   test("writes the migrated config before recording the sidecar when both writes succeed", () => {
     // given
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig = createLegacyConfig()
 
     writeFileSync(configPath, JSON.stringify(rawConfig, null, 2) + "\n")
@@ -64,7 +64,7 @@ describe("migrateConfigFile sidecar write ordering", () => {
   test("skips the sidecar when the config write fails so the migration retries on next startup", () => {
     // given
     const workdir = createWorkdir()
-    const configPath = join(workdir, "missing-parent", "oh-my-opencode.json")
+    const configPath = join(workdir, "missing-parent", "oh-my-agent.json")
     const firstAttemptConfig = createLegacyConfig()
 
     // when
@@ -95,7 +95,7 @@ describe("migrateConfigFile sidecar write ordering", () => {
   test("preserves _migrations in the config when the sidecar write fails after the config write succeeds", () => {
     // given
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig = createLegacyConfig()
 
     writeFileSync(configPath, JSON.stringify(rawConfig, null, 2) + "\n")
@@ -122,7 +122,7 @@ describe("migrateConfigFile sidecar write ordering", () => {
   test("treats top-level appliedMigrations as migration history and does not reapply the model update", () => {
     // given
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-openagent.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       agents: {
         oracle: { model: "anthropic/claude-opus-4-6" },
@@ -155,7 +155,7 @@ describe("migrateConfigFile backup skipping", () => {
   test("skips backup when file content is identical after migration", () => {
     // given - config with legacy key that migrates to same on-disk content
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const migratedContent = {
       disabled_hooks: ["comment-checker"],
     }
@@ -180,7 +180,7 @@ describe("migrateConfigFile backup skipping", () => {
   test("creates backup when file content actually changes", () => {
     // given - config with model that needs migration
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig = {
       agents: {
         prometheus: { model: "anthropic/claude-opus-4-4" },
@@ -204,7 +204,7 @@ describe("migrateConfigFile orphan lsp key", () => {
   test("removes the obsolete 'lsp' key from rawConfig and from the persisted file", () => {
     // given - a v3-era config with a populated lsp block that the v4 schema silently strips
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       lsp: {
         typescript: { command: ["typescript-language-server", "--stdio"] },
@@ -226,7 +226,7 @@ describe("migrateConfigFile orphan lsp key", () => {
   test("leaves the config alone when no 'lsp' key is present", () => {
     // given - a config that never had an lsp block
     const workdir = createWorkdir()
-    const configPath = join(workdir, "oh-my-opencode.json")
+    const configPath = join(workdir, "oh-my-agent.json")
     const rawConfig: Record<string, unknown> = {
       agents: {
         sisyphus: { model: "anthropic/claude-opus-4-7" },

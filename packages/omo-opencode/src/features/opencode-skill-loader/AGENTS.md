@@ -11,7 +11,7 @@ This module discovers, parses, merges, and resolves SKILL.md files from 4 scopes
 ```
 1. Project (.opencode/skills/)
 2. OpenCode config (~/.config/opencode/skills/)
-3. User (~/.config/opencode/oh-my-opencode/skills/)
+3. User (~/.config/opencode/oh-my-agent/skills/)
 4. Global (built-in skills)
 ```
 

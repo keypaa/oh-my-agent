@@ -38,7 +38,7 @@ describe("formatDoctorFailure", () => {
     const lines = formatDoctorFailure(error)
 
     // then
-    expect(lines.join("\n")).toContain("bunx oh-my-openagent doctor --verbose")
-    expect(lines.join("\n")).not.toContain("bunx oh-my-opencode doctor")
+    expect(lines.join("\n")).toContain("bunx oh-my-agent doctor --verbose")
+    expect(lines.join("\n")).not.toContain("bunx oh-my-agent doctor")
   })
 })

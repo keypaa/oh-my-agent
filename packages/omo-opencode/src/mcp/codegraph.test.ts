@@ -49,7 +49,7 @@ describe("createCodegraphMcpConfig", () => {
     expect(config.enabled).toBe(false)
   })
 
-  it("keeps the registration disabled when OMO_CODEGRAPH_BIN points to a missing path", () => {
+  it("keeps the registration disabled when OMA_CODEGRAPH_BIN points to a missing path", () => {
     // given
     const resolveExecutable = createResolver({ codegraph: "/usr/local/bin/codegraph" })
 
@@ -57,7 +57,7 @@ describe("createCodegraphMcpConfig", () => {
     const config = createCodegraphMcpConfig({
       cwd: "/workspace/project",
       config: { enabled: true },
-      env: { OMO_CODEGRAPH_BIN: "/nonexistent" },
+      env: { OMA_CODEGRAPH_BIN: "/nonexistent" },
       fileExists: () => false,
       homeDir: "/tmp/omo-codegraph-test-home",
       resolveExecutable,
@@ -92,7 +92,7 @@ describe("createCodegraphMcpConfig", () => {
     expect(config.enabled).toBe(false)
   })
 
-  it("#given OMO_CODEGRAPH_BIN points at an explicit command #when host Node is unsupported #then the MCP stays enabled", () => {
+  it("#given OMA_CODEGRAPH_BIN points at an explicit command #when host Node is unsupported #then the MCP stays enabled", () => {
     // given
     const codegraphPath = "/opt/codegraph-node22/bin/codegraph"
 
@@ -100,7 +100,7 @@ describe("createCodegraphMcpConfig", () => {
     const config = createCodegraphMcpConfig({
       cwd: "/workspace/project",
       config: { enabled: true },
-      env: { OMO_CODEGRAPH_BIN: codegraphPath },
+      env: { OMA_CODEGRAPH_BIN: codegraphPath },
       fileExists: (filePath) => filePath === codegraphPath,
       homeDir: "/tmp/omo-codegraph-test-home",
       nodeVersionForExecutable: () => "26.3.0",

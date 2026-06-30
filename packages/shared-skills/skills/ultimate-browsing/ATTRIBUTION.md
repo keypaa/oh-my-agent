@@ -9,7 +9,7 @@ notices are reproduced below.
 
 ## 1. Project-original content (no third-party source vendored)
 
-The following are authored by the oh-my-openagent project and carry no third-party
+The following are authored by the oh-my-agent project and carry no third-party
 license obligation:
 
 - `engine/**` — the insane-search Tier-1 fetch engine (curl_cffi grid, WAF

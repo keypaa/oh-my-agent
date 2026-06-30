@@ -29,7 +29,7 @@ Harness-neutral PostHog telemetry: env-gated opt-out, SHA256-hashed machine id, 
 - **At most once per UTC day per machine.** `getDailyActiveCaptureState` compares last-active UTC day in the state file; same day → `captureDaily: false`, nothing sent.
 - **`$process_person_profile: false`** hardcoded on every capture — no PostHog person profiles.
 - **Distinct id = `sha256(prefix + hostname)`** — never the raw hostname.
-- **Opt-out env matrix:** `${PREFIX}_DISABLE_POSTHOG` (truthy `1/true/yes`) OR `${PREFIX}_SEND_ANONYMOUS_TELEMETRY` (opt-out `0/false/no/yes`); global `OMO_` prefix also checked.
+- **Opt-out env matrix:** `${PREFIX}_DISABLE_POSTHOG` (truthy `1/true/yes`) OR `${PREFIX}_SEND_ANONYMOUS_TELEMETRY` (opt-out `0/false/no/yes`); global `OMA_` prefix also checked.
 - **NO_OP_CLIENT** returned when disabled or transport init fails (`enabled: false`, all methods no-op). Transport + OS provider are injectable for tests.
 - **Diagnostics** JSONL: 7-day retention, 256 KB cap, cleanup on every write.
 - Parent: [`packages/AGENTS.md`](../AGENTS.md).

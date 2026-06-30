@@ -16,7 +16,7 @@ Find local coding-agent sessions across agent products before answering from mem
    | Codex / OpenAI Codex CLI | `references/codex.md` |
    | Claude Code / Claude Desktop histories | `references/claude.md` |
    | Senpi / pi coding-agent logs | `references/senpi.md` |
-   | OpenCode / oh-my-openagent (formerly oh-my-opencode) storage | `references/opencode.md` |
+   | OpenCode / oh-my-agent (formerly oh-my-agent) storage | `references/opencode.md` |
    | OpenClaw, Droid, Amp, Gemini, Kimi, Qwen, Codebuff, Roo/Kilo/Cline, Kodu, Cursor CLI, Aider, Kiro, Goose, Hermes, Crush, Zed | `references/all-platforms.md` |
    | Unknown / "any session" / cross-agent search | `references/all-platforms.md` |
 

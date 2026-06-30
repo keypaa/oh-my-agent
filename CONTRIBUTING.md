@@ -1,6 +1,6 @@
 # Contributing to Oh My OpenCode
 
-First off, thanks for taking the time to contribute! This document provides guidelines and instructions for contributing to oh-my-opencode.
+First off, thanks for taking the time to contribute! This document provides guidelines and instructions for contributing to oh-my-agent.
 
 ## Table of Contents
 
@@ -69,8 +69,8 @@ If English isn't your first language, don't worry! We value your contributions r
 
 ```bash
 # Clone the repository (with the frontend provenance submodules)
-git clone --recurse-submodules https://github.com/code-yeongyu/oh-my-openagent.git
-cd oh-my-openagent
+git clone --recurse-submodules https://github.com/code-yeongyu/oh-my-agent.git
+cd oh-my-agent
 
 # If you cloned without --recurse-submodules, initialize them now (non-fatal offline):
 git submodule update --init --recursive
@@ -100,7 +100,7 @@ After making changes, you can test your local build in OpenCode:
 
    ```json
    {
-     "plugin": ["file:///absolute/path/to/oh-my-openagent/dist/index.js"]
+     "plugin": ["file:///absolute/path/to/oh-my-agent/dist/index.js"]
    }
    ```
 
@@ -108,13 +108,13 @@ After making changes, you can test your local build in OpenCode:
 
    ```json
    {
-     "plugin": ["file:///absolute/path/to/oh-my-openagent/packages/omo-opencode/src/index.ts"]
+     "plugin": ["file:///absolute/path/to/oh-my-agent/packages/omo-opencode/src/index.ts"]
    }
    ```
 
    The path must be **absolute** and contain a recognizable project name plus `(src|dist)/index.(ts|js)`. A relative `file://./...` path will not be detected by the installer.
 
-   > **Note**: Remove `"oh-my-openagent"` or `"oh-my-opencode"` from the plugin array if they exist, to avoid conflicts with the npm version.
+   > **Note**: Remove `"oh-my-agent"` or `"oh-my-agent"` from the plugin array if they exist, to avoid conflicts with the npm version.
 
 3. **Restart OpenCode** to load the changes.
 
@@ -124,7 +124,7 @@ After making changes, you can test your local build in OpenCode:
 
 The cross-harness one-command bootstrap is the single source of truth for all development environments.
 
-- **`script/agent/setup.sh`** verifies Bun, Node, and git, warns if tmux is missing, runs `bun install`, initializes the frontend provenance submodules and materializes their references (both non-fatal so an offline checkout still builds), and builds when `dist/index.js` is missing or `OMO_AGENT_FORCE_BUILD=1` is set.
+- **`script/agent/setup.sh`** verifies Bun, Node, and git, warns if tmux is missing, runs `bun install`, initializes the frontend provenance submodules and materializes their references (both non-fatal so an offline checkout still builds), and builds when `dist/index.js` is missing or `OMA_AGENT_FORCE_BUILD=1` is set.
 - **`script/agent/cleanup.sh`** removes regenerable transients by default. Pass `--deep` to also drop `dist/` and `node_modules/`; it leaves the `packages/shared-skills/upstreams/` submodules in place.
 - **`script/agent/cleanup-hook.sh`** launches cleanup from Claude Code `SessionEnd` without blocking shutdown.
 
@@ -166,7 +166,7 @@ For containerized environments (Codespaces, Dev Containers, Docker), see [`.devc
 The repository is a monorepo with layered packages under `packages/`.
 
 ```
-oh-my-opencode/
+oh-my-agent/
 ├── packages/
 │   ├── omo-opencode/          # OpenCode Ultimate edition adapter and build entry
 │   │   └── src/

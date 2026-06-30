@@ -1,6 +1,6 @@
 import type { InteractiveBashSessionState } from "./types";
 import { loadInteractiveBashSessionState } from "./storage";
-import { OMO_SESSION_PREFIX } from "./constants";
+import { OMA_SESSION_PREFIX } from "./constants";
 import { spawnWithWindowsHide } from "../../shared/spawn-with-windows-hide";
 import { log } from "../../shared/logger";
 
@@ -21,7 +21,7 @@ export function getOrCreateState(sessionID: string, sessionStates: Map<string, I
 }
 
 export function isOmoSession(sessionName: string | null): sessionName is string {
-  return sessionName !== null && sessionName.startsWith(OMO_SESSION_PREFIX);
+  return sessionName !== null && sessionName.startsWith(OMA_SESSION_PREFIX);
 }
 
 export async function killAllTrackedSessions(

@@ -458,7 +458,7 @@ describe("loadConfigFromPath agent_order warnings", () => {
     // given
     const rootDir = mkdtempSync(join(tmpdir(), "agent-order-warning-"))
     tempDirs.push(rootDir)
-    const configPath = join(rootDir, "oh-my-openagent.json")
+    const configPath = join(rootDir, "oh-my-agent.json")
     writeJsonFile(configPath, {
       agent_order: ["hephaestus", "not-real", "sisyphus", "hephaestus"],
     })
@@ -480,7 +480,7 @@ describe("loadConfigFromPath agent_order warnings", () => {
     // given
     const rootDir = mkdtempSync(join(tmpdir(), "agent-order-sanitize-"))
     tempDirs.push(rootDir)
-    const configPath = join(rootDir, "oh-my-openagent.json")
+    const configPath = join(rootDir, "oh-my-agent.json")
     writeJsonFile(configPath, {
       agent_order: [
         "\u001B[31mbad\u001B[0m",
@@ -517,11 +517,11 @@ describe("loadPluginConfig", () => {
     mkdirSync(projectConfigDir, { recursive: true })
 
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["USER_ONLY_TOKEN"] })
     )
     writeFileSync(
-      join(projectConfigDir, "oh-my-openagent.jsonc"),
+      join(projectConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["PROJECT_TOKEN"] })
     )
 
@@ -541,9 +541,9 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-opencode.jsonc")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
     const backupConfigPath = `${legacyConfigPath}.bak`
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
+    const canonicalConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -571,7 +571,7 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-opencode.json")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-agent.json")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -608,8 +608,8 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-opencode.jsonc")
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
+    const canonicalConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -632,7 +632,7 @@ describe("loadPluginConfig", () => {
     // given
     const { userConfigDir, projectDir } =
       createLoadPluginConfigTestContext("omo-plugin-config-preserve-user-model-")
-    const userConfigPath = join(userConfigDir, "oh-my-openagent.json")
+    const userConfigPath = join(userConfigDir, "oh-my-agent.json")
     writeJsonFile(userConfigPath, {
       agents: {
         sisyphus: {
@@ -671,7 +671,7 @@ describe("loadPluginConfig", () => {
     mkdirSync(projectConfigDir, { recursive: true })
 
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           commit_footer: false,
@@ -681,7 +681,7 @@ describe("loadPluginConfig", () => {
     )
 
     writeFileSync(
-      join(projectConfigDir, "oh-my-openagent.jsonc"),
+      join(projectConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         agents: {
           hephaestus: { model: "openai/gpt-5.5" },
@@ -715,7 +715,7 @@ describe("loadPluginConfig", () => {
     mkdirSync(projectConfigDir, { recursive: true })
 
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           commit_footer: false,
@@ -725,7 +725,7 @@ describe("loadPluginConfig", () => {
     )
 
     writeFileSync(
-      join(projectConfigDir, "oh-my-openagent.jsonc"),
+      join(projectConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           commit_footer: true,
@@ -751,12 +751,12 @@ describe("loadPluginConfig", () => {
       // given
       const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-user-")
 
-      writeJsonFile(join(userConfigDir, "oh-my-openagent.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         team_mode: {
           enabled: true,
         },
       })
-      writeJsonFile(join(userConfigDir, "oh-my-opencode.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         agents: {
           oracle: {
             model: "openai/gpt-5.4",
@@ -779,10 +779,10 @@ describe("loadPluginConfig", () => {
       // given
       const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-legacy-")
 
-      writeJsonFile(join(userConfigDir, "oh-my-openagent.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         hashline_edit: true,
       })
-      writeJsonFile(join(userConfigDir, "oh-my-opencode.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         team_mode: {
           enabled: true,
         },
@@ -803,10 +803,10 @@ describe("loadPluginConfig", () => {
       // given
       const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-visualization-")
 
-      writeJsonFile(join(userConfigDir, "oh-my-openagent.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         hashline_edit: true,
       })
-      writeJsonFile(join(userConfigDir, "oh-my-opencode.json"), {
+      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         team_mode: {
           enabled: true,
           tmux_visualization: true,
@@ -840,19 +840,19 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "user/model" } } })
     )
     writeFileSync(
-      join(homeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(homeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "home/model" } } })
     )
     writeFileSync(
-      join(workDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(workDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "work/model" } } })
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "project/model" } } })
     )
 
@@ -880,11 +880,11 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
     writeFileSync(
-      join(defaultGlobalConfigDir, "oh-my-openagent.jsonc"),
+      join(defaultGlobalConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "default/oracle" } } }),
     )
     writeFileSync(
-      join(customConfigDir, "oh-my-openagent.jsonc"),
+      join(customConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { hephaestus: { model: "custom/hephaestus" } } }),
     )
 
@@ -914,17 +914,17 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(workDir, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      join(homeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(homeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "home/oracle" } } })
     )
     writeFileSync(
-      join(workDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(workDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { hephaestus: { model: "work/hephaestus" } } })
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { sisyphus: { model: "project/sisyphus" } } })
     )
 
@@ -956,19 +956,19 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.jsonc"),
+      join(userConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["USER_ONLY_TOKEN"] })
     )
     writeFileSync(
-      join(homeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(homeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["HOME_TOKEN"] })
     )
     writeFileSync(
-      join(workDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(workDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["WORK_TOKEN"] })
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ mcp_env_allowlist: ["PROJECT_TOKEN"] })
     )
 
@@ -997,16 +997,16 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(homeDir, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      join(aboveHomeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(aboveHomeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "above-home/leak" } } })
     )
     writeFileSync(
-      join(homeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(homeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { hephaestus: { model: "home/wins" } } })
     )
-    writeFileSync(join(projectDir, ".opencode", "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(projectDir, ".opencode", "oh-my-agent.jsonc"), "{}")
 
     process.env.OPENCODE_CONFIG_DIR = userConfigDir
     process.env.HOME = homeDir
@@ -1034,13 +1034,13 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(outsideHomeRoot, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      join(outsideHomeRoot, ".opencode", "oh-my-openagent.jsonc"),
+      join(outsideHomeRoot, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { oracle: { model: "outside-home/leak" } } })
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agents: { hephaestus: { model: "project/wins" } } })
     )
 
@@ -1070,9 +1070,9 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(workDir, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      join(homeDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(homeDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           commit_footer: false,
@@ -1082,7 +1082,7 @@ describe("loadPluginConfig", () => {
       })
     )
     writeFileSync(
-      join(workDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(workDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           include_co_authored_by: true,
@@ -1090,7 +1090,7 @@ describe("loadPluginConfig", () => {
       })
     )
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({
         git_master: {
           commit_footer: true,
@@ -1129,14 +1129,14 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(workDir, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      join(workDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(workDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agent_definitions: [workDefRelativePath] })
     )
     writeFileSync(join(workDir, ".opencode", "work-agent.md"), "# Work Agent")
     writeFileSync(
-      join(projectDir, ".opencode", "oh-my-openagent.jsonc"),
+      join(projectDir, ".opencode", "oh-my-agent.jsonc"),
       JSON.stringify({ agent_definitions: [projectDefRelativePath] })
     )
     writeFileSync(join(projectDir, ".opencode", "project-agent.md"), "# Project Agent")
@@ -1161,8 +1161,8 @@ describe("loadPluginConfig", () => {
     const homeDir = join(rootDir, "home")
     const workDir = join(homeDir, "work")
     const projectDir = join(workDir, "project")
-    const ancestorLegacyPath = join(workDir, ".opencode", "oh-my-opencode.jsonc")
-    const ancestorCanonicalPath = join(workDir, ".opencode", "oh-my-openagent.jsonc")
+    const ancestorLegacyPath = join(workDir, ".opencode", "oh-my-agent.jsonc")
+    const ancestorCanonicalPath = join(workDir, ".opencode", "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -1170,7 +1170,7 @@ describe("loadPluginConfig", () => {
     mkdirSync(join(workDir, ".opencode"), { recursive: true })
     mkdirSync(join(projectDir, ".opencode"), { recursive: true })
 
-    writeFileSync(join(userConfigDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
       ancestorLegacyPath,
       JSON.stringify({ agents: { oracle: { model: "ancestor-legacy/model" } } })
@@ -1196,7 +1196,7 @@ describe("loadPluginConfig", () => {
       createLoadPluginConfigTestContext("omo-plugin-config-disabled-providers-")
 
     writeFileSync(
-      join(projectConfigDir, "oh-my-openagent.jsonc"),
+      join(projectConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         disabled_providers: ["github-copilot", "vercel"],
         agents: {
@@ -1266,7 +1266,7 @@ describe("loadPluginConfig", () => {
       createLoadPluginConfigTestContext("omo-plugin-config-disabled-providers-noop-")
 
     writeFileSync(
-      join(projectConfigDir, "oh-my-openagent.jsonc"),
+      join(projectConfigDir, "oh-my-agent.jsonc"),
       JSON.stringify({
         agents: {
           hephaestus: {

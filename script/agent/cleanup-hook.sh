@@ -21,7 +21,7 @@ case "$LOG_DIR" in
     ;;
 esac
 
-LOG_FILE="${LOG_DIR%/}/oh-my-openagent-cleanup.log"
+LOG_FILE="${LOG_DIR%/}/oh-my-agent-cleanup.log"
 
 if [ ! -f "$CLEANUP_SCRIPT" ]; then
   printf '[cleanup-hook] missing cleanup script: %s\n' "$CLEANUP_SCRIPT" >&2
@@ -30,7 +30,7 @@ fi
 
 mkdir -p "$(dirname "$LOG_FILE")" 2>/dev/null || true
 
-if [ "${OMO_AGENT_CLEANUP_SYNC:-0}" = "1" ]; then
+if [ "${OMA_AGENT_CLEANUP_SYNC:-0}" = "1" ]; then
   bash "$CLEANUP_SCRIPT" >>"$LOG_FILE" 2>&1 || true
   exit 0
 fi

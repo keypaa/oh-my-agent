@@ -2,9 +2,9 @@
 
 Last updated: May 2, 2026
 
-This Privacy Policy explains how oh-my-opencode and oh-my-openagent collect, use, and protect information related to the published CLI package, the OpenCode plugin, and the project website or repository materials where they apply.
+This Privacy Policy explains how oh-my-agent and oh-my-agent collect, use, and protect information related to the published CLI package, the OpenCode plugin, and the project website or repository materials where they apply.
 
-For this policy, "Application" means the published `oh-my-opencode` CLI package and the OpenCode plugin runtime it installs. "Service" means the Application and the project distribution surfaces together. "We" and "our" refer to the maintainer of oh-my-opencode. "You" refers to a user of the Service.
+For this policy, "Application" means the published `oh-my-agent` CLI package and the OpenCode plugin runtime it installs. "Service" means the Application and the project distribution surfaces together. "We" and "our" refer to the maintainer of oh-my-agent. "You" refers to a user of the Service.
 
 By using the Service, you accept this Privacy Policy and the accompanying Terms of Service in [terms-of-service.md](./terms-of-service.md).
 
@@ -16,8 +16,8 @@ We collect limited non-personal information needed to operate and improve the Se
 
 When anonymous telemetry is enabled, the Application may collect a single anonymous usage event:
 
-- `omo_daily_active`, sent at most once per UTC day per machine when the plugin loads (`reason: "plugin_loaded"`) or when the `run` CLI is invoked (`reason: "run_started"`), used to estimate daily, weekly, and monthly active installations
-- `omo_codex_daily_active`, sent at most once per UTC day per machine when the `omo-codex` adapter is installed (`reason: "install_completed"`) or when its Codex plugin runtime fires on a Codex `SessionStart` hook (`reason: "session_start"`), with the same opt-out posture as `omo_daily_active`
+- `OMA_daily_active`, sent at most once per UTC day per machine when the plugin loads (`reason: "plugin_loaded"`) or when the `run` CLI is invoked (`reason: "run_started"`), used to estimate daily, weekly, and monthly active installations
+- `OMA_codex_daily_active`, sent at most once per UTC day per machine when the `omo-codex` adapter is installed (`reason: "install_completed"`) or when its Codex plugin runtime fires on a Codex `SessionStart` hook (`reason: "session_start"`), with the same opt-out posture as `OMA_daily_active`
 - Anonymous machine metadata bundled with that event, such as package version, plugin name, runtime, OS family, locale, and timezone
 - A pseudonymous installation identifier derived from a one-way hash of the local hostname
 
@@ -34,20 +34,20 @@ The Application uses PostHog for anonymous product analytics. Telemetry is enabl
 Telemetry can be disabled at any time by setting one of these environment variables before running the CLI or plugin host:
 
 ```bash
-export OMO_SEND_ANONYMOUS_TELEMETRY=0
+export OMA_SEND_ANONYMOUS_TELEMETRY=0
 # or
-export OMO_DISABLE_POSTHOG=1
+export OMA_DISABLE_POSTHOG=1
 # codex-only opt-out flags
-export OMO_CODEX_DISABLE_POSTHOG=1
-export OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0
+export OMA_CODEX_DISABLE_POSTHOG=1
+export OMA_CODEX_SEND_ANONYMOUS_TELEMETRY=0
 ```
 
-`OMO_CODEX_DISABLE_POSTHOG` and `OMO_CODEX_SEND_ANONYMOUS_TELEMETRY` suppress only `omo-codex` telemetry.
-Global flags (`OMO_DISABLE_POSTHOG`, `OMO_SEND_ANONYMOUS_TELEMETRY`) suppress telemetry for both oh-my-openagent/oh-my-opencode and omo-codex.
+`OMA_CODEX_DISABLE_POSTHOG` and `OMA_CODEX_SEND_ANONYMOUS_TELEMETRY` suppress only `omo-codex` telemetry.
+Global flags (`OMA_DISABLE_POSTHOG`, `OMA_SEND_ANONYMOUS_TELEMETRY`) suppress telemetry for both oh-my-agent/oh-my-agent and omo-codex.
 
 When telemetry is disabled, PostHog events are not sent.
 
-For the OpenCode plugin, telemetry can also be disabled in the oh-my-openagent config with `"telemetry": false`.
+For the OpenCode plugin, telemetry can also be disabled in the oh-my-agent config with `"telemetry": false`.
 
 ## 3. Third-Party Services
 

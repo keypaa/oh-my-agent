@@ -204,8 +204,8 @@ def homebrew_binary() -> Optional[Path]:
 
 # --- OMO runtime resolution (vendored patch) ---
 
-def omo_env_binary() -> Optional[Path]:
-    raw_path = os.environ.get("OMO_AST_GREP_SG_PATH")
+def OMA_env_binary() -> Optional[Path]:
+    raw_path = os.environ.get("OMA_AST_GREP_SG_PATH")
     if not raw_path:
         return None
     path = Path(raw_path).expanduser()
@@ -214,7 +214,7 @@ def omo_env_binary() -> Optional[Path]:
     return None
 
 
-def omo_runtime_slug() -> str:
+def OMA_runtime_slug() -> str:
     if sys.platform.startswith("win"):
         os_slug = "win32"
     elif sys.platform == "darwin":
@@ -227,9 +227,9 @@ def omo_runtime_slug() -> str:
     return f"{os_slug}-{arch_slug}"
 
 
-def omo_runtime_binary() -> Optional[Path]:
+def OMA_runtime_binary() -> Optional[Path]:
     binary_name = "sg.exe" if sys.platform.startswith("win") else "sg"
-    slug = omo_runtime_slug()
+    slug = OMA_runtime_slug()
     candidates: list[Path] = []
 
     codex_home = os.environ.get("CODEX_HOME")
@@ -246,13 +246,13 @@ def omo_runtime_binary() -> Optional[Path]:
 def resolve_binary() -> Optional[Path]:
     """Resolve the ast-grep binary in priority order.
 
-    1. OMO_AST_GREP_SG_PATH override
+    1. OMA_AST_GREP_SG_PATH override
     2. OMO runtime dirs
     3. Cached binary in <skill>/bin/
     4. PATH (via shutil.which)
     5. Homebrew default paths
     """
-    for fn in (omo_env_binary, omo_runtime_binary, cached_binary, which_binary, homebrew_binary):
+    for fn in (OMA_env_binary, OMA_runtime_binary, cached_binary, which_binary, homebrew_binary):
         result = fn()
         if result:
             return result

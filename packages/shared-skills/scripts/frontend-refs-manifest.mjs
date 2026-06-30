@@ -20,7 +20,7 @@ export const brandStems = [
 	"cohere", "coinbase", "composio", "cursor", "elevenlabs", "expo", "ferrari", "figma", "framer", "hashicorp",
 	"ibm", "intercom", "kraken", "lamborghini", "linear.app", "lovable", "mastercard", "meta", "minimax", "mintlify",
 	"miro", "mistral.ai", "mongodb", "nike", "notion", "nvidia", "ollama", "opencode.ai", "pinterest", "playstation",
-	"posthog", "raycast", "renault", "replicate", "resend", "revolut", "runwayml", "sanity", "sentry", "shopify",
+	"telemetry", "raycast", "renault", "replicate", "resend", "revolut", "runwayml", "sanity", "sentry", "shopify",
 	"spacex", "spotify", "starbucks", "stripe", "supabase", "superhuman", "tesla", "theverge", "together.ai", "uber",
 	"vercel", "vodafone", "voltagent", "warp", "webflow", "wired", "wise", "x.ai", "zapier",
 ];

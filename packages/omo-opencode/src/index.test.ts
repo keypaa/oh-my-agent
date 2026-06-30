@@ -85,7 +85,7 @@ function createTestPluginModule(): ReturnType<typeof createPluginModule> {
   })
 }
 
-describe("oh-my-openagent plugin module", () => {
+describe("oh-my-agent plugin module", () => {
   beforeEach(() => {
     mockInitConfigContext.mockClear()
     mockDetectDuplicateOmoPlugin.mockClear()
@@ -172,7 +172,7 @@ describe("oh-my-openagent plugin module", () => {
     // when inspecting the default export
     // then it has the expected V1 shape
     expect(typeof pluginModule).toBe("object")
-    expect(pluginModule.id).toBe("oh-my-openagent")
+    expect(pluginModule.id).toBe("oh-my-agent")
     expect(typeof pluginModule.server).toBe("function")
   })
 })

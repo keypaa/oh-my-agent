@@ -142,7 +142,7 @@ describe("runTuiInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 
@@ -201,7 +201,7 @@ describe("runTuiInstaller", () => {
         }),
         spyOn(configManager, "writeOmoConfig").mockReturnValue({
           success: true,
-          configPath: join(configDir, "oh-my-openagent.jsonc"),
+          configPath: join(configDir, "oh-my-agent.jsonc"),
         }),
       ]
 
@@ -287,7 +287,7 @@ describe("runTuiInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 
@@ -342,7 +342,7 @@ describe("runTuiInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
 
@@ -472,11 +472,11 @@ describe("runTuiInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-opencode.jsonc",
+        configPath: "/tmp/oh-my-agent.jsonc",
       }),
     ]
     const starSpy = spyOn(starRequest, "starGitHubRepositories").mockResolvedValue([
-      { repository: "code-yeongyu/oh-my-openagent", ok: true },
+      { repository: "code-yeongyu/oh-my-agent", ok: true },
       { repository: "code-yeongyu/lazycodex", ok: true },
     ])
 

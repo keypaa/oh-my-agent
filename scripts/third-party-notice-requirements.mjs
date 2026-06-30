@@ -23,7 +23,7 @@ export const CODEX_COMPONENT_NOTICE_REQUIREMENTS = [
   },
   {
     path: "packages/omo-codex/plugin/components/telemetry",
-    requiredTerms: ["posthog-node", "@oh-my-opencode/telemetry-core"],
+    requiredTerms: ["telemetry-node", "@oh-my-opencode/telemetry-core"],
   },
   {
     path: "packages/omo-codex/plugin/components/ultrawork",

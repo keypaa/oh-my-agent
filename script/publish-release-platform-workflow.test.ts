@@ -72,12 +72,12 @@ describe("release and platform publish workflows", () => {
     // #when
     const opencodePublishStep = sliceWorkflowSection(
       workflow,
-      "      - name: Publish oh-my-opencode-${{ matrix.platform }}",
-      "      - name: Publish oh-my-openagent-${{ matrix.platform }}",
+      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
+      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
     )
     const openagentPublishStep = sliceWorkflowSection(
       workflow,
-      "      - name: Publish oh-my-openagent-${{ matrix.platform }}",
+      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
       "        timeout-minutes: 15",
     )
 
@@ -118,7 +118,7 @@ describe("release and platform publish workflows", () => {
 
     // #then
     expect(buildStep).toContain("bun run build:binaries")
-    expect(buildStep).toContain("bin/oh-my-opencode.js")
+    expect(buildStep).toContain("bin/oh-my-agent.js")
     expect(buildStep).not.toContain("bun build packages/omo-opencode/src/cli/index.ts --compile")
     expect(darwinVerifyStep).toContain("#!/usr/bin/env node")
     expect(darwinVerifyStep).not.toContain("codesign")
@@ -223,7 +223,7 @@ describe("release and platform publish workflows", () => {
       readFileSync(new URL("../package.json", import.meta.url), "utf8"),
     )
     const buildBinariesPlatforms = PLATFORMS.map((entry) => entry.platform).sort()
-    const platformPrefix = "oh-my-opencode-"
+    const platformPrefix = "oh-my-agent-"
 
     const optionalDependencyPlatforms = Object.keys(rootManifest.optionalDependencies ?? {})
       .filter((name) => name.startsWith(platformPrefix))

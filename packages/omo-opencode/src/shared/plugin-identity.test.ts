@@ -12,13 +12,13 @@ import {
 
 describe("plugin-identity constants", () => {
   describe("PLUGIN_NAME", () => {
-    it("equals oh-my-openagent", () => {
+    it("equals oh-my-agent", () => {
       // given
 
       // when
 
       // then
-      expect(PLUGIN_NAME).toBe("oh-my-openagent")
+      expect(PLUGIN_NAME).toBe("oh-my-agent")
     })
   })
 
@@ -54,57 +54,57 @@ describe("plugin-identity constants", () => {
   })
 
   describe("CONFIG_BASENAME", () => {
-    it("equals oh-my-openagent", () => {
+    it("equals oh-my-agent", () => {
       // given
 
       // when
 
       // then
-      expect(CONFIG_BASENAME).toBe("oh-my-openagent")
+      expect(CONFIG_BASENAME).toBe("oh-my-agent")
     })
   })
 
   describe("LEGACY_CONFIG_BASENAME", () => {
-    it("equals oh-my-opencode", () => {
+    it("equals oh-my-agent", () => {
       // given
 
       // when
 
       // then
-      expect(LEGACY_CONFIG_BASENAME).toBe("oh-my-opencode")
+      expect(LEGACY_CONFIG_BASENAME).toBe("oh-my-agent")
     })
   })
 
   describe("LEGACY_PLUGIN_NAME", () => {
-    it("equals oh-my-opencode", () => {
+    it("equals oh-my-agent", () => {
       // given
 
       // when
 
       // then
-      expect(LEGACY_PLUGIN_NAME).toBe("oh-my-opencode")
+      expect(LEGACY_PLUGIN_NAME).toBe("oh-my-agent")
     })
   })
 
   describe("LOG_FILENAME", () => {
-    it("equals oh-my-opencode.log", () => {
+    it("equals oh-my-agent.log", () => {
       // given
 
       // when
 
       // then
-      expect(LOG_FILENAME).toBe("oh-my-opencode.log")
+      expect(LOG_FILENAME).toBe("oh-my-agent.log")
     })
   })
 
   describe("CACHE_DIR_NAME", () => {
-    it("equals oh-my-opencode", () => {
+    it("equals oh-my-agent", () => {
       // given
 
       // when
 
       // then
-      expect(CACHE_DIR_NAME).toBe("oh-my-opencode")
+      expect(CACHE_DIR_NAME).toBe("oh-my-agent")
     })
   })
 })

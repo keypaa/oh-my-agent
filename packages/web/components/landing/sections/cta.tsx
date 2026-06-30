@@ -23,7 +23,7 @@ export async function CtaSection(): Promise<JSX.Element> {
               </div>
               <div className="flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
-                  href="https://github.com/code-yeongyu/oh-my-openagent"
+                  href="https://github.com/code-yeongyu/oh-my-agent"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

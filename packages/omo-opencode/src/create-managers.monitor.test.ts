@@ -3,7 +3,7 @@
 import { beforeEach, describe, expect, it, mock } from "bun:test"
 import type { PluginInput } from "@opencode-ai/plugin"
 
-import { OhMyOpenCodeConfigSchema } from "./config/schema/oh-my-opencode-config"
+import { OhMyOpenCodeConfigSchema } from "./config/schema/oh-my-agent-config"
 import { createManagers } from "./create-managers"
 import type { MonitorManager, MonitorManagerEvent, MonitorOutputQuery, MonitorOutputResult, MonitorRecord, MonitorStartOpts } from "./features/monitor"
 import type { createMonitorManager } from "./features/monitor"

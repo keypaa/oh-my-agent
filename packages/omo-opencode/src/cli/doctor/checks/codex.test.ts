@@ -184,8 +184,8 @@ describe("codex doctor checks", () => {
     await writeFile(
       wrapperPath,
       process.platform === "win32"
-        ? ["@echo off", "rem OMO_GENERATED_RUNTIME_WRAPPER", `"%%BUN_BINARY%%" "${missingCliPath}" %%*`, ""].join("\r\n")
-        : ["#!/bin/sh", "# OMO_GENERATED_RUNTIME_WRAPPER", `exec "$BUN_BINARY" "${missingCliPath}" "$@"`, ""].join("\n"),
+        ? ["@echo off", "rem OMA_GENERATED_RUNTIME_WRAPPER", `"%%BUN_BINARY%%" "${missingCliPath}" %%*`, ""].join("\r\n")
+        : ["#!/bin/sh", "# OMA_GENERATED_RUNTIME_WRAPPER", `exec "$BUN_BINARY" "${missingCliPath}" "$@"`, ""].join("\n"),
     )
 
     // when
@@ -311,7 +311,7 @@ describe("codex doctor checks", () => {
     const stampIssue = result.issues.find((issue) => issue.title === "Codex plugin bundle is not version-stamped")
     expect(stampIssue).toBeDefined()
     expect(stampIssue?.severity).toBe("warning")
-    expect(stampIssue?.description).toContain("oh-my-openagent 4.8.1")
+    expect(stampIssue?.description).toContain("oh-my-agent 4.8.1")
     expect(stampIssue?.fix).toContain("npx lazycodex-ai install")
   })
 

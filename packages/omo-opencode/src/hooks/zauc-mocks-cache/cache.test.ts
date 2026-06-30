@@ -9,9 +9,9 @@ const TEST_USER_CONFIG_DIR = "/tmp/opencode-config"
 
 function testInvalidatePackage(packageName?: string): boolean {
   return invalidatePackage(packageName, {
-    acceptedPackageNames: ["oh-my-opencode", "oh-my-openagent"],
+    acceptedPackageNames: ["oh-my-agent", "oh-my-agent"],
     cacheDir: TEST_OPENCODE_CACHE_DIR,
-    defaultPackageName: "oh-my-opencode",
+    defaultPackageName: "oh-my-agent",
     userConfigDir: TEST_USER_CONFIG_DIR,
   })
 }
@@ -21,10 +21,10 @@ function resetTestCache(): void {
     rmSync(TEST_CACHE_DIR, { recursive: true, force: true })
   }
 
-  mkdirSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-opencode"), { recursive: true })
+  mkdirSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-agent"), { recursive: true })
   writeFileSync(
     join(TEST_OPENCODE_CACHE_DIR, "package.json"),
-    JSON.stringify({ dependencies: { "oh-my-opencode": "latest", other: "1.0.0" } }, null, 2)
+    JSON.stringify({ dependencies: { "oh-my-agent": "latest", other: "1.0.0" } }, null, 2)
   )
   writeFileSync(
     join(TEST_OPENCODE_CACHE_DIR, "bun.lock"),
@@ -32,12 +32,12 @@ function resetTestCache(): void {
       {
         workspaces: {
           "": {
-            dependencies: { "oh-my-opencode": "latest", other: "1.0.0" },
+            dependencies: { "oh-my-agent": "latest", other: "1.0.0" },
           },
         },
         packages: {
-          "oh-my-opencode": {},
-          "oh-my-openagent": {},
+          "oh-my-agent": {},
+          "oh-my-agent": {},
           "some-other-package": {},
           other: {},
         },
@@ -47,8 +47,8 @@ function resetTestCache(): void {
     )
   )
   writeFileSync(
-    join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-opencode", "package.json"),
-    '{"name":"oh-my-opencode"}'
+    join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-agent", "package.json"),
+    '{"name":"oh-my-agent"}'
   )
 }
 
@@ -64,16 +64,16 @@ describe("invalidatePackage", () => {
   })
 
   it("invalidates the installed package from the OpenCode cache directory", async () => {
-    const rootSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-opencode@latest")
-    const rootAcceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-openagent@latest")
-    const packagesSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "packages", "oh-my-opencode@latest")
-    const packagesAcceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "packages", "oh-my-openagent@latest")
+    const rootSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-agent@latest")
+    const rootAcceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-agent@latest")
+    const packagesSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "packages", "oh-my-agent@latest")
+    const packagesAcceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "packages", "oh-my-agent@latest")
     const otherSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "packages", "other@latest")
-    mkdirSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-openagent"), { recursive: true })
-    mkdirSync(join(rootSpecifierDir, "node_modules", "oh-my-opencode"), { recursive: true })
-    mkdirSync(join(rootAcceptedSpecifierDir, "node_modules", "oh-my-openagent"), { recursive: true })
-    mkdirSync(join(packagesSpecifierDir, "node_modules", "oh-my-opencode"), { recursive: true })
-    mkdirSync(join(packagesAcceptedSpecifierDir, "node_modules", "oh-my-openagent"), { recursive: true })
+    mkdirSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-agent"), { recursive: true })
+    mkdirSync(join(rootSpecifierDir, "node_modules", "oh-my-agent"), { recursive: true })
+    mkdirSync(join(rootAcceptedSpecifierDir, "node_modules", "oh-my-agent"), { recursive: true })
+    mkdirSync(join(packagesSpecifierDir, "node_modules", "oh-my-agent"), { recursive: true })
+    mkdirSync(join(packagesAcceptedSpecifierDir, "node_modules", "oh-my-agent"), { recursive: true })
     mkdirSync(otherSpecifierDir, { recursive: true })
 
     const result = testInvalidatePackage()
@@ -84,28 +84,28 @@ describe("invalidatePackage", () => {
     expect(existsSync(packagesSpecifierDir)).toBe(false)
     expect(existsSync(packagesAcceptedSpecifierDir)).toBe(false)
     expect(existsSync(otherSpecifierDir)).toBe(true)
-    expect(existsSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-opencode"))).toBe(false)
-    expect(existsSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-openagent"))).toBe(false)
+    expect(existsSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-agent"))).toBe(false)
+    expect(existsSync(join(TEST_OPENCODE_CACHE_DIR, "node_modules", "oh-my-agent"))).toBe(false)
 
     const packageJson = JSON.parse(readFileSync(join(TEST_OPENCODE_CACHE_DIR, "package.json"), "utf-8")) as {
       dependencies?: Record<string, string>
     }
-    expect(packageJson.dependencies?.["oh-my-opencode"]).toBe("latest")
+    expect(packageJson.dependencies?.["oh-my-agent"]).toBe("latest")
     expect(packageJson.dependencies?.other).toBe("1.0.0")
 
     const bunLock = JSON.parse(readFileSync(join(TEST_OPENCODE_CACHE_DIR, "bun.lock"), "utf-8")) as {
       workspaces?: { ""?: { dependencies?: Record<string, string> } }
       packages?: Record<string, unknown>
     }
-    expect(bunLock.workspaces?.[""]?.dependencies?.["oh-my-opencode"]).toBe("latest")
+    expect(bunLock.workspaces?.[""]?.dependencies?.["oh-my-agent"]).toBe("latest")
     expect(bunLock.workspaces?.[""]?.dependencies?.other).toBe("1.0.0")
-    expect(bunLock.packages?.["oh-my-opencode"]).toBeUndefined()
-    expect(bunLock.packages?.["oh-my-openagent"]).toBeUndefined()
+    expect(bunLock.packages?.["oh-my-agent"]).toBeUndefined()
+    expect(bunLock.packages?.["oh-my-agent"]).toBeUndefined()
     expect(bunLock.packages?.["some-other-package"]).toEqual({})
     expect(bunLock.packages?.other).toEqual({})
 
     const explicitSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "some-other-package@latest")
-    const acceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-openagent@beta")
+    const acceptedSpecifierDir = join(TEST_OPENCODE_CACHE_DIR, "oh-my-agent@beta")
     mkdirSync(explicitSpecifierDir, { recursive: true })
     mkdirSync(acceptedSpecifierDir, { recursive: true })
 

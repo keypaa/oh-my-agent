@@ -25,7 +25,7 @@ LaunchInput → pending → [ConcurrencyManager queue] → running → polling �
 | `loop-detector.ts` | Detects polling/event loops that would otherwise burn budget. |
 | `error-classifier.ts` | Maps raw provider errors → `BackgroundTaskError` categories. |
 | `fallback-retry-handler.ts` | Coordinates retries with the runtime-fallback system. |
-| `process-cleanup.ts` | Best-effort cleanup on parent exit. `OMO_DISABLE_PROCESS_CLEANUP=1` opts out entirely. |
+| `process-cleanup.ts` | Best-effort cleanup on parent exit. `OMA_DISABLE_PROCESS_CLEANUP=1` opts out entirely. |
 | `subagent-spawn-limits.ts` | Enforces per-parent subagent spawn caps. |
 | `session-status-classifier.ts` | Normalizes OpenCode session status across versions. |
 | `compaction-aware-message-resolver.ts` | Resolves task result content even across mid-task compaction. |

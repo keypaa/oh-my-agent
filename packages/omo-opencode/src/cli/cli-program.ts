@@ -48,7 +48,7 @@ type DoctorCommandOptions = {
 
 export function resolveInstallArgs(
   options: InstallCommandOptions,
-  invocationName: string | undefined = process.env.OMO_INVOCATION_NAME,
+  invocationName: string | undefined = process.env.OMA_INVOCATION_NAME,
 ): InstallArgs {
   const defaultPlatform = invocationName === "lazycodex" || invocationName === "lazycodex-ai" ? "codex" : undefined
 
@@ -75,7 +75,7 @@ export function resolveInstallArgs(
 export { resolveCleanupPlatform }
 
 program
-  .name("oh-my-opencode")
+  .name("oh-my-agent")
   .description("The ultimate OpenCode plugin - multi-model orchestration, LSP tools, and more")
   .version(VERSION, "-v, --version", "Show version number")
   .helpOption("-h, --help", "Display help for command")
@@ -85,7 +85,7 @@ program
 program
   .command("install")
   .alias("setup")
-  .description("Install and configure oh-my-opencode with interactive setup")
+  .description("Install and configure oh-my-agent with interactive setup")
   .option("--no-tui", "Run in non-interactive mode (requires all options)")
   .option("--claude <value>", "Claude subscription: no, yes, max20")
   .option("--openai <value>", "OpenAI/ChatGPT subscription: no, yes (default: no)")
@@ -105,11 +105,11 @@ program
   .option("--skip-auth", "Skip authentication setup hints")
 .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode install
+  $ bunx oh-my-agent install
   $ npx lazycodex-ai install --no-tui
-  $ bunx oh-my-opencode install --no-tui --platform=both --claude=max20 --openai=yes --gemini=yes --copilot=no
+  $ bunx oh-my-agent install --no-tui --platform=both --claude=max20 --openai=yes --gemini=yes --copilot=no
   $ omo install --platform=codex --codex-autonomous
-  $ bunx oh-my-opencode install --no-tui --claude=no --gemini=no --copilot=yes --opencode-zen=yes
+  $ bunx oh-my-agent install --no-tui --claude=no --gemini=no --copilot=yes --opencode-zen=yes
 
 Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi > Bailian > MiniMax > Vercel):
   Claude        Native anthropic/ models (Opus, Sonnet, Haiku)
@@ -150,20 +150,20 @@ program
   .option("--session-id <id>", "Resume existing session instead of creating new one")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode run "Fix the bug in index.ts"
-  $ bunx oh-my-opencode run --agent Sisyphus "Implement feature X"
-  $ bunx oh-my-opencode run --port 4321 "Fix the bug"
-  $ bunx oh-my-opencode run --attach http://127.0.0.1:4321 "Fix the bug"
-  $ bunx oh-my-opencode run --json "Fix the bug" | jq .sessionId
-  $ bunx oh-my-opencode run --on-complete "notify-send Done" "Fix the bug"
-  $ bunx oh-my-opencode run --session-id ses_abc123 "Continue the work"
-  $ bunx oh-my-opencode run --model anthropic/claude-sonnet-4 "Fix the bug"
-  $ bunx oh-my-opencode run --agent Sisyphus --model openai/gpt-5.5 "Implement feature X"
+  $ bunx oh-my-agent run "Fix the bug in index.ts"
+  $ bunx oh-my-agent run --agent Sisyphus "Implement feature X"
+  $ bunx oh-my-agent run --port 4321 "Fix the bug"
+  $ bunx oh-my-agent run --attach http://127.0.0.1:4321 "Fix the bug"
+  $ bunx oh-my-agent run --json "Fix the bug" | jq .sessionId
+  $ bunx oh-my-agent run --on-complete "notify-send Done" "Fix the bug"
+  $ bunx oh-my-agent run --session-id ses_abc123 "Continue the work"
+  $ bunx oh-my-agent run --model anthropic/claude-sonnet-4 "Fix the bug"
+  $ bunx oh-my-agent run --agent Sisyphus --model openai/gpt-5.5 "Implement feature X"
 
 Agent resolution order:
   1) --agent flag
   2) OPENCODE_DEFAULT_AGENT
-  3) oh-my-opencode.json "default_run_agent"
+  3) oh-my-agent.json "default_run_agent"
   4) Sisyphus (fallback)
 
 Available core agents:
@@ -202,9 +202,9 @@ program
   .option("--json", "Output in JSON format for scripting")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode get-local-version
-  $ bunx oh-my-opencode get-local-version --json
-  $ bunx oh-my-opencode get-local-version --directory /path/to/project
+  $ bunx oh-my-agent get-local-version
+  $ bunx oh-my-agent get-local-version --json
+  $ bunx oh-my-agent get-local-version --directory /path/to/project
 
 This command shows:
   - Current installed version
@@ -223,17 +223,17 @@ This command shows:
 
 program
   .command("doctor")
-  .description("Check oh-my-opencode installation health and diagnose issues")
+  .description("Check oh-my-agent installation health and diagnose issues")
   .option("--status", "Show compact system dashboard")
   .option("--verbose", "Show detailed diagnostic information")
   .option("--json", "Output results in JSON format")
   .addOption(new Option("--platform <platform>", "Doctor target platform: opencode, codex").choices(["opencode", "codex"]))
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode doctor            # Show problems only
-  $ bunx oh-my-opencode doctor --status   # Compact dashboard
-  $ bunx oh-my-opencode doctor --verbose  # Deep diagnostics
-  $ bunx oh-my-opencode doctor --json     # JSON output
+  $ bunx oh-my-agent doctor            # Show problems only
+  $ bunx oh-my-agent doctor --status   # Compact dashboard
+  $ bunx oh-my-agent doctor --verbose  # Deep diagnostics
+  $ bunx oh-my-agent doctor --json     # JSON output
   $ omo doctor --platform=codex           # Codex/LazyCodex diagnostics only
 `)
   .action(async (options: DoctorCommandOptions) => {
@@ -242,7 +242,7 @@ Examples:
     const mode = options.status ? "status" : options.verbose ? "verbose" : "default"
     const doctorOptions: DoctorOptions = {
       mode,
-      json: options.json ?? false, target: resolveDoctorTarget(process.env.OMO_INVOCATION_NAME, options.platform ?? rootDoctorPlatform),
+      json: options.json ?? false, target: resolveDoctorTarget(process.env.OMA_INVOCATION_NAME, options.platform ?? rootDoctorPlatform),
     }
     const exitCode = await doctor(doctorOptions)
     process.exit(exitCode)

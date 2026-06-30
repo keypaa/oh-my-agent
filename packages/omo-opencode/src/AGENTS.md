@@ -54,8 +54,8 @@ serverPlugin(input, options)
 
 ```
 loadPluginConfig(directory, ctx)
-  1. User: ~/.config/opencode/oh-my-openagent.jsonc (legacy: oh-my-opencode.jsonc)
-  2. Walked configs: <pwd up to $HOME>/.opencode/oh-my-openagent.jsonc
+  1. User: ~/.config/opencode/oh-my-agent.jsonc (legacy: oh-my-agent.jsonc)
+  2. Walked configs: <pwd up to $HOME>/.opencode/oh-my-agent.jsonc
   3. mergeConfigs(user, walked)
      - agents/categories/claude_code: deepMerge (recursive, prototype-pollution safe)
      - disabled_*: Set union

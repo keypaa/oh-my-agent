@@ -17,7 +17,7 @@ Tracks bugs that are present in the current release but have been intentionally 
 }
 ```
 
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4184.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4184.
 
 ## v4.2.1 - Delegate-task early-failure-fallback (BLOCKER-4, resolved)
 
@@ -49,72 +49,72 @@ The original failure-mode the PR targets remains in v4.2.0.
 
 Issue #4059 tracks the reland with stabilized regression coverage. The reland is deferred to a follow-up release and should account for current schema-shape changes plus prompt-async-gate semantics.
 
-## #4225 — Custom LSP config in `.opencode/oh-my-openagent.jsonc` is silently ignored
+## #4225 — Custom LSP config in `.opencode/oh-my-agent.jsonc` is silently ignored
 
 - **Affects**: v4.2.3+ after the LSP to MCP migration.
-- **Symptom**: Custom LSP server configuration in your project's `oh-my-openagent.jsonc` is not applied at runtime.
+- **Symptom**: Custom LSP server configuration in your project's `oh-my-agent.jsonc` is not applied at runtime.
 - **Workaround**: Configure your LSP server through OpenCode's native `lsp` config instead.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4225.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4225.
 
 ## #4990 — Team-mode lead can stall after full quiescence
 
 - **Affects**: Team-mode workflows where the lead and all members become idle with no unread messages or pending tasks.
 - **Symptom**: The team looks finished, but the lead does not start the next turn until the user sends a manual nudge such as `are you done?`. After that nudge, the lead can call `team_status` and continue.
 - **Workaround**: Before assuming the team is stuck, send one short manual nudge and ask the lead to run `team_status` plus `team_task_list`. For long multi-round runs, prefer explicit `team_task_*` state over ad-hoc message counting so the lead has a deterministic completion signal.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4990.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4990.
 
 ## #4863 — OpenCode 1.16.x starts with only build/plan agents after install
 
-- **Affects**: OpenCode 1.16.x with oh-my-openagent 4.7.x.
-- **Symptom**: After installing oh-my-openagent, the OpenCode agent list only shows the built-in build/plan agents. `bunx oh-my-openagent doctor` can still report `System OK`, so this looks like a successful install even though the OMO agents are not visible.
+- **Affects**: OpenCode 1.16.x with oh-my-agent 4.7.x.
+- **Symptom**: After installing oh-my-agent, the OpenCode agent list only shows the built-in build/plan agents. `bunx oh-my-agent doctor` can still report `System OK`, so this looks like a successful install even though the OMO agents are not visible.
 - **Workaround**: Stop OpenCode, clear the OpenCode and OMO cache directories, then reinstall:
 
   ```sh
-  rm -rf ~/.cache/opencode/ ~/.cache/oh-my-openagent/ ~/.cache/oh-my-opencode/
-  bunx oh-my-openagent install
+  rm -rf ~/.cache/opencode/ ~/.cache/oh-my-agent/ ~/.cache/oh-my-agent/
+  bunx oh-my-agent install
   ```
 
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4863.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4863.
 
 ## #4710: `@plan` may stay in Sisyphus instead of switching to Prometheus
 
 - **Affects**: Current OpenCode/Ultimate planning flow.
 - **Symptom**: Typing `@plan` from Sisyphus can leave the request in Sisyphus instead of handing it to Prometheus.
 - **Workaround**: Switch to Prometheus first with the Tab agent selector or `/agent`, ask for the plan there, then run `/start-work` after approval.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4710.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4710.
 
 ## #5050: OpenCode can hang during startup before the plugin runs
 
 - **Affects**: OpenCode 1.16.2 startup with external plugins and cold package caches.
-- **Symptom**: `opencode --pure` starts, but normal `opencode` clears the terminal and stalls after `service=plugin path=oh-my-openagent@latest loading plugin`.
-- **Workaround**: If the hang happens before `/tmp/oh-my-opencode.log` gets a plugin entry, avoid the npm resolver path by using an absolute `file://` plugin path or by pre-populating the OpenCode package cache. If logs point to a malformed or locked `opencode.db`, back up and remove `~/.local/share/opencode/opencode.db*`; OpenCode recreates it on next start, but local session history is lost.
-- **Status**: Open. The npm resolver timeout belongs upstream in OpenCode; tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5050.
+- **Symptom**: `opencode --pure` starts, but normal `opencode` clears the terminal and stalls after `service=plugin path=oh-my-agent@latest loading plugin`.
+- **Workaround**: If the hang happens before `/tmp/oh-my-agent.log` gets a plugin entry, avoid the npm resolver path by using an absolute `file://` plugin path or by pre-populating the OpenCode package cache. If logs point to a malformed or locked `opencode.db`, back up and remove `~/.local/share/opencode/opencode.db*`; OpenCode recreates it on next start, but local session history is lost.
+- **Status**: Open. The npm resolver timeout belongs upstream in OpenCode; tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5050.
 
 ## #5260: Background tasks can wait on an LSP install decision
 
 - **Affects**: Background tasks that call LSP tools when the language server is not installed.
 - **Symptom**: The task reports that it is stuck on `lsp_install_decision` and waits for an install prompt instead of continuing without LSP.
 - **Workaround**: Record a `declined` install decision for the missing server with `lsp_install_decision`; future LSP calls collapse to a one-line warning. To share that decision across sessions, set `LSP_TOOLS_MCP_INSTALL_DECISIONS` to a stable decisions-file path.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5260.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5260.
 
 ## #5120: Sisyphus can loop on simple tasks
 
-- **Affects**: OpenCode 1.17.0 with oh-my-openagent 4.8.1.
+- **Affects**: OpenCode 1.17.0 with oh-my-agent 4.8.1.
 - **Symptom**: A trivial prompt such as `output hello world` can repeat the plan-style status block instead of answering directly.
 - **Workaround**: For one-off trivial prompts, run `opencode --pure` or temporarily disable the plugin for that session.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5120.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5120.
 
 ## #5105: Ralph Loop can flood logs while child subagents are active
 
 - **Affects**: Sessions with an active Ralph Loop and background child subagents.
-- **Symptom**: `/tmp/oh-my-opencode.log` repeats `promptAsync reservation release skipped for different source` while child subagents emit message events.
-- **Workaround**: If you are not using Ralph Loop in that workspace, add `"disabled_hooks": ["ralph-loop"]` to `oh-my-openagent.jsonc`. If a loop is already active, run `/cancel-ralph` before disabling the hook.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5105.
+- **Symptom**: `/tmp/oh-my-agent.log` repeats `promptAsync reservation release skipped for different source` while child subagents emit message events.
+- **Workaround**: If you are not using Ralph Loop in that workspace, add `"disabled_hooks": ["ralph-loop"]` to `oh-my-agent.jsonc`. If a loop is already active, run `/cancel-ralph` before disabling the hook.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5105.
 
 ## #5025 — OpenCode Desktop loads the plugin but only shows native modes
 
-- **Affects**: OpenCode Desktop on Windows with `oh-my-openagent@4.7.5`.
-- **Symptom**: The Desktop plugin list shows `oh-my-openagent` as loaded, but the UI only exposes the native `build` and `plan` modes. The OpenCode log may include `Runtime skill source server requires Bun.serve failed to load plugin`.
+- **Affects**: OpenCode Desktop on Windows with `oh-my-agent@4.7.5`.
+- **Symptom**: The Desktop plugin list shows `oh-my-agent` as loaded, but the UI only exposes the native `build` and `plan` modes. The OpenCode log may include `Runtime skill source server requires Bun.serve failed to load plugin`.
 - **Workaround**: Disable the runtime security skills that start the Bun-backed skill source server, then restart OpenCode Desktop:
 
   ```json
@@ -126,49 +126,49 @@ Issue #4059 tracks the reland with stabilized regression coverage. The reland is
   }
   ```
 
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5025.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5025.
 
 ## #5021 — Codex planner or reviewer subagents can appear stuck
 
 - **Affects**: LazyCodex / OMO Codex planner and reviewer flows that use native Codex subagents.
 - **Symptom**: A parent session can receive repeated `wait_agent` timeouts while a planner or reviewer subagent remains `running`. Follow-up prompts may not recover the run, and the session can look stuck until the child agent is closed or respawned.
 - **Workaround**: Use short wait cycles, send one targeted follow-up that asks the child to return a result or `BLOCKED`, then record the child as inconclusive before closing or respawning it. Do not treat repeated wait timeouts as proof that the child finished.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/5021.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/5021.
 
 ## #3303 - Windows OpenCode proxy install can fail before OMO loads
 
-- **Affects**: Windows OpenCode installs behind an HTTP(S) proxy, especially first startup paths that ask OpenCode to fetch `oh-my-openagent@latest`.
+- **Affects**: Windows OpenCode installs behind an HTTP(S) proxy, especially first startup paths that ask OpenCode to fetch `oh-my-agent@latest`.
 - **Symptom**: OpenCode may show only default agents or log `fetch() proxy.url must be a non-empty string` before OMO loads, so OMO hooks and doctor cannot repair the install from inside the plugin.
-- **Workaround**: Launch OpenCode from a shell that has `HTTP_PROXY` and `HTTPS_PROXY` set, then preinstall the package into OpenCode's Windows config prefix with `npm install oh-my-openagent@latest --prefix "%APPDATA%\\opencode"`. Restart OpenCode and verify with `bunx oh-my-openagent doctor --json`.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/3303.
+- **Workaround**: Launch OpenCode from a shell that has `HTTP_PROXY` and `HTTPS_PROXY` set, then preinstall the package into OpenCode's Windows config prefix with `npm install oh-my-agent@latest --prefix "%APPDATA%\\opencode"`. Restart OpenCode and verify with `bunx oh-my-agent doctor --json`.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/3303.
 
 ## #4702 - Windows TUI plugin install can pause startup on a Bun npm git error
 
-- **Affects**: Windows OpenCode startup when `tui.json` includes `oh-my-openagent/tui`.
+- **Affects**: Windows OpenCode startup when `tui.json` includes `oh-my-agent/tui`.
 - **Symptom**: OpenCode's built-in Bun npm client can spend about 62 seconds trying to install the TUI plugin before failing with `NpmInstallFailedError` and an unknown git error. Core OMO agents, skills, commands, and MCP tools still work without the TUI plugin.
-- **Workaround**: Remove `oh-my-openagent/tui` from the `plugin` list in `tui.json` until the Bun npm install path is fixed.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4702.
+- **Workaround**: Remove `oh-my-agent/tui` from the `plugin` list in `tui.json` until the Bun npm install path is fixed.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4702.
 
 ## #4170 - CJK characters in custom agent display names can render as mojibake
 
 - **Affects**: OpenCode TUI sessions with custom OMO agent display names that include Chinese, Japanese, or Korean characters.
 - **Symptom**: The ASCII part of the agent name renders normally, but the CJK characters in the TUI header can appear garbled.
 - **Workaround**: Use ASCII-only custom display names such as `Sisyphus - Orchestrator` until the TUI rendering path handles multi-byte character widths reliably.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/4170.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/4170.
 
 ## #3835 / #3456 — OpenCode Desktop shows only native agents
 
 - **Affects**: OpenCode Desktop sessions where `opencode agent list` or the TUI still shows OMO agents, but the Desktop agent selector only shows native agents such as Build and Plan.
-- **Symptom**: Desktop hides Sisyphus, Hephaestus, Prometheus, Atlas, or other OMO agents even though `oh-my-openagent doctor` passes.
-- **First check**: Inspect the OpenCode Desktop log for `Failed to load plugin oh-my-openagent@latest` and missing files under `~/.cache/opencode/packages/oh-my-openagent@latest/node_modules`.
-- **Cache workaround**: Close Desktop, remove the `oh-my-openagent@latest` package cache, then reinstall the plugin from the same working directory with `opencode plugin oh-my-openagent@latest`.
+- **Symptom**: Desktop hides Sisyphus, Hephaestus, Prometheus, Atlas, or other OMO agents even though `oh-my-agent doctor` passes.
+- **First check**: Inspect the OpenCode Desktop log for `Failed to load plugin oh-my-agent@latest` and missing files under `~/.cache/opencode/packages/oh-my-agent@latest/node_modules`.
+- **Cache workaround**: Close Desktop, remove the `oh-my-agent@latest` package cache, then reinstall the plugin from the same working directory with `opencode plugin oh-my-agent@latest`.
 - **Scope workaround**: If the plugin loads in one shell but not Desktop, compare the active user and project `opencode.json` files. OpenCode can read a closer project `.opencode/opencode.json` instead of the user config you inspected.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/3835 and https://github.com/code-yeongyu/oh-my-openagent/issues/3456. This entry documents current triage steps; it does not resolve Desktop GUI rendering regressions.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/3835 and https://github.com/code-yeongyu/oh-my-agent/issues/3456. This entry documents current triage steps; it does not resolve Desktop GUI rendering regressions.
 
 ## #3435 — Anthropic subscription auth may reject prompts containing `opencode`
 
 - **Affects**: Anthropic subscription-token routes and third-party auth plugins. API-key routes may behave differently.
 - **Symptom**: Anthropic returns `Third-party apps now draw from extra usage, not plan limits...` for one project while similar projects still work.
 - **Likely trigger**: Upstream Anthropic filtering appears sensitive to the literal string `opencode` in custom project rules, system prompt text, or OMO's legacy prompt identifiers.
-- **Workaround**: In user-controlled project files such as `AGENTS.md`, prefer `oh-my-openagent`, `OMO`, or `OpenCode` wording instead of the lowercase literal `opencode` when targeting Anthropic subscription providers.
-- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-openagent/issues/3435. The runtime prompt-identity cleanup still needs maintainer direction, so this workaround does not close the underlying issue.
+- **Workaround**: In user-controlled project files such as `AGENTS.md`, prefer `oh-my-agent`, `OMO`, or `OpenCode` wording instead of the lowercase literal `opencode` when targeting Anthropic subscription providers.
+- **Status**: Open. Tracked at https://github.com/code-yeongyu/oh-my-agent/issues/3435. The runtime prompt-identity cleanup still needs maintainer direction, so this workaround does not close the underlying issue.

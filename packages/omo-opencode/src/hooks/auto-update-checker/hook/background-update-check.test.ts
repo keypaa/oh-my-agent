@@ -19,10 +19,10 @@ describe("createBackgroundUpdateCheckRunner — OpenCode-managed sandbox (#4318)
     //                Npm.add() installs the plugin)
     const cacheDir = "/cache/packages"
     const configDir = "/config"
-    const sandboxDir = "/cache/packages/oh-my-openagent@^4.2"
+    const sandboxDir = "/cache/packages/oh-my-agent@^4.2"
 
     const findPluginEntry = mock(() => ({
-      entry: "oh-my-openagent@^4.2",
+      entry: "oh-my-agent@^4.2",
       pinnedVersion: "^4.2",
       isPinned: false,
       configPath: "/project/opencode.json",
@@ -86,7 +86,7 @@ describe("createBackgroundUpdateCheckRunner — OpenCode-managed sandbox (#4318)
     const configDir = "/config"
 
     const findPluginEntry = mock(() => ({
-      entry: "oh-my-openagent",
+      entry: "oh-my-agent",
       pinnedVersion: null,
       isPinned: false,
       configPath: "/project/opencode.json",
@@ -140,7 +140,7 @@ describe("createBackgroundUpdateCheckRunner — OpenCode-managed sandbox (#4318)
     const nonError = Symbol("install failed")
 
     const findPluginEntry = mock(() => ({
-      entry: "oh-my-openagent",
+      entry: "oh-my-agent",
       pinnedVersion: null,
       isPinned: false,
       configPath: "/project/opencode.json",

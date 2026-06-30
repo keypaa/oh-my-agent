@@ -25,7 +25,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("returns default state when activity file contains null", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(join(cachePath, "posthog-activity.json"), "null\n")
     process.env.XDG_DATA_HOME = dataHomePath
@@ -46,7 +46,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("returns default state when activity file contains an array", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(join(cachePath, "posthog-activity.json"), "[]\n")
     process.env.XDG_DATA_HOME = dataHomePath
@@ -67,7 +67,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("returns default state when activity file contains a number", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(join(cachePath, "posthog-activity.json"), "42\n")
     process.env.XDG_DATA_HOME = dataHomePath
@@ -88,7 +88,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("reads valid activity state JSON", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(
       join(cachePath, "posthog-activity.json"),
@@ -115,7 +115,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("reads legacy hourly state without crashing", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(
       join(cachePath, "posthog-activity.json"),
@@ -141,7 +141,7 @@ describe("getPostHogActivityCaptureState", () => {
   it("preserves unrelated state fields when writing lastActiveDayUTC", async () => {
     // given
     const dataHomePath = createDataHomePath()
-    const cachePath = join(dataHomePath, "oh-my-opencode")
+    const cachePath = join(dataHomePath, "oh-my-agent")
     mkdirSync(cachePath, { recursive: true })
     writeFileSync(
       join(cachePath, "posthog-activity.json"),

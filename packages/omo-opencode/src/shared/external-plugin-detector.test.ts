@@ -49,13 +49,13 @@ describe("external-plugin-detector", () => {
       expect(result.pluginName).toBeNull()
     })
 
-    test("should return detected=false when only oh-my-opencode is configured", () => {
-      // given - opencode.json with only oh-my-opencode
+    test("should return detected=false when only oh-my-agent is configured", () => {
+      // given - opencode.json with only oh-my-agent
       const opencodeDir = path.join(tempDir, ".opencode")
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode"] })
+        JSON.stringify({ plugin: ["oh-my-agent"] })
       )
 
       // when
@@ -64,7 +64,7 @@ describe("external-plugin-detector", () => {
       // then
       expect(result.detected).toBe(false)
       expect(result.pluginName).toBeNull()
-      expect(result.allPlugins).toContain("oh-my-opencode")
+      expect(result.allPlugins).toContain("oh-my-agent")
     })
 
     test("should detect opencode-notifier plugin", () => {
@@ -73,7 +73,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-notifier"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "opencode-notifier"] })
       )
 
       // when
@@ -90,7 +90,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-notifier@1.2.3"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "opencode-notifier@1.2.3"] })
       )
 
       // when
@@ -107,7 +107,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "@mohak34/opencode-notifier"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "@mohak34/opencode-notifier"] })
       )
 
       // when
@@ -126,7 +126,7 @@ describe("external-plugin-detector", () => {
         path.join(opencodeDir, "opencode.json"),
         JSON.stringify({
           plugin: [
-            "oh-my-opencode",
+            "oh-my-agent",
             ["advanced-tuple-plugin", { debug: true }],
             "opencode-notifier"
           ]
@@ -139,7 +139,7 @@ describe("external-plugin-detector", () => {
       // then - should detect opencode-notifier without crashing on the tuple entry
       expect(result.detected).toBe(true)
       expect(result.pluginName).toBe("opencode-notifier")
-      expect(result.allPlugins).toContain("oh-my-opencode")
+      expect(result.allPlugins).toContain("oh-my-agent")
       expect(result.allPlugins).toContain("advanced-tuple-plugin")
       expect(result.allPlugins).not.toContain(["advanced-tuple-plugin", { debug: true }])
     })
@@ -153,7 +153,7 @@ describe("external-plugin-detector", () => {
         `{
           // This is a comment
           "plugin": [
-            "oh-my-opencode",
+            "oh-my-agent",
             "opencode-notifier" // Another comment
           ]
         }`
@@ -346,13 +346,13 @@ describe("external-plugin-detector", () => {
       expect(result.pluginName).toBeNull()
     })
 
-    test("should return detected=false when only oh-my-opencode is configured", () => {
-      // given - opencode.json with only oh-my-opencode
+    test("should return detected=false when only oh-my-agent is configured", () => {
+      // given - opencode.json with only oh-my-agent
       const opencodeDir = path.join(tempDir, ".opencode")
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode"] })
+        JSON.stringify({ plugin: ["oh-my-agent"] })
       )
 
       // when
@@ -361,7 +361,7 @@ describe("external-plugin-detector", () => {
       // then
       expect(result.detected).toBe(false)
       expect(result.pluginName).toBeNull()
-      expect(result.allPlugins).toContain("oh-my-opencode")
+      expect(result.allPlugins).toContain("oh-my-agent")
     })
 
     test("should detect opencode-skills plugin", () => {
@@ -370,7 +370,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-skills"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "opencode-skills"] })
       )
 
       // when
@@ -387,7 +387,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-skills@1.2.3"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "opencode-skills@1.2.3"] })
       )
 
       // when
@@ -404,7 +404,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "@opencode/skills"] })
+        JSON.stringify({ plugin: ["oh-my-agent", "@opencode/skills"] })
       )
 
       // when
@@ -505,7 +505,7 @@ describe("external-plugin-detector", () => {
       )
       fs.writeFileSync(
         path.join(profileConfigDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-openagent@latest"] }),
+        JSON.stringify({ plugin: ["oh-my-agent@latest"] }),
       )
       process.env.OPENCODE_CONFIG_DIR = profileConfigDir
 
@@ -521,10 +521,10 @@ describe("external-plugin-detector", () => {
 
       // then
       expect(result.detected).toBe(true)
-      expect(result.pluginName).toBe("oh-my-openagent")
+      expect(result.pluginName).toBe("oh-my-agent")
       expect(result.duplicatePlugins).toEqual([
         sourcePlugin,
-        "oh-my-openagent@latest",
+        "oh-my-agent@latest",
       ])
     })
 
@@ -534,7 +534,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "npm:oh-my-openagent@latest"] }),
+        JSON.stringify({ plugin: ["oh-my-agent", "npm:oh-my-agent@latest"] }),
       )
       const nodeOs = await import("node:os")
       mock.module("node:os", () => ({
@@ -548,7 +548,7 @@ describe("external-plugin-detector", () => {
 
       // then
       expect(result.detected).toBe(true)
-      expect(result.duplicatePlugins).toEqual(["oh-my-opencode", "npm:oh-my-openagent@latest"])
+      expect(result.duplicatePlugins).toEqual(["oh-my-agent", "npm:oh-my-agent@latest"])
     })
   })
 
@@ -570,13 +570,13 @@ describe("external-plugin-detector", () => {
       // when
       const warning = getDuplicateOmoPluginWarning([
         sourcePlugin,
-        "oh-my-openagent@latest",
+        "oh-my-agent@latest",
       ])
 
       // then
       expect(warning).toContain("Duplicate OMO plugin entries detected")
       expect(warning).toContain("startup has been disabled")
-      expect(warning).toContain("oh-my-openagent@latest")
+      expect(warning).toContain("oh-my-agent@latest")
     })
   })
 })

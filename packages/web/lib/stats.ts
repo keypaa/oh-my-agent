@@ -1,6 +1,6 @@
 const GITHUB_OWNER = "code-yeongyu"
-const GITHUB_REPO = "oh-my-openagent"
-const NPM_PACKAGES = ["oh-my-opencode", "oh-my-openagent"]
+const GITHUB_REPO = "oh-my-agent"
+const NPM_PACKAGES = ["oh-my-agent", "oh-my-agent"]
 const NPM_FIRST_PUBLISH_YEAR = 2025
 
 const CACHE_TTL_MS = 60 * 60 * 1000
@@ -48,7 +48,7 @@ function formatCount(num: number): string {
 async function fetchGitHubStars(): Promise<number> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
-    "User-Agent": "oh-my-openagent-web",
+    "User-Agent": "oh-my-agent-web",
   }
 
   const token = process.env.GITHUB_TOKEN

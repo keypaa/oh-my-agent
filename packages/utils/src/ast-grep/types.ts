@@ -1,4 +1,4 @@
-export const SG_PATH_ENV_KEY = "OMO_AST_GREP_SG_PATH"
+export const SG_PATH_ENV_KEY = "OMA_AST_GREP_SG_PATH"
 
 export type SgRuntimePlatform = "darwin" | "linux" | "win32"
 export type SgRuntimeArch = "arm64" | "x64"

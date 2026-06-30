@@ -15,7 +15,7 @@ function writeExecutable(filePath: string): void {
 }
 
 describe("findSgBinarySync", () => {
-  it("prefers the OMO_AST_GREP_SG_PATH override", () => {
+  it("prefers the OMA_AST_GREP_SG_PATH override", () => {
     // given
     const root = tempDir("sg-env")
     mkdirSync(root, { recursive: true })

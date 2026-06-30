@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Harness-neutral Language Server Protocol engine and tool definitions for oh-my-opencode.",
+  "description": "Harness-neutral Language Server Protocol engine and tool definitions for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./src/index.ts",

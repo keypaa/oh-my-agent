@@ -37,14 +37,14 @@ const mockCreatePluginInterface = mock(() => ({}))
 const mockLog = mock(() => {})
 
 function enableTelemetryEnv(): void {
-  process.env.OMO_DISABLE_POSTHOG = "0"
-  process.env.OMO_SEND_ANONYMOUS_TELEMETRY = "1"
+  process.env.OMA_DISABLE_POSTHOG = "0"
+  process.env.OMA_SEND_ANONYMOUS_TELEMETRY = "1"
   process.env.POSTHOG_API_KEY = "test-api-key"
 }
 
 function clearTelemetryEnv(): void {
-  delete process.env.OMO_DISABLE_POSTHOG
-  delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+  delete process.env.OMA_DISABLE_POSTHOG
+  delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   delete process.env.POSTHOG_API_KEY
 }
 
@@ -95,7 +95,7 @@ function createTestPluginModule(overrides: Partial<PluginModuleDeps> = {}): Retu
   })
 }
 
-describe("oh-my-openagent telemetry isolation", () => {
+describe("oh-my-agent telemetry isolation", () => {
   beforeEach(() => {
     clearTelemetryEnv()
     posthogModule.__resetActivityStateProviderForTesting()
@@ -180,7 +180,7 @@ describe("oh-my-openagent telemetry isolation", () => {
     // then
     expect(result).not.toBe("timeout")
     expect(captured).toHaveLength(1)
-    expect(captured[0]?.event).toBe("omo_daily_active")
+    expect(captured[0]?.event).toBe("OMA_daily_active")
     expect(captured[0]?.properties).toMatchObject({
       reason: "plugin_loaded",
       source: "plugin",

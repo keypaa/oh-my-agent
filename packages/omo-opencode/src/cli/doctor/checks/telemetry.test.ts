@@ -6,8 +6,8 @@ import { join } from "node:path"
 import { tmpdir } from "node:os"
 
 const originalXdgDataHome = process.env.XDG_DATA_HOME
-const originalOmoDisablePostHog = process.env.OMO_DISABLE_POSTHOG
-const originalOmoSendAnonymousTelemetry = process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+const originalOmoDisablePostHog = process.env.OMA_DISABLE_POSTHOG
+const originalOmoSendAnonymousTelemetry = process.env.OMA_SEND_ANONYMOUS_TELEMETRY
 
 function resetEnv(): void {
   if (originalXdgDataHome === undefined) {
@@ -16,14 +16,14 @@ function resetEnv(): void {
     process.env.XDG_DATA_HOME = originalXdgDataHome
   }
   if (originalOmoDisablePostHog === undefined) {
-    delete process.env.OMO_DISABLE_POSTHOG
+    delete process.env.OMA_DISABLE_POSTHOG
   } else {
-    process.env.OMO_DISABLE_POSTHOG = originalOmoDisablePostHog
+    process.env.OMA_DISABLE_POSTHOG = originalOmoDisablePostHog
   }
   if (originalOmoSendAnonymousTelemetry === undefined) {
-    delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+    delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
   } else {
-    process.env.OMO_SEND_ANONYMOUS_TELEMETRY = originalOmoSendAnonymousTelemetry
+    process.env.OMA_SEND_ANONYMOUS_TELEMETRY = originalOmoSendAnonymousTelemetry
   }
 }
 
@@ -35,12 +35,12 @@ describe("checkTelemetry", () => {
   it("reports enabled status and last daily active date", async () => {
     // given
     const dataHomePath = join(tmpdir(), `doctor-telemetry-${Date.now()}-${Math.random()}`)
-    const stateDir = join(dataHomePath, "oh-my-opencode")
+    const stateDir = join(dataHomePath, "oh-my-agent")
     mkdirSync(stateDir, { recursive: true })
     writeFileSync(join(stateDir, "posthog-activity.json"), `${JSON.stringify({ lastActiveDayUTC: "2026-06-28" })}\n`)
     process.env.XDG_DATA_HOME = dataHomePath
-    delete process.env.OMO_DISABLE_POSTHOG
-    delete process.env.OMO_SEND_ANONYMOUS_TELEMETRY
+    delete process.env.OMA_DISABLE_POSTHOG
+    delete process.env.OMA_SEND_ANONYMOUS_TELEMETRY
     const { checkTelemetry } = await import(`./telemetry?enabled=${Date.now()}`)
 
     // when
@@ -55,7 +55,7 @@ describe("checkTelemetry", () => {
 
   it("reports disabled status when env disables PostHog", async () => {
     // given
-    process.env.OMO_DISABLE_POSTHOG = "1"
+    process.env.OMA_DISABLE_POSTHOG = "1"
     const { checkTelemetry } = await import(`./telemetry?disabled=${Date.now()}`)
 
     // when

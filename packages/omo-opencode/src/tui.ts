@@ -115,7 +115,7 @@ export function handleTuiPollError(
 }
 
 const module: TuiPluginModule = {
-  id: "oh-my-openagent:tui",
+  id: "oh-my-agent:tui",
   tui: async (api) => {
     const solid = await import("@opentui/solid").catch(() => null)
     if (!solid) {

@@ -38,7 +38,7 @@ describe("omo-opencode telemetry architecture", () => {
     expect(typedProduct.defaultApiKey).toBe(DEFAULT_POSTHOG_API_KEY)
     expect(typedProduct.eventName).toBe("omo_daily_active")
     expect(typedProduct.additionalProperties).toMatchObject({
-      plugin_name: "oh-my-openagent",
+      plugin_name: "oh-my-agent",
     })
   })
 })

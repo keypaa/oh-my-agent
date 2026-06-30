@@ -29,7 +29,7 @@
       "totalDownloads": "累计 {count}+ 下载",
       "monthlyDownloads": "月度 {count}+ 下载",
       "lifecycleHooks": "{count}+ 生命周期 Hooks",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "codexInstallCommand": "npx lazycodex-ai install",
       "codexLabel": "Codex CLI 版本",
       "getStarted": "开始使用",
@@ -42,7 +42,7 @@
         "name": "Ultimate",
         "platform": "OpenCode",
         "description": "完整插件，包含 11 个 Agent、Team Mode、后台任务、3-tier MCP、60+ 生命周期 Hook。",
-        "install": "bunx oh-my-openagent install"
+        "install": "bunx oh-my-agent install"
       },
       "light": {
         "name": "Light",
@@ -298,7 +298,7 @@
         "author": "Jacob Ferrari"
       },
       "review4": {
-        "text": "use oh-my-openagent, you will never go back",
+        "text": "use oh-my-agent, you will never go back",
         "author": "d0t3ch"
       },
       "review5": {
@@ -313,7 +313,7 @@
     "cta": {
       "title": "别写样板代码了",
       "subtitle": "安装 Oh My OpenAgent，让 agent 来处理。距离你的第一个 ulw 命令只需 30 秒。",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "installNow": "立即安装",
       "readTheDocs": "阅读文档"
     }

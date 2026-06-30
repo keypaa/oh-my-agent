@@ -57,7 +57,7 @@ describe("team-mode tool registry wiring", () => {
     mkdirSync(userConfigDir, { recursive: true })
     mkdirSync(projectDir, { recursive: true })
     writeFileSync(
-      join(userConfigDir, "oh-my-openagent.json"),
+      join(userConfigDir, "oh-my-agent.json"),
       JSON.stringify({ team_mode: { enabled: true } }),
     )
     process.env.OPENCODE_CONFIG_DIR = userConfigDir

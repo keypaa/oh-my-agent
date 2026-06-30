@@ -11,8 +11,8 @@ import {
   isSyntheticOrInternalOnlyTextParts,
   isSyntheticOrInternalUserMessage,
   isTerminalNoReplyUserMessage,
-  OMO_INTERNAL_INITIATOR_MARKER,
-  OMO_INTERNAL_NOREPLY_MARKER,
+  OMA_INTERNAL_INITIATOR_MARKER,
+  OMA_INTERNAL_NOREPLY_MARKER,
   stripInternalInitiatorMarkers,
   withInternalNoReplyMarker,
 } from "./internal-initiator-marker"
@@ -28,7 +28,7 @@ describe("internal-initiator-marker", () => {
 
       // then
       expect(part.type).toBe("text")
-      expect(part.text).toBe(`Hello world\n${OMO_INTERNAL_INITIATOR_MARKER}`)
+      expect(part.text).toBe(`Hello world\n${OMA_INTERNAL_INITIATOR_MARKER}`)
     })
 
     test("#given regular internal text #when creating a text part #then leaves it visible as a normal message part", () => {
@@ -45,33 +45,33 @@ describe("internal-initiator-marker", () => {
 
     test("#given text already ending with the marker #when creating a text part #then does not duplicate the marker", () => {
       // given
-      const text = `Already marked\n${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `Already marked\n${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const part = createInternalAgentTextPart(text)
 
       // then
-      const markerCount = part.text.split(OMO_INTERNAL_INITIATOR_MARKER).length - 1
+      const markerCount = part.text.split(OMA_INTERNAL_INITIATOR_MARKER).length - 1
       expect(markerCount).toBe(1)
-      expect(part.text).toBe(`Already marked\n${OMO_INTERNAL_INITIATOR_MARKER}`)
+      expect(part.text).toBe(`Already marked\n${OMA_INTERNAL_INITIATOR_MARKER}`)
     })
 
     test("#given text containing multiple embedded markers #when creating a text part #then collapses to a single trailing marker", () => {
       // given
-      const text = `First\n${OMO_INTERNAL_INITIATOR_MARKER}\nSecond\n${OMO_INTERNAL_INITIATOR_MARKER}\nThird\n${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `First\n${OMA_INTERNAL_INITIATOR_MARKER}\nSecond\n${OMA_INTERNAL_INITIATOR_MARKER}\nThird\n${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const part = createInternalAgentTextPart(text)
 
       // then
-      const markerCount = part.text.split(OMO_INTERNAL_INITIATOR_MARKER).length - 1
+      const markerCount = part.text.split(OMA_INTERNAL_INITIATOR_MARKER).length - 1
       expect(markerCount).toBe(1)
-      expect(part.text.endsWith(OMO_INTERNAL_INITIATOR_MARKER)).toBe(true)
+      expect(part.text.endsWith(OMA_INTERNAL_INITIATOR_MARKER)).toBe(true)
     })
 
     test("#given text with embedded markers between content #when creating a text part #then strips embedded markers and keeps content", () => {
       // given
-      const text = `Line one\n${OMO_INTERNAL_INITIATOR_MARKER}\nLine two\n${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `Line one\n${OMA_INTERNAL_INITIATOR_MARKER}\nLine two\n${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const part = createInternalAgentTextPart(text)
@@ -79,7 +79,7 @@ describe("internal-initiator-marker", () => {
       // then
       expect(part.text).toContain("Line one")
       expect(part.text).toContain("Line two")
-      const markerCount = part.text.split(OMO_INTERNAL_INITIATOR_MARKER).length - 1
+      const markerCount = part.text.split(OMA_INTERNAL_INITIATOR_MARKER).length - 1
       expect(markerCount).toBe(1)
     })
 
@@ -91,7 +91,7 @@ describe("internal-initiator-marker", () => {
       const part = createInternalAgentTextPart(text)
 
       // then
-      expect(part.text).toBe(`\n${OMO_INTERNAL_INITIATOR_MARKER}`)
+      expect(part.text).toBe(`\n${OMA_INTERNAL_INITIATOR_MARKER}`)
     })
   })
 
@@ -105,7 +105,7 @@ describe("internal-initiator-marker", () => {
 
       // then
       expect(part.type).toBe("text")
-      expect(part.text).toBe(`Continue the loop\n${OMO_INTERNAL_INITIATOR_MARKER}`)
+      expect(part.text).toBe(`Continue the loop\n${OMA_INTERNAL_INITIATOR_MARKER}`)
       expect(part.synthetic).toBe(true)
       expect(part.metadata.compaction_continue).toBe(true)
     })
@@ -125,7 +125,7 @@ describe("internal-initiator-marker", () => {
 
     test("#given text with one trailing marker #when stripping #then removes the marker", () => {
       // given
-      const text = `Content\n${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `Content\n${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const result = stripInternalInitiatorMarkers(text)
@@ -136,7 +136,7 @@ describe("internal-initiator-marker", () => {
 
     test("#given text with multiple stacked markers #when stripping #then removes all of them", () => {
       // given
-      const text = `Content\n${OMO_INTERNAL_INITIATOR_MARKER}\n${OMO_INTERNAL_INITIATOR_MARKER}\n${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `Content\n${OMA_INTERNAL_INITIATOR_MARKER}\n${OMA_INTERNAL_INITIATOR_MARKER}\n${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const result = stripInternalInitiatorMarkers(text)
@@ -147,7 +147,7 @@ describe("internal-initiator-marker", () => {
 
     test("#given text with markers on consecutive lines without separators #when stripping #then removes all markers", () => {
       // given
-      const text = `${OMO_INTERNAL_INITIATOR_MARKER}${OMO_INTERNAL_INITIATOR_MARKER}${OMO_INTERNAL_INITIATOR_MARKER}`
+      const text = `${OMA_INTERNAL_INITIATOR_MARKER}${OMA_INTERNAL_INITIATOR_MARKER}${OMA_INTERNAL_INITIATOR_MARKER}`
 
       // when
       const result = stripInternalInitiatorMarkers(text)
@@ -160,7 +160,7 @@ describe("internal-initiator-marker", () => {
   describe("internal message guards", () => {
     test("#given whitespace-normalized marker text #when checking marker presence #then detects it", () => {
       // given
-      const text = "notice\n<!--   OMO_INTERNAL_INITIATOR   -->"
+      const text = "notice\n<!--   OMA_INTERNAL_INITIATOR   -->"
 
       // when
       const result = hasInternalInitiatorMarker(text)
@@ -173,7 +173,7 @@ describe("internal-initiator-marker", () => {
       // given
       const parts = [
         { type: "text", text: "hidden", synthetic: true },
-        { type: "text", text: `reminder\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+        { type: "text", text: `reminder\n${OMA_INTERNAL_INITIATOR_MARKER}` },
       ]
 
       // when
@@ -189,7 +189,7 @@ describe("internal-initiator-marker", () => {
       const message = {
         info: { role: "user" },
         parts: [
-          { type: "text", text: `reminder\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+          { type: "text", text: `reminder\n${OMA_INTERNAL_INITIATOR_MARKER}` },
           { type: "text", text: "actual user request" },
         ],
       }
@@ -206,7 +206,7 @@ describe("internal-initiator-marker", () => {
       // given
       const message = {
         role: "user",
-        parts: [{ type: "text", text: `wake up\n${OMO_INTERNAL_INITIATOR_MARKER}` }],
+        parts: [{ type: "text", text: `wake up\n${OMA_INTERNAL_INITIATOR_MARKER}` }],
       }
 
       // when
@@ -226,7 +226,7 @@ describe("internal-initiator-marker", () => {
       // then
       expect(hasInternalInitiatorMarker(part.text)).toBe(true)
       expect(hasInternalNoReplyMarker(part.text)).toBe(true)
-      expect(part.text).toContain(OMO_INTERNAL_NOREPLY_MARKER)
+      expect(part.text).toContain(OMA_INTERNAL_NOREPLY_MARKER)
     })
 
     test("#given a continuation part wrapped with the noReply marker #when inspecting it #then synthetic and metadata are preserved", () => {
@@ -248,7 +248,7 @@ describe("internal-initiator-marker", () => {
 
       // then
       expect(twice.text).toBe(once.text)
-      expect(twice.text.match(/OMO_INTERNAL_NOREPLY/g)).toHaveLength(1)
+      expect(twice.text.match(/OMA_INTERNAL_NOREPLY/g)).toHaveLength(1)
     })
 
     test("#given a noReply-tagged user message #when classifying #then it is a terminal noReply message", () => {

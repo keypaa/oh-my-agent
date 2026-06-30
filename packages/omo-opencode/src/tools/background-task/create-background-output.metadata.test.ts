@@ -9,7 +9,7 @@ import type { BackgroundOutputClient, BackgroundOutputManager } from "./clients"
 import { BACKGROUND_TASK_DESCRIPTION } from "./constants"
 import { createBackgroundOutput } from "./create-background-output"
 
-const projectDir = "/Users/yeongyu/local-workspaces/oh-my-opencode"
+const projectDir = "/Users/yeongyu/local-workspaces/oh-my-agent"
 
 type ToolContextWithCallID = ToolContext & {
   callID: string

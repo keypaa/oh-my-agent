@@ -58,7 +58,7 @@ describe("lazycodex bin wrapper", () => {
     ]);
   });
 
-  test("routes the lazycodex-ai package to the Codex installer via the oh-my-openagent platform family", async () => {
+  test("routes the lazycodex-ai package to the Codex installer via the oh-my-agent platform family", async () => {
     // #given
     const fixture = await createLazyCodexFixture({ packageName: "lazycodex-ai", wrapperFileName: "lazycodex-ai" });
     const nodePath = Bun.which("node") ?? "node";
@@ -81,7 +81,7 @@ describe("lazycodex bin wrapper", () => {
 
   test("routes npm shim execution from the lazycodex package to the Codex installer", async () => {
     // #given
-    const fixture = await createLazyCodexFixture({ wrapperFileName: "oh-my-opencode.js" });
+    const fixture = await createLazyCodexFixture({ wrapperFileName: "oh-my-agent.js" });
     const nodePath = Bun.which("node") ?? "node";
 
     // #when
@@ -150,7 +150,7 @@ function createWrapperTestEnv(
   fixture: { readonly captureDir: string; readonly fakeBinDir: string },
   overrides: NodeJS.ProcessEnv = {},
 ): NodeJS.ProcessEnv {
-  const { OMO_INVOCATION_NAME: _invocationName, OMO_WRAPPER_PACKAGE_ROOT: _wrapperPackageRoot, ...baseEnv } = process.env;
+  const { OMA_INVOCATION_NAME: _invocationName, OMA_WRAPPER_PACKAGE_ROOT: _wrapperPackageRoot, ...baseEnv } = process.env;
   return {
     ...baseEnv,
     CAPTURE_DIR: fixture.captureDir,
@@ -174,7 +174,7 @@ async function createLazyCodexFixture(options: { packageName?: string; wrapperFi
 
   const wrapperFileName = options.wrapperFileName ?? "lazycodex";
   const wrapperBin = join(binDir, wrapperFileName);
-  await cp(fileURLToPath(new URL("./oh-my-opencode.js", import.meta.url)), wrapperBin);
+  await cp(fileURLToPath(new URL("./oh-my-agent.js", import.meta.url)), wrapperBin);
   if (wrapperFileName !== "lazycodex") {
     await symlink(wrapperFileName, join(binDir, "lazycodex"));
   }
@@ -189,7 +189,7 @@ async function createLazyCodexFixture(options: { packageName?: string; wrapperFi
     fakeBun,
     [
       "#!/bin/sh",
-      "printf '%s\\n' \"$OMO_INVOCATION_NAME\" > \"$CAPTURE_DIR/env\"",
+      "printf '%s\\n' \"$OMA_INVOCATION_NAME\" > \"$CAPTURE_DIR/env\"",
       "printf '%s\\n' \"$@\" > \"$CAPTURE_DIR/args\"",
       "exit 23",
       "",
@@ -232,18 +232,18 @@ async function writePlatformPackages(root: string): Promise<void> {
     platform: process.platform,
     arch: process.arch,
     libcFamily: process.platform === "linux" ? "glibc" : undefined,
-    packageBaseName: "oh-my-openagent",
+    packageBaseName: "oh-my-agent",
   });
   for (const packageName of packages) {
-    const binaryPath = join(root, "node_modules", packageName, "bin", "oh-my-opencode.js");
+    const binaryPath = join(root, "node_modules", packageName, "bin", "oh-my-agent.js");
     await mkdir(dirname(binaryPath), { recursive: true });
     await writeFile(
       binaryPath,
       [
         "#!/usr/bin/env node",
         'import { writeFileSync } from "node:fs";',
-        'writeFileSync(`${process.env.CAPTURE_DIR}/env`, `${process.env.OMO_INVOCATION_NAME}\\n`);',
-        'writeFileSync(`${process.env.CAPTURE_DIR}/wrapper-root`, `${process.env.OMO_WRAPPER_PACKAGE_ROOT}\\n`);',
+        'writeFileSync(`${process.env.CAPTURE_DIR}/env`, `${process.env.OMA_INVOCATION_NAME}\\n`);',
+        'writeFileSync(`${process.env.CAPTURE_DIR}/wrapper-root`, `${process.env.OMA_WRAPPER_PACKAGE_ROOT}\\n`);',
         'writeFileSync(`${process.env.CAPTURE_DIR}/exec-path`, `${process.execPath}\\n`);',
         'writeFileSync(`${process.env.CAPTURE_DIR}/args`, `${process.argv.slice(2).join("\\n")}\\n`);',
         "process.exit(23);",

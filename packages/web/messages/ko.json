@@ -29,7 +29,7 @@
       "totalDownloads": "총 {count} 다운로드",
       "monthlyDownloads": "월 {count} 다운로드",
       "lifecycleHooks": "{count}개 라이프사이클 훅",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "codexInstallCommand": "npx lazycodex-ai install",
       "codexLabel": "Codex CLI 에디션",
       "getStarted": "시작하기",
@@ -42,7 +42,7 @@
         "name": "Ultimate",
         "platform": "OpenCode",
         "description": "11개 에이전트, Team Mode, 백그라운드 태스크, 3-tier MCP, 60+ 라이프사이클 훅을 갖춘 풀 플러그인.",
-        "install": "bunx oh-my-openagent install"
+        "install": "bunx oh-my-agent install"
       },
       "light": {
         "name": "Light",
@@ -298,7 +298,7 @@
         "author": "Jacob Ferrari"
       },
       "review4": {
-        "text": "use oh-my-openagent, you will never go back",
+        "text": "use oh-my-agent, you will never go back",
         "author": "d0t3ch"
       },
       "review5": {
@@ -313,7 +313,7 @@
     "cta": {
       "title": "보일러플레이트는 이제 그만",
       "subtitle": "Oh My OpenAgent를 설치하고 에이전트에게 맡기세요. 첫 ulw 명령까지 30초면 충분합니다.",
-      "installCommand": "bunx oh-my-openagent install",
+      "installCommand": "bunx oh-my-agent install",
       "installNow": "지금 설치하기",
       "readTheDocs": "문서 보기"
     }

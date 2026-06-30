@@ -2,17 +2,17 @@
 
 Complete reference for the published CLI package. During the rename transition, both package names work:
 
-- `oh-my-openagent` (preferred package name)
-- `oh-my-opencode` (compatibility package name)
+- `oh-my-agent` (preferred package name)
+- `oh-my-agent` (compatibility package name)
 
-Plugin registration inside `opencode.json` prefers `oh-my-openagent`.
+Plugin registration inside `opencode.json` prefers `oh-my-agent`.
 
 ## Bin Commands
 
 All published packages expose the same compiled CLI with these bin entries:
 
-- `oh-my-openagent` (preferred name)
-- `oh-my-opencode` (legacy compatibility name)
+- `oh-my-agent` (preferred name)
+- `oh-my-agent` (legacy compatibility name)
 - `omo` (short alias, recommended in docs and prompts)
 - `lazycodex-ai` (Light edition shortcut; `lazycodex-ai install` is equivalent to `omo install --platform=codex`; any explicit `--platform` value must be `codex`)
 
@@ -20,10 +20,10 @@ All published packages expose the same compiled CLI with these bin entries:
 
 ```bash
 # Display help (preferred package)
-bunx oh-my-openagent
+bunx oh-my-agent
 
 # Compatibility package
-bunx oh-my-opencode
+bunx oh-my-agent
 ```
 
 ## Commands
@@ -49,7 +49,7 @@ Interactive installation tool for initial setup.
 ### Usage
 
 ```bash
-bunx oh-my-openagent install
+bunx oh-my-agent install
 ```
 
 ### Options
@@ -79,15 +79,15 @@ Subscription flags (`--claude`, `--openai`, etc.) only apply when `--platform` i
 
 Anonymous telemetry uses PostHog with a hashed installation identifier. Two streams exist:
 
-- `omo_daily_active`: fired by the main plugin when it loads (`reason: "plugin_loaded"`) and by `oh-my-openagent run` (`reason: "run_started"`).
-- `omo_codex_daily_active`: fired by `omo install --platform=codex` or `--platform=both` (`reason: "install_completed"`) and by the Codex plugin's `SessionStart` hook on every Codex session (`reason: "session_start"`). Both sources share the same UTC-day deduplication, so daily/weekly/monthly active counts reflect real Codex usage, not just install events.
+- `OMA_daily_active`: fired by the main plugin when it loads (`reason: "plugin_loaded"`) and by `oh-my-agent run` (`reason: "run_started"`).
+- `OMA_codex_daily_active`: fired by `omo install --platform=codex` or `--platform=both` (`reason: "install_completed"`) and by the Codex plugin's `SessionStart` hook on every Codex session (`reason: "session_start"`). Both sources share the same UTC-day deduplication, so daily/weekly/monthly active counts reflect real Codex usage, not just install events.
 
 Opt-out env vars:
 
-- Global opt-out for oh-my-openagent and omo-codex: `OMO_SEND_ANONYMOUS_TELEMETRY=0` or `OMO_DISABLE_POSTHOG=1`
-- Codex-only opt-out for `omo_codex_daily_active`: `OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0` or `OMO_CODEX_DISABLE_POSTHOG=1`
+- Global opt-out for oh-my-agent and omo-codex: `OMA_SEND_ANONYMOUS_TELEMETRY=0` or `OMA_DISABLE_POSTHOG=1`
+- Codex-only opt-out for `OMA_codex_daily_active`: `OMA_CODEX_SEND_ANONYMOUS_TELEMETRY=0` or `OMA_CODEX_DISABLE_POSTHOG=1`
 
-The OpenCode plugin can also opt out through oh-my-openagent config with `"telemetry": false`.
+The OpenCode plugin can also opt out through oh-my-agent config with `"telemetry": false`.
 
 For the full Codex Light event inventory, collected properties, local state path, and lazycodex marketplace copy path, see [Codex Light telemetry](./codex-telemetry.md).
 
@@ -108,7 +108,7 @@ omo uninstall --platform=codex
 
 | Option | Description |
 | --- | --- |
-| `--platform codex` | Required when using the shared `omo` CLI unless `OMO_INVOCATION_NAME` is `lazycodex-ai` |
+| `--platform codex` | Required when using the shared `omo` CLI unless `OMA_INVOCATION_NAME` is `lazycodex-ai` |
 | `--codex-home <path>` | Codex home to clean, defaulting to `CODEX_HOME` or `~/.codex` |
 | `--project <path>` | Project directory to inspect for project-local legacy Codex artifacts |
 | `--json` | Output structured JSON result |
@@ -124,7 +124,7 @@ Diagnoses your environment and configuration. Checks are grouped into four categ
 ### Usage
 
 ```bash
-bunx oh-my-openagent doctor
+bunx oh-my-agent doctor
 ```
 
 ### Options
@@ -138,7 +138,7 @@ bunx oh-my-openagent doctor
 ### Notes
 
 - The current minimum OpenCode version check is `>= 1.4.0`.
-- The doctor command warns when legacy plugin registration (`oh-my-opencode`) is still present in `opencode.json`.
+- The doctor command warns when legacy plugin registration (`oh-my-agent`) is still present in `opencode.json`.
 
 ---
 
@@ -152,7 +152,7 @@ Runs a non-interactive session and exits only when both conditions are true:
 ### Usage
 
 ```bash
-bunx oh-my-openagent run <message>
+bunx oh-my-agent run <message>
 ```
 
 ### Options
@@ -186,7 +186,7 @@ Shows local plugin version state and update status.
 ### Usage
 
 ```bash
-bunx oh-my-openagent get-local-version
+bunx oh-my-agent get-local-version
 ```
 
 ### Options
@@ -205,7 +205,7 @@ Refreshes the cached model capabilities snapshot from models.dev.
 ### Usage
 
 ```bash
-bunx oh-my-openagent refresh-model-capabilities
+bunx oh-my-agent refresh-model-capabilities
 ```
 
 ### Options
@@ -238,7 +238,7 @@ Shows CLI package version.
 ### Usage
 
 ```bash
-bunx oh-my-openagent version
+bunx oh-my-agent version
 ```
 
 ---
@@ -251,16 +251,16 @@ OAuth token management for MCP servers (Tier-3 MCP OAuth flow, including PKCE an
 
 ```bash
 # Authenticate
-bunx oh-my-openagent mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-agent mcp oauth login <server-name> --server-url https://api.example.com
 
 # Authenticate with explicit client ID and scopes
-bunx oh-my-openagent mcp oauth login <server-name> --server-url https://api.example.com --client-id my-client --scopes read write
+bunx oh-my-agent mcp oauth login <server-name> --server-url https://api.example.com --client-id my-client --scopes read write
 
 # Remove stored tokens
-bunx oh-my-openagent mcp oauth logout <server-name> --server-url https://api.example.com
+bunx oh-my-agent mcp oauth logout <server-name> --server-url https://api.example.com
 
 # Show token status
-bunx oh-my-openagent mcp oauth status [server-name]
+bunx oh-my-agent mcp oauth status [server-name]
 ```
 
 ### Options

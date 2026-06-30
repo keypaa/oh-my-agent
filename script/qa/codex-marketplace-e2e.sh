@@ -89,7 +89,7 @@ cap() { tm capture-pane -p -t "$1" 2>/dev/null || true; }
 launch_codex() {
   local ses=$1 home=$2 wd=$3 force=$4 prefix
   prefix="env PATH='$STRIPPED_PATH' CODEX_HOME='$home'"
-  if [ "$force" = 1 ]; then prefix="$prefix OMO_BOOTSTRAP_FORCE_PROVISION=1"; fi
+  if [ "$force" = 1 ]; then prefix="$prefix OMA_BOOTSTRAP_FORCE_PROVISION=1"; fi
   tm new-session -d -s "$ses" -x 220 -y 50 -c "$wd" "exec $prefix '$CODEX_BIN'"
 }
 
@@ -280,7 +280,7 @@ write_readme() {
     echo "  mirroring the release pipeline (plugin/scripts/sync-hook-status-messages.mjs):"
     echo "  the hook trust hash covers statusMessage, which is exactly WHY a real upgrade"
     echo "  forces re-review."
-    echo "- forced provisioning (OMO_BOOTSTRAP_FORCE_PROVISION=1) on the first sessions"
+    echo "- forced provisioning (OMA_BOOTSTRAP_FORCE_PROVISION=1) on the first sessions"
     echo "  because this dev machine has a preexisting Homebrew sg that the no-force probe"
     echo "  finds via its hardcoded path list. The no-force contract is proven separately"
     echo "  (assert 5f): a no-force worker run records sg=preexisting:<path>."
@@ -461,21 +461,21 @@ EOF
     fail 5b "bootstrap state.json appeared with lastStatus within 120s" "step5-state.json"
   fi
 
-  local omo_bin="$QAHOME/bin/omo"
-  local omo_version_log="$FINAL/step5-omo-version.txt"
-  if [ -x "$omo_bin" ]; then
-    pass 5g "bootstrap linked the top-level omo runtime wrapper at $omo_bin" "step5-omo-version.txt"
+  local OMA_bin="$QAHOME/bin/omo"
+  local OMA_version_log="$FINAL/step5-omo-version.txt"
+  if [ -x "$OMA_bin" ]; then
+    pass 5g "bootstrap linked the top-level omo runtime wrapper at $OMA_bin" "step5-omo-version.txt"
   else
-    fail 5g "bootstrap linked the top-level omo runtime wrapper at $omo_bin" "step5-omo-version.txt"
+    fail 5g "bootstrap linked the top-level omo runtime wrapper at $OMA_bin" "step5-omo-version.txt"
   fi
-  if [ -x "$omo_bin" ] && env PATH="$STRIPPED_PATH" CODEX_HOME="$QAHOME" OMO_RUNTIME=node "$omo_bin" --version >"$omo_version_log" 2>&1; then
-    if [ -s "$omo_version_log" ]; then
-      pass 5h "top-level omo wrapper executes the bundled node fallback CLI under OMO_RUNTIME=node" "step5-omo-version.txt"
+  if [ -x "$OMA_bin" ] && env PATH="$STRIPPED_PATH" CODEX_HOME="$QAHOME" OMA_RUNTIME=node "$OMA_bin" --version >"$OMA_version_log" 2>&1; then
+    if [ -s "$OMA_version_log" ]; then
+      pass 5h "top-level omo wrapper executes the bundled node fallback CLI under OMA_RUNTIME=node" "step5-omo-version.txt"
     else
-      fail 5h "top-level omo wrapper produced non-empty --version output under OMO_RUNTIME=node" "step5-omo-version.txt"
+      fail 5h "top-level omo wrapper produced non-empty --version output under OMA_RUNTIME=node" "step5-omo-version.txt"
     fi
   else
-    fail 5h "top-level omo wrapper executes the bundled node fallback CLI under OMO_RUNTIME=node" "step5-omo-version.txt"
+    fail 5h "top-level omo wrapper executes the bundled node fallback CLI under OMA_RUNTIME=node" "step5-omo-version.txt"
   fi
 
   local sg_bin="$QAHOME/runtime/ast-grep/$("$NODE_BIN" -p process.platform)-$("$NODE_BIN" -p process.arch)/sg"
@@ -639,12 +639,12 @@ EOF
     cp "$state_json" "$FINAL/step8-state.json" 2>/dev/null || true
     fail 8c "bootstrap re-ran after upgrade (completedForVersion did not reach $UPG_VERSION)" "step8-state.json"
   fi
-  local upgraded_omo_log="$FINAL/step8-omo-version.txt"
+  local upgraded_OMA_log="$FINAL/step8-omo-version.txt"
   if [ -n "$IROOT2" ] &&
     [ -f "$QAHOME/bin/omo" ] &&
     grep -Fq "$IROOT2/dist/cli/index.js" "$QAHOME/bin/omo" &&
-    env PATH="$STRIPPED_PATH" CODEX_HOME="$QAHOME" OMO_RUNTIME=node "$QAHOME/bin/omo" --version >"$upgraded_omo_log" 2>&1 &&
-    [ -s "$upgraded_omo_log" ]; then
+    env PATH="$STRIPPED_PATH" CODEX_HOME="$QAHOME" OMA_RUNTIME=node "$QAHOME/bin/omo" --version >"$upgraded_OMA_log" 2>&1 &&
+    [ -s "$upgraded_OMA_log" ]; then
     pass 8d "upgrade bootstrap relinked the top-level omo wrapper to the upgraded root runtime" "step8-omo-version.txt"
   else
     fail 8d "upgrade bootstrap relinked the top-level omo wrapper to the upgraded root runtime" "step8-omo-version.txt"

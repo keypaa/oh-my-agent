@@ -37,7 +37,7 @@ describe("getInstalledLspServers", () => {
     mkdirSync(projectConfigDirectory, { recursive: true })
     createLspDistCli(workspaceDirectory)
     writeFileSync(
-      join(projectConfigDirectory, "oh-my-openagent.json"),
+      join(projectConfigDirectory, "oh-my-agent.json"),
       JSON.stringify({ disabled_mcps: ["lsp"] }),
       "utf-8",
     )
@@ -88,7 +88,7 @@ describe("getInstalledLspServers", () => {
     const userConfigDirectory = createTemporaryDirectory("omo-tools-lsp-user-")
     const workspaceDirectory = createTemporaryDirectory("omo-tools-lsp-malformed-")
     mkdirSync(userConfigDirectory, { recursive: true })
-    writeFileSync(join(userConfigDirectory, "oh-my-openagent.json"), "{", "utf-8")
+    writeFileSync(join(userConfigDirectory, "oh-my-agent.json"), "{", "utf-8")
     clearPluginConfigFileDetectionCache()
 
     const { getInstalledLspServers } = await import(`./tools-lsp?t=${Date.now()}-malformed`)

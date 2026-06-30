@@ -62,7 +62,7 @@ describe("ParentWakeNotifier assistant error history", () => {
           role: "user",
           time: { created: dispatchedAt + 1 },
         },
-        parts: [{ type: "text", text: `${FINAL_WAKE}\n<!-- OMO_INTERNAL_INITIATOR -->` }],
+        parts: [{ type: "text", text: `${FINAL_WAKE}\n<!-- OMA_INTERNAL_INITIATOR -->` }],
       },
       {
         info: {

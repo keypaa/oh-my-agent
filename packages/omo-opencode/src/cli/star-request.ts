@@ -3,12 +3,12 @@ import { promisify } from "node:util"
 import type { InstallPlatform } from "./types"
 
 export const STAR_REPOSITORIES = [
-  "code-yeongyu/oh-my-openagent",
+  "code-yeongyu/oh-my-agent",
   "code-yeongyu/lazycodex",
 ] as const
 
 const PLATFORM_REPOSITORIES = {
-  opencode: ["code-yeongyu/oh-my-openagent"],
+  opencode: ["code-yeongyu/oh-my-agent"],
   codex: STAR_REPOSITORIES,
   both: STAR_REPOSITORIES,
 } as const satisfies Record<InstallPlatform, readonly string[]>

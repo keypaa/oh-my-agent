@@ -22,15 +22,15 @@ describe("executeHookCommand", () => {
 
   test("#given allowedEnvVars provided #when executing command #then only allowed vars are in process.env", async () => {
     // given
-    process.env.__OMO_TEST_ALLOWED_VAR = "visible"
-    process.env.__OMO_TEST_SECRET_VAR = "hidden"
+    process.env.__OMA_TEST_ALLOWED_VAR = "visible"
+    process.env.__OMA_TEST_SECRET_VAR = "hidden"
 
     // when
     const result = await executeHookCommand(
-      nodeCommand("console.log(process.env.__OMO_TEST_ALLOWED_VAR || '', process.env.__OMO_TEST_SECRET_VAR || '')"),
+      nodeCommand("console.log(process.env.__OMA_TEST_ALLOWED_VAR || '', process.env.__OMA_TEST_SECRET_VAR || '')"),
       "",
       tempDirectory,
-      { allowedEnvVars: ["__OMO_TEST_ALLOWED_VAR"] },
+      { allowedEnvVars: ["__OMA_TEST_ALLOWED_VAR"] },
     )
 
     // then
@@ -39,17 +39,17 @@ describe("executeHookCommand", () => {
     expect(result.stdout).not.toContain("hidden")
 
     // cleanup
-    delete process.env.__OMO_TEST_ALLOWED_VAR
-    delete process.env.__OMO_TEST_SECRET_VAR
+    delete process.env.__OMA_TEST_ALLOWED_VAR
+    delete process.env.__OMA_TEST_SECRET_VAR
   })
 
   test("#given no allowedEnvVars #when executing command #then full env is available", async () => {
     // given
-    process.env.__OMO_TEST_FULL_ENV_VAR = "present"
+    process.env.__OMA_TEST_FULL_ENV_VAR = "present"
 
     // when
     const result = await executeHookCommand(
-      nodeCommand("console.log(process.env.__OMO_TEST_FULL_ENV_VAR || '')"),
+      nodeCommand("console.log(process.env.__OMA_TEST_FULL_ENV_VAR || '')"),
       "",
       tempDirectory,
     )
@@ -59,7 +59,7 @@ describe("executeHookCommand", () => {
     expect(result.stdout).toContain("present")
 
     // cleanup
-    delete process.env.__OMO_TEST_FULL_ENV_VAR
+    delete process.env.__OMA_TEST_FULL_ENV_VAR
   })
 
   test("#given command ignores normal completion #when timeout expires #then returns timeout instead of hanging", async () => {

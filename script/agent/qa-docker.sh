@@ -68,10 +68,10 @@ tty_flags=(-i)
 
 docker_run() {
   exec docker run --rm "${tty_flags[@]}" \
-    -v "$REPO_ROOT:/workspaces/oh-my-openagent" \
+    -v "$REPO_ROOT:/workspaces/oh-my-agent" \
     "${config_mounts[@]}" \
     -e "OPENCODE_CONFIG_DIR=${OPENCODE_CONFIG_DIR:-}" \
-    -w /workspaces/oh-my-openagent \
+    -w /workspaces/oh-my-agent \
     "$@"
 }
 

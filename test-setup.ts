@@ -62,7 +62,7 @@ function cleanupRulesInjectorStorage(): void {
 beforeEach(() => {
   environmentSnapshot = { ...process.env }
   workingDirectorySnapshot = process.cwd()
-  process.env.OMO_DISABLE_POSTHOG = "true"
+  process.env.OMA_DISABLE_POSTHOG = "true"
   cleanupOmoCacheDir(getOmoOpenCodeCacheDir())
   cleanupRulesInjectorStorage()
   resetClaudeSessionState()

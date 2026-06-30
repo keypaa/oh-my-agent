@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Harness-agnostic markdown prompt loading and model-variant routing for oh-my-opencode.",
+  "description": "Harness-agnostic markdown prompt loading and model-variant routing for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

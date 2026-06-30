@@ -27,10 +27,10 @@ describe("auto-update cache invalidation", () => {
     writeFileSync(join(cacheDir, "bun.lock"), "{not json", "utf-8")
 
     // when
-    const result = invalidatePackage("oh-my-openagent", {
-      acceptedPackageNames: ["oh-my-openagent"],
+    const result = invalidatePackage("oh-my-agent", {
+      acceptedPackageNames: ["oh-my-agent"],
       cacheDir,
-      defaultPackageName: "oh-my-openagent",
+      defaultPackageName: "oh-my-agent",
       userConfigDir,
     })
 
@@ -47,10 +47,10 @@ describe("auto-update cache invalidation", () => {
     writeFileSync(lockPath, "binary", "utf-8")
 
     // when
-    const result = invalidatePackage("oh-my-openagent", {
-      acceptedPackageNames: ["oh-my-openagent"],
+    const result = invalidatePackage("oh-my-agent", {
+      acceptedPackageNames: ["oh-my-agent"],
       cacheDir,
-      defaultPackageName: "oh-my-openagent",
+      defaultPackageName: "oh-my-agent",
       userConfigDir,
     })
 

@@ -24,13 +24,13 @@ const PRODUCT = {
   cacheDirName: "omo-codex",
   defaultApiKey: DEFAULT_POSTHOG_API_KEY,
   defaultHost: DEFAULT_POSTHOG_HOST,
-  eventName: "omo_codex_daily_active",
+  eventName: "OMA_codex_daily_active",
   machineIdPrefix: "omo-codex:",
   packageName: "@oh-my-opencode/omo-codex",
   packageVersion: "4.9.2",
   platform: "omo-codex",
   productName: "omo-codex",
-  productEnvPrefix: "OMO_CODEX",
+  productEnvPrefix: "OMA_CODEX",
 } satisfies TelemetryProductConfig
 
 const OS_PROVIDER = {
@@ -78,7 +78,7 @@ describe("posthog telemetry client", () => {
     expect(capturedMessages).toHaveLength(1)
     expect(capturedMessages[0]).toEqual({
       distinctId: createHash("sha256").update("omo-codex:test-host").digest("hex"),
-      event: "omo_codex_daily_active",
+      event: "OMA_codex_daily_active",
       properties: {
         platform: "omo-codex",
         product_name: "omo-codex",
@@ -178,7 +178,7 @@ describe("posthog telemetry client", () => {
     try {
       // when
       await recordDailyActive({
-        env: { OMO_CODEX_DISABLE_POSTHOG: "1", POSTHOG_API_KEY: "test-key" },
+        env: { OMA_CODEX_DISABLE_POSTHOG: "1", POSTHOG_API_KEY: "test-key" },
         now: new Date("2026-05-25T01:02:03.000Z"),
         osProvider: OS_PROVIDER,
         product: PRODUCT,

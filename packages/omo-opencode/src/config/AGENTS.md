@@ -4,13 +4,13 @@
 
 ## OVERVIEW
 
-32 non-test schema files composing `OhMyOpenCodeConfigSchema` (plus `schema/internal/permission.ts` for shared internal helpers). Zod v4 validation with `safeParse()`. All fields optional — omitted fields use defaults from the schema. Auto-emitted to `assets/oh-my-opencode.schema.json` via `bun run build:schema`.
+32 non-test schema files composing `OhMyOpenCodeConfigSchema` (plus `schema/internal/permission.ts` for shared internal helpers). Zod v4 validation with `safeParse()`. All fields optional — omitted fields use defaults from the schema. Auto-emitted to `assets/oh-my-agent.schema.json` via `bun run build:schema`.
 
 ## SCHEMA TREE
 
 ```
 config/schema/
-├── oh-my-opencode-config.ts    # ROOT: composes all sub-schemas
+├── oh-my-agent-config.ts    # ROOT: composes all sub-schemas
 ├── agent-names.ts              # BuiltinAgentNameSchema enum (11 names: sisyphus, hephaestus, prometheus, oracle, librarian, explore, multimodal-looker, metis, momus, atlas, sisyphus-junior)
 ├── agent-overrides.ts          # AgentOverrideConfigSchema (21 fields per agent)
 ├── agent-definitions.ts        # custom agent definition schema
@@ -82,7 +82,7 @@ When `enabled: true`:
 ## HOW TO ADD A CONFIG FIELD
 
 1. Create `src/config/schema/{name}.ts` with Zod schema
-2. Add field to `oh-my-opencode-config.ts` root schema
+2. Add field to `oh-my-agent-config.ts` root schema
 3. Reference via `z.infer<typeof YourSchema>` for the TypeScript type
 4. Access in handlers via `pluginConfig.{field_name}` (snake_case JSON, snake_case TS field)
-5. Run `bun run build:schema` to regenerate `assets/oh-my-opencode.schema.json`
+5. Run `bun run build:schema` to regenerate `assets/oh-my-agent.schema.json`

@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../../shared/internal-initiator-marker"
 import { handleNonIdleEvent } from "./non-idle-events"
 import { createSessionStateStore, type SessionStateStore } from "./session-state"
 
@@ -56,7 +56,7 @@ describe("handleNonIdleEvent", () => {
         sessionID,
         info: { role: "user" },
         parts: [
-          { type: "text", text: `internal wake\n${OMO_INTERNAL_INITIATOR_MARKER}` },
+          { type: "text", text: `internal wake\n${OMA_INTERNAL_INITIATOR_MARKER}` },
         ],
       },
       sessionStateStore,
@@ -85,7 +85,7 @@ describe("handleNonIdleEvent", () => {
         parts: [
           {
             type: "text",
-            text: `ultrawork [SYSTEM DIRECTIVE: OH-MY-OPENCODE - RALPH LOOP 2/500]\ncontinue\n${OMO_INTERNAL_INITIATOR_MARKER}`,
+            text: `ultrawork [SYSTEM DIRECTIVE: OH-MY-OPENCODE - RALPH LOOP 2/500]\ncontinue\n${OMA_INTERNAL_INITIATOR_MARKER}`,
             synthetic: true,
           },
         ],

@@ -87,8 +87,8 @@ describe("runtime shims", () => {
     const transpiled = new Bun.Transpiler({ loader: "ts" }).transformSync(source)
     const nodePath = bunWhich("node")
     const script = String.raw`
-      const modulePath = process.env.OMO_RUNTIME_SHIM_MODULE;
-      if (!modulePath) throw new Error("missing OMO_RUNTIME_SHIM_MODULE");
+      const modulePath = process.env.OMA_RUNTIME_SHIM_MODULE;
+      if (!modulePath) throw new Error("missing OMA_RUNTIME_SHIM_MODULE");
       const { pathToFileURL } = await import("node:url");
       const { spawn, spawnSync } = await import(pathToFileURL(modulePath).href);
       async function readProcessStream(stream) {
@@ -136,7 +136,7 @@ describe("runtime shims", () => {
 
       expect(nodePath).not.toBeNull()
       const result = spawnSync([nodePath ?? "node", "--input-type=module", "--eval", script, modulePath], {
-        env: { ...process.env, OMO_RUNTIME_SHIM_MODULE: modulePath },
+        env: { ...process.env, OMA_RUNTIME_SHIM_MODULE: modulePath },
         stdout: "pipe",
         stderr: "pipe",
       })

@@ -112,7 +112,7 @@ describe("install platform resolution", () => {
     const cliProgramSource = await Bun.file(new URL("./cli-program.ts", import.meta.url)).text()
 
     // when
-    const rootBlock = cliProgramSource.match(/program\s*\n\s*\.name\("oh-my-opencode"\)([\s\S]*?)\.enablePositionalOptions\(\)/)
+    const rootBlock = cliProgramSource.match(/program\s*\n\s*\.name\("oh-my-agent"\)([\s\S]*?)\.enablePositionalOptions\(\)/)
 
     // then
     expect(rootBlock).not.toBeNull()

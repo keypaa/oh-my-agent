@@ -1,5 +1,5 @@
 import { isRecord } from "@oh-my-opencode/utils"
-import { OMO_INTERNAL_INITIATOR_MARKER } from "../shared"
+import { OMA_INTERNAL_INITIATOR_MARKER } from "../shared"
 import type { PluginContext } from "./types"
 
 type ChatHeadersInput = {
@@ -83,7 +83,7 @@ async function hasInternalMarker(
         return false
       }
 
-      return part.text.includes(OMO_INTERNAL_INITIATOR_MARKER)
+      return part.text.includes(OMA_INTERNAL_INITIATOR_MARKER)
     })
 
     internalMarkerCache.set(cacheKey, hasMarker)

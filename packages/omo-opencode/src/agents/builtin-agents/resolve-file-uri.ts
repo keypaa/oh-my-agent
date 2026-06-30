@@ -6,7 +6,7 @@ import { log } from "../../shared/logger"
 
 const ALLOWED_HOME_SUBDIRS = [
   join(homedir(), ".config", "opencode"),
-  join(homedir(), ".config", "oh-my-openagent"),
+  join(homedir(), ".config", "oh-my-agent"),
   join(homedir(), ".omo"),
   join(homedir(), ".opencode"),
 ] as const
@@ -46,7 +46,7 @@ export function resolvePromptAppend(promptAppend: string, configDir?: string): s
       projectRoot,
       allowedHomeSubdirs: [...ALLOWED_HOME_SUBDIRS],
     })
-    return `[WARNING: Path rejected: ${promptAppend} (resolved outside project root ${projectRoot} and allowed home directories; file:// prompts must reside within the project directory, ~/.config/opencode/, ~/.config/oh-my-openagent/, ~/.omo/, or ~/.opencode/)]`
+    return `[WARNING: Path rejected: ${promptAppend} (resolved outside project root ${projectRoot} and allowed home directories; file:// prompts must reside within the project directory, ~/.config/opencode/, ~/.config/oh-my-agent/, ~/.omo/, or ~/.opencode/)]`
   }
 
   if (!existsSync(filePath)) {

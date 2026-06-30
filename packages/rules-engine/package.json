@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Pure TypeScript rule discovery, matching, and nested AGENTS.md context utilities for oh-my-opencode.",
+  "description": "Pure TypeScript rule discovery, matching, and nested AGENTS.md context utilities for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

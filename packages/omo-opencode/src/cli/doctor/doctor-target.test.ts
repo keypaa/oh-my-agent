@@ -26,7 +26,7 @@ describe("resolveDoctorTarget", () => {
 
   test("#given opencode invocation #when resolving doctor target #then keeps OpenCode diagnostics", () => {
     // given
-    const invocationName = "oh-my-opencode"
+    const invocationName = "oh-my-agent"
 
     // when
     const target = resolveDoctorTarget(invocationName)

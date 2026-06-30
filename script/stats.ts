@@ -1,9 +1,9 @@
 import { $ } from "bun"
 import { z } from "zod"
 
-const NPM_PACKAGES = ["oh-my-opencode", "oh-my-openagent", "lazycodex-ai"] as const
-const POSTHOG_CAPTURE_URL = "https://us.i.posthog.com/capture/"
-const GITHUB_REPOSITORY = "code-yeongyu/oh-my-openagent"
+const NPM_PACKAGES = ["oh-my-agent", "oh-my-agent", "lazycodex-ai"] as const
+const telemetry_CAPTURE_URL = "https://us.i.telemetry.com/capture/"
+const GITHUB_REPOSITORY = "code-yeongyu/oh-my-agent"
 
 const NpmDownloadsSchema = z.object({
   downloads: z.number().int().nonnegative(),
@@ -30,7 +30,7 @@ export type DownloadStat = {
   readonly source: DownloadSource
 }
 
-type PostHogDownloadEvent = {
+type telemetryDownloadEvent = {
   readonly api_key: string
   readonly event: "omo_download_stats"
   readonly distinct_id: "download"
@@ -96,10 +96,10 @@ export async function collectDownloadStats(deps: StatsDeps): Promise<readonly Do
   return [...npmStats, readGitHubReleaseDownloadStat(await deps.runGhApi())]
 }
 
-export function createPostHogDownloadEvents(
+export function createtelemetryDownloadEvents(
   stats: readonly DownloadStat[],
   apiKey: string,
-): readonly PostHogDownloadEvent[] {
+): readonly telemetryDownloadEvent[] {
   return stats.map((stat) => ({
     api_key: apiKey,
     event: "omo_download_stats",
@@ -113,35 +113,35 @@ export function createPostHogDownloadEvents(
   }))
 }
 
-async function sendPostHogEvent(event: PostHogDownloadEvent): Promise<void> {
-  const response = await fetch(POSTHOG_CAPTURE_URL, {
+async function sendtelemetryEvent(event: telemetryDownloadEvent): Promise<void> {
+  const response = await fetch(telemetry_CAPTURE_URL, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(event),
   })
   if (!response.ok) {
-    throw new Error(`PostHog capture failed: ${response.status}`)
+    throw new Error(`telemetry capture failed: ${response.status}`)
   }
 }
 
 export async function runStats(args: readonly string[], deps: StatsDeps): Promise<number> {
   const { dryRun } = parseArgs(args)
   const stats = await collectDownloadStats(deps)
-  const events = createPostHogDownloadEvents(stats, process.env.POSTHOG_KEY ?? "dry-run")
+  const events = createtelemetryDownloadEvents(stats, process.env.telemetry_KEY ?? "dry-run")
 
   if (dryRun) {
     console.log(JSON.stringify({ dryRun: true, events }, null, 2))
     return 0
   }
 
-  const apiKey = process.env.POSTHOG_KEY
+  const apiKey = process.env.telemetry_KEY
   if (!apiKey) {
-    console.log("POSTHOG_KEY is not set; skipping download stats upload")
+    console.log("telemetry_KEY is not set; skipping download stats upload")
     return 0
   }
 
-  for (const event of createPostHogDownloadEvents(stats, apiKey)) {
-    await sendPostHogEvent(event)
+  for (const event of createtelemetryDownloadEvents(stats, apiKey)) {
+    await sendtelemetryEvent(event)
   }
   console.log(`Sent ${events.length} download stats events`)
   return 0

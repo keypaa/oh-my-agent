@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Pure TypeScript AGENTS.md discovery and injection core for oh-my-opencode.",
+  "description": "Pure TypeScript AGENTS.md discovery and injection core for oh-my-agent.",
   "exports": {
     ".": {
       "types": "./index.d.ts",

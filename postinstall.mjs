@@ -15,7 +15,7 @@ import { detectPlatformBinaryMismatch } from "./bin/version-mismatch.js";
 const require = createRequire(import.meta.url);
 
 const MIN_OPENCODE_VERSION = "1.4.0";
-const OPENCODE_PLUGIN_PACKAGES = ["oh-my-opencode", "oh-my-openagent"];
+const OPENCODE_PLUGIN_PACKAGES = ["oh-my-agent", "oh-my-agent"];
 
 /**
  * Parse version string into numeric parts
@@ -95,7 +95,7 @@ function readMainPackageJson() {
 
 function getPackageBaseName() {
   const packageJson = readMainPackageJson();
-  return resolvePlatformPackageBaseName(packageJson?.name || "oh-my-opencode");
+  return resolvePlatformPackageBaseName(packageJson?.name || "oh-my-agent");
 }
 
 function getMainPackageVersion() {
@@ -141,7 +141,7 @@ function main() {
   // Check opencode version requirement
   const versionCheck = checkOpenCodeVersion();
   if (versionCheck.version && !versionCheck.ok) {
-    console.warn(`⚠ oh-my-opencode requires OpenCode >= ${MIN_OPENCODE_VERSION}`);
+    console.warn(`⚠ oh-my-agent requires OpenCode >= ${MIN_OPENCODE_VERSION}`);
     console.warn(`  Detected: ${versionCheck.version}`);
     console.warn(`  Please update OpenCode to avoid compatibility issues.`);
   }
@@ -175,16 +175,16 @@ function main() {
       platformPackage: resolvedPackage,
     });
     if (mismatch) {
-      console.warn(`⚠ oh-my-opencode platform binary version mismatch detected`);
+      console.warn(`⚠ oh-my-agent platform binary version mismatch detected`);
       console.warn(`  ${packageBaseName}: ${mismatch.mainVersion}`);
       console.warn(`  ${mismatch.platformPackage}: ${mismatch.platformVersion}`);
       console.warn(`  The startup banner may show the stale version until the platform binary is updated.`);
       console.warn(`  Fix: npm install -g ${packageBaseName}@${mismatch.mainVersion} ${mismatch.platformPackage}@${mismatch.mainVersion}`);
     }
 
-    console.log(`✓ oh-my-opencode binary installed for ${platform}-${arch} (${resolvedPackage})`);
+    console.log(`✓ oh-my-agent binary installed for ${platform}-${arch} (${resolvedPackage})`);
   } catch (error) {
-    console.warn(`⚠ oh-my-opencode: ${error.message}`);
+    console.warn(`⚠ oh-my-agent: ${error.message}`);
     console.warn(`  The CLI may not work on this platform.`);
     // Don't fail installation - let user try anyway
   }

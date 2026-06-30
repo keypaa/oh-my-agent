@@ -159,7 +159,7 @@ describe("handleSessionIdle", () => {
             data: [
               {
                 info: { role: "user" },
-                parts: [{ type: "text", text: "continue\n<!-- OMO_INTERNAL_INITIATOR -->", synthetic: true }],
+                parts: [{ type: "text", text: "continue\n<!-- OMA_INTERNAL_INITIATOR -->", synthetic: true }],
               },
               {
                 info: { role: "assistant", finish: "unknown", time: { completed: Date.now() } },

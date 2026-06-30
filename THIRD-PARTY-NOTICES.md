@@ -1,6 +1,6 @@
 # Third Party Notices
 
-This file enumerates third-party components redistributed by the root `oh-my-opencode` package surface from `package.json` `files[]`, root production dependencies, bundled MCP/runtime payloads, and the planned pinned CodeGraph provisioning payload for the CodeGraph OMO integration.
+This file enumerates third-party components redistributed by the root `oh-my-agent` package surface from `package.json` `files[]`, root production dependencies, bundled MCP/runtime payloads, and the planned pinned CodeGraph provisioning payload for the CodeGraph OMO integration.
 
 Generator/checker note: update this file with the audited component list, then run `node scripts/check-third-party-notices.mjs`. Task 11 owns tarball ship verification.
 
@@ -174,10 +174,10 @@ Generator/checker note: update this file with the audited component list, then r
 - Upstream URL: https://github.com/micromatch/picomatch
 - Where-bundled: root production dependency; CodeGraph platform bundles also vendor `picomatch@4.0.3`.
 
-### posthog-node@5.35.12
-- License: Apache-2.0 text in `node_modules/posthog-node/LICENSE`; package metadata declares MIT.
-- Copyright: Copyright 2020 Posthog / Hiberly, Inc.; Copyright 2015 Mixpanel, Inc.
-- Upstream URL: https://github.com/PostHog/posthog-js
+### telemetry-node@5.35.12
+- License: Apache-2.0 text in `node_modules/telemetry-node/LICENSE`; package metadata declares MIT.
+- Copyright: Copyright 2020 telemetry / Hiberly, Inc.; Copyright 2015 Mixpanel, Inc.
+- Upstream URL: https://github.com/telemetry/telemetry-js
 - Where-bundled: root production dependency for anonymous telemetry.
 
 ### sisteransi@1.0.5

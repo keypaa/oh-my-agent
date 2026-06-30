@@ -62,7 +62,7 @@ const CODEX_AGGREGATE_COMPONENTS = [
   "pi-lsp-client",
   "pi-rules",
   "picomatch",
-  "posthog-node",
+  "telemetry-node",
 ]
 
 const ROOT_SHIP_REQUIRED_PATHS = [

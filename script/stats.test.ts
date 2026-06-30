@@ -24,7 +24,7 @@ describe("download stats automation", () => {
       properties: {
         $process_person_profile: false,
         count: 19,
-        package_name: "code-yeongyu/oh-my-openagent",
+        package_name: "code-yeongyu/oh-my-agent",
         source: "github_release",
       },
     })
@@ -47,7 +47,7 @@ describe("download stats automation", () => {
     // then
     expect(githubStat).toEqual({
       count: 19,
-      packageName: "code-yeongyu/oh-my-openagent",
+      packageName: "code-yeongyu/oh-my-agent",
       source: "github_release",
     })
   })

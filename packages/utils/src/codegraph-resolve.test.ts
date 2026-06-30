@@ -4,14 +4,14 @@ import { join } from "node:path"
 import { resolveCodegraphCommand, resolveCodegraphNodeRuntime, resolveCodegraphNodeSupport } from "./codegraph/resolve"
 
 describe("resolveCodegraphCommand", () => {
-  it("prefers OMO_CODEGRAPH_BIN over bundled, provisioned, and PATH tiers", () => {
+  it("prefers OMA_CODEGRAPH_BIN over bundled, provisioned, and PATH tiers", () => {
     // given
-    const env = { OMO_CODEGRAPH_BIN: "/opt/codegraph/bin/codegraph" }
+    const env = { OMA_CODEGRAPH_BIN: "/opt/codegraph/bin/codegraph" }
 
     // when
     const result = resolveCodegraphCommand({
       env,
-      fileExists: (filePath: string) => filePath === env.OMO_CODEGRAPH_BIN,
+      fileExists: (filePath: string) => filePath === env.OMA_CODEGRAPH_BIN,
       provisioned: () => "/provisioned/codegraph",
       requireResolve: () => "/bundle/package.json",
       which: () => "/usr/local/bin/codegraph",
@@ -26,9 +26,9 @@ describe("resolveCodegraphCommand", () => {
     })
   })
 
-  it("keeps an invalid OMO_CODEGRAPH_BIN override unavailable", () => {
+  it("keeps an invalid OMA_CODEGRAPH_BIN override unavailable", () => {
     // given
-    const env = { OMO_CODEGRAPH_BIN: "/nonexistent" }
+    const env = { OMA_CODEGRAPH_BIN: "/nonexistent" }
 
     // when
     const result = resolveCodegraphCommand({

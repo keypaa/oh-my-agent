@@ -21,7 +21,7 @@ export function formatDoctorFailure(error: unknown): string[] {
   if (error instanceof Error && error.stack) {
     lines.push(error.stack)
   }
-  lines.push(`Try: OMO_DISABLE_POSTHOG=1 bunx ${PUBLISHED_PACKAGE_NAME} doctor --verbose\n`)
+  lines.push(`Try: OMA_DISABLE_POSTHOG=1 bunx ${PUBLISHED_PACKAGE_NAME} doctor --verbose\n`)
   return lines
 }
 

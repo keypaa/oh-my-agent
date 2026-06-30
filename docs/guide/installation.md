@@ -1,6 +1,6 @@
 # Installation
 
-oh-my-openagent ships in **two editions** of the same product:
+oh-my-agent ships in **two editions** of the same product:
 
 - **Ultimate Edition (omo for [OpenCode](https://opencode.ai))** — the full omo experience. 11 discipline agents, 54+ lifecycle hooks, all built-in MCPs, every slash command, Team Mode, ulw-loop, hashline edits, the works.
 - **Light Edition (omo for [OpenAI Codex CLI](https://github.com/openai/codex))** — the portable components that fit Codex's plugin system: `rules`, `comment-checker`, `git-bash`, `lsp`, `ultrawork`, `ulw-loop`, `start-work-continuation`, and `telemetry`, plus plugin-scoped MCPs for `grep_app`, `context7`, `codegraph`, `git_bash`, and `lsp`, and the shared `ast-grep` skill. No agent orchestration and no `team_*` tools — Codex CLI's native surface does that work.
@@ -9,9 +9,9 @@ Most users want **Ultimate**. Pick **Light** if you are already invested in Code
 
 | You want | Run | Lands on disk |
 | :--- | :--- | :--- |
-| Ultimate (OpenCode) | `bunx oh-my-openagent install` (TUI walks you through it) | Plugin registered in `opencode.json`, agent/model config, provider auth |
+| Ultimate (OpenCode) | `bunx oh-my-agent install` (TUI walks you through it) | Plugin registered in `opencode.json`, agent/model config, provider auth |
 | Light (Codex CLI) | `npx lazycodex-ai install` | `~/.codex/plugins/cache/sisyphuslabs/omo/`, stable Codex marketplace snapshot, `~/.codex/config.toml` marketplace/plugin/agent blocks, optional autonomous Codex permissions, component CLIs in `~/.local/bin` |
-| Both | `bunx oh-my-openagent install --platform=both` | Both of the above |
+| Both | `bunx oh-my-agent install --platform=both` | Both of the above |
 
 `lazycodex-ai` defaults to the Codex Light installer and runs through Node/npm. `--platform` on the shared `omo` CLI still defaults to `opencode` (Ultimate). `lazycodex-ai` is the npm/bin alias; `lazycodex` is the GitHub repository that hosts the marketplace bundle. Neither is the Codex marketplace name.
 
@@ -24,8 +24,8 @@ Most users want **Ultimate**. Pick **Light** if you are already invested in Code
 Paste this prompt into Claude Code, AmpCode, Cursor, or any LLM agent session:
 
 ```
-Install and configure oh-my-openagent by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+Install and configure oh-my-agent by following the instructions here:
+https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/refs/heads/dev/docs/guide/installation.md
 ```
 
 ### Light (Codex CLI) — one line, no agent needed
@@ -42,7 +42,7 @@ It writes managed Codex Light state to `~/.codex/` and does not touch OpenCode o
 
 On Windows, keep the direct `npx lazycodex-ai install ...` form above. Do not rewrite it into an `npx --package` command that launches the `omo install` bin indirectly; that package-manager shape can fail before the installer starts.
 
-On native Windows Codex installs, the installer discovers Git Bash before writing Codex config. It checks `OMO_CODEX_GIT_BASH_PATH`, standard Git for Windows locations, and then PATH. If Git Bash is missing, it prints the install guidance shown here and stops without running `winget` or changing system dependencies:
+On native Windows Codex installs, the installer discovers Git Bash before writing Codex config. It checks `OMA_CODEX_GIT_BASH_PATH`, standard Git for Windows locations, and then PATH. If Git Bash is missing, it prints the install guidance shown here and stops without running `winget` or changing system dependencies:
 
 ```powershell
 winget install --id Git.Git -e --source winget
@@ -52,11 +52,11 @@ where bash
 If Git is installed somewhere custom, set the path before rerunning the installer:
 
 ```cmd
-setx OMO_CODEX_GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
+setx OMA_CODEX_GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
 ```
 
 ```powershell
-$env:OMO_CODEX_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
+$env:OMA_CODEX_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
 ```
 
 Codex may still start Windows shell calls through its own defaults. The Light edition does not write a global Codex shell config; instead it verifies Git Bash is available, enables the Windows-only `git_bash` MCP policy, and injects guidance before the first shell-like call. After compaction, the reminder resets so the next shell-like call gets the same `git_bash` recommendation.
@@ -124,9 +124,9 @@ A detached worker finishes the install in the background (the `sg` download is t
 | Mode | What you see | What to do |
 |---|---|---|
 | `omo-cli` absent | The top-level `omo` command was not linked because the installed payload is old or incomplete and lacks the root CLI runtime. Current marketplace payloads ship `dist/cli/index.js` plus `dist/cli-node/index.js`, so this should not appear on a fresh marketplace install. Component CLIs still link normally. | Upgrade or reinstall the marketplace plugin, then start a new Codex session so bootstrap relinks bins. Verify with `npx lazycodex-ai doctor`; use `npx lazycodex-ai <command>` only as a temporary workaround. |
-| `sg` pending / offline | The ast-grep provisioning entry appears in the degraded list and the `ast-grep` skill cannot find `sg` yet — the first download is still running, or it failed while offline. | Start another session (bootstrap retries automatically), or install ast-grep yourself and/or set `OMO_AST_GREP_SG_PATH=/path/to/sg`. Verify with `npx lazycodex-ai doctor`. |
-| Proxy limitation | Binary downloads fail behind an HTTP(S) proxy. The logged error says it plainly: the bootstrap downloader "does not tunnel through HTTP(S) proxies in v1; the download was attempted directly." | Run one session on a direct connection, or provide `sg` via `OMO_AST_GREP_SG_PATH`/`PATH`. Verify with `npx lazycodex-ai doctor`. |
-| OpenCode Windows proxy preinstall | OpenCode starts before OMO loads, shows only default agents, or logs `fetch() proxy.url must be a non-empty string` while trying to install `oh-my-openagent@latest`. | Set `HTTP_PROXY`/`HTTPS_PROXY` for the shell that launches OpenCode, then preinstall into OpenCode's Windows config prefix: `npm install oh-my-openagent@latest --prefix "%APPDATA%\\opencode"`. Restart OpenCode and run `bunx oh-my-openagent doctor --json`. |
+| `sg` pending / offline | The ast-grep provisioning entry appears in the degraded list and the `ast-grep` skill cannot find `sg` yet — the first download is still running, or it failed while offline. | Start another session (bootstrap retries automatically), or install ast-grep yourself and/or set `OMA_AST_GREP_SG_PATH=/path/to/sg`. Verify with `npx lazycodex-ai doctor`. |
+| Proxy limitation | Binary downloads fail behind an HTTP(S) proxy. The logged error says it plainly: the bootstrap downloader "does not tunnel through HTTP(S) proxies in v1; the download was attempted directly." | Run one session on a direct connection, or provide `sg` via `OMA_AST_GREP_SG_PATH`/`PATH`. Verify with `npx lazycodex-ai doctor`. |
+| OpenCode Windows proxy preinstall | OpenCode starts before OMO loads, shows only default agents, or logs `fetch() proxy.url must be a non-empty string` while trying to install `oh-my-agent@latest`. | Set `HTTP_PROXY`/`HTTPS_PROXY` for the shell that launches OpenCode, then preinstall into OpenCode's Windows config prefix: `npm install oh-my-agent@latest --prefix "%APPDATA%\\opencode"`. Restart OpenCode and run `bunx oh-my-agent doctor --json`. |
 
 **Windows status.** On native Windows the marketplace bootstrap runs through a PowerShell 5.1-compatible `bootstrap.ps1`: it provisions the pinned Node LTS zip when `node` is absent, prepares Git Bash the same way the npx installer does, and writes its transcript to `ps-bootstrap.log` in the plugin data dir (degraded lines look like `degraded component=node reason=... hint=npx lazycodex-ai doctor`). Windows provisioning is shipped with static test coverage; real-device validation is still tracked separately in [code-yeongyu/lazycodex#52](https://github.com/code-yeongyu/lazycodex/issues/52). Do not treat static coverage as proof that a physical Windows install was exercised.
 
@@ -135,10 +135,10 @@ A detached worker finishes the install in the background (the `sg` download is t
 If you insist on running the Ultimate installer yourself:
 
 ```bash
-bunx oh-my-openagent install
+bunx oh-my-agent install
 ```
 
-The TUI walks you through it. **Do NOT use `npm install -g`, `bun add -g`, or `bun install -g`** — global installation is not officially supported. oh-my-openagent is a plugin that must resolve from where OpenCode/Codex loads plugins, and the `prepare` script requires Bun. Always invoke via `bunx`.
+The TUI walks you through it. **Do NOT use `npm install -g`, `bun add -g`, or `bun install -g`** — global installation is not officially supported. oh-my-agent is a plugin that must resolve from where OpenCode/Codex loads plugins, and the `prepare` script requires Bun. Always invoke via `bunx`.
 
 If you already used Bun global install or update and Bun reports blocked lifecycle scripts, inspect them before trusting anything:
 
@@ -146,17 +146,17 @@ If you already used Bun global install or update and Bun reports blocked lifecyc
 bun pm -g untrusted
 ```
 
-Do not run a blanket trust command. Trust only packages you recognize from this install path, such as `oh-my-openagent`, legacy `oh-my-opencode`, or `@code-yeongyu/comment-checker`, then rerun the supported `bunx oh-my-openagent install` or `npx lazycodex-ai doctor` check.
+Do not run a blanket trust command. Trust only packages you recognize from this install path, such as `oh-my-agent`, legacy `oh-my-agent`, or `@code-yeongyu/comment-checker`, then rerun the supported `bunx oh-my-agent install` or `npx lazycodex-ai doctor` check.
 
 ## For LLM Agents
 
 > **IMPORTANT: Use `curl` to fetch this file, NOT WebFetch.** WebFetch summarizes content and loses critical flags like `--platform`, subscription questions, and Codex verification details. Always use:
 >
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+> curl -fsSL https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/refs/heads/dev/docs/guide/installation.md
 > ```
 
-If you are an LLM agent helping a user install oh-my-openagent, help them install the requested edition, verify the setup, and configure model providers.
+If you are an LLM agent helping a user install oh-my-agent, help them install the requested edition, verify the setup, and configure model providers.
 
 Follow these steps in order.
 
@@ -164,7 +164,7 @@ Follow these steps in order.
 
 First, ask which platform(s) they want to install for. This determines the rest of the flow:
 
-> "Which harness do you want to install oh-my-openagent for? Pick one:
+> "Which harness do you want to install oh-my-agent for? Pick one:
 > 1. OpenCode — terminal AI coding agent
 > 2. OpenAI Codex CLI
 > 3. Both"
@@ -267,21 +267,21 @@ fi
 
 The installer expects `~/.codex/` to be writable. Codex CLI's first run creates this directory; if it does not exist yet, install Codex CLI and run it once before continuing.
 
-On native Windows Codex installs, Git Bash is also required. The installer checks `OMO_CODEX_GIT_BASH_PATH`, standard Git for Windows locations, and PATH; if discovery fails, run:
+On native Windows Codex installs, Git Bash is also required. The installer checks `OMA_CODEX_GIT_BASH_PATH`, standard Git for Windows locations, and PATH; if discovery fails, run:
 
 ```powershell
 winget install --id Git.Git -e --source winget
 where bash
 ```
 
-For a custom Git Bash location, set `OMO_CODEX_GIT_BASH_PATH`:
+For a custom Git Bash location, set `OMA_CODEX_GIT_BASH_PATH`:
 
 ```cmd
-setx OMO_CODEX_GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
+setx OMA_CODEX_GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
 ```
 
 ```powershell
-$env:OMO_CODEX_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
+$env:OMA_CODEX_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
 ```
 
 ### Step 2: Run the installer
@@ -289,7 +289,7 @@ $env:OMO_CODEX_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
 Run with the platform flag and the subscription flags you collected in Step 0:
 
 ```bash
-bunx oh-my-openagent install \
+bunx oh-my-agent install \
   --no-tui \
   --platform=<opencode|codex|both> \
   [--claude=<yes|no|max20>] \
@@ -311,7 +311,7 @@ bunx oh-my-openagent install \
 
 - OpenCode + Claude Max20 + ChatGPT + Gemini:
   ```bash
-  bunx oh-my-openagent install --no-tui --platform=opencode --claude=max20 --openai=yes --gemini=yes --copilot=no
+  bunx oh-my-agent install --no-tui --platform=opencode --claude=max20 --openai=yes --gemini=yes --copilot=no
   ```
 - Codex only with recommended autonomous permissions:
   ```bash
@@ -319,15 +319,15 @@ bunx oh-my-openagent install \
   ```
 - Both harnesses with Claude only:
   ```bash
-  bunx oh-my-openagent install --no-tui --platform=both --claude=yes --gemini=no --copilot=no --codex-autonomous
+  bunx oh-my-agent install --no-tui --platform=both --claude=yes --gemini=no --copilot=no --codex-autonomous
   ```
 - OpenCode + Z.ai for Librarian:
   ```bash
-  bunx oh-my-openagent install --no-tui --platform=opencode --claude=yes --gemini=no --copilot=no --zai-coding-plan=yes
+  bunx oh-my-agent install --no-tui --platform=opencode --claude=yes --gemini=no --copilot=no --zai-coding-plan=yes
   ```
 - OpenCode Go subscriber, nothing else:
   ```bash
-  bunx oh-my-openagent install --no-tui --platform=opencode --claude=no --openai=no --gemini=no --copilot=no --opencode-go=yes
+  bunx oh-my-agent install --no-tui --platform=opencode --claude=no --openai=no --gemini=no --copilot=no --opencode-go=yes
   ```
 
 **About the `lazycodex-ai` bin name.** `lazycodex-ai` is the npm package and bin alias for the Codex Light Node installer. `lazycodex` (without the `-ai` suffix) is the GitHub repository that hosts the marketplace bundle. `lazycodex-ai install` does not require Bun. The Codex marketplace name is `sisyphuslabs`, and the plugin name is `omo`.
@@ -336,7 +336,7 @@ bunx oh-my-openagent install \
 
 | Platform | Writes |
 |----------|--------|
-| `opencode`, `both` | Registers `"oh-my-openagent"` in `opencode.json` `plugin` array. Generates agent → model mappings into `~/.config/opencode/oh-my-openagent.jsonc`. |
+| `opencode`, `both` | Registers `"oh-my-agent"` in `opencode.json` `plugin` array. Generates agent → model mappings into `~/.config/opencode/oh-my-agent.jsonc`. |
 | `codex`, `both` | Copies `packages/omo-codex/plugin/` into `~/.codex/plugins/cache/sisyphuslabs/omo/<version>/`. Packaged `lazycodex-ai` installs use bundled component artifacts and run `npm ci --omit=dev` in the cache; source checkout installs may build the plugin first. Writes a local installed-marketplace snapshot under `~/.codex/.tmp/marketplaces/sisyphuslabs/` for marketplace metadata, and copies bundled agent TOMLs into `~/.codex/agents/` so role definitions survive cache or temporary snapshot cleanup. Symlinks component CLIs into `~/.local/bin` (or `$CODEX_LOCAL_BIN_DIR`). Computes SHA256 trusted-hashes for every hook and writes `[marketplaces.sisyphuslabs]` with local source `~/.codex/plugins/cache/sisyphuslabs`, `[plugins."omo@sisyphuslabs"]`, managed `[agents.*]`, `[features.multi_agent_v2] max_concurrent_threads_per_session = 1000`, and `[hooks.state."omo@sisyphuslabs:..."]` blocks into `~/.codex/config.toml`. If a legacy `[features] multi_agent_v2 = false` shorthand exists, the installer converts it to `[features.multi_agent_v2] enabled = false` to keep the file valid while preserving the user's explicit disable. If `--codex-autonomous` is selected, also writes `approval_policy = "never"`, `sandbox_mode = "danger-full-access"`, `network_access = "enabled"`, and the matching `[notice]` warning suppressions. |
 
 Both halves are independent and idempotent — re-running is safe.
@@ -348,8 +348,8 @@ Both halves are independent and idempotent — re-running is safe.
 ```bash
 opencode --version  # Should be 1.4.0 or higher
 cat ~/.config/opencode/opencode.json
-# Plugin array should contain "oh-my-openagent" (legacy "oh-my-opencode" still loads with a warning)
-bunx oh-my-openagent doctor
+# Plugin array should contain "oh-my-agent" (legacy "oh-my-agent" still loads with a warning)
+bunx oh-my-agent doctor
 ```
 
 `doctor` runs six categories of checks: **System** (binary version, plugin registration), **Config** (JSONC + Zod schema), **TUI Plugin**, **Tools** (AST-grep, LSP, GitHub CLI, comment-checker), **Models** (cache, per-agent resolution, fallback chain availability), and **Team Mode** (if enabled). Exit code: `0` = ok, `1` = errors, `2` = warnings only.
@@ -408,13 +408,13 @@ First, add the `opencode-antigravity-auth` plugin entry to `opencode.json`:
 
 ```json
 {
-  "plugin": ["oh-my-openagent", "opencode-antigravity-auth@latest"]
+  "plugin": ["oh-my-agent", "opencode-antigravity-auth@latest"]
 }
 ```
 
 Then merge the full model configuration from the [opencode-antigravity-auth README](https://github.com/NoeFabris/opencode-antigravity-auth) into `opencode.json`. The plugin uses a **variant system** — models like `antigravity-gemini-3-pro` support `low`/`high` variants instead of separate `-low`/`-high` entries.
 
-Override the agent models in your plugin config file (`oh-my-openagent.jsonc` or legacy `oh-my-opencode.jsonc`):
+Override the agent models in your plugin config file (`oh-my-agent.jsonc` or legacy `oh-my-agent.jsonc`):
 
 ```json
 {
@@ -612,7 +612,7 @@ Atlas still has model-family-specific prompt behavior. Prometheus does not switc
 
 #### Custom model configuration
 
-If the user wants to override which model an agent uses, edit the plugin config file (`oh-my-openagent.jsonc` or legacy `oh-my-opencode.jsonc`):
+If the user wants to override which model an agent uses, edit the plugin config file (`oh-my-agent.jsonc` or legacy `oh-my-agent.jsonc`):
 
 ```jsonc
 {
@@ -633,7 +633,7 @@ There is no single global provider priority. The installer and runtime resolve e
 
 ### Step 6: First use — modes, commands, agents, skills
 
-After install, the user interacts with oh-my-openagent through five surfaces. Walk them through each.
+After install, the user interacts with oh-my-agent through five surfaces. Walk them through each.
 
 #### Modes (typed naturally in chat)
 
@@ -705,7 +705,7 @@ After verification, tell the user:
 3. **Need precision?** Press **Tab** to enter Prometheus (Planner) mode, then run `/start-work` to execute the verified plan.
 4. **Your own agent/category setup?** Read [`docs/guide/agent-model-matching.md`](agent-model-matching.md) — the assistant can interview the user and tune the config.
 
-Then say **Congratulations! 🎉 You have successfully set up oh-my-openagent! Type `opencode` (or `codex`) in your terminal to start using it.**
+Then say **Congratulations! 🎉 You have successfully set up oh-my-agent! Type `opencode` (or `codex`) in your terminal to start using it.**
 
 ### Step 7: Light Edition deep dive (Codex CLI)
 
@@ -715,7 +715,7 @@ Skip this section if `--platform=opencode`. Otherwise, the user installed the **
 
 - **Plugin cache:** `~/.codex/plugins/cache/sisyphuslabs/omo/<version>/`
 - **Codex marketplace snapshot:** `~/.codex/.tmp/marketplaces/sisyphuslabs/` (local marketplace metadata and bundled source snapshot)
-- **Component binaries:** `lazycodex-executor-verify`, `omo-comment-checker`, `omo-git-bash-hook`, `omo-lsp`, `omo-rules`, `omo-start-work-continuation`, `omo-telemetry`, `omo-ulw-loop`, `omo-ultrawork`, `ulw`, and `ulw-loop` in `~/.local/bin` (or under `$CODEX_LOCAL_BIN_DIR` if set). The top-level `omo` command belongs to the shared oh-my-openagent launcher, not a Codex component.
+- **Component binaries:** `lazycodex-executor-verify`, `omo-comment-checker`, `omo-git-bash-hook`, `omo-lsp`, `omo-rules`, `omo-start-work-continuation`, `omo-telemetry`, `omo-ulw-loop`, `omo-ultrawork`, `ulw`, and `ulw-loop` in `~/.local/bin` (or under `$CODEX_LOCAL_BIN_DIR` if set). The top-level `omo` command belongs to the shared oh-my-agent launcher, not a Codex component.
 - **Codex agent roles:** `~/.codex/agents/{lazycodex-clone-fidelity-reviewer,lazycodex-code-reviewer,lazycodex-executor,lazycodex-gate-reviewer,lazycodex-qa-executor,explorer,librarian,metis,momus,plan}.toml` copied from the bundled plugin snapshot, so they keep resolving when Codex prunes old plugin-cache versions or temporary marketplace state
 - **Codex config edits:** `~/.codex/config.toml` gained `[features] plugins = true`, `[features] plugin_hooks = true`, `[features.multi_agent_v2] max_concurrent_threads_per_session = 1000`, `[marketplaces.sisyphuslabs]` pointing at `~/.codex/plugins/cache/sisyphuslabs`, `[plugins."omo@sisyphuslabs"]`, plugin MCP policy blocks, SHA256-pinned `[hooks.state."omo@sisyphuslabs:..."]` entries, and optionally autonomous permission settings if accepted. If the installer cannot resolve a CodeGraph-compatible Node runtime, it writes the `codegraph` MCP policy as disabled while leaving `omo@sisyphuslabs` enabled.
 
@@ -736,7 +736,7 @@ Skip this section if `--platform=opencode`. Otherwise, the user installed the **
 
 The Codex CLI Light edition is fully independent of the OpenCode plugin. You can install both side-by-side. They share no runtime state, no config files, and no model selection. Each emits its own daily telemetry event.
 
-Compatibility note: LazyCodex is the Codex-platform OmO install path for `oh-my-openagent`. The bundled Codex-native subagents in `~/.codex/agents` are expected. Do not enable duplicate Codex-layer OmO/LazyCodex installs in a single `CODEX_HOME`; keep one `omo@sisyphuslabs` Codex plugin source active there. If the setup looks confused, run `npx lazycodex-ai doctor` before deleting cache or config state.
+Compatibility note: LazyCodex is the Codex-platform OmO install path for `oh-my-agent`. The bundled Codex-native subagents in `~/.codex/agents` are expected. Do not enable duplicate Codex-layer OmO/LazyCodex installs in a single `CODEX_HOME`; keep one `omo@sisyphuslabs` Codex plugin source active there. If the setup looks confused, run `npx lazycodex-ai doctor` before deleting cache or config state.
 
 #### Codex troubleshooting
 
@@ -760,7 +760,7 @@ Off by default. Enables a lead-and-members multi-agent system with 12 dedicated 
 To enable, edit your plugin config:
 
 ```jsonc
-// ~/.config/opencode/oh-my-openagent.jsonc OR .opencode/oh-my-openagent.jsonc
+// ~/.config/opencode/oh-my-agent.jsonc OR .opencode/oh-my-agent.jsonc
 {
   "team_mode": {
     "enabled": true,
@@ -800,10 +800,10 @@ Full guide: [`docs/guide/team-mode.md`](team-mode.md).
 #### Config file precedence
 
 ```
-Walked configs (closer wins): <pwd up to $HOME>/.opencode/oh-my-openagent.json[c]
-                              (legacy basename: oh-my-opencode.json[c])
+Walked configs (closer wins): <pwd up to $HOME>/.opencode/oh-my-agent.json[c]
+                              (legacy basename: oh-my-agent.json[c])
                             ↓ merged onto
-User config:               ~/.config/opencode/oh-my-openagent.json[c]
+User config:               ~/.config/opencode/oh-my-agent.json[c]
                               (Windows: %APPDATA%\opencode\)
                             ↓ falls back to
 Defaults
@@ -819,7 +819,7 @@ Merge rules:
 Schema autocomplete in your editor:
 
 ```json
-"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json"
+"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/dev/assets/oh-my-agent.schema.json"
 ```
 
 #### Turning features off
@@ -841,16 +841,16 @@ Every agent, hook, skill, MCP, command, and tool is configurable via `disabled_*
 
 | Variable | Effect |
 |----------|--------|
-| `OMO_INVOCATION_NAME` | Overrides detected bin name (`oh-my-opencode`, `omo`, `lazycodex-ai`, etc.). Used by shared wrapper packages to route `lazycodex-ai` invocations to the Node installer path. |
-| `OMO_DISABLE_POSTHOG=1` | Disables all PostHog telemetry for the main plugin |
-| `OMO_SEND_ANONYMOUS_TELEMETRY=0` | Same effect as above |
-| `OMO_CODEX_DISABLE_POSTHOG=1` | Disables PostHog telemetry for the Codex CLI Light edition only |
-| `OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0` | Same effect as above |
-| `OMO_DISABLE_PROCESS_CLEANUP=1` | Disables background-agent best-effort process cleanup on parent exit |
-| `OMO_OPENCLAW_COMMAND_TIMEOUT_MS` | Timeout for OpenClaw outbound shell/HTTP commands |
-| `OMO_OPENCLAW_DEBUG=1` | Enables OpenClaw debug logging |
-| `OMO_OPENCLAW_REPLY_LISTENER_STARTUP_TOKEN` | Startup token for OpenClaw reply listener daemon |
-| `OMO_OPENCLAW_REPLY_LISTENER_STARTUP_TIMEOUT_MS` | Timeout for reply listener startup |
+| `OMA_INVOCATION_NAME` | Overrides detected bin name (`oh-my-agent`, `omo`, `lazycodex-ai`, etc.). Used by shared wrapper packages to route `lazycodex-ai` invocations to the Node installer path. |
+| `OMA_DISABLE_POSTHOG=1` | Disables all PostHog telemetry for the main plugin |
+| `OMA_SEND_ANONYMOUS_TELEMETRY=0` | Same effect as above |
+| `OMA_CODEX_DISABLE_POSTHOG=1` | Disables PostHog telemetry for the Codex CLI Light edition only |
+| `OMA_CODEX_SEND_ANONYMOUS_TELEMETRY=0` | Same effect as above |
+| `OMA_DISABLE_PROCESS_CLEANUP=1` | Disables background-agent best-effort process cleanup on parent exit |
+| `OMA_OPENCLAW_COMMAND_TIMEOUT_MS` | Timeout for OpenClaw outbound shell/HTTP commands |
+| `OMA_OPENCLAW_DEBUG=1` | Enables OpenClaw debug logging |
+| `OMA_OPENCLAW_REPLY_LISTENER_STARTUP_TOKEN` | Startup token for OpenClaw reply listener daemon |
+| `OMA_OPENCLAW_REPLY_LISTENER_STARTUP_TIMEOUT_MS` | Timeout for reply listener startup |
 | `OH_MY_OPENCODE_FORCE_BASELINE=1` | Forces baseline (non-AVX2) binary selection on x64 |
 | `OPENCODE_DEFAULT_AGENT` | Default agent for `omo run` (overridden by `--agent`) |
 | `CODEX_LOCAL_BIN_DIR` | Overrides `~/.local/bin` for Codex component symlinks |
@@ -867,14 +867,14 @@ OpenClaw is a bidirectional external integration: outbound dispatchers fire on s
 
 | Command | Purpose |
 |---------|---------|
-| `bunx oh-my-openagent doctor` | 6-category health check (System / Config / TUI Plugin / Tools / Models / Team Mode) |
-| `bunx oh-my-openagent boulder` | Inspect boulder work-state and per-task stats from `.omo/boulder-state/` |
-| `bunx oh-my-openagent refresh-model-capabilities` | Refresh `models.json` cache from models.dev |
-| `bunx oh-my-openagent mcp-oauth login <server-url>` | Tier-3 MCP OAuth login (PKCE + DCR) |
-| `bunx oh-my-openagent mcp-oauth status` | Show OAuth token status |
-| `bunx oh-my-openagent get-local-version` | Show installed version vs npm latest |
-| `bunx oh-my-openagent version` | Print the CLI version |
-| `bunx oh-my-openagent run <message>` | Non-interactive session; waits until todos clear and background tasks idle |
+| `bunx oh-my-agent doctor` | 6-category health check (System / Config / TUI Plugin / Tools / Models / Team Mode) |
+| `bunx oh-my-agent boulder` | Inspect boulder work-state and per-task stats from `.omo/boulder-state/` |
+| `bunx oh-my-agent refresh-model-capabilities` | Refresh `models.json` cache from models.dev |
+| `bunx oh-my-agent mcp-oauth login <server-url>` | Tier-3 MCP OAuth login (PKCE + DCR) |
+| `bunx oh-my-agent mcp-oauth status` | Show OAuth token status |
+| `bunx oh-my-agent get-local-version` | Show installed version vs npm latest |
+| `bunx oh-my-agent version` | Print the CLI version |
+| `bunx oh-my-agent run <message>` | Non-interactive session; waits until todos clear and background tasks idle |
 
 Postinstall validates both platform binary resolution and OpenCode version compatibility — the validation runs after every npm install.
 
@@ -891,24 +891,24 @@ Per product:
 
 | Product | Event name | Sources |
 |---------|-----------|---------|
-| Main plugin | `omo_daily_active` | Plugin load (`plugin_loaded`) + `run` CLI (`run_started`) |
-| Codex CLI Light edition | `omo_codex_daily_active` | Installer (`install_completed`) + Codex `SessionStart` hook (`session_start`) |
+| Main plugin | `OMA_daily_active` | Plugin load (`plugin_loaded`) + `run` CLI (`run_started`) |
+| Codex CLI Light edition | `OMA_codex_daily_active` | Installer (`install_completed`) + Codex `SessionStart` hook (`session_start`) |
 
 Opt-out:
 
 ```bash
 # Disable the main plugin's telemetry
-export OMO_DISABLE_POSTHOG=1
+export OMA_DISABLE_POSTHOG=1
 # or
-export OMO_SEND_ANONYMOUS_TELEMETRY=0
+export OMA_SEND_ANONYMOUS_TELEMETRY=0
 
 # Disable only the Codex CLI Light edition telemetry
-export OMO_CODEX_DISABLE_POSTHOG=1
+export OMA_CODEX_DISABLE_POSTHOG=1
 # or
-export OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0
+export OMA_CODEX_SEND_ANONYMOUS_TELEMETRY=0
 ```
 
-The global flags (`OMO_DISABLE_POSTHOG`, `OMO_SEND_ANONYMOUS_TELEMETRY`) also suppress the Codex CLI Light edition telemetry.
+The global flags (`OMA_DISABLE_POSTHOG`, `OMA_SEND_ANONYMOUS_TELEMETRY`) also suppress the Codex CLI Light edition telemetry.
 
 The main plugin can also opt out through config:
 
@@ -926,17 +926,17 @@ See [Privacy Policy](../legal/privacy-policy.md) and [Terms of Service](../legal
 
 ```bash
 # 1. Remove the plugin entry from opencode.json
-jq '.plugin = [.plugin[] | select(. != "oh-my-openagent" and . != "oh-my-opencode")]' \
+jq '.plugin = [.plugin[] | select(. != "oh-my-agent" and . != "oh-my-agent")]' \
     ~/.config/opencode/opencode.json > /tmp/oc.json && \
     mv /tmp/oc.json ~/.config/opencode/opencode.json
 
 # 2. Remove plugin config files (optional)
-rm -f ~/.config/opencode/oh-my-openagent.jsonc ~/.config/opencode/oh-my-openagent.json \
-      ~/.config/opencode/oh-my-opencode.jsonc ~/.config/opencode/oh-my-opencode.json
+rm -f ~/.config/opencode/oh-my-agent.jsonc ~/.config/opencode/oh-my-agent.json \
+      ~/.config/opencode/oh-my-agent.jsonc ~/.config/opencode/oh-my-agent.json
 
 # 3. Remove project config (if you have one)
-rm -f .opencode/oh-my-openagent.jsonc .opencode/oh-my-openagent.json \
-      .opencode/oh-my-opencode.jsonc .opencode/oh-my-opencode.json
+rm -f .opencode/oh-my-agent.jsonc .opencode/oh-my-agent.json \
+      .opencode/oh-my-agent.jsonc .opencode/oh-my-agent.json
 
 # 4. Verify removal
 opencode --version
@@ -963,5 +963,5 @@ If a workspace still has old project-local Codex state, run `npx lazycodex-ai un
 
 - Claude Code compatibility is supported (hooks, commands, skills, MCPs, plugins).
 - Claude Code plugin discovery load timeout is 10 seconds.
-- Runtime logger: `oh-my-opencode.log` in the OS temp dir (`/tmp` on Linux, `/var/folders/.../T/` on macOS, `%TEMP%` on Windows), 50 MB cap with `.1`/`.2` backup segments.
-- Dual-publish during the rename transition: `oh-my-opencode` and `oh-my-openagent` are both published. Inside `opencode.json`, the compatibility layer prefers the entry `"oh-my-openagent"`, while legacy `"oh-my-opencode"` entries still load with a warning. Plugin config loading recognises both `oh-my-openagent.json[c]` and `oh-my-opencode.json[c]` during the transition. If `doctor` warns about the legacy package name, update your `opencode.json` plugin entry.
+- Runtime logger: `oh-my-agent.log` in the OS temp dir (`/tmp` on Linux, `/var/folders/.../T/` on macOS, `%TEMP%` on Windows), 50 MB cap with `.1`/`.2` backup segments.
+- Dual-publish during the rename transition: `oh-my-agent` and `oh-my-agent` are both published. Inside `opencode.json`, the compatibility layer prefers the entry `"oh-my-agent"`, while legacy `"oh-my-agent"` entries still load with a warning. Plugin config loading recognises both `oh-my-agent.json[c]` and `oh-my-agent.json[c]` during the transition. If `doctor` warns about the legacy package name, update your `opencode.json` plugin entry.

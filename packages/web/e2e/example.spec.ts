@@ -20,7 +20,7 @@ test.describe("Landing Page", () => {
     await page.goto("/")
 
     // when
-    const installCommand = page.getByText("bunx oh-my-openagent install").first()
+    const installCommand = page.getByText("bunx oh-my-agent install").first()
 
     // then
     await expect(installCommand).toBeVisible()
@@ -205,6 +205,6 @@ test.describe("Manifesto Page", () => {
 
     // then
     await expect(ctaLink).toBeVisible()
-    await expect(ctaLink).toHaveAttribute("href", "https://github.com/code-yeongyu/oh-my-openagent")
+    await expect(ctaLink).toHaveAttribute("href", "https://github.com/code-yeongyu/oh-my-agent")
   })
 })

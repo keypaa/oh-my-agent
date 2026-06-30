@@ -8,7 +8,7 @@ import { clearPendingStore, consumeToolMetadata } from "../../features/tool-meta
 import { createBackgroundTask } from "./create-background-task"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 
-const projectDir = "/Users/yeongyu/local-workspaces/oh-my-opencode"
+const projectDir = "/Users/yeongyu/local-workspaces/oh-my-agent"
 
 type ToolContextWithCallID = ToolContext & {
   callID: string
