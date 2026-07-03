@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto"
 import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { createBoulderState, readBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { createBoulderState, readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName } from "../../features/session-state"
 import {
   releaseAllPromptAsyncReservationsForTesting,

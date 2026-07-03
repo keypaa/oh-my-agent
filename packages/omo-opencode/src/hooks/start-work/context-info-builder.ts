@@ -4,8 +4,8 @@ import {
   getWorkResumeOptions,
   readBoulderState,
   selectActiveWork,
-} from "../../features/boulder-state"
-import type { BoulderState } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import type { PluginInput } from "@opencode-ai/plugin"
 import { buildExistingSessionContext, buildMultipleActiveWorksContext } from "./context-info-formatters"

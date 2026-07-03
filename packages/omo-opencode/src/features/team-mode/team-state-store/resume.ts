@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/team-state-store/resume"
+export * from "#shared/team-core/team-state-store/resume"

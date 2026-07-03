@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/team-core",
+  "main": "index.ts",
+  "exports": {
+    ".": { "types": "./index.ts", "import": "./index.ts" },
+    "./config": { "types": "./config.ts", "import": "./config.ts" },
+    "./team-registry": { "types": "./team-registry/index.ts", "import": "./team-registry/index.ts" },
+    "./team-mailbox": { "types": "./team-mailbox/index.ts", "import": "./team-mailbox/index.ts" },
+    "./team-tasklist": { "types": "./team-tasklist/index.ts", "import": "./team-tasklist/index.ts" },
+    "./team-state-store": { "types": "./team-state-store/index.ts", "import": "./team-state-store/index.ts" },
+    "./team-worktree": { "types": "./team-worktree/index.ts", "import": "./team-worktree/index.ts" },
+    "./team-layout-tmux": { "types": "./team-layout-tmux/index.ts", "import": "./team-layout-tmux/index.ts" },
+    "./*": { "types": "./*.ts", "import": "./*.ts" }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/skills-loader-core",
+  "main": "index.ts",
+  "exports": {
+    ".": { "types": "./index.ts", "import": "./index.ts" },
+    "./opencode-skill-loader": { "types": "./features/opencode-skill-loader/index.ts", "import": "./features/opencode-skill-loader/index.ts" },
+    "./opencode-skill-loader/*": { "types": "./features/opencode-skill-loader/*.ts", "import": "./features/opencode-skill-loader/*.ts" },
+    "./builtin-skills": { "types": "./features/builtin-skills/index.ts", "import": "./features/builtin-skills/index.ts" },
+    "./builtin-skills/*": { "types": "./features/builtin-skills/*.ts", "import": "./features/builtin-skills/*.ts" },
+    "./opencode-runtime-skills": { "types": "./features/opencode-runtime-skills/index.ts", "import": "./features/opencode-runtime-skills/index.ts" },
+    "./opencode-runtime-skills/*": { "types": "./features/opencode-runtime-skills/*.ts", "import": "./features/opencode-runtime-skills/*.ts" },
+    "./skill": { "types": "./tools/skill/index.ts", "import": "./tools/skill/index.ts" },
+    "./skill/*": { "types": "./tools/skill/*.ts", "import": "./tools/skill/*.ts" },
+    "./auto-slash-command": { "types": "./hooks/auto-slash-command/index.ts", "import": "./hooks/auto-slash-command/index.ts" },
+    "./auto-slash-command/*": { "types": "./hooks/auto-slash-command/*.ts", "import": "./hooks/auto-slash-command/*.ts" },
+    "./shared/*": { "types": "./shared/*.ts", "import": "./shared/*.ts" },
+    "./config/*": { "types": "./config/*.ts", "import": "./config/*.ts" }
+  }
+}

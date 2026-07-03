@@ -9,7 +9,7 @@ import {
   resolveBoulderPlanPathForWork,
   upsertTaskSessionState,
   upsertTaskSessionStateForWork,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { HOOK_NAME } from "./hook-name"
 import { extractSessionIdFromOutput, validateSubagentSessionId } from "./subagent-session-id"

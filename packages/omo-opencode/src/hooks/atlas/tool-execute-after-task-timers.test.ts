@@ -6,7 +6,7 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import type { PluginInput } from "@opencode-ai/plugin"
 import type { Project } from "@opencode-ai/sdk"
-import { readBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { createToolExecuteBeforeHandler } from "./tool-execute-before"
 
 const isCallerOrchestratorMock = mock(async () => true)

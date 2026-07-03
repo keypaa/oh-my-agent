@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/team-registry/loader"
+export * from "#shared/team-core/team-registry/loader"

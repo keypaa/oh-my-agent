@@ -4,8 +4,8 @@ import {
   getPlanProgress,
   resolveBoulderPlanPath,
   writeBoulderState,
-} from "../../features/boulder-state"
-import type { BoulderState, BoulderWorkResumeOption } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderState, BoulderWorkResumeOption } from "#shared/boulder-state"
 import { createWorktreeActiveBlock } from "./worktree-block"
 
 export function buildAutoSelectedPlanContextInfoOnly(params: {

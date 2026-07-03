@@ -4,7 +4,7 @@ import {
   endTaskTimer,
   getWorkForSession,
   resolveBoulderPlanPathForWork,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { HOOK_NAME } from "./hook-name"
 import { isOmoPath } from "./omo-path"

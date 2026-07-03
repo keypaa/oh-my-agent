@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto"
 import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { clearBoulderState, readBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { clearBoulderState, readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 
 const { createAtlasHook } = await import("./index")

@@ -5,9 +5,9 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { randomUUID } from "node:crypto"
 
-import { clearBoulderState, readBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { clearBoulderState, readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName, setSessionAgent } from "../../features/session-state"
-import type { BoulderState } from "../../features/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 
 const TEST_STORAGE_ROOT = join(tmpdir(), `atlas-persisted-lineage-storage-${randomUUID()}`)

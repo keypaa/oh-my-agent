@@ -5,8 +5,8 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { createOpencodeClient } from "@opencode-ai/sdk"
 import type { AssistantMessage, Session } from "@opencode-ai/sdk"
-import type { BoulderState } from "../../features/boulder-state"
-import { clearBoulderState, writeBoulderState } from "../../features/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
+import { clearBoulderState, writeBoulderState } from "#shared/boulder-state"
 
 const TEST_STORAGE_ROOT = join(tmpdir(), `atlas-final-wave-regression-storage-${randomUUID()}`)
 const TEST_MESSAGE_STORAGE = join(TEST_STORAGE_ROOT, "message")

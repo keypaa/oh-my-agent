@@ -1,4 +1,4 @@
-import type { BoulderWorkStatus } from "../../features/boulder-state"
+import type { BoulderWorkStatus } from "#shared/boulder-state"
 
 export interface BoulderOptions {
   directory?: string

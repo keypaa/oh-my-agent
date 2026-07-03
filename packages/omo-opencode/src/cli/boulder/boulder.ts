@@ -7,8 +7,8 @@ import {
   readBoulderState,
   readCurrentTopLevelTask,
   resolveBoulderPlanPathForWork,
-} from "../../features/boulder-state"
-import type { BoulderWorkState } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderWorkState } from "#shared/boulder-state"
 import {
   formatJsonOutput,
   formatNoBoulderMessage,

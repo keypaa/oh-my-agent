@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/mcp-client-core",
+  "main": "index.ts",
+  "exports": {
+    ".": { "types": "./index.ts", "import": "./index.ts" },
+    "./mcp-oauth": { "types": "./mcp-oauth/index.ts", "import": "./mcp-oauth/index.ts" },
+    "./mcp-oauth/*": { "types": "./mcp-oauth/*.ts", "import": "./mcp-oauth/*.ts" },
+    "./skill-mcp-manager": { "types": "./skill-mcp-manager/index.ts", "import": "./skill-mcp-manager/index.ts" },
+    "./skill-mcp-manager/*": { "types": "./skill-mcp-manager/*.ts", "import": "./skill-mcp-manager/*.ts" }
+  }
+}

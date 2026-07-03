@@ -21,6 +21,7 @@
       "#shared/model-core": ["./src/shared/model-core/index.ts"],
       "#shared/hashline-core": ["./src/shared/hashline-core/index.ts"],
       "#shared/boulder-state": ["./src/shared/boulder-state/index.ts"],
+      "#shared/boulder-state/*": ["./src/shared/boulder-state/*"],
       "#shared/rules-engine": ["./src/shared/rules-engine/index.ts"],
       "#shared/comment-checker-core": ["./src/shared/comment-checker-core/index.ts"],
       "#shared/telemetry-core": ["./src/shared/telemetry-core/index.ts"],
@@ -28,10 +29,18 @@
       "#shared/agents-md-core": ["./src/shared/agents-md-core/index.ts"],
       "#shared/prompts-core": ["./src/shared/prompts-core/index.ts"],
       "#shared/mcp-client-core": ["./src/shared/mcp-client-core/index.ts"],
+      "#shared/mcp-client-core/*": ["./src/shared/mcp-client-core/*"],
       "#shared/team-core": ["./src/shared/team-core/index.ts"],
+      "#shared/team-core/*": ["./src/shared/team-core/*"],
       "#shared/skills-loader-core": ["./src/shared/skills-loader-core/index.ts"],
+      "#shared/skills-loader-core/*": ["./src/shared/skills-loader-core/*"],
       "#shared/lsp-core": ["./src/shared/lsp-core/index.ts"],
-      "#shared/mcp-stdio-core": ["./src/shared/mcp-stdio-core/index.ts"]
+      "#shared/lsp-core/*": ["./src/shared/lsp-core/*"],
+      "#shared/mcp-stdio-core": ["./src/shared/mcp-stdio-core/index.ts"],
+      "#shared/mcp-stdio-core/*": ["./src/shared/mcp-stdio-core/*"],
+      "#shared/claude-code-compat-core/*": ["./src/shared/claude-code-compat-core/*"],
+      "#shared/tmux-core": ["./src/shared/tmux-core/index.ts"],
+      "#shared/tmux-core/*": ["./src/shared/tmux-core/*"]
     }
   },
   "include": ["src/**/*"],

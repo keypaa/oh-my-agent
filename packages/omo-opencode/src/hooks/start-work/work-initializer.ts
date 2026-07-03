@@ -2,7 +2,7 @@ import {
   addBoulderWork,
   createBoulderState,
   writeBoulderState,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { buildAutoSelectedPlanContextInfoOnly } from "./context-info-formatters"
 
 export function createNewWorkOrInitialize(params: {

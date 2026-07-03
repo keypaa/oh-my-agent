@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { tmpdir } from "node:os"
 import { randomUUID } from "node:crypto"
-import { readBoulderState, clearBoulderState } from "../../features/boulder-state"
+import { readBoulderState, clearBoulderState } from "#shared/boulder-state"
 import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
 import { createStartWorkHook } from "./start-work-hook"
 

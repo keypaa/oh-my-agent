@@ -9,7 +9,7 @@ import {
   resolveBoulderPlanPathForWork,
   startTaskTimer,
   upsertTaskSessionState,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { collectGitDiffStats, formatFileChanges } from "../../shared/git-worktree"
 import { log } from "../../shared/logger"
 import { syncBackgroundLaunchSessionTracking } from "./background-launch-session-tracking"

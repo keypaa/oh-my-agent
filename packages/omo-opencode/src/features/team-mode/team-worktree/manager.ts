@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/team-worktree/manager"
+export * from "#shared/team-core/team-worktree/manager"

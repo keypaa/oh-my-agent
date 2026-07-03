@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/opencode-skill-loader/skill-directory-loader"
+export * from "#shared/skills-loader-core/opencode-skill-loader/skill-directory-loader"

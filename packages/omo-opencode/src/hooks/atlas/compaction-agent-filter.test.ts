@@ -5,9 +5,9 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { randomUUID } from "node:crypto"
 
-import { clearBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { clearBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName } from "../../features/session-state"
-import type { BoulderState } from "../../features/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
 
 const TEST_STORAGE_ROOT = join(tmpdir(), `atlas-compaction-storage-${randomUUID()}`)
 const TEST_MESSAGE_STORAGE = join(TEST_STORAGE_ROOT, "message")

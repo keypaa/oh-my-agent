@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/team-registry/validator"
+export * from "#shared/team-core/team-registry/validator"

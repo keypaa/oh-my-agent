@@ -4,7 +4,7 @@ import {
   getPlanProgress,
   getWorkByPlanName,
   selectActiveWork,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { HOOK_NAME } from "./start-work-hook"
 import { buildAutoSelectedPlanContextInfoOnly, buildExistingSessionContext } from "./context-info-formatters"

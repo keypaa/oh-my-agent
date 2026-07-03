@@ -8,8 +8,8 @@ import {
   writeBoulderState,
   clearBoulderState,
   readBoulderState,
-} from "../../features/boulder-state"
-import type { BoulderState } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName, subagentSessions, updateSessionAgent } from "../../features/session-state"
 import {
   DEFAULT_PROMPT_DISPATCH_TIMEOUT_MS,

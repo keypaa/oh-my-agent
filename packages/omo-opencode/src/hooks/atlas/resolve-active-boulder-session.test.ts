@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { randomUUID } from "node:crypto"
-import { clearBoulderState, writeBoulderState } from "../../features/boulder-state"
+import { clearBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { resolveActiveBoulderSession } from "./resolve-active-boulder-session"
 
 describe("resolveActiveBoulderSession", () => {

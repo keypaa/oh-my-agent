@@ -2,7 +2,7 @@ import type { PluginInput } from "@opencode-ai/plugin"
 import {
   normalizeSessionId,
   resolveBoulderPlanPath,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { shouldPromptAfterSessionIdle } from "../shared/session-idle-settle"
 import { HOOK_NAME } from "./hook-name"

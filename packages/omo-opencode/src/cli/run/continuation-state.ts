@@ -1,4 +1,4 @@
-import { getPlanProgress, normalizeSessionId, readBoulderState, resolveBoulderPlanPath } from "../../features/boulder-state"
+import { getPlanProgress, normalizeSessionId, readBoulderState, resolveBoulderPlanPath } from "#shared/boulder-state"
 import { getSessionAgent } from "../../features/session-state"
 import {
   getActiveContinuationMarkerReason,

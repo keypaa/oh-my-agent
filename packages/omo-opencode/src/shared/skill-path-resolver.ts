@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/shared/skill-path-resolver"
+export * from "#shared/skills-loader-core/shared/skill-path-resolver"

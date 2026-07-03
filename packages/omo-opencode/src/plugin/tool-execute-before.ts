@@ -2,7 +2,7 @@ import type { PluginContext } from "./types"
 import { randomUUID } from "node:crypto"
 
 import { getMainSessionID } from "../features/session-state"
-import { clearBoulderState } from "../features/boulder-state"
+import { clearBoulderState } from "#shared/boulder-state"
 import { log, replaceToolArgs } from "../shared"
 import { stripInvisibleAgentCharacters } from "../shared/agent-display-names"
 import { resolveSessionAgent } from "./session-agent-resolver"

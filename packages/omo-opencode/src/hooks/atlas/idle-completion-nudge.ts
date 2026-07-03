@@ -1,11 +1,11 @@
 import type { PluginInput } from "@opencode-ai/plugin"
-import type { BoulderState } from "../../features/boulder-state"
+import type { BoulderState } from "#shared/boulder-state"
 import {
   completeBoulder,
   formatDurationHuman,
   getWorkById,
   getWorkForSession,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import {
   isAgentRegistered,
   resolveRegisteredAgentName,

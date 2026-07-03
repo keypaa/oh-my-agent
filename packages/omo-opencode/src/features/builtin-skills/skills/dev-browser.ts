@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/builtin-skills/skills/dev-browser"
+export * from "#shared/skills-loader-core/builtin-skills/skills/dev-browser"

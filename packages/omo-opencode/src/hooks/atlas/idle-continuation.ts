@@ -6,7 +6,7 @@ import {
   readBoulderState,
   readCurrentTopLevelTask,
   resolveBoulderPlanPath,
-} from "../../features/boulder-state"
+} from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { injectBoulderContinuation } from "./boulder-continuation-injector"
 import { HOOK_NAME } from "./hook-name"

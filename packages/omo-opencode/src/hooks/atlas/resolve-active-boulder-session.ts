@@ -6,8 +6,8 @@ import {
   readBoulderState,
   resolveBoulderPlanPath,
   resolveBoulderPlanPathForWork,
-} from "../../features/boulder-state"
-import type { BoulderState, PlanProgress } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderState, PlanProgress } from "#shared/boulder-state"
 
 function isInactiveBoulderStatus(status: BoulderState["status"]): boolean {
   return status === "paused" || status === "abandoned"

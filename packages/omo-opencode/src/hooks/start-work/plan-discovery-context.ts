@@ -1,8 +1,8 @@
 import {
   findPrometheusPlans,
   getPlanProgress,
-} from "../../features/boulder-state"
-import type { BoulderState, BoulderWorkResumeOption } from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import type { BoulderState, BoulderWorkResumeOption } from "#shared/boulder-state"
 import { buildAutoSelectedPlanContextWithStateInit } from "./work-initializer"
 import { formatIncompletePlanList, pickPreferredIncompletePlan } from "./plan-selection"
 

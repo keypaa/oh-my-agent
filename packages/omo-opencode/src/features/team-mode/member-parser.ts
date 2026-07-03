@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/member-parser"
+export * from "#shared/team-core/member-parser"

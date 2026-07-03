@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/skill/skill-matcher"
+export * from "#shared/skills-loader-core/skill/skill-matcher"

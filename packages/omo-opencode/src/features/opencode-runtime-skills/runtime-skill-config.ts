@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/opencode-runtime-skills/runtime-skill-config"
+export * from "#shared/skills-loader-core/opencode-runtime-skills/runtime-skill-config"

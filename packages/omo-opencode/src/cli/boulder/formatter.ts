@@ -1,6 +1,6 @@
 import color from "picocolors"
 
-import type { BoulderWorkStatus } from "../../features/boulder-state"
+import type { BoulderWorkStatus } from "#shared/boulder-state"
 import type { BoulderCliResult, BoulderCliWork } from "./types"
 
 function colorizeStatus(status: BoulderWorkStatus): string {

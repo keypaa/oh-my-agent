@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/team-core/config"
+export * from "#shared/team-core/config"

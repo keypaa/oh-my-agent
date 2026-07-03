@@ -14,8 +14,8 @@ import {
   readBoulderState,
   selectActiveWork,
   writeBoulderState,
-} from "../../features/boulder-state"
-import * as boulderState from "../../features/boulder-state"
+} from "#shared/boulder-state"
+import * as boulderState from "#shared/boulder-state"
 
 describe("buildStartWorkContextInfo", () => {
   let testDirectory = ""

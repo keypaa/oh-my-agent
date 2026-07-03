@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/auto-slash-command/detector"
+export * from "#shared/skills-loader-core/auto-slash-command/detector"

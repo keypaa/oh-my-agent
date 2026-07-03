@@ -9,8 +9,8 @@ import path from "node:path"
 import type { ToolContext } from "@opencode-ai/plugin/tool"
 
 import { TeamModeConfigSchema } from "../../../config/schema/team-mode"
-import { getInboxDir, resolveBaseDir } from "@oh-my-opencode/team-core/team-registry/paths"
-import type { RuntimeState } from "@oh-my-opencode/team-core/types"
+import { getInboxDir, resolveBaseDir } from "#shared/team-core/team-registry/paths"
+import type { RuntimeState } from "#shared/team-core/types"
 import { createTeamSendMessageTool, type LiveDeliveryClient } from "./messaging"
 
 function createToolContext(sessionID: string, directory: string): ToolContext {

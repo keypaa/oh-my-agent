@@ -1,5 +1,5 @@
 import type { AgentOverrides } from "../../config"
-import type { TopLevelTaskRef } from "../../features/boulder-state"
+import type { TopLevelTaskRef } from "#shared/boulder-state"
 
 export type ModelInfo = { providerID: string; modelID: string; variant?: string }
 

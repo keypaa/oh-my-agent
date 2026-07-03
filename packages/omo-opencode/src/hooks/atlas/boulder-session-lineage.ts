@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin"
-import { normalizeSessionId } from "../../features/boulder-state"
+import { normalizeSessionId } from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 import { HOOK_NAME } from "./hook-name"
 

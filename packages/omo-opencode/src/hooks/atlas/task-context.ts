@@ -1,4 +1,4 @@
-import { readCurrentTopLevelTask } from "../../features/boulder-state"
+import { readCurrentTopLevelTask } from "#shared/boulder-state"
 import type { PendingTaskRef, TrackedTopLevelTaskRef } from "./types"
 
 export function resolvePreferredSessionId(currentSessionId?: string, trackedSessionId?: string): string {

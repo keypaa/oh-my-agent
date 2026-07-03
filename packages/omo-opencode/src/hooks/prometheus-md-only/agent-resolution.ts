@@ -6,7 +6,7 @@ import {
   findNearestMessageWithFieldsFromSDK,
 } from "../../features/hook-message-injector"
 import { getSessionAgent } from "../../features/session-state"
-import { normalizeSessionId, readBoulderState } from "../../features/boulder-state"
+import { normalizeSessionId, readBoulderState } from "#shared/boulder-state"
 import { getMessageDir } from "../../shared/opencode-message-dir"
 import { isSqliteBackend } from "../../shared/opencode-storage-detection"
 

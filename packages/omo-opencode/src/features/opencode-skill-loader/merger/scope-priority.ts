@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/skills-loader-core/opencode-skill-loader/merger/scope-priority"
+export * from "#shared/skills-loader-core/opencode-skill-loader/merger/scope-priority"

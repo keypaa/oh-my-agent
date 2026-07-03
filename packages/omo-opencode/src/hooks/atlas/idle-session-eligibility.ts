@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin"
-import { normalizeSessionId } from "../../features/boulder-state"
+import { normalizeSessionId } from "#shared/boulder-state"
 import { getSessionAgent } from "../../features/session-state"
 import { getAgentConfigKey } from "../../shared/agent-display-names"
 import { isSessionInBoulderLineage } from "./boulder-session-lineage"

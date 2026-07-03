@@ -6,10 +6,10 @@ import type { OpencodeClient } from "../../../tools/delegate-task/types"
 import type { BackgroundManager } from "../../background-agent/manager"
 
 import { resolveCallerTeamLead } from "../resolve-caller-team-lead"
-import { loadTeamSpec } from "@oh-my-opencode/team-core/team-registry/loader"
+import { loadTeamSpec } from "#shared/team-core/team-registry/loader"
 import { createTeamRun } from "../team-runtime/create"
-import { listActiveTeams, loadRuntimeState } from "@oh-my-opencode/team-core/team-state-store/store"
-import { AGENT_ELIGIBILITY_REGISTRY } from "@oh-my-opencode/team-core/types"
+import { listActiveTeams, loadRuntimeState } from "#shared/team-core/team-state-store/store"
+import { AGENT_ELIGIBILITY_REGISTRY } from "#shared/team-core/types"
 import { findParticipantRuntime, sanitizeRuntimeState, type TeamLifecycleToolContext } from "./lifecycle-participant"
 import {
   parseInlineTeamSpec,
