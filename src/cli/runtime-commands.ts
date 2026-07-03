@@ -3,7 +3,7 @@ import type { Command } from "commander"
 import { boulder } from "./boulder"
 import { refreshModelCapabilities } from "./refresh-model-capabilities"
 import { PLUGIN_NAME } from "../shared"
-import packageJson from "../../../../package.json" with { type: "json" }
+import packageJson from "../../package.json" with { type: "json" }
 
 const VERSION = packageJson.version
 

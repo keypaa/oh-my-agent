@@ -3,7 +3,7 @@ import {
   DEFAULT_POSTHOG_HOST,
   type TelemetryProductConfig,
 } from "#shared/telemetry-core"
-import packageJson from "../../../../package.json" with { type: "json" }
+import packageJson from "../../package.json" with { type: "json" }
 import { CACHE_DIR_NAME, PLUGIN_NAME, PUBLISHED_PACKAGE_NAME } from "./plugin-identity"
 
 export function createOpencodeTelemetryProductConfig(): TelemetryProductConfig {

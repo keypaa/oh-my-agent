@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import packageJson from "../../../../package.json" with { type: "json" }
+import packageJson from "../../package.json" with { type: "json" }
 import { PLUGIN_NAME } from "./plugin-identity"
 import { createOpencodeTelemetryProductConfig } from "./telemetry-product-identity"
 

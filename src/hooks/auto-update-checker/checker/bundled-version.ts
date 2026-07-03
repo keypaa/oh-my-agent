@@ -1,4 +1,4 @@
-import packageJson from "../../../../../../package.json" with { type: "json" }
+import packageJson from "../../../../package.json" with { type: "json" }
 
 // Reads the version baked into the bundle at build time. Unlike `getCachedVersion()`,
 // this never reflects a stale package.json from a cache directory - it always matches
