@@ -8,11 +8,11 @@ import type {
   TelemetryCaptureMessage,
   TelemetryOsProvider,
   TelemetryTransportFactory,
-} from "@oh-my-opencode/telemetry-core"
+} from "#shared/telemetry-core"
 import {
   getTelemetryActivityStateFilePath,
   resolveTelemetryStateDir,
-} from "@oh-my-opencode/telemetry-core"
+} from "#shared/telemetry-core"
 import { createOpencodeTelemetryProductConfig } from "./telemetry-product-identity"
 
 type CapturedPostHogMessage = TelemetryCaptureMessage

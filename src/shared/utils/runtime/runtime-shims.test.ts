@@ -11,7 +11,7 @@ import {
   createNodeSpawnSyncOptions,
   spawn,
   spawnSync,
-} from "@oh-my-opencode/utils/runtime"
+} from "#shared/utils/runtime"
 
 async function readProcessStream(stream: ReadableStream<Uint8Array> | null | undefined): Promise<string> {
   if (!stream) return ""

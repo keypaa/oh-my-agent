@@ -8,7 +8,7 @@ import {
   runCommentChecker as runCommentCheckerCore,
   type CheckResult,
   type HookInput,
-} from "@oh-my-opencode/comment-checker-core"
+} from "#shared/comment-checker-core"
 import { getCachedBinaryPath, ensureCommentCheckerBinary } from "./downloader"
 
 const DEBUG = process.env.COMMENT_CHECKER_DEBUG === "1"

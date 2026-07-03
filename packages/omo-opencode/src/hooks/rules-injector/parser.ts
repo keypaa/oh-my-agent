@@ -1,2 +1,2 @@
-export { parseRuleFrontmatter } from "@oh-my-opencode/rules-engine";
-export type { RuleFrontmatterResult } from "@oh-my-opencode/rules-engine";
+export { parseRuleFrontmatter } from "#shared/rules-engine";
+export type { RuleFrontmatterResult } from "#shared/rules-engine";

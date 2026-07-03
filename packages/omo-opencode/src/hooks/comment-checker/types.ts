@@ -16,4 +16,4 @@ export type {
   SpawnFn,
   SpawnProcess,
   SpawnSignal,
-} from "@oh-my-opencode/comment-checker-core"
+} from "#shared/comment-checker-core"

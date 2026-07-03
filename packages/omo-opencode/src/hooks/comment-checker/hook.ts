@@ -8,7 +8,7 @@ import {
   processWithCli,
   processApplyPatchEditsWithCli,
 } from "./cli-runner"
-import { extractApplyPatchEdits } from "@oh-my-opencode/comment-checker-core"
+import { extractApplyPatchEdits } from "#shared/comment-checker-core"
 import {
   registerPendingCall,
   startPendingCallCleanup,

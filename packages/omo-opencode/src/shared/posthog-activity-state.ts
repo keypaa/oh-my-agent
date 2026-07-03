@@ -2,8 +2,8 @@ import {
   getDailyActiveCaptureState,
   getTelemetryActivityStateFilePath,
   resolveTelemetryStateDir,
-} from "@oh-my-opencode/telemetry-core"
-import type { TelemetryDiagnosticInput } from "@oh-my-opencode/telemetry-core"
+} from "#shared/telemetry-core"
+import type { TelemetryDiagnosticInput } from "#shared/telemetry-core"
 
 import { log } from "./logger"
 import { createOpencodeTelemetryProductConfig } from "./telemetry-product-identity"

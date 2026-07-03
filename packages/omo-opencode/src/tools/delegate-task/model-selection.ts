@@ -2,7 +2,7 @@ import {
   resolveModelForDelegateTask as resolveModelForDelegateTaskCore,
   type DelegateModelResolutionInput,
   type DelegateModelResolutionResult,
-} from "@oh-my-opencode/delegate-core"
+} from "#shared/delegate-core"
 import * as connectedProvidersCache from "../../shared/connected-providers-cache"
 import { log } from "../../shared/logger"
 

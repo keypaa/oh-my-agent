@@ -7,7 +7,7 @@ import type {
   TelemetryCaptureMessage,
   TelemetryTransportFactory,
   TelemetryTransportOptions,
-} from "@oh-my-opencode/telemetry-core"
+} from "#shared/telemetry-core"
 
 type CapturedPostHogMessage = TelemetryCaptureMessage
 type PostHogModule = Awaited<ReturnType<typeof importPostHogModule>>

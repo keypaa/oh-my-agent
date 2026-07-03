@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/rules-engine",
+  "main": "index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    },
+    "./engine": {
+      "import": "./engine/index.ts"
+    }
+  }
+}

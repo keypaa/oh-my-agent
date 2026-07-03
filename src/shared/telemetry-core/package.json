@@ -1,0 +1,5 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/telemetry-core",
+  "main": "index.ts"
+}

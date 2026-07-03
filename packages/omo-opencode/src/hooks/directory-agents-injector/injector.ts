@@ -1,1 +1,1 @@
-export { processFilePathForAgentsInjection } from "@oh-my-opencode/agents-md-core";
+export { processFilePathForAgentsInjection } from "#shared/agents-md-core";

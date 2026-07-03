@@ -1,0 +1,5 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/agents-md-core",
+  "main": "index.ts"
+}

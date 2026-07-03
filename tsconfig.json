@@ -17,6 +17,7 @@
     "types": ["bun-types"],
     "paths": {
       "#shared/utils": ["./src/shared/utils/index.ts"],
+      "#shared/utils/*": ["./src/shared/utils/*"],
       "#shared/model-core": ["./src/shared/model-core/index.ts"],
       "#shared/hashline-core": ["./src/shared/hashline-core/index.ts"],
       "#shared/boulder-state": ["./src/shared/boulder-state/index.ts"],

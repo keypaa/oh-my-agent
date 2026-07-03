@@ -19,7 +19,7 @@ import {
   loadPromptSync,
   resolveVariant,
   type SyncRuntimeInjection,
-} from "@oh-my-opencode/prompts-core"
+} from "#shared/prompts-core"
 import type { AgentMode, AgentPromptMetadata } from "../types"
 import type { AvailableAgent, AvailableSkill, AvailableCategory } from "../dynamic-agent-prompt-builder"
 import { buildAgentIdentitySection, buildCategorySkillsDelegationGuide } from "../dynamic-agent-prompt-builder"
