@@ -35,9 +35,10 @@ export async function applyMcpConfig(params: {
   const userMcp = params.config.mcp as Record<string, unknown> | undefined;
   const userDisabledMcps = captureUserDisabledMcps(userMcp);
 
-  const mcpResult = params.pluginConfig.claude_code?.mcp ?? true
-    ? await loadMcpConfigs(disabledMcps)
-    : { servers: {} };
+  const mcpServers = (params.pluginConfig.claude_code?.mcp ?? true)
+    ? await loadMcpConfigs()
+    : [];
+  const mcpResult = { servers: Object.fromEntries(mcpServers.map(s => [s.name, s])) };
 
   if (userMcp) {
     for (const name of Object.keys(userMcp)) {

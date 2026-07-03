@@ -7,7 +7,7 @@ export const ClaudeCodeConfigSchema = z.object({
   agents: z.boolean().default(true),
   hooks: z.union([z.boolean(), z.array(z.string())]).optional(),
   plugins: z.boolean().default(true),
-  plugins_override: z.record(z.boolean()).optional(),
+  plugins_override: z.record(z.string(), z.boolean()).optional(),
   anthropic_provider: z.string().optional(),
 })
 

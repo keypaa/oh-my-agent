@@ -3,7 +3,7 @@ import {
   loadPluginCommands,
   loadPluginSkillsAsCommands,
 } from "../features/claude-code-plugin-loader"
-import type { CommandDefinition } from "../features/claude-code-command-loader/types"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 
 export interface PluginCommandDiscoveryOptions {
   pluginsEnabled?: boolean
@@ -22,7 +22,7 @@ export function discoverPluginCommandDefinitions(
   })
 
   return {
-    ...loadPluginCommands(plugins),
-    ...loadPluginSkillsAsCommands(plugins),
+    ...loadPluginCommands(plugins) as Record<string, CommandDefinition>,
+    ...loadPluginSkillsAsCommands(plugins) as Record<string, CommandDefinition>,
   }
 }

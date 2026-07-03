@@ -4,7 +4,7 @@ import { z } from "zod"
 import type { TeamModeConfig } from "../../../config/schema/team-mode"
 import type { OpencodeClient } from "../../../tools/delegate-task/types"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
+
 import { approveShutdown, deleteTeam, rejectShutdown, requestShutdownOfMember } from "../team-runtime/shutdown"
 import { listActiveTeams, loadRuntimeState } from "@oh-my-opencode/team-core/team-state-store/store"
 import { resolveParticipant, type TeamLifecycleToolContext, type TeamRuntimeStoreDeps } from "./lifecycle-participant"
@@ -38,7 +38,6 @@ export function createTeamDeleteTool(
   config: TeamModeConfig,
   client: OpencodeClient,
   backgroundManager: BackgroundManager,
-  tmuxMgr?: TmuxSessionManager,
   deps: TeamShutdownToolDeps = defaultTeamShutdownToolDeps,
 ): ToolDefinition {
   void client
@@ -56,7 +55,7 @@ export function createTeamDeleteTool(
       if (!isForceBypass && participant?.role !== "lead") {
         throw new Error("team_delete is lead-only")
       }
-      return JSON.stringify({ teamRunId: args.teamRunId, teamName: runtimeState.teamName, deleted: true, ...(await deps.deleteTeam(args.teamRunId, config, tmuxMgr, backgroundManager, { force: args.force })) })
+      return JSON.stringify({ teamRunId: args.teamRunId, teamName: runtimeState.teamName, deleted: true, ...(await deps.deleteTeam(args.teamRunId, config, backgroundManager, { force: args.force })) })
     },
   })
 }

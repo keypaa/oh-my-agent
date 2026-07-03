@@ -59,7 +59,7 @@ export async function resolveSubagentAgentMatch(
   const serverPrimaryAgent = findPrimaryAgentMatch(agents, requestedAgent)
   const serverMatchedAgent = findCallableAgentMatch(agents, requestedAgent)
 
-  const mergedAgents = mergeWithClaudeCodeAgents(agents, executorCtx.directory)
+  const mergedAgents = await mergeWithClaudeCodeAgents(agents, executorCtx.directory)
   const matchedPrimaryAgent = findPrimaryAgentMatch(mergedAgents, requestedAgent)
   const useHiddenPlanFallback = shouldUseHiddenPlanAgent(
     requestedAgent,

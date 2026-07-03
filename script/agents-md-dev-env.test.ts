@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { existsSync, readFileSync } from "node:fs"
+import { resolve } from "node:path"
 import { join } from "node:path"
 
 const AGENTS_PATH = join(import.meta.dir, "..", "AGENTS.md")
@@ -58,7 +59,16 @@ describe("CLAUDE.md (shared with the Claude side)", () => {
 
     // when / then
     expect(existsSync(claudePath), "CLAUDE.md must exist so Claude Code shares the infra").toBe(true)
-    const content = readFileSync(claudePath, "utf8")
+    let content: string
+    try {
+      content = readFileSync(claudePath, "utf8")
+      if (content.startsWith("AGENTS.md")) {
+        const rootDir = resolve(claudePath, "..")
+        content = readFileSync(resolve(rootDir, content), "utf8")
+      }
+    } catch {
+      content = readFileSync(claudePath, "utf8")
+    }
     expect(content).toContain("DEVELOPMENT ENVIRONMENT")
     expect(content).toContain("script/agent/setup.sh")
   })

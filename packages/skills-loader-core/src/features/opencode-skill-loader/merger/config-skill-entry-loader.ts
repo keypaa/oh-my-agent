@@ -91,7 +91,7 @@ ${resolvedTemplate}
 $ARGUMENTS
 </user-request>`
 
-  const definition: CommandDefinition = {
+  const definition = {
     name,
     description: `(config - Skill) ${description}`,
     template: wrappedTemplate,
@@ -99,7 +99,7 @@ $ARGUMENTS
     agent: entry.agent || fileMetadata.agent,
     subtask: entry.subtask ?? fileMetadata.subtask,
     argumentHint: entry["argument-hint"] || fileMetadata["argument-hint"],
-  }
+  } as CommandDefinition & { template: string }
 
   const allowedTools = entry["allowed-tools"] || parseAllowedTools(fileMetadata["allowed-tools"])
 

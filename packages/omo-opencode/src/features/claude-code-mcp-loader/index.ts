@@ -1,4 +1,6 @@
-import type { McpServerDefinition } from "@opencode-ai/plugin"
+export interface McpServerDefinition {
+  name: string
+}
 
 export function getSystemMcpServerNames(): string[] {
   return []
@@ -9,5 +11,3 @@ export function loadMcpConfigs(): McpServerDefinition[] {
 }
 
 export function setAdditionalAllowedMcpEnvVars(_vars: string[]): void {}
-
-export { type McpServerDefinition }

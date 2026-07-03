@@ -22,7 +22,7 @@ type CreateToolsResult = {
 export async function createTools(args: {
   ctx: PluginContext
   pluginConfig: OhMyOpenCodeConfig
-  managers: Pick<Managers, "backgroundManager" | "skillMcpManager" | "modelFallbackControllerAccessor">
+  managers: Pick<Managers, "backgroundManager" | "skillMcpManager" | "modelFallbackControllerAccessor" | "tmuxSessionManager">
 }): Promise<CreateToolsResult> {
   const { ctx, pluginConfig, managers } = args
 

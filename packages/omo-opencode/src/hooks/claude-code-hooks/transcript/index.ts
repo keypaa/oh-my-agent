@@ -1,3 +1,3 @@
-export function getTranscriptPath(): string | null {
-  return null
+export function getTranscriptPath(): string | undefined {
+  return undefined
 }

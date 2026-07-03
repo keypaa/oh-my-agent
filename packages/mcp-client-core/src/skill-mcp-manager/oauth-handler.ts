@@ -19,10 +19,11 @@ export function getOrCreateAuthProvider(
   const existing = authProviders.get(serverUrl)
   if (existing) return existing
 
+  const oauthOptions = oauth as { clientId?: string; scopes?: string[] }
   const provider = createOAuthProvider({
     serverUrl,
-    ...(oauth.clientId ? { clientId: oauth.clientId } : {}),
-    ...(oauth.scopes ? { scopes: oauth.scopes } : {}),
+    ...(oauthOptions.clientId ? { clientId: oauthOptions.clientId } : {}),
+    ...(oauthOptions.scopes ? { scopes: oauthOptions.scopes } : {}),
   })
   authProviders.set(serverUrl, provider)
   return provider
@@ -112,9 +113,10 @@ export async function handleStepUpIfNeeded(params: {
     return false
   }
 
-  const currentScopes = config.oauth.scopes ?? []
+  const oauthConfig = config.oauth as { scopes?: string[] }
+  const currentScopes = oauthConfig.scopes ?? []
   const mergedScopes = mergeScopes(currentScopes, stepUp.requiredScopes)
-  config.oauth.scopes = mergedScopes
+  oauthConfig.scopes = mergedScopes
 
   authProviders.delete(config.url)
   const provider = getOrCreateAuthProvider(authProviders, config.url, config.oauth, createOAuthProvider)

@@ -8,6 +8,7 @@ import {
   discoverPluginCommandDefinitions,
   EXCLUDED_DIRS,
 } from "./command-discovery-deps"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 import type { CommandFrontmatter } from "../../features/claude-code-command-loader/types"
 import { isMarkdownFile } from "../../shared/file-utils"
 import { getClaudeConfigDir } from "../../shared/claude-config-dir"
@@ -101,7 +102,7 @@ function discoverPluginCommands(options?: CommandDiscoveryOptions): CommandInfo[
       agent: definition.agent,
       subtask: definition.subtask,
     },
-    content: definition.template,
+    content: (definition as CommandDefinition & { template?: string }).template || "",
     scope: "plugin",
   }))
 }
@@ -143,9 +144,9 @@ export function discoverCommandsSync(
 
   const builtinCommandsMap = loadBuiltinCommands()
   const builtinCommands: CommandInfo[] = Object.values(builtinCommandsMap).map((command) => ({
-    name: command.name,
+    name: command.name ?? "",
     metadata: {
-      name: command.name,
+      name: command.name ?? "",
       description: command.description || "",
       argumentHint: command.argumentHint,
       model: command.model,

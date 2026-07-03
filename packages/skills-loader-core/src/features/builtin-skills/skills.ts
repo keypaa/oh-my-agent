@@ -63,7 +63,7 @@ export function createBuiltinSkills(options: CreateBuiltinSkillsOptions = {}): B
 }
 
 export interface ResolveActiveBuiltinSkillsOptions extends CreateBuiltinSkillsOptions {
-  systemMcpNames: Set<string>
+  systemMcpNames: readonly string[]
 }
 
 export function resolveActiveBuiltinSkills(options: ResolveActiveBuiltinSkillsOptions): BuiltinSkill[] {
@@ -71,6 +71,6 @@ export function resolveActiveBuiltinSkills(options: ResolveActiveBuiltinSkillsOp
 
   return createBuiltinSkills(createOptions).filter((skill) => {
     if (!skill.mcpConfig) return true
-    return !Object.keys(skill.mcpConfig).some((mcpName) => systemMcpNames.has(mcpName))
+    return !Object.keys(skill.mcpConfig).some((mcpName) => systemMcpNames.includes(mcpName))
   })
 }

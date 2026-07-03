@@ -25,6 +25,7 @@
     "packages/shared-skills",
     "packages/omo-opencode",
     "packages/tmux-core",
+    "packages/openclaw-core",
     "packages/claude-code-compat-core"
   ],
   "bin": {
@@ -60,13 +61,13 @@
   },
   "scripts": {
     "build": "bun run build:git-bash-mcp && bun run build:lsp-tools-mcp && bun run build:lsp-daemon && bun build packages/omo-opencode/src/index.ts --outdir dist --target bun --format esm --external zod && bun run build:shared-skills-assets && tsc --emitDeclarationOnly && bun build packages/omo-opencode/src/cli/index.ts --outdir dist/cli --target bun --format esm && bun run build:schema",
-    "build:shared-skills-assets": "rm -rf dist/skills && cp -R packages/shared-skills/skills dist/skills",
+    "build:shared-skills-assets": "node -e \"fs.rmSync('dist/skills',{recursive:true,force:true})\" && node -e \"fs.cpSync('packages/shared-skills/skills','dist/skills',{recursive:true,force:true})\"",
     "build:lsp-tools-mcp": "npm --prefix packages/lsp-tools-mcp ci && npm --prefix packages/lsp-tools-mcp run build",
     "build:lsp-daemon": "npm --prefix packages/lsp-daemon ci && npm --prefix packages/lsp-daemon run build",
     "build:all": "bun run build",
     "build:schema": "bun run script/build-schema.ts",
     "build:model-capabilities": "bun run script/build-model-capabilities.ts",
-    "clean": "rm -rf dist",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
     "typecheck": "tsgo --noEmit && bun run typecheck:script && bun run typecheck:packages",
     "typecheck:packages": "tsgo --noEmit -p packages/rules-engine/tsconfig.json && tsgo --noEmit -p packages/delegate-core/tsconfig.json && tsgo --noEmit -p packages/mcp-stdio-core/tsconfig.json && tsgo --noEmit -p packages/mcp-client-core/tsconfig.json && tsgo --noEmit -p packages/git-bash-mcp/tsconfig.json && tsgo --noEmit -p packages/lsp-core/tsconfig.json && tsgo --noEmit -p packages/utils/tsconfig.json && tsgo --noEmit -p packages/model-core/tsconfig.json && tsgo --noEmit -p packages/prompts-core/tsconfig.json && tsgo --noEmit -p packages/comment-checker-core/tsconfig.json && tsgo --noEmit -p packages/hashline-core/tsconfig.json && tsgo --noEmit -p packages/team-core/tsconfig.json && tsgo --noEmit -p packages/boulder-state/tsconfig.json && tsgo --noEmit -p packages/telemetry-core/tsconfig.json && tsgo --noEmit -p packages/skills-loader-core/tsconfig.json && tsgo --noEmit -p packages/agents-md-core/tsconfig.json && tsgo --noEmit -p packages/omo-opencode/tsconfig.json",
     "typecheck:script": "tsgo --noEmit -p script/tsconfig.json",

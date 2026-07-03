@@ -39,7 +39,7 @@ Returns summary format: id, subject, status, owner, blockedBy (not full descript
 
       const allTasks: TaskObject[] = []
       for (const fileId of files) {
-        const task = readJsonSafe(join(taskDir, `${fileId}.json`), TaskObjectSchema)
+        const task = readJsonSafe(join(taskDir, `${fileId}.json`), TaskObjectSchema) as TaskObject | null
         if (task) {
           allTasks.push(task)
         }

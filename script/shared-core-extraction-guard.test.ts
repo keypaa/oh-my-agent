@@ -14,12 +14,9 @@ const corePackages = [
   "packages/mcp-client-core",
   "packages/comment-checker-core",
   "packages/hashline-core",
-  "packages/tmux-core",
   "packages/team-core",
-  "packages/openclaw-core",
   "packages/boulder-state",
   "packages/telemetry-core",
-  "packages/claude-code-compat-core",
   "packages/skills-loader-core",
 ] as const
 

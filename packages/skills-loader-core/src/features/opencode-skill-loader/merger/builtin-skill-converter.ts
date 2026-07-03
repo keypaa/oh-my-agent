@@ -13,7 +13,7 @@ function resolveBuiltinSkillPath(builtin: BuiltinSkill): string | undefined {
 }
 
 export function builtinToLoadedSkill(builtin: BuiltinSkill): LoadedSkill {
-  const definition: CommandDefinition = {
+  const definition = {
     name: builtin.name,
     description: `(opencode - Skill) ${builtin.description}`,
     template: builtin.template,
@@ -21,7 +21,7 @@ export function builtinToLoadedSkill(builtin: BuiltinSkill): LoadedSkill {
     agent: builtin.agent,
     subtask: builtin.subtask,
     argumentHint: builtin.argumentHint,
-  }
+  } as CommandDefinition & { template: string }
 
   return {
     name: builtin.name,

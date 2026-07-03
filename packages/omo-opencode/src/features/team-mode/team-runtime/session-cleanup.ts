@@ -1,7 +1,6 @@
 import type { TeamModeConfig } from "../../../config/schema/team-mode"
 import { log } from "../../../shared/logger"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
 import { deleteTeam } from "./delete-team"
 import {
   getSessionCreatedTeamRunIds,
@@ -37,7 +36,6 @@ function normalizeError(error: unknown): Error {
 
 export async function cleanupSessionTeamRuns(args: {
   config: TeamModeConfig
-  tmuxMgr?: TmuxSessionManager
   bgMgr?: BackgroundManager
   deps?: SessionTeamCleanupDeps
 }): Promise<SessionTeamCleanupReport> {
@@ -50,7 +48,7 @@ export async function cleanupSessionTeamRuns(args: {
 
   for (const teamRunId of getSessionCreatedTeamRunIds()) {
     try {
-      const result = await deps.deleteTeam(teamRunId, args.config, args.tmuxMgr, args.bgMgr, { force: true })
+      const result = await deps.deleteTeam(teamRunId, args.config, args.bgMgr, { force: true })
       report.cleanedTeamRunIds.push(teamRunId)
       if (result.removedLayout) {
         report.removedLayoutTeamRunIds.push(teamRunId)

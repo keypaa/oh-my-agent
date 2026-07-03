@@ -65,7 +65,7 @@ async function handleCreate(
   try {
     const validatedArgs = TaskCreateInputSchema.parse(args);
     const taskDir = getTaskDir(config);
-    const lock = acquireLock(taskDir);
+    const lock = acquireLock(taskDir) as (() => void) & { acquired: boolean; release: () => void };
 
     if (!lock.acquired) {
       return JSON.stringify({ error: "task_lock_unavailable" });

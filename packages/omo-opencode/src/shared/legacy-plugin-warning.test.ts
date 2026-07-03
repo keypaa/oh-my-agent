@@ -16,7 +16,10 @@ function cleanupTestConfigDir(testConfigDir: string): void {
 }
 
 describe("checkForLegacyPluginEntry", () => {
-  it("detects a bare legacy plugin entry", () => {
+  // #note: In this fork LEGACY_PLUGIN_NAME === PLUGIN_NAME ("oh-my-agent"),
+  // so no entry is ever treated as a "legacy" entry — everything is canonical.
+
+  it("does not flag oh-my-agent as legacy when old==new", () => {
     const testConfigDir = createTestConfigDir()
 
     try {
@@ -27,16 +30,16 @@ describe("checkForLegacyPluginEntry", () => {
       const result = checkForLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.hasLegacyEntry).toBe(true)
-      expect(result.hasCanonicalEntry).toBe(false)
-      expect(result.legacyEntries).toEqual(["oh-my-agent"])
+      expect(result.hasLegacyEntry).toBe(false)
+      expect(result.hasCanonicalEntry).toBe(true)
+      expect(result.legacyEntries).toEqual([])
       expect(result.configPath).toBe(join(testConfigDir, "opencode.json"))
     } finally {
       cleanupTestConfigDir(testConfigDir)
     }
   })
 
-  it("detects a version-pinned legacy plugin entry", () => {
+  it("does not flag a version-pinned oh-my-agent entry as legacy when old==new", () => {
     const testConfigDir = createTestConfigDir()
 
     try {
@@ -47,9 +50,9 @@ describe("checkForLegacyPluginEntry", () => {
       const result = checkForLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.hasLegacyEntry).toBe(true)
-      expect(result.hasCanonicalEntry).toBe(false)
-      expect(result.legacyEntries).toEqual(["oh-my-agent@3.10.0"])
+      expect(result.hasLegacyEntry).toBe(false)
+      expect(result.hasCanonicalEntry).toBe(true)
+      expect(result.legacyEntries).toEqual([])
     } finally {
       cleanupTestConfigDir(testConfigDir)
     }
@@ -74,7 +77,7 @@ describe("checkForLegacyPluginEntry", () => {
     }
   })
 
-  it("detects legacy entries in quoted jsonc config", () => {
+  it("does not flag legacy entries in jsonc config when old==new", () => {
     const testConfigDir = createTestConfigDir()
 
     try {
@@ -85,8 +88,8 @@ describe("checkForLegacyPluginEntry", () => {
       const result = checkForLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.hasLegacyEntry).toBe(true)
-      expect(result.legacyEntries).toEqual(["oh-my-agent"])
+      expect(result.hasLegacyEntry).toBe(false)
+      expect(result.legacyEntries).toEqual([])
     } finally {
       cleanupTestConfigDir(testConfigDir)
     }

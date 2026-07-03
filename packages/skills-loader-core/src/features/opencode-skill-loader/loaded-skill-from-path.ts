@@ -40,7 +40,7 @@ export async function loadSkillFromPath(options: {
       load: async () => templateContent,
     }
 
-    const definition: CommandDefinition = {
+    const definition = {
       name: skillName,
       description: formattedDescription,
       template: templateContent,
@@ -48,7 +48,7 @@ export async function loadSkillFromPath(options: {
       agent: data.agent,
       subtask: data.subtask,
       argumentHint: data["argument-hint"],
-    }
+    } as CommandDefinition & { template: string }
 
     return {
       name: skillName,

@@ -1,4 +1,5 @@
 import type { LoadedSkill } from "../../features/opencode-skill-loader"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 import { extractSkillTemplate } from "../../features/opencode-skill-loader/skill-content"
 
 const SKILL_INSTRUCTION_PATTERN = /<skill-instruction>([\s\S]*?)<\/skill-instruction>/
@@ -14,13 +15,14 @@ export async function extractSkillBody(skill: LoadedSkill): Promise<string> {
     return trimSkillInstruction(fullTemplate)
   }
 
-  if (skill.scope === "config" && skill.definition.template) {
-    return trimSkillInstruction(skill.definition.template)
+  const def = skill.definition as CommandDefinition & { template?: string }
+  if (skill.scope === "config" && def.template) {
+    return trimSkillInstruction(def.template)
   }
 
   if (skill.path) {
     return extractSkillTemplate(skill)
   }
 
-  return trimSkillInstruction(skill.definition.template || "")
+  return trimSkillInstruction(def.template || "")
 }

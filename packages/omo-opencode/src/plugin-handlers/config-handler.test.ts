@@ -73,7 +73,7 @@ beforeEach(async () => {
   spyOn(agentLoader, unsafeTestValue("loadOpencodeGlobalAgents")).mockReturnValue({})
   spyOn(agentLoader, unsafeTestValue("loadOpencodeProjectAgents")).mockReturnValue({})
 
-  spyOn(mcpLoader, unsafeTestValue("loadMcpConfigs")).mockResolvedValue({ servers: {}, loadedServers: [] })
+  spyOn(mcpLoader, unsafeTestValue("loadMcpConfigs")).mockResolvedValue([])
   setAdditionalAllowedMcpEnvVarsSpy = spyOn(mcpLoader, "setAdditionalAllowedMcpEnvVars").mockImplementation(() => {})
 
   spyOn(pluginLoader, unsafeTestValue("loadAllPluginComponents")).mockResolvedValue({

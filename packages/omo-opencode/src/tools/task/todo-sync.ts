@@ -1,6 +1,15 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import { log } from "../../shared/logger";
-import type { Task } from "../../features/claude-tasks/types.ts";
+
+interface Task {
+  id: string
+  subject: string
+  description?: string
+  status: "pending" | "in_progress" | "completed" | "deleted"
+  metadata?: Record<string, unknown>
+  blocks?: string[]
+  blockedBy?: string[]
+}
 
 export interface TodoInfo {
   id?: string;

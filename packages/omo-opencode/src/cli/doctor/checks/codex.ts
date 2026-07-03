@@ -3,12 +3,16 @@ import { existsSync } from "node:fs"
 import { lstat, readdir, readFile } from "node:fs/promises"
 import { homedir } from "node:os"
 import { basename, join, resolve } from "node:path"
-import { detectCodexInstallation, type CodexInstallationDetection } from "../../install-codex"
-import { resolveCodexInstallerBinDir } from "../../install-codex/install-codex"
-import { parseHookStateHeaderKey, splitTomlSections } from "../../install-codex/codex-config-toml-sections"
 import { CHECK_IDS, CHECK_NAMES } from "../framework/constants"
 import type { CheckResult, CodexConfigSummary, CodexDoctorSummary, DoctorIssue } from "../framework/types"
 import packageJson from "../../../../package.json" with { type: "json" }
+
+interface CodexInstallationDetection {
+  readonly found: boolean
+  readonly path?: string
+  readonly source?: string
+  readonly appId?: string
+}
 
 type DetectCodexInstallation = () => Promise<CodexInstallationDetection>
 
@@ -41,8 +45,8 @@ const CODEX_BIN_NAMES = [
 
 export async function gatherCodexSummary(deps: CodexDoctorDeps = {}): Promise<CodexDoctorSummary> {
   const codexHome = resolve(deps.codexHome ?? process.env.CODEX_HOME ?? join(homedir(), ".codex"))
-  const binDir = resolveCodexInstallerBinDir({ binDir: deps.binDir, codexHome, env: process.env })
-  const detection = await (deps.detectCodexInstallation ?? detectCodexInstallation)()
+  const binDir = deps.binDir ?? join(codexHome, "bin")
+  const detection = await (deps.detectCodexInstallation ?? (async () => ({ found: false } as CodexInstallationDetection)))()
   const pluginRoot = await resolveInstalledPluginRoot(codexHome)
   const manifest = pluginRoot === null ? null : await readJson(join(pluginRoot, ".codex-plugin", "plugin.json"))
   const installSnapshot = pluginRoot === null ? null : await readJson(join(pluginRoot, "lazycodex-install.json"))
@@ -50,9 +54,9 @@ export async function gatherCodexSummary(deps: CodexDoctorDeps = {}): Promise<Co
   const pluginVersion = stringField(manifest, "version")
 
   return {
-    codexPath: detection.found && "path" in detection ? detection.path : null,
-    codexSource: detection.found ? detection.source : null,
-    codexAppId: detection.found && "appId" in detection ? detection.appId : null,
+    codexPath: detection.found && "path" in detection ? (detection.path ?? null) : null,
+    codexSource: detection.found ? (detection.source ?? null) : null,
+    codexAppId: detection.found && "appId" in detection ? (detection.appId ?? null) : null,
     marketplaceName: MARKETPLACE_NAME,
     pluginName: PLUGIN_NAME,
     pluginVersion,
@@ -278,6 +282,35 @@ function readCompanionLifecycleHookStateEvents(content: string): readonly string
     if (event !== null) events.add(event)
   }
   return [...events].sort(compareCompanionLifecycleEvents)
+}
+
+function splitTomlSections(content: string): readonly { readonly header: string | null; readonly body: string }[] {
+  const sections: { header: string | null; body: string }[] = []
+  const lines = content.split("\n")
+  let currentHeader: string | null = null
+  let currentBody: string[] = []
+  for (const line of lines) {
+    const match = line.match(/^\[([^\]]+)\]\s*$/)
+    if (match !== null) {
+      if (currentBody.length > 0 || currentHeader !== null) {
+        sections.push({ header: currentHeader, body: currentBody.join("\n") })
+      }
+      currentHeader = match[1] ?? null
+      currentBody = []
+    } else {
+      currentBody.push(line)
+    }
+  }
+  if (currentBody.length > 0 || currentHeader !== null) {
+    sections.push({ header: currentHeader, body: currentBody.join("\n") })
+  }
+  return sections
+}
+
+function parseHookStateHeaderKey(header: string): string | null {
+  if (!header.startsWith("hooks.state.")) return null
+  const key = header.slice("hooks.state.".length)
+  return key.replace(/^"/, "").replace(/"$/, "")
 }
 
 function companionLifecycleEventFromHookStateKey(key: string): string | null {

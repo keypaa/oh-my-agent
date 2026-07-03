@@ -9,6 +9,9 @@ import { spawn } from "bun"
 
 const LIVE = process.env.OMA_LIVE_TMUX === "1"
 const HOSTNAME = "127.0.0.1"
+
+// @ts-ignore - Windows has no tmux binary
+const describeOnWindows = process.platform === "win32" ? describe.skip : describe
 const layoutSpecifier = import.meta.resolve("./layout")
 
 type TeamLayoutMemberLike = {
@@ -216,7 +219,7 @@ async function invokeRemoveTeamLayout(
 	]))
 }
 
-describe("team-mode live tmux smoke", () => {
+describeOnWindows("team-mode live tmux smoke", () => {
 	beforeEach(async () => {
 		if (!LIVE) {
 			return

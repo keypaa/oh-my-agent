@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test"
-import { OhMyOpenCodeConfigSchema } from "./oh-my-agent-config"
+import { OhMyOpenCodeConfigSchema } from "./oh-my-opencode-config"
 
 describe("OhMyOpenCodeConfigSchema team_mode", () => {
   it("accepts team_mode when provided", () => {

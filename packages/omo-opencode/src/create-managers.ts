@@ -36,6 +36,7 @@ export type Managers = {
   skillMcpManager: SkillMcpManager
   configHandler: ReturnType<typeof createConfigHandler>
   modelFallbackControllerAccessor: ModelFallbackControllerAccessor
+  tmuxSessionManager: undefined
 }
 
 export function createManagers(args: {
@@ -112,5 +113,6 @@ export function createManagers(args: {
     skillMcpManager,
     configHandler,
     modelFallbackControllerAccessor,
+    tmuxSessionManager: undefined,
   }
 }

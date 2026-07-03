@@ -32,17 +32,6 @@ export function createHashlineToolsRecord(args: {
   return pluginConfig.hashline_edit ? { edit: factories.createHashlineEditTool(ctx) } : {}
 }
 
-export function createMonitorToolsRecord(args: {
-  readonly pluginConfig: OhMyOpenCodeConfig
-  readonly ctx: PluginContext
-  readonly managers: Pick<Managers, "monitorManager">
-  readonly factories: ToolRegistryFactories
-}): Record<string, ToolDefinition> {
-  const { pluginConfig, ctx, managers, factories } = args
-  if (!pluginConfig.monitor?.enabled || !managers.monitorManager) return {}
-  return factories.createMonitorTools(managers.monitorManager, Object.assign({}, ctx, { pluginConfig }))
-}
-
 export function getTaskSystemEnabled(pluginConfig: OhMyOpenCodeConfig): boolean {
   return isTaskSystemEnabled(pluginConfig)
 }

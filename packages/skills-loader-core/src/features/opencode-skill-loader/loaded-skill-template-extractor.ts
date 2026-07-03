@@ -1,10 +1,12 @@
 import { readFileSync } from "node:fs"
 import { parseFrontmatter } from "@oh-my-opencode/utils"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 import type { LoadedSkill } from "./types"
 
 export function extractSkillTemplate(skill: LoadedSkill): string {
-  if (skill.scope === "config" && skill.definition.template) {
-    return skill.definition.template
+  const def = skill.definition as CommandDefinition & { template?: string }
+  if (skill.scope === "config" && def.template) {
+    return def.template
   }
 
   if (skill.path) {
@@ -12,5 +14,5 @@ export function extractSkillTemplate(skill: LoadedSkill): string {
     const { body } = parseFrontmatter(content)
 		return body.trim()
 	}
-	return skill.definition.template || ""
+	return def.template || ""
 }

@@ -1,4 +1,4 @@
-import { z } from "zod/v4"
+import { z } from "zod"
 
 export const TmuxIsolationSchema = z.object({
   enabled: z.boolean().default(false),

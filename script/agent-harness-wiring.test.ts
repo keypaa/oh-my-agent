@@ -169,7 +169,7 @@ describe("Docker QA harness", () => {
   test("#given both QA skills #when looking for the docker-qa reference #then each documents the Docker path", () => {
     // given
     const oc = join(REPO_ROOT, ".agents", "skills", "opencode-qa", "references", "docker-qa.md")
-    const cx = join(REPO_ROOT, ".claude", "skills", "codex-qa", "references", "docker-qa.md")
+    const cx = join(REPO_ROOT, ".agents", "skills", "codex-qa", "references", "docker-qa.md")
 
     // then
     expect(existsSync(oc), "opencode-qa needs references/docker-qa.md").toBe(true)

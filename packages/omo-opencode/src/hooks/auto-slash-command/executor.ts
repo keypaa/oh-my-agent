@@ -4,7 +4,10 @@ import { resolveFileReferencesInText } from "../../shared/file-reference-resolve
 import { discoverAllSkills, type LoadedSkill, type LazyContentLoader } from "../../features/opencode-skill-loader"
 import * as commandDiscovery from "../../tools/slashcommand/command-discovery"
 import type { CommandInfo as DiscoveredCommandInfo, CommandMetadata } from "../../tools/slashcommand/types"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 import type { ParsedSlashCommand } from "./types"
+
+type CommandDefinitionWithTemplate = CommandDefinition & { template?: string }
 
 interface SkillCommandInfo {
   name: string
@@ -29,7 +32,7 @@ function skillToCommandInfo(skill: LoadedSkill): SkillCommandInfo {
       agent: skill.definition.agent,
       subtask: skill.definition.subtask,
     },
-    content: skill.definition.template,
+    content: (skill.definition as CommandDefinitionWithTemplate).template,
     scope: "skill",
     lazyContentLoader: skill.lazyContent,
   }

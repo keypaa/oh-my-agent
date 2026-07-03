@@ -69,6 +69,7 @@ function migrateLegacySidecarFile(legacyPath: string, canonicalPath: string): bo
 }
 
 export function migrateLegacyConfigFile(legacyPath: string): boolean {
+  if (LEGACY_CONFIG_BASENAME === CONFIG_BASENAME) return false
   if (!existsSync(legacyPath)) return false
   if (!basename(legacyPath).startsWith(LEGACY_CONFIG_BASENAME)) return false
 

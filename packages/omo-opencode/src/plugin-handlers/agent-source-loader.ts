@@ -51,24 +51,20 @@ function summarizeCustomAgents(
     }));
 }
 
-export function loadAgentSources(params: ApplyAgentConfigParams): AgentSources {
+export async function loadAgentSources(params: ApplyAgentConfigParams): Promise<AgentSources> {
   const includeClaudeAgents = params.pluginConfig.claude_code?.agents ?? true;
   const anthropicProvider = params.pluginConfig.claude_code?.anthropic_provider;
-  const userAgents = includeClaudeAgents ? loadUserAgents(anthropicProvider) : {};
-  const projectAgents = includeClaudeAgents
-    ? loadProjectAgents(params.ctx.directory, anthropicProvider)
+  const userAgents: AgentSourceMap = includeClaudeAgents ? (await loadUserAgents()) as AgentSourceMap : {};
+  const projectAgents: AgentSourceMap = includeClaudeAgents
+    ? (await loadProjectAgents()) as AgentSourceMap
     : {};
-  const opencodeGlobalAgents = loadOpencodeGlobalAgents();
-  const opencodeProjectAgents = loadOpencodeProjectAgents(params.ctx.directory);
+  const opencodeGlobalAgents: AgentSourceMap = (await loadOpencodeGlobalAgents()) as AgentSourceMap;
+  const opencodeProjectAgents: AgentSourceMap = (await loadOpencodeProjectAgents()) as AgentSourceMap;
   const pluginAgents = migratePluginAgents(params.pluginComponents.agents);
-  const agentDefinitionAgents = params.pluginConfig.agent_definitions
-    ? loadAgentDefinitions(
-        params.pluginConfig.agent_definitions,
-        "definition-file",
-        anthropicProvider,
-      )
+  const agentDefinitionAgents: AgentSourceMap = params.pluginConfig.agent_definitions
+    ? (await loadAgentDefinitions()) as unknown as AgentSourceMap
     : {};
-  const opencodeConfigAgents = readOpencodeConfigAgents(params.ctx.directory);
+  const opencodeConfigAgents: AgentSourceMap = (await readOpencodeConfigAgents()) as AgentSourceMap;
   const configAgent = params.config.agent as AgentConfigRecord | undefined;
   const sourceCounts = {
     user: Object.keys(userAgents).length,

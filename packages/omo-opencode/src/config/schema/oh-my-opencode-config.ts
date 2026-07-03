@@ -28,6 +28,8 @@ import { SisyphusAgentConfigSchema } from "./sisyphus-agent"
 
 import { StartWorkConfigSchema } from "./start-work"
 import { WebsearchConfigSchema } from "./websearch"
+import { ClaudeCodeConfigSchema } from "./claude-code"
+import { TmuxConfigSchema } from "./tmux"
 
 export const OhMyOpenCodeConfigSchema = z.object({
   $schema: z.string().optional(),
@@ -99,6 +101,8 @@ export const OhMyOpenCodeConfigSchema = z.object({
   start_work: StartWorkConfigSchema.optional(),
   /** Default mode auto-activation settings (ultrawork, ralph loop) */
   default_mode: DefaultModeConfigSchema.optional(),
+  claude_code: ClaudeCodeConfigSchema.optional(),
+  tmux: TmuxConfigSchema.optional(),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })

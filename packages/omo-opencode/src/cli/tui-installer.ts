@@ -12,7 +12,7 @@ import {
 import { detectedToInitialValues, formatConfigSummary, SYMBOLS } from "./install-validators"
 import { getUnsupportedOpenCodeVersionMessage } from "./minimum-opencode-version"
 import { promptInstallConfig, promptInstallPlatform } from "./tui-install-prompts"
-import { detectCodexInstallation, formatCodexInstallationWarning, runCodexInstaller } from "./install-codex"
+
 import { starGitHubRepositories } from "./star-request"
 import { getNoModelProvidersWarning, hasAnyConfiguredProvider } from "./provider-availability"
 import { ensureTuiPluginEntry } from "./config-manager/add-tui-plugin-to-tui-config"
@@ -121,28 +121,6 @@ export async function runTuiInstaller(args: InstallArgs, version: string): Promi
   }
 
   p.note(formatConfigSummary(config), isUpdate ? "Updated Configuration" : "Installation Complete")
-
-  if (config.hasCodex) {
-    const codexInstallation = await detectCodexInstallation()
-    if (!codexInstallation.found) {
-      p.log.warn(formatCodexInstallationWarning(codexInstallation))
-    }
-
-    spinner.start("Installing Codex harness adapter")
-    try {
-      const codexResult = await runCodexInstaller({ autonomousPermissions: config.codexAutonomous })
-      spinner.stop(`Codex plugin installed to ${color.cyan(codexResult.configPath)}`)
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error)
-      spinner.stop(`Codex install failed ${color.yellow("[!]")}`)
-      if (!config.hasOpenCode) {
-        p.log.error(`Codex install failed: ${message}`)
-        p.outro(color.red("Installation failed."))
-        return 1
-      }
-      p.log.warn(`Codex install failed (OpenCode install remains successful): ${message}`)
-    }
-  }
 
   p.log.success(color.bold(isUpdate ? "Configuration updated!" : "Installation complete!"))
   if (config.hasOpenCode) {

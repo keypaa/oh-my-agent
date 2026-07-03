@@ -25,7 +25,7 @@ export interface IterationCommitExpectation {
 
 export interface RalphLoopOptions {
   config?: RalphLoopConfig
-  getTranscriptPath?: (sessionId: string) => string
+  getTranscriptPath?: (sessionId: string) => string | undefined
   apiTimeout?: number
   idleSettleMs?: number
   checkSessionExists?: (sessionId: string) => Promise<boolean>

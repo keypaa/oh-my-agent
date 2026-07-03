@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { spawnSync } from "node:child_process"
-import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 
@@ -162,6 +162,7 @@ describe("GitHub workflow job summaries", () => {
   })
 
   test("#given summary inputs #when the shared writer runs #then it emits the Markdown contract GitHub renders", () => {
+    if (!existsSync("/bin/bash") && process.platform === "win32") return
     const tempDir = mkdtempSync(join(tmpdir(), "omo-ci-summary-"))
     const summaryPath = join(tempDir, "summary.md")
     writeFileSync(summaryPath, "")

@@ -37,7 +37,7 @@ describe("published LazyCodex smoke workflow", () => {
       'test "$npx_install_output" = "npx --yes --package oh-my-agent omo install --platform=codex --no-tui --codex-autonomous"',
     )
     const expectsWindowsSafeInstallShape = workflow.includes(
-      '"npx --yes oh-my-agent@latest install --platform=codex --no-tui --codex-autonomous"',
+      '"npx --yes oh-my-openagent@latest install --platform=codex --no-tui --codex-autonomous"',
     )
     const rejectsLegacyInstallShape = !workflow.includes(
       '"npx --yes --package oh-my-agent omo install --platform=codex --no-tui --codex-autonomous"',

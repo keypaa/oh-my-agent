@@ -535,34 +535,30 @@ describe("loadPluginConfig", () => {
     expect(config.mcp_env_allowlist).toEqual(["USER_ONLY_TOKEN"])
   })
 
-  it("should ignore edits to the renamed legacy backup after migration", async () => {
+  // #note: In this fork LEGACY_CONFIG_BASENAME === CONFIG_BASENAME ("oh-my-agent"),
+  // so config is always loaded from the canonical path — no migration or backup occurs.
+  // The following tests are adapted to verify the no-op behavior.
+
+  it("should not attempt migration when legacy and canonical basenames match", async () => {
     // given
     const rootDir = mkdtempSync(join(tmpdir(), "omo-plugin-config-legacy-"))
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
-    const backupConfigPath = `${legacyConfigPath}.bak`
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
     mkdirSync(projectConfigDir, { recursive: true })
-    writeFileSync(legacyConfigPath, JSON.stringify({ agents: { oracle: { model: "openai/gpt-5.5" } } }))
+    writeFileSync(join(projectConfigDir, "oh-my-agent.jsonc"), JSON.stringify({ agents: { oracle: { model: "openai/gpt-5.5" } } }))
 
     process.env.OPENCODE_CONFIG_DIR = userConfigDir
 
     // when
     const { loadPluginConfig } = await importFreshPluginConfigModule()
-    loadPluginConfig(projectDir, {})
-    writeFileSync(backupConfigPath, JSON.stringify({ agents: { oracle: { model: "openai/gpt-5-nano" } } }))
-    const reloadedConfig = loadPluginConfig(projectDir, {})
+    const config = loadPluginConfig(projectDir, {})
 
     // then
-    expect(existsSync(legacyConfigPath)).toBe(false)
-    expect(existsSync(backupConfigPath)).toBe(true)
-    expect(readFileSync(canonicalConfigPath, "utf-8")).toContain('"openai/gpt-5.5"')
-    expect(reloadedConfig.agents?.oracle?.model).toBe("openai/gpt-5.5")
+    expect(config.agents?.oracle?.model).toBe("openai/gpt-5.5")
   })
 
   it("should still load config from legacy path when migration fails", async () => {
@@ -602,19 +598,18 @@ describe("loadPluginConfig", () => {
     expect(config.agents?.oracle?.model).toBe("openai/gpt-5.5")
   })
 
-  it("should load migrated legacy project config on the first load", async () => {
+  it("should load config directly when legacy and canonical basenames match", async () => {
     // given
     const rootDir = mkdtempSync(join(tmpdir(), "omo-plugin-config-first-load-"))
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-agent.jsonc")
+    const configPath = join(projectConfigDir, "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
     mkdirSync(projectConfigDir, { recursive: true })
-    writeFileSync(legacyConfigPath, JSON.stringify({ agents: { oracle: { model: "openai/gpt-5.5" } } }))
+    writeFileSync(configPath, JSON.stringify({ agents: { oracle: { model: "openai/gpt-5.5" } } }))
 
     process.env.OPENCODE_CONFIG_DIR = userConfigDir
 
@@ -623,8 +618,7 @@ describe("loadPluginConfig", () => {
     const config = loadPluginConfig(projectDir, {})
 
     // then
-    expect(existsSync(legacyConfigPath)).toBe(false)
-    expect(existsSync(canonicalConfigPath)).toBe(true)
+    expect(existsSync(configPath)).toBe(true)
     expect(config.agents?.oracle?.model).toBe("openai/gpt-5.5")
   })
 
@@ -746,21 +740,19 @@ describe("loadPluginConfig", () => {
       git_env_prefix: "GIT_MASTER=1",
     })
   })
-  describe("team_mode.tmux_visualization", () => {
-    it("#given canonical user config enables team_mode and legacy config also exists #when loadPluginConfig runs #then tmux_visualization remains false", async () => {
+  // #note: In this fork LEGACY_CONFIG_BASENAME === CONFIG_BASENAME ("oh-my-agent"),
+  // so "canonical config and legacy config as separate files" cannot happen —
+  // they would be the same file. These scenarios are not applicable. Instead,
+  // we verify the single-config behavior works correctly.
+
+  describe("team_mode basic behavior (single config, no legacy separation)", () => {
+    it("#given user config enables team_mode #when loadPluginConfig runs #then team_mode is loaded", async () => {
       // given
-      const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-user-")
+      const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-basic-")
 
       writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
         team_mode: {
           enabled: true,
-        },
-      })
-      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
-        agents: {
-          oracle: {
-            model: "openai/gpt-5.4",
-          },
         },
       })
 
@@ -772,56 +764,6 @@ describe("loadPluginConfig", () => {
 
       // then
       expect(config.team_mode?.enabled).toBe(true)
-      expect(config.team_mode?.tmux_visualization).toBe(false)
-    })
-
-    it("#given canonical user config lacks team_mode and legacy config only enables team_mode #when loadPluginConfig runs #then canonical config wins and tmux_visualization stays effectively false", async () => {
-      // given
-      const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-legacy-")
-
-      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
-        hashline_edit: true,
-      })
-      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
-        team_mode: {
-          enabled: true,
-        },
-      })
-
-      process.env.OPENCODE_CONFIG_DIR = userConfigDir
-
-      // when
-      const { loadPluginConfig } = await importFreshPluginConfigModule()
-      const config = loadPluginConfig(projectDir, {})
-
-      // then
-      expect(config.team_mode).toBeUndefined()
-      expect(config.team_mode?.tmux_visualization ?? false).toBe(false)
-    })
-
-    it("#given canonical user config lacks team_mode and legacy config sets tmux_visualization=true #when loadPluginConfig runs #then legacy team_mode is not promoted into the loaded config", async () => {
-      // given
-      const { userConfigDir, projectDir } = createLoadPluginConfigTestContext("omo-plugin-config-team-mode-visualization-")
-
-      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
-        hashline_edit: true,
-      })
-      writeJsonFile(join(userConfigDir, "oh-my-agent.json"), {
-        team_mode: {
-          enabled: true,
-          tmux_visualization: true,
-        },
-      })
-
-      process.env.OPENCODE_CONFIG_DIR = userConfigDir
-
-      // when
-      const { loadPluginConfig } = await importFreshPluginConfigModule()
-      const config = loadPluginConfig(projectDir, {})
-
-      // then
-      // This proves a concurrent canonical file suppresses the legacy team_mode subtree entirely.
-      expect(config.team_mode).toBeUndefined()
     })
   })
 
@@ -1154,15 +1096,14 @@ describe("loadPluginConfig", () => {
     expect(resolvedAgentDefinitions).toContain(join(resolveSymlink(projectDir), ".opencode", "project-agent.md"))
   })
 
-  it("should migrate legacy basenames found in ancestor directories", async () => {
+  it("should load config from ancestor directories when legacy and canonical basenames match", async () => {
     // given
     const rootDir = mkdtempSync(join(tmpdir(), "omo-plugin-config-walk-legacy-"))
     const userConfigDir = join(rootDir, "user-config")
     const homeDir = join(rootDir, "home")
     const workDir = join(homeDir, "work")
     const projectDir = join(workDir, "project")
-    const ancestorLegacyPath = join(workDir, ".opencode", "oh-my-agent.jsonc")
-    const ancestorCanonicalPath = join(workDir, ".opencode", "oh-my-agent.jsonc")
+    const ancestorConfigPath = join(workDir, ".opencode", "oh-my-agent.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -1172,7 +1113,7 @@ describe("loadPluginConfig", () => {
 
     writeFileSync(join(userConfigDir, "oh-my-agent.jsonc"), "{}")
     writeFileSync(
-      ancestorLegacyPath,
+      ancestorConfigPath,
       JSON.stringify({ agents: { oracle: { model: "ancestor-legacy/model" } } })
     )
 
@@ -1184,8 +1125,7 @@ describe("loadPluginConfig", () => {
     const config = loadPluginConfig(projectDir, {})
 
     // then
-    expect(existsSync(ancestorLegacyPath)).toBe(false)
-    expect(existsSync(ancestorCanonicalPath)).toBe(true)
+    expect(existsSync(ancestorConfigPath)).toBe(true)
     expect(config.agents?.oracle?.model).toBe("ancestor-legacy/model")
   })
 

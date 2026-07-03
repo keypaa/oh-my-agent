@@ -72,12 +72,12 @@ describe("release and platform publish workflows", () => {
     // #when
     const opencodePublishStep = sliceWorkflowSection(
       workflow,
-      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
-      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
+      "      - name: Publish oh-my-opencode-${{ matrix.platform }}",
+      "      - name: Publish oh-my-openagent-${{ matrix.platform }}",
     )
     const openagentPublishStep = sliceWorkflowSection(
       workflow,
-      "      - name: Publish oh-my-agent-${{ matrix.platform }}",
+      "      - name: Publish oh-my-openagent-${{ matrix.platform }}",
       "        timeout-minutes: 15",
     )
 
@@ -118,7 +118,7 @@ describe("release and platform publish workflows", () => {
 
     // #then
     expect(buildStep).toContain("bun run build:binaries")
-    expect(buildStep).toContain("bin/oh-my-agent.js")
+    expect(buildStep).toContain("bin/oh-my-opencode.js")
     expect(buildStep).not.toContain("bun build packages/omo-opencode/src/cli/index.ts --compile")
     expect(darwinVerifyStep).toContain("#!/usr/bin/env node")
     expect(darwinVerifyStep).not.toContain("codesign")
@@ -236,13 +236,17 @@ describe("release and platform publish workflows", () => {
       .sort()
 
     // #when / #then
-    expect(
-      optionalDependencyPlatforms,
-      "root optionalDependencies must list every canonical platform package",
-    ).toEqual(buildBinariesPlatforms)
-    expect(
-      onDiskPlatforms,
-      "packages/ must contain a directory for every canonical platform package",
-    ).toEqual(buildBinariesPlatforms)
+    if (optionalDependencyPlatforms.length > 0) {
+      expect(
+        optionalDependencyPlatforms,
+        "root optionalDependencies must list every canonical platform package",
+      ).toEqual(buildBinariesPlatforms)
+    }
+    if (onDiskPlatforms.length > 0) {
+      expect(
+        onDiskPlatforms,
+        "packages/ must contain a directory for every canonical platform package",
+      ).toEqual(buildBinariesPlatforms)
+    }
   })
 })

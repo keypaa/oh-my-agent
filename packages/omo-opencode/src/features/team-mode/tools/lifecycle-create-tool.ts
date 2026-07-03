@@ -4,7 +4,7 @@ import type { TeamModeConfig } from "../../../config/schema/team-mode"
 import { getAgentConfigKey } from "../../../shared/agent-display-names"
 import type { OpencodeClient } from "../../../tools/delegate-task/types"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
+
 import { resolveCallerTeamLead } from "../resolve-caller-team-lead"
 import { loadTeamSpec } from "@oh-my-opencode/team-core/team-registry/loader"
 import { createTeamRun } from "../team-runtime/create"
@@ -61,7 +61,6 @@ export function createTeamCreateTool(
   config: TeamModeConfig,
   client: OpencodeClient,
   bgMgr: BackgroundManager,
-  tmuxMgr?: TmuxSessionManager,
   executorConfig?: TeamCreateExecutorConfig,
   deps: TeamCreateToolDeps = defaultTeamCreateToolDeps,
 ): ToolDefinition {
@@ -107,7 +106,6 @@ export function createTeamCreateTool(
         },
         config,
         bgMgr,
-        tmuxMgr,
         {
           callerAgentTypeId: callerTeamLead.agentTypeId,
           parentMessageID: runtimeContext.messageID,

@@ -2,6 +2,7 @@ import type { PluginInput } from "@opencode-ai/plugin";
 import { tool, type ToolDefinition } from "@opencode-ai/plugin/tool";
 import { join } from "path";
 import type { OhMyOpenCodeConfig } from "../../config/schema";
+import type { TaskObject } from "./types";
 import { TaskObjectSchema, TaskUpdateInputSchema } from "./types";
 import {
   getTaskDir,
@@ -82,7 +83,7 @@ async function handleUpdate(
     }
 
     const taskDir = getTaskDir(config);
-    const lock = acquireLock(taskDir);
+    const lock = acquireLock(taskDir) as (() => void) & { acquired: boolean; release: () => void };
 
     if (!lock.acquired) {
       return JSON.stringify({ error: "task_lock_unavailable" });
@@ -90,7 +91,7 @@ async function handleUpdate(
 
     try {
       const taskPath = join(taskDir, `${taskId}.json`);
-      const task = readJsonSafe(taskPath, TaskObjectSchema);
+      const task = readJsonSafe(taskPath, TaskObjectSchema) as TaskObject | null;
 
       if (!task) {
         return JSON.stringify({ error: "task_not_found" });

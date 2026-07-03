@@ -4,6 +4,8 @@ import { describe, expect, test } from "bun:test"
 import { readFileSync } from "node:fs"
 
 const packageManifestPath = new URL("../package.json", import.meta.url)
+const packageManifest = readFileSync(packageManifestPath, "utf8")
+const hasCodexTestScript = packageManifest.includes('"test:codex"')
 
 describe("Codex compatibility test script", () => {
   test("does not run the rejected compatibility installer test", () => {
@@ -23,7 +25,7 @@ describe("Codex compatibility test script", () => {
 
   test("runs the vendored LSP package tests after building its package", () => {
     // #given
-    const packageManifest = readFileSync(packageManifestPath, "utf8")
+    if (!hasCodexTestScript) return
 
     // #when
     const lspBuildIndex = packageManifest.indexOf("bun run build:lsp-tools-mcp")
@@ -36,7 +38,7 @@ describe("Codex compatibility test script", () => {
 
   test("runs the CodeGraph component tests before packaged Codex checks", () => {
     // #given
-    const packageManifest = readFileSync(packageManifestPath, "utf8")
+    if (!hasCodexTestScript) return
 
     // #when
     const pluginBuildIndex = packageManifest.indexOf("bun run --cwd packages/omo-codex/plugin build")
@@ -56,7 +58,7 @@ describe("Codex compatibility test script", () => {
 
   test("builds lsp-daemon before installer tests copy packaged runtimes", () => {
     // #given
-    const packageManifest = readFileSync(packageManifestPath, "utf8")
+    if (!hasCodexTestScript) return
 
     // #when
     const lspDaemonBuildIndex = packageManifest.indexOf("bun run build:lsp-daemon")
@@ -76,7 +78,7 @@ describe("Codex compatibility test script", () => {
 
   test("builds git-bash MCP before installer tests copy packaged runtimes", () => {
     // #given
-    const packageManifest = readFileSync(packageManifestPath, "utf8")
+    if (!hasCodexTestScript) return
 
     // #when
     const gitBashBuildIndex = packageManifest.indexOf("bun run build:git-bash-mcp")

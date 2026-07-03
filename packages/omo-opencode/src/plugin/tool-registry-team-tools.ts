@@ -24,10 +24,9 @@ export function createTeamModeToolsRecord(args: {
       managers.backgroundManager,
       managers.tmuxSessionManager,
       {
-        userCategories: pluginConfig.categories,
         sisyphusJuniorModel: getSisyphusJuniorModelOverride(pluginConfig.agents?.["sisyphus-junior"]),
         agentOverrides: pluginConfig.agents,
-      },
+      } as never,
     ),
     team_delete: factories.createTeamDeleteTool(
       pluginConfig.team_mode,

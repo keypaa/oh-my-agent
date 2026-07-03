@@ -6,7 +6,7 @@ import { QUESTION_DENIED_SESSION_PERMISSION } from "../../../shared/question-den
 import type { ExecutorContext } from "../../../tools/delegate-task/executor-types"
 import type { BackgroundTask } from "../../background-agent/types"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
+
 import { ensureBaseDirs, getInboxDir, getTeamSpecPath, resolveBaseDir } from "../team-registry/paths"
 import { createRuntimeState, listActiveTeams, loadRuntimeState, transitionRuntimeState } from "../team-state-store/store"
 import { registerTeamSession } from "../team-session-registry"
@@ -127,7 +127,6 @@ export async function createTeamRun(
   ctx: ExecutorContext,
   config: TeamModeConfig,
   bgMgr: BackgroundManager,
-  tmuxMgr?: TmuxSessionManager,
   options?: CreateTeamRunOptions,
 ): Promise<RuntimeState> {
   const existingRuntime = await findExistingRuntime(spec, leadSessionId, config)
@@ -257,7 +256,7 @@ export async function createTeamRun(
 
     const launchedRuntimeState = await loadRuntimeState(runtimeState.teamRunId, config)
     assertNoUnresolvedTeamMembers(launchedRuntimeState.members)
-    createdLayout = await activateTeamLayout(launchedRuntimeState, config, ctx.directory, tmuxMgr)
+    createdLayout = await activateTeamLayout(launchedRuntimeState, config, ctx.directory)
 
     return await transitionRuntimeState(runtimeState.teamRunId, (currentState) => ({ ...currentState, status: "active" }), config)
   } catch (error) {
@@ -266,7 +265,6 @@ export async function createTeamRun(
       config,
       resources,
       bgMgr,
-      tmuxMgr,
       createdLayout,
     })
     const cause = error instanceof Error ? error : new Error(String(error))

@@ -15,7 +15,7 @@ export async function applyAgentConfig(
     (agent: string) => AGENT_NAME_MAP[agent.toLowerCase()] ?? AGENT_NAME_MAP[agent] ?? agent,
   ) as typeof params.pluginConfig.disabled_agents;
   const allDiscoveredSkills = await discoverAgentSkills(params);
-  const sources = loadAgentSources(params);
+  const sources = await loadAgentSources(params);
   const browserProvider =
     params.pluginConfig.browser_automation_engine?.provider ?? "playwright";
   const currentModel = params.config.model as string | undefined;

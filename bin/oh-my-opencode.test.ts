@@ -174,7 +174,7 @@ async function createLazyCodexFixture(options: { packageName?: string; wrapperFi
 
   const wrapperFileName = options.wrapperFileName ?? "lazycodex";
   const wrapperBin = join(binDir, wrapperFileName);
-  await cp(fileURLToPath(new URL("./oh-my-agent.js", import.meta.url)), wrapperBin);
+  await cp(fileURLToPath(new URL("./oh-my-opencode.js", import.meta.url)), wrapperBin);
   if (wrapperFileName !== "lazycodex") {
     await symlink(wrapperFileName, join(binDir, "lazycodex"));
   }

@@ -43,15 +43,15 @@ export async function loadPluginComponents(params: {
       );
     });
 
-    const pluginComponents = (await Promise.race([
+    const pluginComponents: PluginComponents = await Promise.race([
       loadAllPluginComponents({
-        enabledPluginsOverride: params.pluginConfig.claude_code?.plugins_override,
+        enabledPluginsOverride: params.pluginConfig.claude_code?.plugins_override as Record<string, boolean> | undefined,
         anthropicProvider: params.pluginConfig.claude_code?.anthropic_provider,
       }),
       timeoutPromise,
     ]).finally(() => {
       if (timeoutId) clearTimeout(timeoutId);
-    })) as PluginComponents;
+    });
 
     if (pluginComponents.plugins.length > 0) {
       log(`Loaded ${pluginComponents.plugins.length} Claude Code plugins`, {

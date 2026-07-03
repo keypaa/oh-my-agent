@@ -12,11 +12,13 @@ export async function runTmuxCommand(
   return { success: false, output: "", exitCode: null }
 }
 
-export async function isServerRunning(): Promise<boolean> {
+export async function isServerRunning(_url?: string): Promise<boolean> {
   return false
 }
 
-export async function closeTmuxPane(): Promise<void> {}
+export async function closeTmuxPane(_paneId: string): Promise<boolean> {
+  return false
+}
 
 export async function sweepTmuxSessionsWith(
   _deps: {
@@ -25,6 +27,9 @@ export async function sweepTmuxSessionsWith(
     listCandidateSessions: () => Promise<string[]>
     killSession: (name: string) => Promise<boolean>
     log: (message: string, payload?: unknown) => void
+  },
+  _options?: {
+    predicate?: (sessionName: string) => boolean
   },
 ): Promise<string[]> {
   return []

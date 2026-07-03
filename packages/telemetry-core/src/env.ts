@@ -29,7 +29,7 @@ function isSendOptOutFlag(value: string | undefined): boolean {
 
 export function shouldDisableTelemetry(input: ShouldDisableTelemetryInput): boolean {
   const env = input.env ?? process.env
-  const globalPrefix = input.globalEnvPrefix ?? "OMO"
+  const globalPrefix = input.globalEnvPrefix ?? "OMA"
   const prefixes = Array.from(new Set([globalPrefix, input.productEnvPrefix]))
 
   for (const prefix of prefixes) {

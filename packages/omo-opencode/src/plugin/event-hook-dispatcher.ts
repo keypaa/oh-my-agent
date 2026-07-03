@@ -40,7 +40,6 @@ export function createEventHookDispatcher(hooks: CreatedHooks, runEventHookSafel
     await runEventHookSafely("codegraphBootstrap", hooks.codegraphBootstrap?.event, input);
     await runEventHookSafely("astGrepSgProvision", hooks.astGrepSgProvision?.event, input);
     await runEventHookSafely("legacyPluginToast", hooks.legacyPluginToast?.event, input);
-    await runEventHookSafely("claudeCodeHooks", hooks.claudeCodeHooks?.event, input);
     await runEventHookSafely("backgroundNotificationHook", hooks.backgroundNotificationHook?.event, input);
     await runEventHookSafely("sessionNotification", hooks.sessionNotification, input);
     await runEventHookSafely("todoContinuationEnforcer", hooks.todoContinuationEnforcer?.handler, input);

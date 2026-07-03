@@ -1,5 +1,6 @@
 import type { SkillInfo } from "./types"
 import type { LoadedSkill } from "../../features/opencode-skill-loader"
+import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
 import { isDisabledSkillAlias } from "../../features/opencode-skill-loader/skill-discovery"
 
 const SHARED_SKILL_PREFIX = "shared/"
@@ -45,7 +46,7 @@ function nativeSkillToLoadedSkill(native: NativeSkillEntry): LoadedSkill {
       name: native.name,
       description: native.description,
       template: native.content,
-    },
+    } as CommandDefinition & { template: string },
     scope: nativeSkillScope(native),
   }
 }
@@ -59,7 +60,7 @@ function nativeSkillToAliasCheckSkill(native: NativeSkillEntry): LoadedSkill {
       name,
       description: native.description,
       template: native.content,
-    },
+    } as CommandDefinition & { template: string },
   }
 }
 

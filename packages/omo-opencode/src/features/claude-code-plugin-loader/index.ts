@@ -1,17 +1,17 @@
-import type { PluginComponentsLoadResult } from "../opencode-plugin-loader/types"
+import type { PluginComponents } from "../../plugin-handlers/plugin-components-loader";
 
 export function loadAllPluginComponents(_options?: {
   enabledPluginsOverride?: Record<string, boolean>
   anthropicProvider?: string
-}): Promise<PluginComponentsLoadResult> {
+}): Promise<PluginComponents> {
   return Promise.resolve({
-    tools: [],
-    commands: [],
-    mcpServers: [],
-    hooks: [],
-    agents: [],
-    skills: [],
-    mcpConfig: null,
+    commands: {},
+    skills: {},
+    agents: {},
+    mcpServers: {},
+    hooksConfigs: [],
+    plugins: [],
+    errors: [],
   })
 }
 

@@ -2,7 +2,7 @@ import type { TeamModeConfig } from "../../config/schema/team-mode"
 import type { BackgroundManager } from "../../features/background-agent/manager"
 import { lookupTeamSession } from "../../features/team-mode/team-session-registry"
 import { loadRuntimeState, listActiveTeams, transitionRuntimeState } from "../../features/team-mode/team-state-store/store"
-import type { TmuxSessionManager } from "../../features/tmux-subagent/manager"
+
 import { resolveSessionEventID } from "../../shared/event-session-id"
 import { log } from "../../shared/logger"
 
@@ -57,7 +57,6 @@ async function findLeadTeamRunId(
 
 export function createTeamLeadOrphanHandler(
   config: TeamModeConfig,
-  tmuxMgr?: TmuxSessionManager,
   bgMgr?: BackgroundManager,
 ): HookImpl {
   return async ({ event }: HookInput): Promise<void> => {
@@ -89,7 +88,7 @@ export function createTeamLeadOrphanHandler(
 
       try {
         const { deleteTeam } = await import("../../features/team-mode/team-runtime/delete-team")
-        await deleteTeam(teamRunId, config, tmuxMgr, bgMgr, { force: true })
+        await deleteTeam(teamRunId, config, bgMgr, { force: true })
       } catch (deleteError) {
         log("team lead orphan cleanup failed (non-fatal)", {
           event: "team-mode-lead-orphan-cleanup-error",

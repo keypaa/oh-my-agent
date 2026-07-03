@@ -2,7 +2,7 @@ import { rm } from "node:fs/promises"
 
 import type { TeamModeConfig } from "../../../config/schema/team-mode"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
+
 import { removeTeamLayout } from "../team-layout-tmux/layout"
 import { unregisterTeamSessionsByTeam } from "../team-session-registry"
 import { loadRuntimeState, transitionRuntimeState } from "../team-state-store/store"
@@ -39,7 +39,6 @@ export async function cleanupTeamRunResources(args: {
   config: TeamModeConfig
   resources: SpawnedMemberResource[]
   bgMgr: BackgroundManager
-  tmuxMgr?: TmuxSessionManager
   createdLayout: boolean
 }): Promise<TeamRunCreateError["cleanupReport"]> {
   const cleanupReport: TeamRunCreateError["cleanupReport"] = {
@@ -70,16 +69,6 @@ export async function cleanupTeamRunResources(args: {
       } catch (cleanupError) {
         cleanupReport.errors.push(`worktree ${resource.worktreePath}: ${normalizeError(cleanupError).message}`)
       }
-    }
-  }
-
-  if (args.createdLayout && args.tmuxMgr) {
-    try {
-      const runtimeState = await loadRuntimeState(args.teamRunId, args.config)
-      await removeTeamLayout(args.teamRunId, getLayoutCleanupTarget(runtimeState), args.tmuxMgr)
-      cleanupReport.removedLayout = true
-    } catch (layoutError) {
-      cleanupReport.errors.push(`layout ${args.teamRunId}: ${normalizeError(layoutError).message}`)
     }
   }
 

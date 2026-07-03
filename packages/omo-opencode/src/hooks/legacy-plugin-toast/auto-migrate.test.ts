@@ -28,8 +28,12 @@ describe("autoMigrateLegacyPluginEntry", () => {
     rmSync(testConfigDir, { recursive: true, force: true })
   })
 
-  describe("#given opencode.json has a bare legacy plugin entry", () => {
-    it("#then replaces oh-my-agent with oh-my-agent", async () => {
+  // #note: In this fork LEGACY_PLUGIN_NAME === PLUGIN_NAME ("oh-my-agent"),
+  // so isLegacyEntry (from shared plugin-entry-migrator) returns false for everything,
+  // making auto-migration a no-op.
+
+  describe("#given opencode.json has a plugin entry with oh-my-agent", () => {
+    it("#then returns not migrated (already canonical when old==new)", async () => {
       // given
       writeFileSync(
         join(testConfigDir, "opencode.json"),
@@ -42,15 +46,14 @@ describe("autoMigrateLegacyPluginEntry", () => {
       const result = autoMigrateLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.migrated).toBe(true)
-      expect(result.from).toBe("oh-my-agent")
-      expect(result.to).toBe("oh-my-agent")
-      expect(mockMigrateLegacyPluginEntry).toHaveBeenCalledWith(join(testConfigDir, "opencode.json"))
+      expect(result.migrated).toBe(false)
+      expect(result.from).toBeNull()
+      expect(mockMigrateLegacyPluginEntry).not.toHaveBeenCalled()
     })
   })
 
-  describe("#given opencode.json has a version-pinned legacy entry", () => {
-    it("#then preserves the version suffix", async () => {
+  describe("#given opencode.json has a version-pinned oh-my-agent entry", () => {
+    it("#then returns not migrated (already canonical when old==new)", async () => {
       // given
       writeFileSync(
         join(testConfigDir, "opencode.json"),
@@ -63,15 +66,13 @@ describe("autoMigrateLegacyPluginEntry", () => {
       const result = autoMigrateLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.migrated).toBe(true)
-      expect(result.from).toBe("oh-my-agent@3.10.0")
-      expect(result.to).toBe("oh-my-agent@3.10.0")
-      expect(mockMigrateLegacyPluginEntry).toHaveBeenCalledWith(join(testConfigDir, "opencode.json"))
+      expect(result.migrated).toBe(false)
+      expect(mockMigrateLegacyPluginEntry).not.toHaveBeenCalled()
     })
   })
 
-  describe("#given both canonical and legacy entries exist", () => {
-    it("#then removes legacy entry and keeps canonical", async () => {
+  describe("#given both entries exist with the same name", () => {
+    it("#then returns not migrated (all entries are already canonical)", async () => {
       // given
       writeFileSync(
         join(testConfigDir, "opencode.json"),
@@ -84,9 +85,8 @@ describe("autoMigrateLegacyPluginEntry", () => {
       const result = autoMigrateLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.migrated).toBe(true)
-      expect(result.to).toBe("oh-my-agent")
-      expect(mockMigrateLegacyPluginEntry).toHaveBeenCalledWith(join(testConfigDir, "opencode.json"))
+      expect(result.migrated).toBe(false)
+      expect(mockMigrateLegacyPluginEntry).not.toHaveBeenCalled()
     })
   })
 
@@ -105,8 +105,8 @@ describe("autoMigrateLegacyPluginEntry", () => {
     })
   })
 
-  describe("#given opencode.jsonc has comments and a legacy entry", () => {
-    it("#then preserves comments and replaces entry", async () => {
+  describe("#given opencode.jsonc has comments with oh-my-agent entry", () => {
+    it("#then returns not migrated (already canonical when old==new)", async () => {
       // given
       writeFileSync(
         join(testConfigDir, "opencode.jsonc"),
@@ -119,14 +119,13 @@ describe("autoMigrateLegacyPluginEntry", () => {
       const result = autoMigrateLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.migrated).toBe(true)
-      expect(result.to).toBe("oh-my-agent")
-      expect(mockMigrateLegacyPluginEntry).toHaveBeenCalledWith(join(testConfigDir, "opencode.jsonc"))
+      expect(result.migrated).toBe(false)
+      expect(mockMigrateLegacyPluginEntry).not.toHaveBeenCalled()
     })
   })
 
   describe("#given opencode.jsonc has a nested plugin key before the root plugin array", () => {
-    it("#then migrates only the root plugin entry", async () => {
+    it("#then returns not migrated (all entries already canonical)", async () => {
       // given
       writeFileSync(
         join(testConfigDir, "opencode.jsonc"),
@@ -145,10 +144,8 @@ describe("autoMigrateLegacyPluginEntry", () => {
       const result = autoMigrateLegacyPluginEntry(testConfigDir)
 
       // then
-      expect(result.migrated).toBe(true)
-      expect(result.from).toBe("oh-my-agent@latest")
-      expect(result.to).toBe("oh-my-agent@latest")
-      expect(mockMigrateLegacyPluginEntry).toHaveBeenCalledWith(join(testConfigDir, "opencode.jsonc"))
+      expect(result.migrated).toBe(false)
+      expect(mockMigrateLegacyPluginEntry).not.toHaveBeenCalled()
     })
   })
 

@@ -18,12 +18,12 @@ export function sanitizeSubagentType(subagentType: string): string {
   return subagentType.trim().replace(/^[\\/"']+|[\\/"']+$/g, "").trim()
 }
 
-export function mergeWithClaudeCodeAgents(
+export async function mergeWithClaudeCodeAgents(
   serverAgents: AgentInfo[],
   directory: string | undefined,
-): AgentInfo[] {
-  const userAgentsRecord = loadUserAgents()
-  const projectAgentsRecord = loadProjectAgents(directory)
+): Promise<AgentInfo[]> {
+  const userAgentsRecord = (await loadUserAgents()) as Record<string, { mode?: string; hidden?: boolean; model?: AgentInfo["model"] }>
+  const projectAgentsRecord = (await loadProjectAgents()) as Record<string, { mode?: string; hidden?: boolean; model?: AgentInfo["model"] }>
 
   const toAgentInfoList = (record: Record<string, { mode?: string; hidden?: boolean; model?: AgentInfo["model"] }>): AgentInfo[] =>
     Object.entries(record).map(([name, config]) => ({

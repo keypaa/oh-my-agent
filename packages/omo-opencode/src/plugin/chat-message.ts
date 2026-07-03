@@ -61,7 +61,6 @@ async function runChatMessageHooks(args: {
   await hooks.runtimeFallback?.["chat.message"]?.(input, output)
   await hooks.keywordDetector?.["chat.message"]?.(input, output)
   await hooks.thinkMode?.["chat.message"]?.(input, output)
-  await hooks.claudeCodeHooks?.["chat.message"]?.(input, output)
   await hooks.autoSlashCommand?.["chat.message"]?.(input, output)
   await hooks.noSisyphusGpt?.["chat.message"]?.(input, output)
   await hooks.noHephaestusNonGpt?.["chat.message"]?.(input, output)

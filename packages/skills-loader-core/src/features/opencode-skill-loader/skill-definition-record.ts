@@ -29,7 +29,7 @@ $ARGUMENTS
       agent: skill.agent,
       model: skill.model,
       subtask: skill.subtask,
-    }
+    } as CommandDefinition & { template: string }
   }
   return result
 }

@@ -3,7 +3,6 @@ import { afterEach, beforeEach, mock } from "bun:test"
 import { spawnSync } from "node:child_process"
 import { existsSync, rmSync } from "node:fs"
 import { join } from "node:path"
-import { _resetForTesting as resetClaudeSessionState } from "./packages/omo-opencode/src/features/claude-code-session-state/state"
 import { _resetTaskToastManagerForTesting as resetTaskToastManager } from "./packages/omo-opencode/src/features/task-toast-manager/manager"
 import { _resetForTesting as resetModelFallbackState } from "./packages/omo-opencode/src/hooks/model-fallback/hook"
 import { RULES_INJECTOR_STORAGE } from "./packages/omo-opencode/src/hooks/rules-injector/constants"
@@ -65,7 +64,6 @@ beforeEach(() => {
   process.env.OMA_DISABLE_POSTHOG = "true"
   cleanupOmoCacheDir(getOmoOpenCodeCacheDir())
   cleanupRulesInjectorStorage()
-  resetClaudeSessionState()
   resetTaskToastManager()
   resetModelFallbackState()
   resetConnectedProvidersCache()

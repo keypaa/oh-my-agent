@@ -1,7 +1,7 @@
 import type { TeamModeConfig } from "../../../config/schema/team-mode"
 import { log } from "../../../shared/logger"
 import type { BackgroundManager } from "../../background-agent/manager"
-import type { TmuxSessionManager } from "../../tmux-subagent/manager"
+
 import { canVisualize, removeTeamLayout } from "../team-layout-tmux/layout"
 import { sweepStaleTeamSessions } from "../team-layout-tmux/sweep-stale-team-sessions"
 import { getRuntimeStateDir, resolveBaseDir } from "../team-registry/paths"
@@ -65,7 +65,6 @@ function getTeamBackgroundTasks(
 export async function deleteTeam(
   teamRunId: string,
   config: TeamModeConfig,
-  tmuxMgr?: TmuxSessionManager,
   bgMgr?: DeleteTeamBackgroundManager,
   options?: { force?: boolean },
   deps: DeleteTeamDeps = defaultDeleteTeamDeps,
@@ -91,7 +90,7 @@ export async function deleteTeam(
     }
 
     if (options?.force !== true) {
-      return await deleteTeamResources(teamRunId, config, runtimeState, tmuxMgr, options, deps)
+      return await deleteTeamResources(teamRunId, config, runtimeState, options, deps)
     }
 
     await Promise.all(teamTasks.map((task) => bgMgr.cancelTask(task.id, {
@@ -100,14 +99,13 @@ export async function deleteTeam(
     })))
   }
 
-  return await deleteTeamResources(teamRunId, config, runtimeState, tmuxMgr, options, deps)
+  return await deleteTeamResources(teamRunId, config, runtimeState, options, deps)
 }
 
 async function deleteTeamResources(
   teamRunId: string,
   config: TeamModeConfig,
   runtimeState: RuntimeState,
-  tmuxMgr?: TmuxSessionManager,
   options?: { force?: boolean },
   deps: DeleteTeamDeps = defaultDeleteTeamDeps,
 ): Promise<{ removedWorktrees: string[]; removedLayout: boolean }> {
@@ -145,35 +143,7 @@ async function deleteTeamResources(
     }
   }
 
-  const removedLayout = config.tmux_visualization && tmuxMgr !== undefined && deps.canVisualize()
-  if (removedLayout) {
-    const memberPaneIds = runtimeState.members
-      .flatMap((member) => (
-        member.agentType !== "leader" && member.tmuxPaneId
-          ? [member.tmuxPaneId]
-          : []
-      ))
-
-    const cleanupTarget = runtimeState.tmuxLayout
-      ? {
-          ...runtimeState.tmuxLayout,
-          paneIds: memberPaneIds.length > 0 ? memberPaneIds : undefined,
-        }
-      : undefined
-
-    if (options?.force === true) {
-      try {
-        await deps.removeTeamLayout(teamRunId, cleanupTarget, tmuxMgr)
-      } catch (error) {
-        deps.log("team delete layout cleanup failed", {
-          teamRunId,
-          error: error instanceof Error ? error.message : String(error),
-        })
-      }
-    } else {
-      await deps.removeTeamLayout(teamRunId, cleanupTarget, tmuxMgr)
-    }
-  }
+  const removedLayout = false
 
   const removedWorktrees = await removeWorktrees(runtimeState.members.map((member) => member.worktreePath))
 

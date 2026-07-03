@@ -5791,43 +5791,6 @@
         "additionalProperties": false
       }
     },
-    "claude_code": {
-      "type": "object",
-      "properties": {
-        "mcp": {
-          "type": "boolean"
-        },
-        "commands": {
-          "type": "boolean"
-        },
-        "skills": {
-          "type": "boolean"
-        },
-        "agents": {
-          "type": "boolean"
-        },
-        "hooks": {
-          "type": "boolean"
-        },
-        "plugins": {
-          "type": "boolean"
-        },
-        "plugins_override": {
-          "type": "object",
-          "propertyNames": {
-            "type": "string"
-          },
-          "additionalProperties": {
-            "type": "boolean"
-          }
-        },
-        "anthropic_provider": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "additionalProperties": false
-    },
     "sisyphus_agent": {
       "type": "object",
       "properties": {
@@ -6317,147 +6280,6 @@
       },
       "additionalProperties": false
     },
-    "openclaw": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "default": false,
-          "type": "boolean"
-        },
-        "gateways": {
-          "default": {},
-          "type": "object",
-          "propertyNames": {
-            "type": "string"
-          },
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "default": "http",
-                "type": "string",
-                "enum": [
-                  "http",
-                  "command"
-                ]
-              },
-              "url": {
-                "type": "string"
-              },
-              "method": {
-                "default": "POST",
-                "type": "string"
-              },
-              "headers": {
-                "type": "object",
-                "propertyNames": {
-                  "type": "string"
-                },
-                "additionalProperties": {
-                  "type": "string"
-                }
-              },
-              "command": {
-                "type": "string"
-              },
-              "timeout": {
-                "type": "number"
-              }
-            },
-            "required": [
-              "type",
-              "method"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "hooks": {
-          "default": {},
-          "type": "object",
-          "propertyNames": {
-            "type": "string"
-          },
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "enabled": {
-                "default": true,
-                "type": "boolean"
-              },
-              "gateway": {
-                "type": "string"
-              },
-              "instruction": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "enabled",
-              "gateway",
-              "instruction"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "replyListener": {
-          "type": "object",
-          "properties": {
-            "discordBotToken": {
-              "type": "string"
-            },
-            "discordChannelId": {
-              "type": "string"
-            },
-            "discordMention": {
-              "type": "string"
-            },
-            "authorizedDiscordUserIds": {
-              "default": [],
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "telegramBotToken": {
-              "type": "string"
-            },
-            "telegramChatId": {
-              "type": "string"
-            },
-            "pollIntervalMs": {
-              "default": 3000,
-              "type": "number"
-            },
-            "rateLimitPerMinute": {
-              "default": 10,
-              "type": "number"
-            },
-            "maxMessageLength": {
-              "default": 500,
-              "type": "number"
-            },
-            "includePrefix": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "authorizedDiscordUserIds",
-            "pollIntervalMs",
-            "rateLimitPerMinute",
-            "maxMessageLength",
-            "includePrefix"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "enabled",
-        "gateways",
-        "hooks"
-      ],
-      "additionalProperties": false
-    },
     "i18n": {
       "type": "object",
       "properties": {
@@ -6465,86 +6287,6 @@
           "type": "string"
         }
       },
-      "additionalProperties": false
-    },
-    "monitor": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "default": false,
-          "type": "boolean"
-        },
-        "live_mode_enabled": {
-          "default": false,
-          "type": "boolean"
-        },
-        "allowed_commands": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "max_monitors_per_session": {
-          "default": 3,
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 16
-        },
-        "max_runtime_ms": {
-          "default": 1800000,
-          "type": "integer",
-          "minimum": 1000,
-          "maximum": 9007199254740991
-        },
-        "batch_max_lines": {
-          "default": 50,
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
-        },
-        "batch_max_bytes": {
-          "default": 16384,
-          "type": "integer",
-          "minimum": 1024,
-          "maximum": 9007199254740991
-        },
-        "flush_interval_ms": {
-          "default": 1000,
-          "type": "integer",
-          "minimum": 250,
-          "maximum": 9007199254740991
-        },
-        "ring_max_lines": {
-          "default": 1000,
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
-        },
-        "line_max_bytes": {
-          "default": 8192,
-          "type": "integer",
-          "minimum": 256,
-          "maximum": 9007199254740991
-        },
-        "pattern_max_length": {
-          "default": 512,
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
-        }
-      },
-      "required": [
-        "enabled",
-        "live_mode_enabled",
-        "max_monitors_per_session",
-        "max_runtime_ms",
-        "batch_max_lines",
-        "batch_max_bytes",
-        "flush_interval_ms",
-        "ring_max_lines",
-        "line_max_bytes",
-        "pattern_max_length"
-      ],
       "additionalProperties": false
     },
     "codegraph": {
@@ -6767,90 +6509,6 @@
       },
       "additionalProperties": false
     },
-    "tmux": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "default": false,
-          "type": "boolean"
-        },
-        "layout": {
-          "default": "main-vertical",
-          "type": "string",
-          "enum": [
-            "main-horizontal",
-            "main-vertical",
-            "tiled",
-            "even-horizontal",
-            "even-vertical"
-          ]
-        },
-        "main_pane_size": {
-          "default": 60,
-          "type": "number",
-          "minimum": 20,
-          "maximum": 80
-        },
-        "main_pane_min_width": {
-          "default": 120,
-          "type": "number",
-          "minimum": 40
-        },
-        "agent_pane_min_width": {
-          "default": 40,
-          "type": "number",
-          "minimum": 20
-        },
-        "isolation": {
-          "default": "inline",
-          "type": "string",
-          "enum": [
-            "inline",
-            "window",
-            "session"
-          ]
-        }
-      },
-      "required": [
-        "enabled",
-        "layout",
-        "main_pane_size",
-        "main_pane_min_width",
-        "agent_pane_min_width",
-        "isolation"
-      ],
-      "additionalProperties": false
-    },
-    "tui": {
-      "default": {
-        "sidebar": {
-          "enabled": true
-        }
-      },
-      "type": "object",
-      "properties": {
-        "sidebar": {
-          "default": {
-            "enabled": true
-          },
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "default": true,
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "enabled"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "sidebar"
-      ],
-      "additionalProperties": false
-    },
     "sisyphus": {
       "type": "object",
       "properties": {
@@ -6904,6 +6562,90 @@
       "required": [
         "ultrawork",
         "ralph_loop"
+      ],
+      "additionalProperties": false
+    },
+    "claude_code": {
+      "type": "object",
+      "properties": {
+        "mcp": {
+          "default": true,
+          "type": "boolean"
+        },
+        "commands": {
+          "default": true,
+          "type": "boolean"
+        },
+        "skills": {
+          "default": true,
+          "type": "boolean"
+        },
+        "agents": {
+          "default": true,
+          "type": "boolean"
+        },
+        "hooks": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "plugins": {
+          "default": true,
+          "type": "boolean"
+        },
+        "plugins_override": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "anthropic_provider": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mcp",
+        "commands",
+        "skills",
+        "agents",
+        "plugins"
+      ],
+      "additionalProperties": false
+    },
+    "tmux": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "isolation": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "enabled"
       ],
       "additionalProperties": false
     },
