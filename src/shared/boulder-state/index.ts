@@ -31,6 +31,11 @@ export {
   upsertTaskSessionStateForWork,
   writeBoulderState,
 } from "./storage"
+/** @internal Stub — boulder is replaced by audit-loop in Phase 4 */
+export function formatDurationHuman(_ms: number): string {
+  return ""
+}
+
 export type {
   BoulderSessionOrigin,
   BoulderState,
