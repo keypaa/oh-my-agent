@@ -3,7 +3,7 @@ import { resolve } from "path"
 import {
   fetchModelCapabilitiesSnapshot,
   MODELS_DEV_SOURCE_URL,
-} from "../packages/omo-opencode/src/shared/model-capabilities-cache"
+} from "../src/shared/model-capabilities-cache"
 
 const OUTPUT_PATH = resolve(import.meta.dir, "../packages/omo-opencode/src/generated/model-capabilities.generated.json")
 

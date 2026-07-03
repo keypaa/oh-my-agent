@@ -11,7 +11,7 @@ import {
 	type JsonRpcResponse,
 	type JsonRpcResult,
 	type McpToolDescriptor,
-} from "#shared/mcp-stdio-core";
+} from "@oh-my-opencode/mcp-stdio-core";
 import { coerceToolArguments, executeLspTool, LSP_MCP_TOOLS } from "./tools.js";
 
 export type { JsonRpcError, JsonRpcId, JsonRpcResponse, JsonRpcResult, McpToolDescriptor };

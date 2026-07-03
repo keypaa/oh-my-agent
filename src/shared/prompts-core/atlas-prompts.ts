@@ -1,11 +1,11 @@
 import type { VariantTable } from "./types"
-import defaultPrompt from "../prompts/atlas/default.md"
-import geminiPrompt from "../prompts/atlas/gemini.md"
-import glmPrompt from "../prompts/atlas/glm.md"
-import gptPrompt from "../prompts/atlas/gpt.md"
-import kimiPrompt from "../prompts/atlas/kimi.md"
-import kimiK27Prompt from "../prompts/atlas/kimi-k2-7.md"
-import opus47Prompt from "../prompts/atlas/opus-4-7.md"
+import defaultPrompt from "./prompts/atlas/default.md"
+import geminiPrompt from "./prompts/atlas/gemini.md"
+import glmPrompt from "./prompts/atlas/glm.md"
+import gptPrompt from "./prompts/atlas/gpt.md"
+import kimiPrompt from "./prompts/atlas/kimi.md"
+import kimiK27Prompt from "./prompts/atlas/kimi-k2-7.md"
+import opus47Prompt from "./prompts/atlas/opus-4-7.md"
 
 export const atlasPromptVariants = {
   "opus-4-7": {

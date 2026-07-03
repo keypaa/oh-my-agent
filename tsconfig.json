@@ -33,6 +33,11 @@
       "#shared/team-core": ["./src/shared/team-core/index.ts"],
       "#shared/team-core/*": ["./src/shared/team-core/*"],
       "#shared/skills-loader-core": ["./src/shared/skills-loader-core/index.ts"],
+      "#shared/skills-loader-core/auto-slash-command/*": ["./src/shared/skills-loader-core/hooks/auto-slash-command/*"],
+      "#shared/skills-loader-core/builtin-skills/*": ["./src/shared/skills-loader-core/features/builtin-skills/*"],
+      "#shared/skills-loader-core/opencode-skill-loader/*": ["./src/shared/skills-loader-core/features/opencode-skill-loader/*"],
+      "#shared/skills-loader-core/opencode-runtime-skills/*": ["./src/shared/skills-loader-core/features/opencode-runtime-skills/*"],
+      "#shared/skills-loader-core/skill/*": ["./src/shared/skills-loader-core/tools/skill/*"],
       "#shared/skills-loader-core/*": ["./src/shared/skills-loader-core/*"],
       "#shared/lsp-core": ["./src/shared/lsp-core/index.ts"],
       "#shared/lsp-core/*": ["./src/shared/lsp-core/*"],
@@ -40,7 +45,10 @@
       "#shared/mcp-stdio-core/*": ["./src/shared/mcp-stdio-core/*"],
       "#shared/claude-code-compat-core/*": ["./src/shared/claude-code-compat-core/*"],
       "#shared/tmux-core": ["./src/shared/tmux-core/index.ts"],
-      "#shared/tmux-core/*": ["./src/shared/tmux-core/*"]
+      "#shared/tmux-core/*": ["./src/shared/tmux-core/*"],
+      "@oh-my-opencode/claude-code-compat-core/*": ["./src/shared/claude-code-compat-core/*"],
+      "@oh-my-opencode/mcp-stdio-core": ["./src/shared/mcp-stdio-core/index.ts"],
+      "@oh-my-opencode/mcp-stdio-core/*": ["./src/shared/mcp-stdio-core/*"]
     }
   },
   "include": ["src/**/*"],

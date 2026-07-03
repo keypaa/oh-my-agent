@@ -1,4 +1,4 @@
-import { isPlainRecord } from "@oh-my-opencode/utils"
+import { isPlainRecord } from "../src/shared/utils/index.ts"
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises"
 import { dirname, join, resolve, sep } from "node:path"
 import { validateLazycodexPluginBundle } from "./lazycodex-marketplace-validation"

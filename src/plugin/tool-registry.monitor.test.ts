@@ -3,7 +3,7 @@ import { tool } from "@opencode-ai/plugin"
 
 import { OhMyOpenCodeConfigSchema, type OhMyOpenCodeConfig } from "../config"
 import type { MonitorManager } from "../features/monitor"
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createToolRegistry } from "./tool-registry"
 
 const fakeTool = tool({

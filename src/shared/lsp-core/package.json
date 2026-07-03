@@ -3,17 +3,12 @@
   "name": "@oh-my-opencode/lsp-core",
   "main": "index.ts",
   "exports": {
-    ".": { "types": "./index.ts", "import": "./index.ts" },
-    "./tools": { "types": "./tools.ts", "import": "./tools.ts" },
-    "./request-context": { "types": "./request-context.ts", "import": "./request-context.ts" },
-    "./missing-dependency-result": { "types": "./missing-dependency-result.ts", "import": "./missing-dependency-result.ts" },
-    "./mcp": { "types": "./mcp.ts", "import": "./mcp.ts" },
-    "./lsp/*": { "types": "./lsp/*.ts", "import": "./lsp/*.ts" }
+    ".": { "types": "./index", "import": "./index.ts" },
+    "./tools": { "types": "./tools", "import": "./tools.ts" },
+    "./request-context": { "types": "./request-context", "import": "./request-context.ts" },
+    "./missing-dependency-result": { "types": "./missing-dependency-result", "import": "./missing-dependency-result.ts" },
+    "./mcp": { "types": "./mcp", "import": "./mcp.ts" },
+    "./lsp/*": { "types": "./lsp/*", "import": "./lsp/*.ts" }
   },
-  "imports": {
-    "#shared/mcp-stdio-core": {
-      "types": "./../mcp-stdio-core/index.ts",
-      "import": "./../mcp-stdio-core/index.ts"
-    }
-  }
+
 }

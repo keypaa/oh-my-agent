@@ -3,7 +3,7 @@ import { tool } from "@opencode-ai/plugin"
 import type { SkillLoadOptions } from "../tools/skill/types"
 import type { ToolRegistryFactories } from "./tool-registry-factories"
 
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createCoreTools } from "./tool-registry-core-tools"
 
 const fakeTool = tool({

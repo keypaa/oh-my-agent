@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createNativeSkills, getPluginInputNativeSkills } from "./native-skills"
 import type { PluginContext } from "./types"
 

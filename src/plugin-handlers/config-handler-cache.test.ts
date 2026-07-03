@@ -18,7 +18,7 @@ import * as configDir from "../shared/opencode-config-dir"
 import * as permissionCompat from "../shared/permission-compat"
 import * as modelResolver from "../shared/model-resolver"
 import * as configErrors from "../shared/config-errors"
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 let createConfigHandler: (typeof import("./config-handler"))["createConfigHandler"]
 

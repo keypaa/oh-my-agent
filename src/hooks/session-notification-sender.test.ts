@@ -5,7 +5,7 @@ import * as childProcess from "node:child_process"
 import * as sender from "./session-notification-sender"
 import * as utils from "./session-notification-utils"
 import type { PluginInput } from "@opencode-ai/plugin"
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 
 

@@ -1,6 +1,6 @@
 import { readFile, readdir, realpath, stat } from "node:fs/promises"
 import { basename, dirname, isAbsolute, join, resolve, sep } from "node:path"
-import { isPlainRecord } from "@oh-my-opencode/utils"
+import { isPlainRecord } from "../src/shared/utils/index.ts"
 
 export interface ValidateLazycodexPluginBundleOptions {
   readonly requireRootCliRuntime?: boolean

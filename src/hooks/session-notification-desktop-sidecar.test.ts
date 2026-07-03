@@ -3,7 +3,7 @@
 import type { PluginInput } from "@opencode-ai/plugin"
 import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test"
 import * as childProcess from "node:child_process"
-import { unsafeTestValue } from "../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import * as sender from "./session-notification-sender"
 import * as utils from "./session-notification-utils"
 
