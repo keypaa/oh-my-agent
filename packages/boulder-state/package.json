@@ -1,18 +1,6 @@
 {
-  "name": "@oh-my-opencode/boulder-state",
-  "version": "0.1.0",
   "type": "module",
-  "private": true,
-  "description": "Pure TypeScript boulder work-tracking state machine for oh-my-agent.",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./src/index.ts"
-    }
-  },
-  "types": "./index.d.ts",
-  "scripts": {
-    "typecheck": "tsgo --noEmit -p tsconfig.json",
-    "test": "bun test src/*.test.ts"
-  }
+  "types": "../../src/shared/boulder-state/index.ts",
+  "name": "@oh-my-opencode/boulder-state",
+  "main": "../../src/shared/boulder-state/index.ts"
 }
