@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/prompt-async-gate/timing"
+export * from "#shared/utils/prompt-async-gate/timing"

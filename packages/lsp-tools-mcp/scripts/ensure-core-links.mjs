@@ -1,5 +1,5 @@
 import { lstatSync, mkdirSync, symlinkSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -7,7 +7,7 @@ const packagesRoot = dirname(packageRoot);
 
 ensureDirectoryLink({
 	linkPath: join(packagesRoot, "lsp-core", "node_modules", "@oh-my-opencode", "mcp-stdio-core"),
-	targetPath: join(packagesRoot, "mcp-stdio-core"),
+	targetPath: resolve(packagesRoot, "..", "src", "shared", "mcp-stdio-core"),
 });
 
 function ensureDirectoryLink({ linkPath, targetPath }) {

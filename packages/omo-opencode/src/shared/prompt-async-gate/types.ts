@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/prompt-async-gate/types"
+export * from "#shared/utils/prompt-async-gate/types"

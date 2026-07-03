@@ -1,4 +1,4 @@
-import { isPlainRecord, parseConfigSections } from "@oh-my-opencode/utils"
+import { isPlainRecord, parseConfigSections } from "#shared/utils"
 import * as fs from "fs";
 import { OhMyOpenCodeConfigSchema, type OhMyOpenCodeConfig } from "../config";
 import {

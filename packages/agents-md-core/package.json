@@ -1,6 +1,21 @@
 {
-  "type": "module",
-  "types": "../../src/shared/agents-md-core/index.ts",
   "name": "@oh-my-opencode/agents-md-core",
-  "main": "../../src/shared/agents-md-core/index.ts"
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Pure TypeScript AGENTS.md discovery and injection core for oh-my-agent.",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "typecheck": "tsgo --noEmit -p tsconfig.json",
+    "test": "bun test src/*.test.ts"
+  },
+  "dependencies": {
+    "@oh-my-opencode/rules-engine": "workspace:*"
+  }
 }

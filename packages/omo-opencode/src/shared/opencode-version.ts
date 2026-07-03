@@ -1,4 +1,4 @@
-import { isRecord } from "@oh-my-opencode/utils"
+import { isRecord } from "#shared/utils"
 import { execSync } from "child_process"
 import { existsSync, readFileSync, realpathSync } from "fs"
 import { dirname, join } from "path"

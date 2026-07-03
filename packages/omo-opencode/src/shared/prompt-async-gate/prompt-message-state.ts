@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/prompt-async-gate/prompt-message-state"
+export * from "#shared/utils/prompt-async-gate/prompt-message-state"

@@ -2,7 +2,7 @@ import { homedir } from "node:os"
 import { join } from "node:path"
 
 import { sharedSkillsRootPath } from "@oh-my-opencode/shared-skills"
-import { astGrepRuntimeDir, runAstGrepSkillInstall, type RunAstGrepSkillInstall } from "@oh-my-opencode/utils"
+import { astGrepRuntimeDir, runAstGrepSkillInstall, type RunAstGrepSkillInstall } from "#shared/utils"
 
 export interface OpenCodeAstGrepInstallOptions {
   readonly arch?: string

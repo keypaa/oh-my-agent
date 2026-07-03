@@ -60,3 +60,6 @@ plans/
 !.claude/skills
 !.claude/commands
 !.claude/settings.json
+
+# Vendored MCP build artifacts
+packages/git-bash-mcp/bun.lock

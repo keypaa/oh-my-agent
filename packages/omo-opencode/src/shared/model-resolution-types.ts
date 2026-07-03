@@ -3,4 +3,4 @@ export type {
   ModelResolutionRequest,
   ModelResolutionProvenance,
   ModelResolutionResult,
-} from "@oh-my-opencode/model-core"
+} from "#shared/model-core"

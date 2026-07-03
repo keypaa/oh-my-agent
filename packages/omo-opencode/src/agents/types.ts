@@ -13,7 +13,7 @@ import {
   isKimiK2Model,
   isKimiK27Model,
   isMiniMaxModel,
-} from "@oh-my-opencode/model-core";
+} from "#shared/model-core";
 
 export {
   isClaudeFable5Model,

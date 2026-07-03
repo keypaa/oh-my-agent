@@ -1,4 +1,4 @@
-import { createProductIdentity } from "@oh-my-opencode/utils"
+import { createProductIdentity } from "#shared/utils"
 
 const PRODUCT_IDENTITY = createProductIdentity({
   pluginName: "oh-my-agent",

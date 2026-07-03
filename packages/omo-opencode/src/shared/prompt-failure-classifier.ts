@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/prompt-failure-classifier"
+export * from "#shared/utils/prompt-failure-classifier"

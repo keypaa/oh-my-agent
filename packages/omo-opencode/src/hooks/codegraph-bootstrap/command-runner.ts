@@ -1,6 +1,6 @@
 import { extname } from "node:path"
 import { execPath as processExecPath } from "node:process"
-import { buildCodegraphChildEnv } from "@oh-my-opencode/utils"
+import { buildCodegraphChildEnv } from "#shared/utils"
 
 export interface CodegraphCommandResult {
   readonly exitCode: number

@@ -28,7 +28,7 @@ export {
   upsertTaskSessionStateForWork,
   writeBoulderState,
   readCurrentTopLevelTask,
-} from "@oh-my-opencode/boulder-state"
+} from "#shared/boulder-state"
 export type {
   BoulderSessionOrigin,
   BoulderState,
@@ -40,7 +40,7 @@ export type {
   PlanProgress,
   TaskSessionState,
   TopLevelTaskRef,
-} from "@oh-my-opencode/boulder-state"
+} from "#shared/boulder-state"
 
 export function formatDurationHuman(_ms: number): string {
   return ""

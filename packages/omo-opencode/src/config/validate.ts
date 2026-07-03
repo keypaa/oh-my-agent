@@ -1,4 +1,4 @@
-import { isPlainRecord } from "@oh-my-opencode/utils"
+import { isPlainRecord } from "#shared/utils"
 import { readFileSync } from "node:fs"
 import { homedir } from "node:os"
 import { dirname, relative } from "node:path"

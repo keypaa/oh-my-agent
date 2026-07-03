@@ -5,4 +5,4 @@ export {
   maybeExpandSingleLineMerge,
   restoreIndentForPairedReplacement,
   autocorrectReplacementLines,
-} from "@oh-my-opencode/hashline-core"
+} from "#shared/hashline-core"

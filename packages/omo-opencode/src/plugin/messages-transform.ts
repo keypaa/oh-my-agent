@@ -1,4 +1,4 @@
-import { isRecord } from "@oh-my-opencode/utils"
+import { isRecord } from "#shared/utils"
 import type { Message, Part } from "@opencode-ai/sdk"
 
 import { log } from "../shared/logger"

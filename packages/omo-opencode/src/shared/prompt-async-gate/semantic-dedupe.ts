@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/prompt-async-gate/semantic-dedupe"
+export * from "#shared/utils/prompt-async-gate/semantic-dedupe"

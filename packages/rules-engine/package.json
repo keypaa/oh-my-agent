@@ -1,6 +1,26 @@
 {
-  "type": "module",
-  "types": "../../src/shared/rules-engine/index.ts",
   "name": "@oh-my-opencode/rules-engine",
-  "main": "../../src/shared/rules-engine/index.ts"
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Pure TypeScript rule discovery, matching, and nested AGENTS.md context utilities for oh-my-agent.",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.ts"
+    },
+    "./engine": {
+      "types": "./engine.d.ts",
+      "import": "./src/engine/index.ts"
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "typecheck": "tsgo --noEmit -p tsconfig.json",
+    "test": "bun test src/*.test.ts src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@oh-my-opencode/utils": "workspace:*",
+    "picomatch": "^4.0.4"
+  }
 }

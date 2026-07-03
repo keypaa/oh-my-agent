@@ -1,4 +1,4 @@
-import { isRecord } from "@oh-my-opencode/utils"
+import { isRecord } from "#shared/utils"
 import { readFileSync, statSync } from "node:fs"
 import * as path from "node:path"
 

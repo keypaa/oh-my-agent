@@ -1,4 +1,4 @@
-import { isRecord } from "@oh-my-opencode/utils"
+import { isRecord } from "#shared/utils"
 export type SessionMessagePart = {
   type?: string
   text?: string

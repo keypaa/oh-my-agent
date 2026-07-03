@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/internal-initiator-marker"
+export * from "#shared/utils/internal-initiator-marker"

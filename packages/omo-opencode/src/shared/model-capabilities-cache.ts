@@ -4,7 +4,7 @@ import {
   MODELS_DEV_SOURCE_URL,
   buildModelCapabilitiesSnapshotFromModelsDev,
   fetchModelCapabilitiesSnapshot,
-} from "@oh-my-opencode/model-core"
+} from "#shared/model-core"
 import type { ModelCapabilitiesSnapshot } from "./model-capabilities"
 
 export {

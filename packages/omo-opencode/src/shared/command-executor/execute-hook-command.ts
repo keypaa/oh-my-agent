@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/command-executor/execute-hook-command"
+export * from "#shared/utils/command-executor/execute-hook-command"

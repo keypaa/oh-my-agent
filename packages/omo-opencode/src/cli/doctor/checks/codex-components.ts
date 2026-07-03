@@ -2,7 +2,7 @@ import type { Dirent } from "node:fs"
 import { readdir, readFile, stat } from "node:fs/promises"
 import { homedir } from "node:os"
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path"
-import { findSgBinarySync, runtimeSlug, SG_PATH_ENV_KEY, sgBinaryName, type SgResolverOptions } from "@oh-my-opencode/utils"
+import { findSgBinarySync, runtimeSlug, SG_PATH_ENV_KEY, sgBinaryName, type SgResolverOptions } from "#shared/utils"
 import type { CheckResult, DoctorIssue } from "../framework/types"
 import { gatherCodexSummary, type CodexDoctorDeps } from "./codex"
 

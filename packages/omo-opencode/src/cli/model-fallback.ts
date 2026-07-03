@@ -4,7 +4,7 @@ import {
 } from "./model-fallback-requirements"
 import type { FallbackModelObject } from "../config/schema/fallback-models"
 import type { FallbackEntry } from "../shared/model-requirements"
-import { getModelCapabilities, resolveCompatibleModelSettings } from "@oh-my-opencode/model-core"
+import { getModelCapabilities, resolveCompatibleModelSettings } from "#shared/model-core"
 import type { InstallConfig } from "./types"
 
 import type { AgentConfig, CategoryConfig, GeneratedOmoConfig } from "./model-fallback-types"

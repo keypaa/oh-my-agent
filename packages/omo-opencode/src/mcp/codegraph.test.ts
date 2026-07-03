@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from "bun:test"
 import { join } from "node:path"
-import { CODEGRAPH_TELEMETRY_ENV, DO_NOT_TRACK_ENV } from "@oh-my-opencode/utils"
+import { CODEGRAPH_TELEMETRY_ENV, DO_NOT_TRACK_ENV } from "#shared/utils"
 import { createCodegraphMcpConfig } from "./codegraph"
 import type { RuntimeExecutable } from "./runtime-executable"
 

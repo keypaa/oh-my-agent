@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, mock, spyOn } from "bun:test"
 
-import * as logger from "@oh-my-opencode/utils"
+import * as logger from "#shared/utils"
 
 type TarZipEntryListingModule = typeof import("./tar-zip-entry-listing")
 

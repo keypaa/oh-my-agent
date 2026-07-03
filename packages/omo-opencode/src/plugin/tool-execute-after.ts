@@ -1,5 +1,5 @@
 import { recoverToolMetadata } from "../features/tool-metadata-store"
-import { buildCodegraphInitGuidanceForToolResult } from "@oh-my-opencode/utils"
+import { buildCodegraphInitGuidanceForToolResult } from "#shared/utils"
 import type { CreatedHooks } from "../create-hooks"
 import { log as defaultLog } from "../shared/logger"
 import { stripInvisibleAgentCharacters } from "../shared/agent-display-names"

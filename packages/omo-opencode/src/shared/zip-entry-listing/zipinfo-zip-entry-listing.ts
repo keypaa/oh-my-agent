@@ -1,1 +1,1 @@
-export * from "@oh-my-opencode/utils/zip-entry-listing/zipinfo-zip-entry-listing"
+export * from "#shared/utils/zip-entry-listing/zipinfo-zip-entry-listing"

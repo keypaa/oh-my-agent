@@ -3,4 +3,4 @@ export {
   parseFallbackModelObjectEntry,
   findMostSpecificFallbackEntry,
   buildFallbackChainFromModels,
-} from "@oh-my-opencode/model-core"
+} from "#shared/model-core"

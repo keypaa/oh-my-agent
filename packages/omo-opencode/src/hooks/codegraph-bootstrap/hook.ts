@@ -16,7 +16,7 @@ import {
   type CodegraphWorkspacePreparation,
   type PrepareCodegraphWorkspaceOptions,
   type ResolveCodegraphCommandOptions,
-} from "@oh-my-opencode/utils"
+} from "#shared/utils"
 
 import type { CodegraphConfig } from "../../config"
 import { log } from "../../shared"

@@ -1,0 +1,31 @@
+{
+  "type": "module",
+  "name": "@oh-my-opencode/mcp-stdio-core",
+  "main": "index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts"
+    },
+    "./responses": {
+      "types": "./responses.ts",
+      "import": "./responses.ts"
+    },
+    "./record": {
+      "types": "./record.ts",
+      "import": "./record.ts"
+    },
+    "./server": {
+      "types": "./server.ts",
+      "import": "./server.ts"
+    },
+    "./transport": {
+      "types": "./transport.ts",
+      "import": "./transport.ts"
+    },
+    "./types": {
+      "types": "./types.ts",
+      "import": "./types.ts"
+    }
+  }
+}
