@@ -223,7 +223,6 @@ describe("migrateHookNames", () => {
     // given: Config with current hook names
     const hooks = [
       "anthropic-context-window-limit-recovery",
-      "todo-continuation-enforcer",
       "model-fallback",
     ]
 

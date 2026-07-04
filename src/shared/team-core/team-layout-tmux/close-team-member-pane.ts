@@ -2,7 +2,10 @@
 
 import type { RuntimeStateMember } from "../types"
 import { log } from "../logger"
-import { closeTmuxPane } from "#shared/tmux-core"
+
+async function closeTmuxPane(_paneId: string): Promise<boolean> {
+  throw new Error("tmux-core was pruned — stub implementation")
+}
 
 type TeamMemberPaneIds = Pick<RuntimeStateMember, "tmuxPaneId" | "tmuxGridPaneId">
 

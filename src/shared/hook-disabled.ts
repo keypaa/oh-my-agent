@@ -1,8 +1,10 @@
-import type { ClaudeHookEvent, PluginConfig } from "../hooks/claude-code-hooks/types"
+export interface PluginConfig {
+  disabledHooks?: boolean | string[]
+}
 
 export function isHookDisabled(
   config: PluginConfig,
-  hookType: ClaudeHookEvent
+  hookType: string
 ): boolean {
   const { disabledHooks } = config
 

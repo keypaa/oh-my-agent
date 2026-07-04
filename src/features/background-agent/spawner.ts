@@ -2,7 +2,6 @@ import { log, promptWithRetryInDirectory } from "../../shared"
 import { stripAgentListSortPrefix } from "../../shared/agent-display-names"
 import { applySessionPromptParams } from "../../shared/session-prompt-params-helpers"
 import { setSessionTools } from "../../shared/session-tools-store"
-import { isInsideTmux } from "../../shared/tmux"
 import { setSessionAgent, subagentSessions, updateSessionAgent } from "../session-state"
 import { getTaskToastManager } from "../task-toast-manager"
 import type { ConcurrencyManager } from "./concurrency"
@@ -11,6 +10,10 @@ import type { BackgroundTask, LaunchInput, ResumeInput } from "./types"
 import { buildFallbackBody, FALLBACK_AGENT, isAgentNotFoundError } from "./spawner/fallback-agent"
 import { buildTaskRecord } from "./spawner/task-record"
 import { buildTaskPromptBody } from "./spawner/task-prompt-body"
+
+function isInsideTmux(): boolean {
+  return false
+}
 
 export { buildFallbackBody, FALLBACK_AGENT, isAgentNotFoundError }
 

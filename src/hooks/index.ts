@@ -1,4 +1,3 @@
-export { createTodoContinuationEnforcer, type TodoContinuationEnforcer } from "./todo-continuation-enforcer";
 export { createSessionNotification } from "./session-notification";
 export { sendSessionNotification, playSessionNotificationSound, detectPlatform, getDefaultSoundPath } from "./session-notification-sender";
 export { buildWindowsToastScript, escapeAppleScriptText, escapePowerShellSingleQuotedText } from "./session-notification-formatting";

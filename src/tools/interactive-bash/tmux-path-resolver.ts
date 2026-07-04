@@ -1,6 +1,9 @@
 import { spawn } from "../../shared/bun-spawn-shim"
 import { bunWhich } from "../../shared/bun-which-shim"
-import { isCmuxCompatEnvironment } from "../../shared/tmux/cmux-detect"
+
+function isCmuxCompatEnvironment(): boolean {
+  return false
+}
 
 let tmuxPath: string | null = null
 let initPromise: Promise<string | null> | null = null

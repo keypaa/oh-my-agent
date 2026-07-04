@@ -1,4 +1,10 @@
-import type { ClaudeHooksConfig, HookMatcher } from "../hooks/claude-code-hooks/types"
+export interface HookMatcher {
+  matcher: string
+}
+
+export interface ClaudeHooksConfig {
+  [eventName: string]: HookMatcher[]
+}
 
 /**
  * Escape all regex special characters EXCEPT asterisk (*).

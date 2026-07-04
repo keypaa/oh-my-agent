@@ -3,7 +3,6 @@ import type { BackgroundManager } from "../../features/background-agent"
 import type { PluginContext } from "../types"
 
 import {
-  createTodoContinuationEnforcer,
   createBackgroundNotificationHook,
   createStopContinuationGuardHook,
   createCompactionContextInjector,
@@ -17,7 +16,6 @@ export type ContinuationHooks = {
   stopContinuationGuard: ReturnType<typeof createStopContinuationGuardHook> | null
   compactionContextInjector: ReturnType<typeof createCompactionContextInjector> | null
   compactionTodoPreserver: ReturnType<typeof createCompactionTodoPreserverHook> | null
-  todoContinuationEnforcer: ReturnType<typeof createTodoContinuationEnforcer> | null
   unstableAgentBabysitter: ReturnType<typeof createUnstableAgentBabysitter> | null
   backgroundNotificationHook: ReturnType<typeof createBackgroundNotificationHook> | null
   atlasHook: ReturnType<typeof createAtlasHook> | null
@@ -57,14 +55,6 @@ export function createContinuationHooks(args: {
     ? safeHook("compaction-todo-preserver", () => createCompactionTodoPreserverHook(ctx))
     : null
 
-  const todoContinuationEnforcer = isHookEnabled("todo-continuation-enforcer")
-    ? safeHook("todo-continuation-enforcer", () =>
-      createTodoContinuationEnforcer(ctx, {
-          backgroundManager,
-          isContinuationStopped: stopContinuationGuard?.isStopped,
-        }))
-    : null
-
   const unstableAgentBabysitter = isHookEnabled("unstable-agent-babysitter")
     ? safeHook("unstable-agent-babysitter", () =>
         createUnstableAgentBabysitter({ ctx, backgroundManager, pluginConfig }))
@@ -90,7 +80,6 @@ export function createContinuationHooks(args: {
     stopContinuationGuard,
     compactionContextInjector,
     compactionTodoPreserver,
-    todoContinuationEnforcer,
     unstableAgentBabysitter,
     backgroundNotificationHook,
     atlasHook,

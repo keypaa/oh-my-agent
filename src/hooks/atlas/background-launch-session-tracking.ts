@@ -67,21 +67,23 @@ export async function syncBackgroundLaunchSessionTracking(input: {
   if (currentTask && !shouldSkipTaskSessionUpdate) {
     if (trackedWork) {
       upsertTaskSessionStateForWork(ctx.directory, trackedWork.work_id, {
-        taskKey: currentTask.key,
-        taskLabel: currentTask.label,
-        taskTitle: currentTask.title,
-        sessionId: trackedSessionId,
+        task_key: currentTask.key,
+        task_label: currentTask.label,
+        task_title: currentTask.title,
+        session_id: trackedSessionId,
         agent: typeof toolOutput.metadata?.agent === "string" ? toolOutput.metadata.agent : undefined,
         category: typeof toolOutput.metadata?.category === "string" ? toolOutput.metadata.category : undefined,
+        updated_at: new Date().toISOString(),
       })
     } else {
       upsertTaskSessionState(ctx.directory, {
-        taskKey: currentTask.key,
-        taskLabel: currentTask.label,
-        taskTitle: currentTask.title,
-        sessionId: trackedSessionId,
+        task_key: currentTask.key,
+        task_label: currentTask.label,
+        task_title: currentTask.title,
+        session_id: trackedSessionId,
         agent: typeof toolOutput.metadata?.agent === "string" ? toolOutput.metadata.agent : undefined,
         category: typeof toolOutput.metadata?.category === "string" ? toolOutput.metadata.category : undefined,
+        updated_at: new Date().toISOString(),
       })
     }
   }

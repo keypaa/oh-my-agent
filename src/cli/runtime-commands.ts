@@ -1,6 +1,5 @@
 import type { Command } from "commander"
 
-import { boulder } from "./boulder"
 import { refreshModelCapabilities } from "./refresh-model-capabilities"
 import { PLUGIN_NAME } from "../shared"
 import packageJson from "../../package.json" with { type: "json" }
@@ -29,20 +28,4 @@ export function configureRuntimeCommands(program: Command): void {
     .action(() => {
       console.log(`${PLUGIN_NAME} v${VERSION}`)
     })
-
-  program
-    .command("boulder")
-    .description("Show boulder progress, elapsed time, and per-task statistics")
-    .option("-d, --directory <path>", "Working directory")
-    .option("-w, --work-id <id>", "Filter to a specific work")
-    .option("--json", "Output as JSON")
-    .action(async (options: { readonly directory?: string; readonly workId?: string; readonly json?: boolean }) => {
-      const exitCode = await boulder({
-        directory: options.directory,
-        workId: options.workId,
-        json: options.json ?? false,
-      })
-      process.exit(exitCode)
-    })
-
 }

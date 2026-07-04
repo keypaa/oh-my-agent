@@ -3,7 +3,7 @@ import { resolve } from "node:path"
 
 import type { PluginInput } from "@opencode-ai/plugin"
 
-import { getPlanProgress } from "#shared/boulder-state/storage"
+import { getPlanProgress } from "#shared/boulder-state"
 import { log } from "../../shared/logger"
 
 const WRITE_TOOLS = new Set(["Write", "Edit", "write", "edit"])

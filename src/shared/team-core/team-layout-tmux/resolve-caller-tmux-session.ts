@@ -1,4 +1,14 @@
-import { runTmuxCommand, type TmuxCommandResult } from "#shared/tmux-core"
+type TmuxCommandResult = {
+  success: boolean
+  output: string
+  stdout: string
+  stderr: string
+  exitCode: number
+}
+
+async function runTmuxCommand(_tmuxPath: string, _args: string[]): Promise<TmuxCommandResult> {
+  throw new Error("tmux-core was pruned — stub implementation")
+}
 
 type ResolvedCallerTmuxSession = {
 	sessionId: string

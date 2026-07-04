@@ -42,7 +42,6 @@ export function createEventHookDispatcher(hooks: CreatedHooks, runEventHookSafel
     await runEventHookSafely("legacyPluginToast", hooks.legacyPluginToast?.event, input);
     await runEventHookSafely("backgroundNotificationHook", hooks.backgroundNotificationHook?.event, input);
     await runEventHookSafely("sessionNotification", hooks.sessionNotification, input);
-    await runEventHookSafely("todoContinuationEnforcer", hooks.todoContinuationEnforcer?.handler, input);
     await runEventHookSafely("unstableAgentBabysitter", hooks.unstableAgentBabysitter?.event, input);
     await runEventHookSafely("preemptiveCompaction", hooks.preemptiveCompaction?.event, input);
     await runEventHookSafely("directoryAgentsInjector", hooks.directoryAgentsInjector?.event, input);

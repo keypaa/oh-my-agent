@@ -2,13 +2,10 @@ import { Command, Option } from "commander"
 import { install } from "./install"
 import { configureCleanupCommand, resolveCleanupPlatform } from "./cleanup-command"
 import { run } from "./run"
-import { getLocalVersion } from "./get-local-version"
 import { doctor, resolveDoctorTarget } from "./doctor"
-import { createMcpOAuthCommand } from "./mcp-oauth"
 import { configureRuntimeCommands } from "./runtime-commands"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
-import type { GetLocalVersionOptions } from "./get-local-version/types"
 import type { DoctorOptions } from "./doctor"
 import packageJson from "../../package.json" with { type: "json" }
 
@@ -196,32 +193,6 @@ Unlike 'opencode run', this command waits until:
   })
 
 program
-  .command("get-local-version")
-  .description("Show current installed version and check for updates")
-  .option("-d, --directory <path>", "Working directory to check config from")
-  .option("--json", "Output in JSON format for scripting")
-  .addHelpText("after", `
-Examples:
-  $ bunx oh-my-agent get-local-version
-  $ bunx oh-my-agent get-local-version --json
-  $ bunx oh-my-agent get-local-version --directory /path/to/project
-
-This command shows:
-  - Current installed version
-  - Latest available version on npm
-  - Whether you're up to date
-  - Special modes (local dev, pinned version)
-`)
-  .action(async (options) => {
-    const versionOptions: GetLocalVersionOptions = {
-      directory: options.directory,
-      json: options.json ?? false,
-    }
-    const exitCode = await getLocalVersion(versionOptions)
-    process.exit(exitCode)
-  })
-
-program
   .command("doctor")
   .description("Check oh-my-agent installation health and diagnose issues")
   .option("--status", "Show compact system dashboard")
@@ -249,8 +220,6 @@ Examples:
   })
 
 configureRuntimeCommands(program)
-
-program.addCommand(createMcpOAuthCommand())
 
 export function runCli(): void {
   program.parse()

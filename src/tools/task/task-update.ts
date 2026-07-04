@@ -9,7 +9,7 @@ import {
   readJsonSafe,
   writeJsonAtomic,
   acquireLock,
-} from "../../features/claude-tasks/storage";
+} from "./storage";
 import { syncTaskTodoUpdate } from "./todo-sync";
 
 const TASK_ID_PATTERN = /^T-[A-Za-z0-9-]+$/;

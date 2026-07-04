@@ -1,7 +1,9 @@
 import type { PluginInput } from "@opencode-ai/plugin"
 import type { RalphLoopOptions, RalphLoopState } from "./types"
 import { log } from "../../shared/logger"
-import { getTranscriptPath as getDefaultTranscriptPath } from "../claude-code-hooks/transcript"
+function getDefaultTranscriptPath(): string | undefined {
+  return undefined
+}
 import { releasePromptAsyncReservation } from "../shared/prompt-async-gate"
 import { HOOK_NAME } from "./constants"
 import { createLoopStateController } from "./loop-state-controller"

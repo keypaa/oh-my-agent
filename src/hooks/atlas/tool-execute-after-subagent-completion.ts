@@ -162,24 +162,26 @@ export async function handleSubagentCompletionAfter(input: {
   if (currentTask && subagentSessionId && !shouldSkipTaskSessionUpdate) {
     if (sessionWork) {
       startTaskTimer(ctx.directory, sessionWork.work_id, {
-        taskKey: currentTask.key,
-        taskLabel: currentTask.label,
-        taskTitle: currentTask.title,
-        sessionId: subagentSessionId,
+        task_key: currentTask.key,
+        task_label: currentTask.label,
+        task_title: currentTask.title,
+        session_id: subagentSessionId,
         agent: typeof toolOutput.metadata?.agent === "string" ? toolOutput.metadata.agent : undefined,
         category: typeof toolOutput.metadata?.category === "string" ? toolOutput.metadata.category : undefined,
+        updated_at: new Date().toISOString(),
       })
       if (isTrackedTaskChecked(planPath, currentTask.key)) {
         endTaskTimer(ctx.directory, sessionWork.work_id, currentTask.key)
       }
     } else {
       upsertTaskSessionState(ctx.directory, {
-        taskKey: currentTask.key,
-        taskLabel: currentTask.label,
-        taskTitle: currentTask.title,
-        sessionId: subagentSessionId,
+        task_key: currentTask.key,
+        task_label: currentTask.label,
+        task_title: currentTask.title,
+        session_id: subagentSessionId,
         agent: typeof toolOutput.metadata?.agent === "string" ? toolOutput.metadata.agent : undefined,
         category: typeof toolOutput.metadata?.category === "string" ? toolOutput.metadata.category : undefined,
+        updated_at: new Date().toISOString(),
       })
     }
   }

@@ -28,15 +28,19 @@ import { resolveMessageEventSessionID, resolveSessionEventID } from "../../share
 import {
   hasMoreFallbacks,
   shouldRetryError,
-} from "../../shared/model-error-classifier"
+  } from "../../shared/model-error-classifier"
 import { SessionCategoryRegistry } from "../../shared/session-category-registry"
 import { applySessionPromptParams } from "../../shared/session-prompt-params-helpers"
 import { setSessionTools } from "../../shared/session-tools-store"
-import { isInsideTmux } from "../../shared/tmux"
 import { clearSessionAgent, setSessionAgent, subagentSessions, updateSessionAgent } from "../session-state"
 import { MESSAGE_STORAGE } from "../hook-message-injector"
 import { getTaskToastManager } from "../task-toast-manager"
 import { abortWithTimeout } from "./abort-with-timeout"
+
+function isInsideTmux(): boolean {
+  return false
+}
+
 import {
   bindAttemptSession,
   ensureCurrentAttempt,

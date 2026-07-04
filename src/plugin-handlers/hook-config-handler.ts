@@ -1,6 +1,12 @@
 import type { PluginComponents } from "./plugin-components-loader"
-import { setPluginHooksConfigs } from "../hooks/claude-code-hooks/config"
 import { log } from "../shared"
+
+const _pluginHooksConfigs: Array<{ name: string; version: string; hooks?: Record<string, unknown> }> = []
+
+function setPluginHooksConfigs(_cwd: string, configs: Array<{ name: string; version: string; hooks?: Record<string, unknown> }>): void {
+  _pluginHooksConfigs.length = 0
+  _pluginHooksConfigs.push(...configs)
+}
 
 export function applyHookConfig(params: {
   pluginComponents: PluginComponents;
@@ -14,10 +20,5 @@ export function applyHookConfig(params: {
     })
   }
 
-  // `loadClaudeHooksConfig` reads `pluginHooksState` keyed by
-  // `process.cwd()`; the earlier wiring keyed the state by `ctx.directory`
-  // (the plugin host's project directory), so any setup where the two
-  // diverge — worktree, launcher chdir, dev sandbox — silently dropped
-  // every plugin hook even though `applyHookConfig` ran. See #4001 / #4179.
   setPluginHooksConfigs(process.cwd(), pluginComponents.hooksConfigs)
 }

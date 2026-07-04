@@ -1,6 +1,9 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin/tool"
 import { spawnWithWindowsHide } from "../../shared/spawn-with-windows-hide"
-import { isCmuxCompatEnvironment } from "../../shared/tmux/cmux-detect"
+
+function isCmuxCompatEnvironment(): boolean {
+  return false
+}
 import {
   BLOCKED_TMUX_SUBCOMMANDS,
   DEFAULT_TIMEOUT_MS,

@@ -9,7 +9,7 @@ import {
   writeJsonAtomic,
   acquireLock,
   generateTaskId,
-} from "../../features/claude-tasks/storage";
+} from "./storage";
 import { syncTaskTodoUpdate } from "./todo-sync";
 
 export function createTaskCreateTool(

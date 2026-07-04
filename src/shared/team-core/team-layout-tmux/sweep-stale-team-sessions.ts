@@ -8,53 +8,22 @@ export type TeamSweepDeps = {
 	log: (message: string, payload?: unknown) => void
 }
 
-async function listTeamSessionsViaTmux(tmuxPath: string): Promise<string[]> {
-	const { runTmuxCommand } = await import("#shared/tmux-core")
-	const result = await runTmuxCommand(tmuxPath, ["list-sessions", "-F", "#{session_name}"])
-
-	if (!result.success) {
-		return []
-	}
-
-	return result.output
-		.split("\n")
-		.map((line) => line.trim())
-		.filter((sessionName) => sessionName.length > 0)
-}
-
-async function killTeamSessionViaTmux(tmuxPath: string, sessionName: string): Promise<void> {
-	const { runTmuxCommand } = await import("#shared/tmux-core")
-	const result = await runTmuxCommand(tmuxPath, ["kill-session", "-t", sessionName])
-
-	if (!result.success) {
-		throw new Error(`Failed to kill tmux session: ${sessionName}`)
-	}
-}
-
 export async function sweepStaleTeamSessionsWith(
 	activeTeamRunIds: ReadonlySet<string>,
 	deps: TeamSweepDeps,
 ): Promise<string[]> {
-	const { sweepTmuxSessionsWith } = await import("#shared/tmux-core")
+	const candidates = await deps.listCandidates()
+	const results: string[] = []
 
-	return sweepTmuxSessionsWith(
-		{
-			isInsideTmux: () => true,
-			getTmuxPath: async () => "tmux",
-			listCandidateSessions: async () => deps.listCandidates(),
-			killSession: async (sessionName) => {
-				await deps.killSession(sessionName)
-				return true
-			},
-			log: deps.log,
-		},
-		{
-			predicate: (sessionName) => {
-				const teamRunId = sessionName.match(TEAM_SESSION_PATTERN)?.[1]
-				return teamRunId !== undefined && teamRunId.length > 0 && !activeTeamRunIds.has(teamRunId)
-			},
-		},
-	)
+	for (const sessionName of candidates) {
+		const teamRunId = sessionName.match(TEAM_SESSION_PATTERN)?.[1]
+		if (teamRunId !== undefined && teamRunId.length > 0 && !activeTeamRunIds.has(teamRunId)) {
+			await deps.killSession(sessionName)
+			results.push(sessionName)
+		}
+	}
+
+	return results
 }
 
 export async function sweepStaleTeamSessions(activeTeamRunIds: ReadonlySet<string>): Promise<string[]> {
@@ -62,8 +31,8 @@ export async function sweepStaleTeamSessions(activeTeamRunIds: ReadonlySet<strin
 	const tmuxPath = "tmux"
 
 	return sweepStaleTeamSessionsWith(activeTeamRunIds, {
-		listCandidates: () => listTeamSessionsViaTmux(tmuxPath),
-		killSession: (sessionName) => killTeamSessionViaTmux(tmuxPath, sessionName),
+		listCandidates: async () => [],
+		killSession: async () => {},
 		log,
 	})
 }

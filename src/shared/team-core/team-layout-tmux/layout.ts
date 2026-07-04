@@ -1,7 +1,22 @@
-import { isServerRunning, runTmuxCommand, type TmuxCommandResult } from "#shared/tmux-core"
 import { log } from "../logger"
 import { shellSingleQuote } from "../shell-quote"
 import { resolveCallerTmuxSession } from "./resolve-caller-tmux-session"
+
+type TmuxCommandResult = {
+  success: boolean
+  output: string
+  stdout: string
+  stderr: string
+  exitCode: number
+}
+
+async function runTmuxCommand(_tmuxPath: string, _args: string[]): Promise<TmuxCommandResult> {
+  throw new Error("tmux-core was pruned — stub implementation")
+}
+
+async function isServerRunning(_serverUrl: string): Promise<boolean> {
+  throw new Error("tmux-core was pruned — stub implementation")
+}
 
 type TeamLayoutMember = { name: string; sessionId: string; worktreePath?: string }
 type TmuxSessionManager = {

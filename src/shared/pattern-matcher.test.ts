@@ -1,6 +1,6 @@
 import { describe, test, expect } from "bun:test"
 import { matchesToolMatcher, findMatchingHooks } from "./pattern-matcher"
-import type { ClaudeHooksConfig } from "../hooks/claude-code-hooks/types"
+import type { ClaudeHooksConfig } from "./pattern-matcher"
 
 describe("matchesToolMatcher", () => {
   describe("exact matching", () => {

@@ -1,5 +1,0 @@
-{
-  "type": "module",
-  "name": "@oh-my-opencode/boulder-state",
-  "main": "index.ts"
-}
