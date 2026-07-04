@@ -24,7 +24,9 @@ function fixtureArchive(
   const binDir = join(root, rootName, "bin")
   mkdirSync(binDir, { recursive: true })
   writeFileSync(join(binDir, executableName), "#!/bin/sh\nprintf 'codegraph fixture\\n'\n")
-  execFileSync("chmod", ["755", join(binDir, executableName)])
+  if (process.platform !== "win32") {
+    execFileSync("chmod", ["755", join(binDir, executableName)])
+  }
   execFileSync("tar", ["-czf", archive, rootName], { cwd: root })
   const bytes = readFileSync(archive)
   const sha256 = createHash("sha256").update(bytes).digest("hex")
