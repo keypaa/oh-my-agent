@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "types": "../../src/shared/boulder-state/index.ts",
+  "types": "./src/index.ts",
   "name": "@oh-my-opencode/boulder-state",
-  "main": "../../src/shared/boulder-state/index.ts"
+  "main": "./src/index.ts"
 }

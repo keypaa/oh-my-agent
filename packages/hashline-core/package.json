@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "types": "../../src/shared/hashline-core/index.ts",
+  "types": "./src/index.ts",
   "name": "@oh-my-opencode/hashline-core",
-  "main": "../../src/shared/hashline-core/index.ts"
+  "main": "./src/index.ts"
 }

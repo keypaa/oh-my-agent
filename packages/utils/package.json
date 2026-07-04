@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "types": "../../src/shared/utils/index.ts",
+  "types": "./src/index.ts",
   "name": "@oh-my-opencode/utils",
-  "main": "../../src/shared/utils/index.ts"
+  "main": "./src/index.ts"
 }
