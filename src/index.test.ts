@@ -15,17 +15,6 @@ const mockInjectServerAuthIntoClient = mock(() => {})
 const mockLogLegacyPluginStartupWarning = mock(() => {})
 const mockMigrateLegacyWorkspaceDirectory = mock(() => ({ migrated: false, skipped: [] }))
 const mockLoadPluginConfig = mock(() => ({}))
-const mockIsTmuxIntegrationEnabled = mock(
-  (pluginConfig: { tmux?: { enabled?: boolean } | undefined }) => pluginConfig.tmux?.enabled ?? false,
-)
-const mockCreateRuntimeTmuxConfig = mock(() => ({
-  enabled: false,
-  layout: "tiled" as const,
-  main_pane_size: 60,
-  main_pane_min_width: 80,
-  agent_pane_min_width: 40,
-  isolation: "inline" as const,
-}))
 const mockCreateManagers = mock(() => ({
   backgroundManager: { shutdown: async () => {} },
   skillMcpManager: { disconnectAll: async () => {} },
@@ -40,11 +29,8 @@ const mockCreateHooks = mock(() => ({
   disposeHooks: () => {},
   compactionContextInjector: undefined,
   compactionTodoPreserver: undefined,
-  claudeCodeHooks: undefined,
 }))
 const mockCreatePluginInterface = mock(() => ({}))
-const mockInitializeOpenClaw = mock(async () => {})
-const mockStartTmuxCheck = mock(() => {})
 const mockInstallAgentSortShim = mock(() => {})
 const mockSetAgentSortOrder = mock(() => {})
 const mockLog = mock(() => {})
@@ -69,14 +55,10 @@ function createTestPluginModule(): ReturnType<typeof createPluginModule> {
     logLegacyPluginStartupWarning: mockLogLegacyPluginStartupWarning,
     migrateLegacyWorkspaceDirectory: mockMigrateLegacyWorkspaceDirectory,
     loadPluginConfig: mockLoadPluginConfig as never,
-    isTmuxIntegrationEnabled: mockIsTmuxIntegrationEnabled as never,
-    createRuntimeTmuxConfig: mockCreateRuntimeTmuxConfig as never,
     createManagers: mockCreateManagers as never,
     createTools: mockCreateTools as never,
     createHooks: mockCreateHooks as never,
     createPluginInterface: mockCreatePluginInterface as never,
-    initializeOpenClaw: mockInitializeOpenClaw as never,
-    startTmuxCheck: mockStartTmuxCheck,
     installAgentSortShim: mockInstallAgentSortShim,
     setAgentSortOrder: mockSetAgentSortOrder,
     log: mockLog,
@@ -96,14 +78,10 @@ describe("oh-my-agent plugin module", () => {
     mockLogLegacyPluginStartupWarning.mockClear()
     mockMigrateLegacyWorkspaceDirectory.mockClear()
     mockLoadPluginConfig.mockClear()
-    mockIsTmuxIntegrationEnabled.mockClear()
-    mockCreateRuntimeTmuxConfig.mockClear()
     mockCreateManagers.mockClear()
     mockCreateTools.mockClear()
     mockCreateHooks.mockClear()
     mockCreatePluginInterface.mockClear()
-    mockInitializeOpenClaw.mockClear()
-    mockStartTmuxCheck.mockClear()
     mockInstallAgentSortShim.mockClear()
     mockSetAgentSortOrder.mockClear()
     mockLog.mockClear()
@@ -111,42 +89,6 @@ describe("oh-my-agent plugin module", () => {
     mockCreateFirstMessageVariantGate.mockClear()
     pluginModule = createTestPluginModule()
   })
-
-  it("starts openclaw during plugin bootstrap when openclaw config exists", async () => {
-    // given
-    const openclawConfig = {
-      enabled: true,
-      gateways: {},
-      hooks: {},
-    }
-    mockLoadPluginConfig.mockReturnValue({
-      openclaw: openclawConfig,
-    })
-
-    // when
-    await pluginModule.server({
-      directory: "/tmp/project",
-      client: {},
-    } as Parameters<typeof pluginModule.server>[0])
-
-    // then
-    expect(mockInitializeOpenClaw).toHaveBeenCalledTimes(1)
-    expect(mockInitializeOpenClaw).toHaveBeenCalledWith(openclawConfig)
-  })
-
-  it("does not start openclaw when openclaw config is absent", async () => {
-    // given
-    mockLoadPluginConfig.mockReturnValue({})
-
-    // when
-    await pluginModule.server({
-      directory: "/tmp/project",
-      client: {},
-    } as Parameters<typeof pluginModule.server>[0])
-
-    // then
-    expect(mockInitializeOpenClaw).not.toHaveBeenCalled()
-  }, { timeout: 15000 })
 
   it("migrates legacy workspace state during plugin bootstrap", async () => {
     // given

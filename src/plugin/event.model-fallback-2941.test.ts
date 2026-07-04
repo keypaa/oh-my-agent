@@ -35,8 +35,6 @@ function asChatPluginConfig(config: unknown): ChatMessageHandlerArgs["pluginConf
 
 function createEventHandlerManagers(): EventHandlerArgs["managers"] {
 	return unsafeTestValue<EventHandlerArgs["managers"]>({
-		tmuxSessionManager: {
-			onSessionCreated: async () => {},
 			onSessionDeleted: async () => {},
 		},
 		skillMcpManager: {
@@ -56,7 +54,6 @@ function createChatMessageHandlerHooks(modelFallback: ReturnType<typeof createMo
 		modelFallback,
 		stopContinuationGuard: null,
 		keywordDetector: null,
-		claudeCodeHooks: null,
 		autoSlashCommand: null,
 		startWork: null,
 		ralphLoop: null,

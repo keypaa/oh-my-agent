@@ -71,7 +71,6 @@ describe("team-mode tool registry wiring", () => {
       pluginConfig,
       managers: {
         backgroundManager: {},
-        tmuxSessionManager: {},
         skillMcpManager: {},
       } as Parameters<typeof createToolRegistry>[0]["managers"],
       skillContext: {
@@ -145,7 +144,6 @@ describe("team-mode tool registry wiring", () => {
       pluginConfig: createPluginConfig(),
       managers: {
         backgroundManager: {},
-        tmuxSessionManager: {},
         skillMcpManager: {},
       } as Parameters<typeof createToolRegistry>[0]["managers"],
       skillContext: {

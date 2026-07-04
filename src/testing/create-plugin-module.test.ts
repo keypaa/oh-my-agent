@@ -22,17 +22,6 @@ const mockInjectServerAuthIntoClient = mock(() => {})
 const mockLogLegacyPluginStartupWarning = mock(() => {})
 const mockMigrateLegacyWorkspaceDirectory = mock(() => ({ migrated: false, skipped: [] }))
 const mockLoadPluginConfig = mock(() => ({}))
-const mockIsTmuxIntegrationEnabled = mock(
-  (pluginConfig: { tmux?: { enabled?: boolean } | undefined }) => pluginConfig.tmux?.enabled ?? false,
-)
-const mockCreateRuntimeTmuxConfig = mock(() => ({
-  enabled: false,
-  layout: "tiled" as const,
-  main_pane_size: 60,
-  main_pane_min_width: 80,
-  agent_pane_min_width: 40,
-  isolation: "inline" as const,
-}))
 const mockCreateManagers = mock(() => ({
   backgroundManager: { shutdown: async () => {} },
   skillMcpManager: { disconnectAll: async () => {} },
@@ -54,11 +43,8 @@ const mockCreateHooks = mock(() => ({
   disposeHooks: () => {},
   compactionContextInjector: undefined,
   compactionTodoPreserver: undefined,
-  claudeCodeHooks: undefined,
 }))
 const mockCreatePluginInterface = mock(() => ({}))
-const mockInitializeOpenClaw = mock(async () => {})
-const mockStartTmuxCheck = mock(() => {})
 const mockInstallAgentSortShim = mock(() => {})
 const mockSetAgentSortOrder = mock(() => {})
 const mockLog = mock(() => {})
@@ -81,15 +67,11 @@ function createTestPluginModule(): ReturnType<typeof createPluginModule> {
     logLegacyPluginStartupWarning: mockLogLegacyPluginStartupWarning,
     migrateLegacyWorkspaceDirectory: mockMigrateLegacyWorkspaceDirectory,
     loadPluginConfig: mockLoadPluginConfig as never,
-    isTmuxIntegrationEnabled: mockIsTmuxIntegrationEnabled as never,
-    createRuntimeTmuxConfig: mockCreateRuntimeTmuxConfig as never,
     createManagers: mockCreateManagers as never,
     createRuntimeSkillSourceServer: mockCreateRuntimeSkillSourceServer as never,
     createTools: mockCreateTools as never,
     createHooks: mockCreateHooks as never,
     createPluginInterface: mockCreatePluginInterface as never,
-    initializeOpenClaw: mockInitializeOpenClaw as never,
-    startTmuxCheck: mockStartTmuxCheck,
     installAgentSortShim: mockInstallAgentSortShim,
     setAgentSortOrder: mockSetAgentSortOrder,
     log: mockLog,
@@ -169,34 +151,6 @@ describe("createPluginModule()", () => {
       }
     })
 
-    it("#given sidebar is disabled #then startup does not write a TUI plugin entry", async () => {
-      // given
-      const originalConfigDir = process.env.OPENCODE_CONFIG_DIR
-      const configDir = mkdtempSync(join(tmpdir(), "omo-server-tui-disabled-"))
-      process.env.OPENCODE_CONFIG_DIR = configDir
-      writeFileSync(join(configDir, "opencode.json"), JSON.stringify({ plugin: [PLUGIN_NAME] }), "utf-8")
-
-      try {
-        const pluginModule = createTestPluginModule()
-        mockLoadPluginConfig.mockReturnValue({ tui: { sidebar: { enabled: false } } })
-
-        // when
-        await pluginModule.server({
-          directory: "/tmp/project",
-          client: {},
-        } as Parameters<typeof pluginModule.server>[0])
-
-        // then
-        expect(() => readFileSync(join(configDir, "tui.json"), "utf-8")).toThrow()
-      } finally {
-        rmSync(configDir, { recursive: true, force: true })
-        if (originalConfigDir === undefined) {
-          delete process.env.OPENCODE_CONFIG_DIR
-        } else {
-          process.env.OPENCODE_CONFIG_DIR = originalConfigDir
-        }
-      }
-    })
   })
 
   describe("#given bundled security skills are enabled", () => {

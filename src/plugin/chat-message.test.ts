@@ -73,7 +73,6 @@ function createMockHandlerArgs(overrides?: {
       stopContinuationGuard: null,
       backgroundNotificationHook: null,
       keywordDetector: null,
-      claudeCodeHooks: null,
       autoSlashCommand: null,
       startWork: null,
       ralphLoop: null,

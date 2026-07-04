@@ -18,7 +18,6 @@ describe("createEventTeamHandlers", () => {
       },
     })
     const managers = unsafeTestValue({
-      tmuxSessionManager: {},
       backgroundManager: {},
     })
 

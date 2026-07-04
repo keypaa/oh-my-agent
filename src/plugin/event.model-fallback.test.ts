@@ -78,8 +78,6 @@ describe("createEventHandler - model fallback", () => {
         clear: () => {},
       },
       managers: unsafeTestValue({
-        tmuxSessionManager: {
-          onSessionCreated: async () => {},
           onSessionDeleted: async () => {},
         },
         skillMcpManager: {
@@ -504,7 +502,6 @@ describe("createEventHandler - model fallback", () => {
         modelFallback,
         stopContinuationGuard: null,
         keywordDetector: null,
-        claudeCodeHooks: null,
         autoSlashCommand: null,
         startWork: null,
         ralphLoop: null,
@@ -652,7 +649,6 @@ describe("createEventHandler - model fallback", () => {
         modelFallback,
         stopContinuationGuard: null,
         keywordDetector: null,
-        claudeCodeHooks: null,
         autoSlashCommand: null,
         startWork: null,
         ralphLoop: null,
@@ -735,7 +731,6 @@ describe("createEventHandler - model fallback", () => {
         modelFallback,
         stopContinuationGuard: null,
         keywordDetector: null,
-        claudeCodeHooks: null,
         autoSlashCommand: null,
         startWork: null,
         ralphLoop: null,
@@ -898,7 +893,6 @@ describe("createEventHandler - model fallback", () => {
         modelFallback,
         stopContinuationGuard: null,
         keywordDetector: null,
-        claudeCodeHooks: null,
         autoSlashCommand: null,
         startWork: null,
         ralphLoop: null,
@@ -994,8 +988,6 @@ describe("createEventHandler - model fallback", () => {
         clear: () => {},
       },
       managers: unsafeTestValue({
-        tmuxSessionManager: {
-          onSessionCreated: async () => {},
           onSessionDeleted: async () => {},
         },
         skillMcpManager: {
@@ -1027,7 +1019,6 @@ describe("createEventHandler - model fallback", () => {
         modelFallback,
         stopContinuationGuard: null,
         keywordDetector: null,
-        claudeCodeHooks: null,
         autoSlashCommand: null,
         startWork: null,
         ralphLoop: null,

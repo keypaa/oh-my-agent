@@ -31,8 +31,6 @@ function createEventHandlerManagers(
 ): EventHandlerArgs["managers"] {
   return unsafeTestValue<EventHandlerArgs["managers"]>({
     ...({} as EventHandlerArgs["managers"]),
-    tmuxSessionManager: {
-      onSessionCreated: async () => {},
       onSessionDeleted: async () => {},
     },
     ...overrides,
@@ -168,7 +166,6 @@ function createHarness(args: {
     stopContinuationGuard: null,
     backgroundNotificationHook: null,
     keywordDetector: null,
-    claudeCodeHooks: null,
     autoSlashCommand: null,
     startWork: null,
     ralphLoop: null,

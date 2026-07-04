@@ -294,7 +294,6 @@ describe("createToolRegistry", () => {
       },
       managers: {
         backgroundManager: {},
-        tmuxSessionManager: {},
         skillMcpManager: {},
       },
       skillContext: {

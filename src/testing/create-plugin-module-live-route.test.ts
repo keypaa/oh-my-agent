@@ -16,17 +16,6 @@ const mockGetDuplicateOmoPluginWarning = mock(() => "")
 const mockInjectServerAuthIntoClient = mock(() => {})
 const mockLogLegacyPluginStartupWarning = mock(() => {})
 const mockMigrateLegacyWorkspaceDirectory = mock(() => ({ migrated: false, skipped: [] }))
-const mockIsTmuxIntegrationEnabled = mock(
-  (pluginConfig: { tmux?: { enabled?: boolean } | undefined }) => pluginConfig.tmux?.enabled ?? false,
-)
-const mockCreateRuntimeTmuxConfig = mock(() => ({
-  enabled: false,
-  layout: "tiled" as const,
-  main_pane_size: 60,
-  main_pane_min_width: 80,
-  agent_pane_min_width: 40,
-  isolation: "inline" as const,
-}))
 const mockCreateManagers = mock(() => ({
   backgroundManager: { shutdown: async () => {} },
   skillMcpManager: { disconnectAll: async () => {} },
@@ -47,11 +36,8 @@ const mockCreateHooks = mock(() => ({
   disposeHooks: () => {},
   compactionContextInjector: undefined,
   compactionTodoPreserver: undefined,
-  claudeCodeHooks: undefined,
 }))
 const mockCreatePluginInterface = mock(() => ({}))
-const mockInitializeOpenClaw = mock(async () => {})
-const mockStartTmuxCheck = mock(() => {})
 const mockInstallAgentSortShim = mock(() => {})
 const mockSetAgentSortOrder = mock(() => {})
 const mockLog = mock(() => {})
@@ -96,15 +82,11 @@ function createTestPluginModule(
     logLegacyPluginStartupWarning: mockLogLegacyPluginStartupWarning,
     migrateLegacyWorkspaceDirectory: mockMigrateLegacyWorkspaceDirectory,
     loadPluginConfig: mockLoadPluginConfig as never,
-    isTmuxIntegrationEnabled: mockIsTmuxIntegrationEnabled as never,
-    createRuntimeTmuxConfig: mockCreateRuntimeTmuxConfig as never,
     createManagers: mockCreateManagers as never,
     createRuntimeSkillSourceServer: mockCreateRuntimeSkillSourceServer as never,
     createTools: mockCreateTools as never,
     createHooks: mockCreateHooks as never,
     createPluginInterface: mockCreatePluginInterface as never,
-    initializeOpenClaw: mockInitializeOpenClaw as never,
-    startTmuxCheck: mockStartTmuxCheck,
     installAgentSortShim: mockInstallAgentSortShim,
     setAgentSortOrder: mockSetAgentSortOrder,
     log: mockLog,

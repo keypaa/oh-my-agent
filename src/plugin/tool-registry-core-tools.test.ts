@@ -62,7 +62,6 @@ describe("#given disabled native skills in the registry skill context", () => {
       }),
       managers: unsafeTestValue({
         backgroundManager: {},
-        tmuxSessionManager: {},
         skillMcpManager: {},
         modelFallbackControllerAccessor: {},
       }),
@@ -105,7 +104,6 @@ describe("#given core skill tools are registered", () => {
       }),
       managers: unsafeTestValue({
         backgroundManager: {},
-        tmuxSessionManager: {},
         skillMcpManager: {},
         modelFallbackControllerAccessor: {},
       }),

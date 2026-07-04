@@ -71,34 +71,6 @@ function pickRenderedConfigFields(config: ReturnType<typeof validatePluginConfig
 }
 
 describe("validatePluginConfig", () => {
-  it("returns defaults with tui sidebar enabled when no config exists", () => {
-    withIsolatedConfig("defaults", (root) => {
-      const project = join(root, "project")
-      mkdirSync(project, { recursive: true })
-
-      const result = validatePluginConfig(project)
-
-      expect(result.valid).toBe(true)
-      expect(result.messages).toEqual([])
-      expect(result.path).toBeNull()
-      expect(result.config.tui?.sidebar.enabled).toBe(true)
-    })
-  })
-
-  it("allows tui sidebar to be disabled by config", () => {
-    withIsolatedConfig("disabled", (root) => {
-      const project = join(root, "project")
-      writeJson(join(project, ".opencode", "oh-my-agent.json"), {
-        tui: { sidebar: { enabled: false } },
-      })
-
-      const result = validatePluginConfig(project)
-
-      expect(result.valid).toBe(true)
-      expect(result.config.tui?.sidebar.enabled).toBe(false)
-    })
-  })
-
   it("detects invalid ancestor configs from a child directory", () => {
     withIsolatedConfig("ancestor-invalid", (root) => {
       const project = join(root, "project")
@@ -122,18 +94,15 @@ describe("validatePluginConfig", () => {
       const child = join(near, "child")
       mkdirSync(child, { recursive: true })
       writeJson(join(far, ".opencode", "oh-my-agent.json"), {
-        tui: { sidebar: { enabled: false } },
         team_mode: { enabled: false },
       })
       writeJson(join(near, ".opencode", "oh-my-agent.json"), {
-        tui: { sidebar: { enabled: true } },
         team_mode: { enabled: true },
       })
 
       const readonlyResult = validatePluginConfig(child)
       const runtimeConfig = loadPluginConfig(child, {})
 
-      expect(readonlyResult.config.tui?.sidebar.enabled).toBe(true)
       expect(pickRenderedConfigFields(readonlyResult.config)).toEqual(pickRenderedConfigFields(runtimeConfig))
     })
   })
@@ -143,13 +112,11 @@ describe("validatePluginConfig", () => {
       const project = join(root, "project")
       writeJson(join(project, ".opencode", "oh-my-agent.json"), {
         agents: { sisyphus: { model: 123 } },
-        tui: { sidebar: { enabled: false } },
       })
 
       const result = validatePluginConfig(project)
 
       expect(result.valid).toBe(false)
-      expect(result.config.tui?.sidebar.enabled).toBe(false)
       expect(result.messages.some((message: string) => message.includes("agents.sisyphus.model"))).toBe(true)
     })
   })
@@ -181,14 +148,13 @@ describe("validatePluginConfig", () => {
       const configDir = join(project, ".opencode")
       mkdirSync(configDir, { recursive: true })
       writeJson(join(configDir, "oh-my-agent.json"), {
-        tui: { sidebar: { enabled: false } },
+        team_mode: { enabled: false },
       })
       const before = snapshotFiles(configDir)
 
       const result = validatePluginConfig(project)
 
       expect(result.valid).toBe(true)
-      expect(result.config.tui?.sidebar.enabled).toBe(false)
       expect(snapshotFiles(configDir)).toEqual(before)
       expect(existsSync(join(configDir, "oh-my-agent.json"))).toBe(false)
     })

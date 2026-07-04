@@ -4,7 +4,6 @@ import type { PluginInput } from "@opencode-ai/plugin"
 
 import { createEventHandler, extractErrorMessage } from "./event"
 import { createChatMessageHandler } from "./chat-message"
-import * as openclawRuntimeDispatch from "../openclaw/runtime-dispatch"
 import { _resetForTesting, setMainSession, subagentSessions } from "../features/session-state"
 import { clearPendingModelFallback, createModelFallbackHook } from "../hooks/model-fallback/hook"
 import { getSessionPromptParams, setSessionPromptParams } from "../shared/session-prompt-params-state"
@@ -620,7 +619,7 @@ describe("createEventHandler - idle deduplication", () => {
 			}),
 			hooks: createEventHandlerHooks({
 				autoUpdateChecker: { event: async () => {} },
-				claudeCodeHooks: { event: async () => {} },
+
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
 				todoContinuationEnforcer: { handler: async () => {} },
@@ -704,7 +703,7 @@ describe("createEventHandler - idle deduplication", () => {
 						dispatchCalls.push(input)
 					},
 				},
-				claudeCodeHooks: { event: async () => {} },
+
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
 				todoContinuationEnforcer: { handler: async () => {} },
@@ -760,7 +759,7 @@ describe("createEventHandler - idle deduplication", () => {
 						}
 					},
 				},
-				claudeCodeHooks: { event: async () => {} },
+
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
 				todoContinuationEnforcer: { handler: async () => {} },
@@ -1159,99 +1158,6 @@ describe("createEventHandler - event forwarding", () => {
 		expect(onSessionCreated).not.toHaveBeenCalled()
 	})
 
-	it("dispatches OpenClaw after session.created for main sessions (no parentID)", async () => {
-		//#given
-		const openClawSpy = spyOn(openclawRuntimeDispatch, "dispatchOpenClawEvent")
-		openClawSpy.mockResolvedValue(null)
-		const eventHandler = createEventHandler({
-			ctx: asEventHandlerContext({ directory: "/tmp/project-created" }),
-			pluginConfig: asPluginConfig({
-				openclaw: { enabled: true, gateways: {}, hooks: {} },
-				tmux: {
-					enabled: true,
-					layout: "main-vertical",
-					main_pane_size: 60,
-					main_pane_min_width: 120,
-					agent_pane_min_width: 40,
-					isolation: "inline",
-				},
-			}),
-			firstMessageVariantGate: {
-				markSessionCreated: () => {},
-				clear: () => {},
-			},
-			managers: createEventHandlerManagers({
-				skillMcpManager: { disconnectSession: async () => {} },
-				tmuxSessionManager: {
-					onSessionCreated: async () => {},
-					onSessionDeleted: async () => {},
-					getTrackedPaneId: (sessionID: string) => (sessionID === "ses_openclaw_created" ? "%9" : undefined),
-				},
-			}),
-			hooks: createEventHandlerHooks({}),
-		})
-		await eventHandler(asEventHandlerInput({
-			event: {
-				type: "session.created",
-				properties: { info: { id: "ses_openclaw_created" } },
-			},
-		}))
-
-		//#then - OpenClaw dispatch called for main session
-		const call = openClawSpy.mock.calls[0]?.[0] as
-			| {
-				rawEvent?: string
-				context?: { sessionId?: string; projectPath?: string; tmuxPaneId?: string }
-			  }
-			| undefined
-		expect(call?.rawEvent).toBe("session.created")
-		expect(call?.context).toEqual({
-			sessionId: "ses_openclaw_created",
-			projectPath: "/tmp/project-created",
-			tmuxPaneId: "%9",
-		})
-	})
-
-	it("does NOT dispatch OpenClaw for subagent sessions (with parentID)", async () => {
-		//#given
-		const openClawSpy = spyOn(openclawRuntimeDispatch, "dispatchOpenClawEvent")
-		openClawSpy.mockResolvedValue(null)
-		const eventHandler = createEventHandler({
-			ctx: asEventHandlerContext({ directory: "/tmp/project-created" }),
-			pluginConfig: asPluginConfig({
-				openclaw: { enabled: true, gateways: {}, hooks: {} },
-				tmux: {
-					enabled: true,
-					layout: "main-vertical",
-					main_pane_size: 60,
-					main_pane_min_width: 120,
-					agent_pane_min_width: 40,
-					isolation: "inline",
-				},
-			}),
-			firstMessageVariantGate: {
-				markSessionCreated: () => {},
-				clear: () => {},
-			},
-			managers: createEventHandlerManagers({
-				skillMcpManager: { disconnectSession: async () => {} },
-				tmuxSessionManager: {
-					onSessionCreated: async () => {},
-					onSessionDeleted: async () => {},
-					getTrackedPaneId: (sessionID: string) => (sessionID === "ses_subagent" ? "%10" : undefined),
-				},
-			}),
-			hooks: createEventHandlerHooks({}),
-		})
-		await eventHandler(asEventHandlerInput({
-			event: {
-				type: "session.created",
-				properties: { info: { id: "ses_subagent", parentID: "ses_parent" } },
-			},
-		}))
-		expect(openClawSpy.mock.calls.length).toBe(0)
-	})
-
 	it("forwards session.deleted to write-existing-file-guard hook", async () => {
 		const forwardedEvents: EventInput[] = []
 		const disconnectedSessions: string[] = []
@@ -1304,48 +1210,6 @@ describe("createEventHandler - event forwarding", () => {
 		expect(forwardedEvents[0]?.event.type).toBe("session.deleted")
 		expect(disconnectedSessions).toEqual([sessionID])
 		expect(deletedSessions).toEqual([sessionID])
-	})
-
-	it("dispatches OpenClaw for synthetic session.idle events", async () => {
-		const openClawSpy = spyOn(openclawRuntimeDispatch, "dispatchOpenClawEvent")
-		openClawSpy.mockResolvedValue(null)
-		const eventHandler = createEventHandler({
-			ctx: asEventHandlerContext({ directory: "/tmp/project-idle" }),
-			pluginConfig: asPluginConfig({ openclaw: { enabled: true, gateways: {}, hooks: {} } }),
-			firstMessageVariantGate: {
-				markSessionCreated: () => {},
-				clear: () => {},
-			},
-			managers: createEventHandlerManagers({
-				skillMcpManager: { disconnectSession: async () => {} },
-				tmuxSessionManager: {
-					onSessionCreated: async () => {},
-					onSessionDeleted: async () => {},
-					getTrackedPaneId: (sessionID: string) => (sessionID === "ses_openclaw_idle" ? "%3" : undefined),
-				},
-			}),
-			hooks: createEventHandlerHooks({}),
-		})
-
-		await eventHandler(asEventHandlerInput({
-			event: {
-				type: "session.status",
-				properties: { sessionID: "ses_openclaw_idle", status: { type: "idle" } },
-			},
-		}))
-
-		const call = openClawSpy.mock.calls[0]?.[0] as
-			| {
-				rawEvent?: string
-				context?: { sessionId?: string; projectPath?: string; tmuxPaneId?: string }
-			  }
-			| undefined
-		expect(call?.rawEvent).toBe("session.idle")
-		expect(call?.context).toEqual({
-			sessionId: "ses_openclaw_idle",
-			projectPath: "/tmp/project-idle",
-			tmuxPaneId: "%3",
-		})
 	})
 
 	it("clears stored prompt params on session.deleted", async () => {
@@ -1441,7 +1305,7 @@ describe("createEventHandler - retry dedupe lifecycle", () => {
 				modelFallback,
 				stopContinuationGuard: null,
 				keywordDetector: null,
-				claudeCodeHooks: null,
+
 				autoSlashCommand: null,
 				startWork: null,
 				ralphLoop: null,
@@ -1590,11 +1454,6 @@ describe("createEventHandler - event hook isolation", () => {
 						throw new Error("toast failed")
 					},
 				},
-				claudeCodeHooks: {
-					event: async () => {
-						calls.push("claudeCodeHooks")
-					},
-				},
 				backgroundNotificationHook: {
 					event: async () => {
 						calls.push("backgroundNotificationHook")
@@ -1630,7 +1489,6 @@ describe("createEventHandler - event hook isolation", () => {
 		expect(calls).toEqual([
 			"autoUpdateChecker",
 			"legacyPluginToast",
-			"claudeCodeHooks",
 			"backgroundNotificationHook",
 			"sessionNotification",
 			"runtimeFallback",

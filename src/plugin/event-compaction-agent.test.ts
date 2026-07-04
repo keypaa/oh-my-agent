@@ -14,8 +14,6 @@ function createMinimalEventHandler() {
       clear: () => {},
     },
     managers: {
-      tmuxSessionManager: {
-        onSessionCreated: async () => {},
         onSessionDeleted: async () => {},
       },
       skillMcpManager: {
@@ -23,8 +21,7 @@ function createMinimalEventHandler() {
       },
     } as never,
     hooks: {
-      autoUpdateChecker: { event: async () => {} },
-      claudeCodeHooks: { event: async () => {} },
+      autoUpdateChecker: { event: async () => {} } },
       backgroundNotificationHook: { event: async () => {} },
       sessionNotification: async () => {},
       todoContinuationEnforcer: { handler: async () => {} },
