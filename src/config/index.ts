@@ -27,4 +27,5 @@ export type {
   TeamModeConfig,
   KeywordDetectorConfig,
   KeywordType,
+  AuditLoopConfig,
 } from "./schema"

@@ -69,9 +69,10 @@ describe("buildPrometheusAgentConfig", () => {
       });
     });
 
-    describe("#when currentModel IS in Prometheus fallback chain", () => {
-      test("preserves currentModel as uiSelectedModel for claude-opus-4-7", async () => {
-        // given - currentModel matches a Prometheus fallback chain entry
+    describe("#when currentModel is not in Prometheus fallback chain (empty requirements)", () => {
+      test("does not use currentModel as uiSelectedModel since fallback chain is empty", async () => {
+        // given - currentModel is a model that would have been in the Prometheus fallback chain,
+        // but requirements are now empty, so it's not recognized
         const currentModel = "anthropic/claude-opus-4-7";
 
         // when - should not throw and should produce a valid config
@@ -82,18 +83,19 @@ describe("buildPrometheusAgentConfig", () => {
           currentModel,
         });
 
-        // then - config should be produced (currentModel accepted as valid)
+        // then - config should be produced, but uiSelectedModel is undefined
+        // because the empty fallback chain means currentModel is not recognized
         expect(result).toBeDefined();
         expect(resolveModelPipelineSpy).toHaveBeenCalledWith(
           expect.objectContaining({
             intent: expect.objectContaining({
-              uiSelectedModel: currentModel,
+              uiSelectedModel: undefined,
             }),
           })
         );
       });
 
-      test("accepts gpt-5.4 from fallback chain", async () => {
+      test("accepts gpt-5.4 without treating it as in fallback chain", async () => {
         const result = await buildPrometheusAgentConfig({
           configAgentPlan: undefined,
           pluginPrometheusOverride: undefined,
@@ -103,7 +105,7 @@ describe("buildPrometheusAgentConfig", () => {
         expect(result).toBeDefined();
       });
 
-      test("accepts glm-5.1 from fallback chain", async () => {
+      test("accepts glm-5.1 without treating it as in fallback chain", async () => {
         const result = await buildPrometheusAgentConfig({
           configAgentPlan: undefined,
           pluginPrometheusOverride: undefined,
@@ -113,7 +115,7 @@ describe("buildPrometheusAgentConfig", () => {
         expect(result).toBeDefined();
       });
 
-      test("accepts gemini-3.1-pro from fallback chain", async () => {
+      test("accepts gemini-3.1-pro without treating it as in fallback chain", async () => {
         const result = await buildPrometheusAgentConfig({
           configAgentPlan: undefined,
           pluginPrometheusOverride: undefined,

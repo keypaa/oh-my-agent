@@ -23,3 +23,7 @@ export async function loadOpencodeGlobalCommands(): Promise<CommandDefinition[]>
 export async function loadOpencodeProjectCommands(): Promise<CommandDefinition[]> {
   return []
 }
+
+export function clearCommandLoaderCache(): void {
+  // no-op: cache was removed during Phase 1 pruning
+}

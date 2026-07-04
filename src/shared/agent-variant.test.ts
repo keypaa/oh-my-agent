@@ -101,39 +101,39 @@ describe("resolveVariantForModel", () => {
   })
 
   test("returns correct variant for anthropic provider", () => {
-    // given
+    // given - no config, no requirements chains (design: agents inherit caller's model)
     const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-7" }
 
     // when
     const variant = resolveVariantForModel(config, "sisyphus", model)
 
-    // then
-    expect(variant).toBe("max")
+    // then - no variant without config override or requirements chain
+    expect(variant).toBeUndefined()
   })
 
   test("returns correct variant for openai provider (hephaestus agent)", () => {
-    // #given hephaestus has openai/gpt-5.5 with variant "medium" in its chain
+    // #given no config, no requirements chains
     const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "openai", modelID: "gpt-5.5" }
 
     // #when
     const variant = resolveVariantForModel(config, "hephaestus", model)
 
-    // then
-    expect(variant).toBe("medium")
+    // then - no variant without config override or requirements chain
+    expect(variant).toBeUndefined()
   })
 
   test("returns medium for openai/gpt-5.5 in sisyphus chain", () => {
-    // #given openai/gpt-5.5 is now in sisyphus fallback chain with variant medium
+    // #given no config, no requirements chains
     const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "openai", modelID: "gpt-5.5" }
 
     // when
     const variant = resolveVariantForModel(config, "sisyphus", model)
 
-    // then
-    expect(variant).toBe("medium")
+    // then - no variant without config override or requirements chain
+    expect(variant).toBeUndefined()
   })
 
   test("returns undefined for provider not in chain", () => {
@@ -173,7 +173,7 @@ describe("resolveVariantForModel", () => {
   })
 
   test("falls back to category chain when agent has no requirement", () => {
-    // given
+    // given - custom agent with category, but category requirements are also empty
     const config = {
       agents: {
         "custom-agent": { category: "ultrabrain" },
@@ -184,31 +184,31 @@ describe("resolveVariantForModel", () => {
     // when
     const variant = resolveVariantForModel(config, "custom-agent", model)
 
-    // then
-    expect(variant).toBe("xhigh")
+    // then - no variant without requirements chain
+    expect(variant).toBeUndefined()
   })
 
   test("returns correct variant for oracle agent with openai", () => {
-    // given
+    // given - no config, no requirements chains
     const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "openai", modelID: "gpt-5.5" }
 
     // when
     const variant = resolveVariantForModel(config, "oracle", model)
 
-    // then
-    expect(variant).toBe("high")
+    // then - no variant without config override or requirements chain
+    expect(variant).toBeUndefined()
   })
 
   test("returns correct variant for oracle agent with anthropic", () => {
-    // given
+    // given - no config, no requirements chains
     const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-7" }
 
     // when
     const variant = resolveVariantForModel(config, "oracle", model)
 
-    // then
-    expect(variant).toBe("max")
+    // then - no variant without config override or requirements chain
+    expect(variant).toBeUndefined()
   })
 })

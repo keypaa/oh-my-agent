@@ -6649,6 +6649,31 @@
       ],
       "additionalProperties": false
     },
+    "audit_loop": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "max_cycles": {
+          "default": 3,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "skip_verifier_2": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "enabled",
+        "max_cycles",
+        "skip_verifier_2"
+      ],
+      "additionalProperties": false
+    },
     "_migrations": {
       "type": "array",
       "items": {

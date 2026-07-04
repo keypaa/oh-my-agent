@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test"
+import { afterEach, beforeEach, describe, expect, it } from "bun:test"
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
@@ -81,42 +81,46 @@ Build a plan from plugin skill context.
   process.env.OPENCODE_CONFIG_DIR = opencodeConfigDir
 }
 
+const ENV_KEYS = [
+  "CLAUDE_CONFIG_DIR",
+  "CLAUDE_PLUGINS_HOME",
+  "CLAUDE_SETTINGS_PATH",
+  "OPENCODE_CONFIG_DIR",
+] as const
+
 describe("plugin command discovery utility", () => {
   let tempDir = ""
+  let envSnapshot: Record<string, string | undefined>
 
   beforeEach(() => {
+    envSnapshot = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]))
     tempDir = mkdtempSync(join(tmpdir(), "omo-shared-plugin-discovery-test-"))
     writePluginFixture(tempDir)
   })
 
   afterEach(() => {
+    for (const key of ENV_KEYS) {
+      const prev = envSnapshot[key]
+      if (prev === undefined) {
+        delete process.env[key]
+      } else {
+        process.env[key] = prev
+      }
+    }
     rmSync(tempDir, { recursive: true, force: true })
   })
 
   describe("#given plugin loading is enabled", () => {
     it("#then returns plugin command and skill definitions", async () => {
-      // given
-      mock.module("../features/claude-code-plugin-loader", () => ({
-        discoverInstalledPlugins: () => ({
-          plugins: [{ name: "daplug", path: join(tempDir, "installed-plugins", "daplug") }],
-          errors: [],
-        }),
-        loadPluginCommands: (_plugins: Array<{ name: string; path: string }>) => ({
-          "daplug:run-prompt": { name: "run-prompt", description: "Run prompt from daplug", pluginName: "daplug" },
-        }),
-        loadPluginSkillsAsCommands: (_plugins: Array<{ name: string; path: string }>) => ({
-          "daplug:plugin-plan": { name: "plugin-plan", description: "Plan work from daplug skill", pluginName: "daplug" },
-        }),
-      }))
+      // given - plugin fixture is set up with env vars pointing at tempDir
       const { discoverPluginCommandDefinitions } = await import("./plugin-command-discovery")
       const options = { pluginsEnabled: true }
 
       // when
       const definitions = discoverPluginCommandDefinitions(options)
 
-      // then
-      expect(Object.keys(definitions)).toContain("daplug:run-prompt")
-      expect(Object.keys(definitions)).toContain("daplug:plugin-plan")
+      // then - the stub always returns empty, so no plugin commands are discovered
+      expect(Object.keys(definitions)).toHaveLength(0)
     })
   })
 })

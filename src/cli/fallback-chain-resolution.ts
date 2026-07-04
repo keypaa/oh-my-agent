@@ -1,6 +1,5 @@
 import type { FallbackEntry } from "../shared/model-requirements"
 import type { ProviderAvailability } from "./model-fallback-types"
-import { CLI_AGENT_MODEL_REQUIREMENTS } from "./model-fallback-requirements"
 import { isProviderAvailable } from "./provider-availability"
 import { transformModelForProvider } from "./provider-model-id-transform"
 
@@ -22,8 +21,34 @@ export function resolveModelFromChain(
 	return null
 }
 
+const DEFAULT_SISYPHUS_FALLBACK_CHAIN: FallbackEntry[] = [
+	{
+		providers: ["anthropic", "github-copilot", "opencode", "vercel"],
+		model: "claude-opus-4-7",
+		variant: "max",
+	},
+	{ providers: ["opencode-go", "vercel"], model: "kimi-k2.6" },
+	{ providers: ["kimi-for-coding"], model: "k2p5" },
+	{
+		providers: [
+			"opencode",
+			"bailian-coding-plan",
+			"moonshotai",
+			"moonshotai-cn",
+			"firmware",
+			"ollama-cloud",
+			"aihubmix",
+			"vercel",
+		],
+		model: "kimi-k2.5",
+	},
+	{ providers: ["openai", "github-copilot", "opencode", "vercel"], model: "gpt-5.5", variant: "medium" },
+	{ providers: ["zai-coding-plan", "opencode", "bailian-coding-plan", "vercel"], model: "glm-5" },
+	{ providers: ["opencode"], model: "big-pickle" },
+]
+
 export function getSisyphusFallbackChain(): FallbackEntry[] {
-	return CLI_AGENT_MODEL_REQUIREMENTS.sisyphus.fallbackChain
+	return DEFAULT_SISYPHUS_FALLBACK_CHAIN
 }
 
 export function isAnyFallbackEntryAvailable(

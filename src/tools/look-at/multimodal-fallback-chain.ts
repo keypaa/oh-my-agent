@@ -2,7 +2,7 @@ import type { FallbackEntry } from "../../shared/model-requirements"
 import { AGENT_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
 import type { VisionCapableModel } from "../../plugin-state"
 
-const MULTIMODAL_LOOKER_REQUIREMENT = AGENT_MODEL_REQUIREMENTS["multimodal-looker"]
+const MULTIMODAL_LOOKER_REQUIREMENT = AGENT_MODEL_REQUIREMENTS["multimodal-looker"] ?? { fallbackChain: [] as FallbackEntry[] }
 
 function getFullModelKey(providerID: string, modelID: string): string {
   return `${providerID}/${modelID}`

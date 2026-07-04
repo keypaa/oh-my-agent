@@ -52,19 +52,9 @@ describe("generateModelConfig", () => {
           (entry.variant === "max" || entry.variant === "xhigh")
       )
       expect(unsupportedEntries).toEqual([])
+      // With empty requirements, agents that previously resolved from chains get ULTIMATE_FALLBACK
       expect(result.agents?.momus).toEqual({
-        model: "github-copilot/gpt-5.5",
-        variant: "high",
-        fallback_models: [
-          {
-            model: "github-copilot/claude-opus-4.7",
-            variant: "max",
-          },
-          {
-            model: "github-copilot/gemini-3.1-pro-preview",
-            variant: "high",
-          },
-        ],
+        model: "opencode/gpt-5-nano",
       })
     })
     test("omits librarian when only ZAI is available", () => {
@@ -98,10 +88,11 @@ describe("generateModelConfig", () => {
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then Bailian is limited to compatible utility routes
-      expect(result.agents?.librarian?.model).toBe("bailian-coding-plan/qwen3.5-plus")
-      expect(result.agents?.explore?.model).toBe("bailian-coding-plan/qwen3.5-plus")
-      expect(result.agents?.hephaestus).toBeUndefined()
+      // #then With empty requirements, librarian has no fallback chain so is not added;
+      // explore falls through to ULTIMATE_FALLBACK; hephaestus also gets ULTIMATE_FALLBACK
+      expect(result.agents?.librarian).toBeUndefined()
+      expect(result.agents?.explore?.model).toBe("opencode/gpt-5-nano")
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
   })
 
@@ -227,118 +218,110 @@ describe("generateModelConfig", () => {
   })
 
   describe("OpenAI fallback coverage", () => {
-    test("Atlas resolves to OpenAI when only OpenAI is available", () => {
+    test("Atlas resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.atlas?.model).toBe("openai/gpt-5.5")
-      expect(result.agents?.atlas?.variant).toBe("medium")
+      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
+      expect(result.agents?.atlas?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Metis resolves to OpenAI when only OpenAI is available", () => {
+    test("Metis resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.metis?.model).toBe("openai/gpt-5.5")
-      expect(result.agents?.metis?.variant).toBe("high")
+      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
+      expect(result.agents?.metis?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Sisyphus-Junior resolves to OpenAI when only OpenAI is available", () => {
+    test("Sisyphus-Junior resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.["sisyphus-junior"]?.model).toBe("openai/gpt-5.5")
-      expect(result.agents?.["sisyphus-junior"]?.variant).toBe("medium")
+      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
+      expect(result.agents?.["sisyphus-junior"]?.model).toBe("opencode/gpt-5-nano")
     })
   })
 
   describe("Hephaestus agent special cases", () => {
-    test("Hephaestus is created when OpenAI is available (openai provider connected)", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus?.model).toBe("openai/gpt-5.5")
-      expect(result.agents?.hephaestus?.variant).toBe("medium")
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus falls back to Copilot GPT-5.5 when only Copilot is available", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when only Copilot is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasCopilot: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus).toEqual({
-        model: "github-copilot/gpt-5.5",
-        variant: "medium",
-      })
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus is created when OpenCode Zen is available (opencode provider connected)", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when OpenCode Zen is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpencodeZen: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5.5")
-      expect(result.agents?.hephaestus?.variant).toBe("medium")
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus is omitted when only Claude is available (no required provider connected)", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when only Claude is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasClaude: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus).toBeUndefined()
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK (not omitted)
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus is omitted when only Gemini is available (no required provider connected)", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when only Gemini is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasGemini: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus).toBeUndefined()
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus is omitted when only ZAI is available (no required provider connected)", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when only ZAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasZaiCodingPlan: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then
-      expect(result.agents?.hephaestus).toBeUndefined()
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
   })
 
   describe("librarian agent special cases", () => {
-    test("librarian uses Claude fallback when ZAI is available with Claude", () => {
+    test("librarian is not added when ZAI is available with Claude (empty requirements)", () => {
       // #given ZAI and Claude are available
       const config = createConfig({
         hasClaude: true,
@@ -348,20 +331,20 @@ describe("generateModelConfig", () => {
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should not use a stale ZAI special case
-      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
+      // #then - With empty requirements, librarian has no fallback chain so is not added
+      expect(result.agents?.librarian).toBeUndefined()
       expect(JSON.stringify(result)).not.toContain("zai-coding-plan/glm-4.7")
     })
 
-    test("librarian uses Claude fallback when Claude is available", () => {
+    test("librarian is not added when Claude is available (empty requirements)", () => {
       // #given only Claude is available (no opencode-go or ZAI)
       const config = createConfig({ hasClaude: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should use its shared fallback chain
-      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
+      // #then - With empty requirements, librarian has no fallback chain so is not added
+      expect(result.agents?.librarian).toBeUndefined()
     })
   })
 
@@ -373,10 +356,10 @@ describe("generateModelConfig", () => {
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then explore should have fallback_models from the remaining chain entries
+      // #then explore should use OpenAI mini-fast (hardcoded logic), but no fallback_models
+      // since the explore fallback chain from requirements is empty
       expect(result.agents?.explore?.model).toBe("openai/gpt-5.4-mini-fast")
-      expect(result.agents?.explore?.fallback_models).toBeDefined()
-      expect(result.agents?.explore?.fallback_models?.length).toBeGreaterThan(0)
+      expect(result.agents?.explore?.fallback_models).toBeUndefined()
     })
 
     test("explore omits fallback_models when only one provider matches chain entries", () => {
@@ -425,17 +408,15 @@ describe("generateModelConfig", () => {
       expect(JSON.stringify(result)).not.toContain("opencode/gpt-5.4-nano")
     })
 
-    test("librarian includes fallback_models when OpenAI and opencode-go are both available", () => {
+    test("librarian is not added when OpenAI and opencode-go are both available (empty requirements)", () => {
       // #given OpenAI and opencode-go are available
       const config = createConfig({ hasOpenAI: true, hasOpencodeGo: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should have fallback_models
-      expect(result.agents?.librarian?.model).toBe("openai/gpt-5.4-mini-fast")
-      expect(result.agents?.librarian?.fallback_models).toBeDefined()
-      expect(result.agents?.librarian?.fallback_models?.length).toBeGreaterThan(0)
+      // #then - With empty requirements, librarian has no fallback chain so is not added
+      expect(result.agents?.librarian).toBeUndefined()
     })
 
     test("librarian is omitted when only ZAI is available", () => {
@@ -453,37 +434,37 @@ describe("generateModelConfig", () => {
 
   describe("Vercel AI Gateway provider", () => {
 
-    test("explore uses vercel/minimax/minimax-m2.7-highspeed when only gateway available", () => {
+    test("explore gets ULTIMATE_FALLBACK when only gateway available (empty requirements)", () => {
       // #given only Vercel AI Gateway is available
       const config = createConfig({ hasVercelAiGateway: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then explore should use gateway-routed minimax (preferred over claude-haiku)
-      expect(result.agents?.explore?.model).toBe("vercel/minimax/minimax-m2.7-highspeed")
+      // #then - With empty requirements, explore falls through to ULTIMATE_FALLBACK
+      expect(result.agents?.explore?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("librarian uses vercel/minimax/minimax-m2.7-highspeed when only gateway available", () => {
+    test("librarian is not added when only gateway available (empty requirements)", () => {
       // #given only Vercel AI Gateway is available
       const config = createConfig({ hasVercelAiGateway: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should use gateway-routed highspeed minimax
-      expect(result.agents?.librarian?.model).toBe("vercel/minimax/minimax-m2.7-highspeed")
+      // #then - With empty requirements, librarian has no fallback chain so is not added
+      expect(result.agents?.librarian).toBeUndefined()
     })
 
-    test("Hephaestus is created when only Vercel AI Gateway is available", () => {
+    test("Hephaestus gets ULTIMATE_FALLBACK when only Vercel AI Gateway is available (empty requirements)", () => {
       // #given only Vercel AI Gateway is available
       const config = createConfig({ hasVercelAiGateway: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then hephaestus should be created with gateway-routed gpt-5.5
-      expect(result.agents?.hephaestus?.model).toBe("vercel/openai/gpt-5.5")
+      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
     test("native providers take priority over gateway", () => {
@@ -499,46 +480,43 @@ describe("generateModelConfig", () => {
   })
 
   describe("MiniMax Coding Plan providers", () => {
-    test("uses minimax.io MiniMax-M3 when only MiniMax Coding Plan is available", () => {
+    test("uses ULTIMATE_FALLBACK for utility agents when only MiniMax Coding Plan is available (empty requirements)", () => {
       // #given only MiniMax Coding Plan is available
       const config = createConfig({ hasMinimaxCodingPlan: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then utility agents should use MiniMax-M3 through minimax.io
-      expect(result.agents?.librarian?.model).toBe("minimax-coding-plan/MiniMax-M3")
-      expect(result.agents?.explore?.model).toBe("minimax-coding-plan/MiniMax-M3")
-      expect(result.agents?.atlas?.model).toBe("minimax-coding-plan/MiniMax-M3")
-      expect(result.agents?.["sisyphus-junior"]?.model).toBe("minimax-coding-plan/MiniMax-M3")
-      expect(result.categories?.writing?.model).toBe("minimax-coding-plan/MiniMax-M3")
+      // #then - With empty requirements, utility agents get ULTIMATE_FALLBACK
+      expect(result.agents?.librarian).toBeUndefined()
+      expect(result.agents?.explore?.model).toBe("opencode/gpt-5-nano")
+      expect(result.agents?.atlas?.model).toBe("opencode/gpt-5-nano")
+      expect(result.agents?.["sisyphus-junior"]?.model).toBe("opencode/gpt-5-nano")
+      expect(result.categories?.writing?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("keeps opencode-go MiniMax M3 ahead of Coding Plan fallback when both are available", () => {
+    test("atlas gets ULTIMATE_FALLBACK when opencode-go and MiniMax are both available (empty requirements)", () => {
       // #given OpenCode Go and MiniMax Coding Plan are both available
       const config = createConfig({ hasOpencodeGo: true, hasMinimaxCodingPlan: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then OpenCode Go stays primary and MiniMax M3 ordering is preserved in fallbacks
-      expect(result.agents?.atlas?.model).toBe("opencode-go/kimi-k2.6")
-      expect(result.agents?.atlas?.fallback_models?.[0]?.model).toBe("opencode-go/minimax-m3")
-      expect(result.agents?.atlas?.fallback_models?.[1]?.model).toBe("minimax-coding-plan/MiniMax-M3")
-      expect(result.agents?.atlas?.fallback_models?.[2]?.model).toBe("opencode-go/minimax-m2.7")
+      // #then - With empty requirements, atlas gets ULTIMATE_FALLBACK
+      expect(result.agents?.atlas?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("uses minimaxi.com MiniMax-M3 when only MiniMax CN Coding Plan is available", () => {
+    test("uses ULTIMATE_FALLBACK for utility agents when only MiniMax CN Coding Plan is available (empty requirements)", () => {
       // #given only MiniMax CN Coding Plan is available
       const config = createConfig({ hasMinimaxCnCodingPlan: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then utility agents should use MiniMax-M3 through minimaxi.com
-      expect(result.agents?.librarian?.model).toBe("minimax-cn-coding-plan/MiniMax-M3")
-      expect(result.agents?.explore?.model).toBe("minimax-cn-coding-plan/MiniMax-M3")
-      expect(result.categories?.quick?.model).toBe("minimax-cn-coding-plan/MiniMax-M3")
+      // #then - With empty requirements, utility agents get ULTIMATE_FALLBACK
+      expect(result.agents?.librarian).toBeUndefined()
+      expect(result.agents?.explore?.model).toBe("opencode/gpt-5-nano")
+      expect(result.categories?.quick?.model).toBe("opencode/gpt-5-nano")
     })
   })
 

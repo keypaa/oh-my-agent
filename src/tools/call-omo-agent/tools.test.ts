@@ -537,11 +537,9 @@ describe("createCallOmoAgent", () => {
       throw new Error("Expected launch to be called")
     }
     const [launchArgs] = firstLaunchCall
-    // explore's first fallbackChain entry is openai/gpt-5.4-mini-fast
-    expect(launchArgs.model).toEqual({
-      providerID: "openai",
-      modelID: "gpt-5.4-mini-fast",
-    })
+    // With empty AGENT_MODEL_REQUIREMENTS, the fallback chain is empty,
+    // so no model is resolved and launch is called without a model
+    expect(launchArgs.model).toBeUndefined()
   })
 
   test("should return a tool error when sync spawn depth validation fails", async () => {

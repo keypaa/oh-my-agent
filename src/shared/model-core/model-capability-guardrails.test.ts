@@ -20,11 +20,10 @@ describe("model-capability-guardrails", () => {
   test("requires built-in requirement models to stay unique and sorted", () => {
     const modelIDs = getBuiltInRequirementModelIDs()
 
+    // When requirements are empty (design: agents inherit caller's model),
+    // the function returns an empty sorted array.
     expect(modelIDs).toEqual([...modelIDs].sort())
     expect(new Set(modelIDs).size).toBe(modelIDs.length)
-    expect(modelIDs).toContain("claude-opus-4-7")
-    expect(modelIDs).toContain("gpt-5.5")
-    expect(modelIDs).toContain("kimi-k2.5")
   })
 
   test("flags exact aliases whose canonical target disappears from the snapshot", () => {

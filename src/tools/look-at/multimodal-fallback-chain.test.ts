@@ -31,7 +31,7 @@ describe("buildMultimodalLookerFallbackChain", () => {
     expect(result[0].providers).toContain("openai")
   })
 
-  it("preserves hardcoded variant metadata for cache-derived entries", async () => {
+  it("no longer preserves hardcoded variant metadata when requirements are empty", async () => {
     // given
     const { buildMultimodalLookerFallbackChain } = await import("./multimodal-fallback-chain")
     const visionCapableModels = [{ providerID: "openai", modelID: "gpt-5.5" }]
@@ -39,11 +39,10 @@ describe("buildMultimodalLookerFallbackChain", () => {
     // when
     const result = buildMultimodalLookerFallbackChain(visionCapableModels)
 
-    // then
+    // then - no variant metadata preserved since requirements are empty
     expect(result[0]).toEqual({
       providers: ["openai"],
       model: "gpt-5.5",
-      variant: "medium",
     })
   })
 })

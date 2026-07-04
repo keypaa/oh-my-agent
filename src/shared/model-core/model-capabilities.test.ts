@@ -416,6 +416,10 @@ describe("getModelCapabilities", () => {
       for (const entry of requirement.fallbackChain) requirementModels.add(entry.model)
     }
 
+    // When requirements are empty (design: agents inherit caller's model),
+    // there are no models to validate against the snapshot.
+    if (requirementModels.size === 0) return
+
     for (const modelID of requirementModels) {
       const result = getModelCapabilities({
         providerID: "test-provider",

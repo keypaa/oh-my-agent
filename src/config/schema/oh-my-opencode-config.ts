@@ -30,6 +30,7 @@ import { StartWorkConfigSchema } from "./start-work"
 import { WebsearchConfigSchema } from "./websearch"
 import { ClaudeCodeConfigSchema } from "./claude-code"
 import { TmuxConfigSchema } from "./tmux"
+import { AuditLoopConfigSchema } from "./audit-loop"
 
 export const OhMyOpenCodeConfigSchema = z.object({
   $schema: z.string().optional(),
@@ -103,6 +104,8 @@ export const OhMyOpenCodeConfigSchema = z.object({
   default_mode: DefaultModeConfigSchema.optional(),
   claude_code: ClaudeCodeConfigSchema.optional(),
   tmux: TmuxConfigSchema.optional(),
+  /** Audit loop: dual-verifier completion check (the-auditor + Cold-Eyes) */
+  audit_loop: AuditLoopConfigSchema.optional(),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })

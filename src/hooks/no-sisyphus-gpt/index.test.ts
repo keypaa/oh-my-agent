@@ -115,10 +115,10 @@ describe("no-sisyphus-gpt hook", () => {
       model: { providerID: "openai", modelID: "gpt-5.5" },
     }, output)
 
-    // then - Sisyphus stays active and receives its configured GPT-5.5 variant
+    // then - Sisyphus stays active; no variant injected from (now empty) requirements chain
     expect(showToast).toHaveBeenCalledTimes(0)
     expect(output.message.agent).toBeUndefined()
-    expect(output.message.variant).toBe("medium")
+    expect(output.message.variant).toBeUndefined()
   })
 
   test("preserves selected variant for gpt-5.5 model when native Sisyphus support is used", async () => {

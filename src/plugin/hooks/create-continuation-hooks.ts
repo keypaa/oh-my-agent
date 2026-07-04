@@ -8,6 +8,7 @@ import {
   createCompactionContextInjector,
   createCompactionTodoPreserverHook,
   createAtlasHook,
+  createAuditLoopHook,
 } from "../../hooks"
 import { safeCreateHook } from "../../shared/safe-create-hook"
 import { createUnstableAgentBabysitter } from "../unstable-agent-babysitter"
@@ -19,6 +20,7 @@ export type ContinuationHooks = {
   unstableAgentBabysitter: ReturnType<typeof createUnstableAgentBabysitter> | null
   backgroundNotificationHook: ReturnType<typeof createBackgroundNotificationHook> | null
   atlasHook: ReturnType<typeof createAtlasHook> | null
+  auditLoopHook: ReturnType<typeof createAuditLoopHook> | null
 }
 
 export function createContinuationHooks(args: {
@@ -76,6 +78,14 @@ export function createContinuationHooks(args: {
         }))
     : null
 
+  const auditLoopHook = isHookEnabled("audit-loop")
+    ? safeHook("audit-loop", () =>
+        createAuditLoopHook(ctx, {
+          pluginConfig,
+          directory: ctx.directory,
+        }))
+    : null
+
   return {
     stopContinuationGuard,
     compactionContextInjector,
@@ -83,5 +93,6 @@ export function createContinuationHooks(args: {
     unstableAgentBabysitter,
     backgroundNotificationHook,
     atlasHook,
+    auditLoopHook,
   }
 }

@@ -311,8 +311,8 @@ describe("createBuiltinAgents with model overrides", () => {
     }
   })
 
-   test("Oracle uses connected provider fallback when availableModels is empty and cache exists", async () => {
-     // #given - connected providers cache has "openai", which matches oracle's first fallback entry
+   test("Oracle uses system default when availableModels is empty and cache exists", async () => {
+     // #given - with empty AGENT_MODEL_REQUIREMENTS, connected providers cache no longer drives model resolution
      const providerModelsSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
      const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
      const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(["openai"])
@@ -320,10 +320,8 @@ describe("createBuiltinAgents with model overrides", () => {
      // #when
      const agents = await createBuiltinAgents([], {}, undefined, TEST_DEFAULT_MODEL, undefined, undefined, [], undefined, undefined)
 
-     // #then - oracle resolves via connected cache fallback to openai/gpt-5.5 (not system default)
-     expect(agents.oracle.model).toBe("openai/gpt-5.5")
-     expect(agents.oracle.reasoningEffort).toBe("medium")
-     expect(agents.oracle.thinking).toBeUndefined()
+     // #then - oracle resolves to system default (no fallback chain with empty requirements)
+     expect(agents.oracle.model).toBe(TEST_DEFAULT_MODEL)
      cacheSpy.mockRestore?.()
      providerModelsSpy.mockRestore()
      fetchSpy.mockRestore()
@@ -637,8 +635,8 @@ describe("createBuiltinAgents with model overrides", () => {
 })
 
 describe("createBuiltinAgents without systemDefaultModel", () => {
-   test("agents created via connected cache fallback even without systemDefaultModel", async () => {
-     // #given - connected cache has "openai", which matches oracle's fallback chain
+   test("agents are not created without systemDefaultModel when requirements are empty", async () => {
+     // #given - with empty AGENT_MODEL_REQUIREMENTS, no fallback chain drives resolution
      const providerModelsSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
      const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
      const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(["openai"])
@@ -646,16 +644,15 @@ describe("createBuiltinAgents without systemDefaultModel", () => {
      // #when
      const agents = await createBuiltinAgents([], {}, undefined, undefined)
 
-     // #then - connected cache enables model resolution despite no systemDefaultModel
-      expect(agents.oracle).toBeDefined()
-      expect(agents.oracle.model).toBe("openai/gpt-5.5")
+     // #then - without systemDefaultModel and with empty requirements, oracle cannot resolve a model
+      expect(agents.oracle).toBeUndefined()
       cacheSpy.mockRestore?.()
      providerModelsSpy.mockRestore()
      fetchSpy.mockRestore()
    })
 
-  test("oracle is created on first run when no cache and no systemDefaultModel", async () => {
-    // #given
+  test("oracle is not created on first run when no cache and no systemDefaultModel", async () => {
+    // #given - with empty AGENT_MODEL_REQUIREMENTS, no fallback chain exists for oracle
     const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(null)
     const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
 
@@ -663,17 +660,16 @@ describe("createBuiltinAgents without systemDefaultModel", () => {
       // #when
       const agents = await createBuiltinAgents([], {}, undefined, undefined)
 
-      // #then
-      expect(agents.oracle).toBeDefined()
-      expect(agents.oracle.model).toBe("openai/gpt-5.5")
+      // #then - oracle cannot resolve without systemDefaultModel and empty requirements
+      expect(agents.oracle).toBeUndefined()
     } finally {
       fetchSpy.mockRestore()
       cacheSpy.mockRestore()
     }
   })
 
-  test("sisyphus created via connected cache fallback when all providers available", async () => {
-    // #given
+  test("sisyphus is not created without systemDefaultModel when requirements are empty", async () => {
+    // #given - with empty AGENT_MODEL_REQUIREMENTS, connected cache no longer drives resolution
     const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue([
       "anthropic", "kimi-for-coding", "opencode", "zai-coding-plan"
     ])
@@ -688,12 +684,11 @@ describe("createBuiltinAgents without systemDefaultModel", () => {
     )
 
     try {
-      // #when
+      // #when - no systemDefaultModel
       const agents = await createBuiltinAgents([], {}, undefined, undefined, undefined, undefined, [], {})
 
-      // #then
-      expect(agents.sisyphus).toBeDefined()
-      expect(agents.sisyphus.model).toBe("anthropic/claude-opus-4-7")
+      // #then - sisyphus cannot resolve without systemDefaultModel and empty requirements
+      expect(agents.sisyphus).toBeUndefined()
     } finally {
       cacheSpy.mockRestore()
       fetchSpy.mockRestore()
@@ -802,8 +797,8 @@ describe("createBuiltinAgents with requiresProvider gating (hephaestus)", () => 
     }
   })
 
-  test("hephaestus is created on first run when no availableModels or cache exist", async () => {
-    // #given
+  test("hephaestus is not created on first run when system default is not a GPT model", async () => {
+    // #given - with empty requirements, system default "anthropic/claude-opus-4-7" is not a supported hephaestus model
     const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(null)
     const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
 
@@ -811,9 +806,8 @@ describe("createBuiltinAgents with requiresProvider gating (hephaestus)", () => 
       // #when
       const agents = await createBuiltinAgents([], {}, undefined, TEST_DEFAULT_MODEL, undefined, undefined, [], {})
 
-      // #then
-      expect(agents.hephaestus).toBeDefined()
-      expect(agents.hephaestus.model).toBe("openai/gpt-5.5")
+      // #then - hephaestus requires GPT models; anthropic/claude-opus-4-7 is not supported
+      expect(agents.hephaestus).toBeUndefined()
     } finally {
       cacheSpy.mockRestore()
       fetchSpy.mockRestore()
@@ -1067,8 +1061,9 @@ describe("createBuiltinAgents with requiresAnyModel gating (sisyphus)", () => {
     }
   })
 
-  test("sisyphus is not created when no fallback model is available and provider not connected", async () => {
-    // #given - only venice/deepseek-v3.2 available, not in sisyphus fallback chain
+  test("sisyphus is created with system default when no fallback chain matches", async () => {
+    // #given - with empty requirements, requiresAnyModel gate always passes;
+    // sisyphus resolves to system default regardless of available models
     const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(
       new Set(["venice/deepseek-v3.2"])
     )
@@ -1078,8 +1073,9 @@ describe("createBuiltinAgents with requiresAnyModel gating (sisyphus)", () => {
       // #when
       const agents = await createBuiltinAgents([], {}, undefined, TEST_DEFAULT_MODEL, undefined, undefined, [], {})
 
-      // #then
-      expect(agents.sisyphus).toBeUndefined()
+      // #then - sisyphus is created with system default model
+      expect(agents.sisyphus).toBeDefined()
+      expect(agents.sisyphus.model).toBe(TEST_DEFAULT_MODEL)
     } finally {
       fetchSpy.mockRestore()
       cacheSpy.mockRestore()
@@ -1138,22 +1134,18 @@ describe("createBuiltinAgents with requiresAnyModel gating (sisyphus)", () => {
     }
   })
 
-  test("atlas and metis resolve to OpenAI in an OpenAI-only environment without a system default", async () => {
-    // #given
+  test("atlas and metis are not created without system default when requirements are empty", async () => {
+    // #given - with empty AGENT_MODEL_REQUIREMENTS, no fallback chain resolves without systemDefaultModel
     const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set(["openai/gpt-5.5"]))
     const cacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(["openai"])
 
     try {
-      // #when
+      // #when - no systemDefaultModel
       const agents = await createBuiltinAgents([], {}, undefined, undefined, undefined, undefined, [], {})
 
-      // #then
-      expect(agents.atlas).toBeDefined()
-      expect(agents.atlas.model).toBe("openai/gpt-5.5")
-      expect(agents.atlas.variant).toBe("medium")
-      expect(agents.metis).toBeDefined()
-      expect(agents.metis.model).toBe("openai/gpt-5.5")
-      expect(agents.metis.variant).toBe("high")
+      // #then - atlas and metis cannot resolve without systemDefaultModel and empty requirements
+      expect(agents.atlas).toBeUndefined()
+      expect(agents.metis).toBeUndefined()
     } finally {
       fetchSpy.mockRestore()
       cacheSpy.mockRestore()
@@ -1649,28 +1641,29 @@ describe("Deadlock prevention - fetchAvailableModels must not receive client", (
      cacheSpy.mockRestore?.()
    })
   test("Hephaestus variant override respects user config over hardcoded default", async () => {
-    // #given - user provides variant in config
+    // #given - user provides model and variant in config
     const providerModelsSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
     const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
     const overrides = {
-      hephaestus: { variant: "high" },
+      hephaestus: { model: "openai/gpt-5.5", variant: "high" },
     }
 
     // #when
     const agents = await createBuiltinAgents([], overrides, undefined, TEST_DEFAULT_MODEL)
 
-    // #then - user variant takes precedence over hardcoded "medium"
+    // #then - user variant takes precedence over default "medium"
     expect(agents.hephaestus).toBeDefined()
+    expect(agents.hephaestus.model).toBe("openai/gpt-5.5")
     expect(agents.hephaestus.variant).toBe("high")
     providerModelsSpy.mockRestore()
     fetchSpy.mockRestore()
   })
 
   test("Hephaestus uses default variant when no user override provided", async () => {
-    // #given - no variant override in config
+    // #given - no variant override in config, but need a GPT model available
     const providerModelsSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
     const connectedSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(null)
-    const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set())
+    const fetchSpy = spyOn(shared, "fetchAvailableModels").mockResolvedValue(new Set(["openai/gpt-5.5"]))
     const overrides = {}
 
     // #when

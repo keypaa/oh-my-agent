@@ -69,12 +69,12 @@ describe("generateModelConfig OpenAI-only model catalog", () => {
     // #when
     const result = generateModelConfig(config)
 
-    // #then
+    // #then - OpenAI-only catalog is not applied (opencodeGo disables it)
+    // explore is hardcoded to openai model; librarian not created with empty requirements (no fallback chain)
     expect(result.agents?.explore).toMatchObject({ model: "openai/gpt-5.4-mini-fast" })
-    expect(result.agents?.librarian).toMatchObject({ model: "openai/gpt-5.4-mini-fast" })
+    expect(result.agents?.librarian).toBeUndefined()
     expect(result.agents?.explore).not.toMatchObject({ variant: "medium" })
-    expect(result.agents?.librarian).not.toMatchObject({ variant: "medium" })
-    expect(result.categories?.quick).toMatchObject({ model: "openai/gpt-5.4-mini" })
+    expect(result.categories?.quick).toEqual({ model: "opencode/gpt-5-nano" })
   })
 
   for (const { name, overrides } of mixedProviderCases) {

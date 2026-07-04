@@ -2,7 +2,7 @@ import type { AgentConfig } from "@opencode-ai/sdk"
 import type { AgentOverrides } from "../types"
 import type { CategoryConfig } from "../../config/schema"
 import type { AvailableAgent, AvailableCategory, AvailableSkill } from "../dynamic-agent-prompt-builder"
-import { AGENT_MODEL_REQUIREMENTS, isAnyProviderConnected } from "../../shared"
+import { isAnyProviderConnected } from "../../shared"
 import { log } from "../../shared/logger"
 import { createHephaestusAgent, isHephaestusSupportedModel } from "../hephaestus"
 import { applyEnvironmentContext } from "./environment-context"
@@ -42,32 +42,33 @@ export function maybeCreateHephaestusConfig(input: {
   if (disabledAgents.includes("hephaestus")) return undefined
 
   const hephaestusOverride = agentOverrides["hephaestus"]
-  const hephaestusRequirement = AGENT_MODEL_REQUIREMENTS["hephaestus"]
   const hasHephaestusExplicitConfig = hephaestusOverride !== undefined
 
+  // Hephaestus requires an OpenAI-compatible provider (GPT models only).
+  // With empty requirements, provider gating is checked directly.
+  const HEPHAESTUS_REQUIRED_PROVIDERS = ["openai", "github-copilot", "opencode", "vercel"]
   const hasRequiredProvider =
-    !hephaestusRequirement?.requiresProvider ||
     hasHephaestusExplicitConfig ||
     isFirstRunNoCache ||
-    isAnyProviderConnected(hephaestusRequirement.requiresProvider, availableModels)
+    isAnyProviderConnected(HEPHAESTUS_REQUIRED_PROVIDERS, availableModels)
 
   if (!hasRequiredProvider) {
     log("[agent-registration] Agent skipped: required provider not connected", {
       agent: "hephaestus",
-      requiredProvider: hephaestusRequirement?.requiresProvider,
+      requiredProvider: HEPHAESTUS_REQUIRED_PROVIDERS,
     })
     return undefined
   }
 
   let hephaestusResolution = applyModelResolution({
     userModel: hephaestusOverride?.model,
-    requirement: hephaestusRequirement,
+    requirement: undefined,
     availableModels,
     systemDefaultModel,
   })
 
-  if (isFirstRunNoCache && !hephaestusOverride?.model) {
-    hephaestusResolution = getFirstFallbackModel(hephaestusRequirement)
+  if (isFirstRunNoCache && !hephaestusOverride?.model && !hephaestusResolution) {
+    hephaestusResolution = getFirstFallbackModel(undefined)
   }
 
   if (!hephaestusResolution) {
@@ -77,14 +78,29 @@ export function maybeCreateHephaestusConfig(input: {
     })
     return undefined
   }
-  const { model: hephaestusModel, variant: hephaestusResolvedVariant } = hephaestusResolution
+  let hephaestusModel = hephaestusResolution.model
+  let hephaestusResolvedVariant = hephaestusResolution.variant
 
   if (!isHephaestusSupportedModel(hephaestusModel)) {
-    log("[agent-registration] Agent skipped: unsupported Hephaestus model", {
-      agent: "hephaestus",
-      configuredModel: hephaestusModel,
+    // With empty requirements, the system default may not be supported.
+    // Try to find a supported model from available models.
+    const fallbackModel = [...availableModels].find((m) => {
+      const parts = m.split("/")
+      return parts.length >= 2 && isHephaestusSupportedModel(parts.slice(1).join("/"))
     })
-    return undefined
+    if (fallbackModel) {
+      hephaestusModel = fallbackModel
+      hephaestusResolvedVariant = undefined
+      log("[agent-registration] Hephaestus using fallback model from available models", {
+        model: fallbackModel,
+      })
+    } else {
+      log("[agent-registration] Agent skipped: unsupported Hephaestus model", {
+        agent: "hephaestus",
+        configuredModel: hephaestusModel,
+      })
+      return undefined
+    }
   }
 
   let hephaestusConfig = createHephaestusAgent(

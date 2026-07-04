@@ -24,6 +24,16 @@ export type { GeneratedOmoConfig } from "./model-fallback-types"
 export const ULTIMATE_FALLBACK = "opencode/gpt-5-nano"
 const SCHEMA_URL = "https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/dev/assets/oh-my-agent.schema.json"
 
+const DEFAULT_AGENT_NAMES = [
+  "sisyphus", "hephaestus", "oracle", "librarian", "explore",
+  "multimodal-looker", "prometheus", "metis", "momus", "atlas",
+  "sisyphus-junior",
+]
+const DEFAULT_CATEGORY_NAMES = [
+  "visual-engineering", "ultrabrain", "deep", "artistry", "quick",
+  "unspecified-low", "unspecified-high", "writing",
+]
+
 type CompatibleFallbackSettings = {
   variant?: string
   reasoningEffort?: FallbackModelObject["reasoningEffort"]
@@ -165,15 +175,21 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
     avail.minimaxCodingPlan ||
     avail.vercelAiGateway
   if (!hasAnyProvider) {
+    const agentNames = Object.keys(CLI_AGENT_MODEL_REQUIREMENTS).length > 0
+      ? Object.entries(CLI_AGENT_MODEL_REQUIREMENTS)
+          .filter(([role, req]) => !(role === "sisyphus" && req.requiresAnyModel))
+          .map(([role]) => role)
+      : DEFAULT_AGENT_NAMES.filter((name) => name !== "sisyphus")
+    const categoryNames = Object.keys(CLI_CATEGORY_MODEL_REQUIREMENTS).length > 0
+      ? Object.keys(CLI_CATEGORY_MODEL_REQUIREMENTS)
+      : DEFAULT_CATEGORY_NAMES
     return {
       $schema: SCHEMA_URL,
       agents: Object.fromEntries(
-        Object.entries(CLI_AGENT_MODEL_REQUIREMENTS)
-          .filter(([role, req]) => !(role === "sisyphus" && req.requiresAnyModel))
-          .map(([role]) => [role, { model: ULTIMATE_FALLBACK }])
+        agentNames.map((role) => [role, { model: ULTIMATE_FALLBACK }])
       ),
       categories: Object.fromEntries(
-        Object.keys(CLI_CATEGORY_MODEL_REQUIREMENTS).map((cat) => [cat, { model: ULTIMATE_FALLBACK }])
+        categoryNames.map((cat) => [cat, { model: ULTIMATE_FALLBACK }])
       ),
     }
   }
@@ -181,12 +197,15 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
   const agents: Record<string, AgentConfig> = {}
   const categories: Record<string, CategoryConfig> = {}
 
-  for (const [role, req] of Object.entries(CLI_AGENT_MODEL_REQUIREMENTS)) {
+  for (const role of DEFAULT_AGENT_NAMES) {
+    const req = CLI_AGENT_MODEL_REQUIREMENTS[role]
+
     if (role === "librarian") {
-      const resolved = resolveModelFromChain(req.fallbackChain, avail)
+      const fallbackChain = req?.fallbackChain ?? []
+      const resolved = resolveModelFromChain(fallbackChain, avail)
       if (resolved) {
         const agentConfig = toCompatibleModelConfig(resolved.model, { variant: resolved.variant })
-        agents[role] = attachFallbackModels(agentConfig, req.fallbackChain, avail)
+        agents[role] = attachFallbackModels(agentConfig, fallbackChain, avail)
       }
       continue
     }
@@ -204,29 +223,36 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
       } else if (avail.copilot) {
         agentConfig = { model: "github-copilot/gpt-5-mini" }
       } else {
-        const resolved = resolveModelFromChain(req.fallbackChain, avail)
+        const fallbackChain = req?.fallbackChain ?? []
+        const resolved = resolveModelFromChain(fallbackChain, avail)
         if (resolved) {
-          const variant = resolved.variant ?? req.variant
+          const variant = resolved.variant ?? req?.variant
           agentConfig = toCompatibleModelConfig(resolved.model, { variant })
         } else {
           agentConfig = { model: "opencode/gpt-5-nano" }
         }
       }
-      agents[role] = attachAllFallbackModels(agentConfig, req.fallbackChain, avail)
+      const fallbackChain = req?.fallbackChain ?? []
+      agents[role] = attachAllFallbackModels(agentConfig, fallbackChain, avail)
       continue
     }
 
     if (role === "sisyphus") {
       const fallbackChain = getSisyphusFallbackChain()
-      if (req.requiresAnyModel && !isAnyFallbackEntryAvailable(fallbackChain, avail)) {
+      if (req?.requiresAnyModel && !isAnyFallbackEntryAvailable(fallbackChain, avail)) {
         continue
       }
       const resolved = resolveModelFromChain(fallbackChain, avail)
       if (resolved) {
-        const variant = resolved.variant ?? req.variant
+        const variant = resolved.variant ?? req?.variant
         const agentConfig = toCompatibleModelConfig(resolved.model, { variant })
         agents[role] = attachFallbackModels(agentConfig, fallbackChain, avail)
       }
+      continue
+    }
+
+    if (!req) {
+      agents[role] = { model: ULTIMATE_FALLBACK }
       continue
     }
 
@@ -247,11 +273,18 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
     }
   }
 
-  for (const [cat, req] of Object.entries(CLI_CATEGORY_MODEL_REQUIREMENTS)) {
+  for (const cat of DEFAULT_CATEGORY_NAMES) {
+    const req = CLI_CATEGORY_MODEL_REQUIREMENTS[cat]
+
+    if (!req) {
+      categories[cat] = { model: ULTIMATE_FALLBACK }
+      continue
+    }
+
     // Special case: unspecified-high downgrades to unspecified-low when not isMaxPlan
     const fallbackChain =
       cat === "unspecified-high" && !avail.isMaxPlan
-        ? CLI_CATEGORY_MODEL_REQUIREMENTS["unspecified-low"].fallbackChain
+        ? (CLI_CATEGORY_MODEL_REQUIREMENTS["unspecified-low"]?.fallbackChain ?? req.fallbackChain)
         : req.fallbackChain
 
     if (req.requiresModel && !isRequiredModelAvailable(req.requiresModel, req.fallbackChain, avail)) {

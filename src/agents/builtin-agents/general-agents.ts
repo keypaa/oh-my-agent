@@ -92,7 +92,7 @@ export function collectPendingBuiltinAgents(input: {
           configuredModel: override.model,
         })
         resolution = { model: override.model, provenance: "override" as const }
-      } else {
+      } else if (_isFirstRunNoCache) {
         resolution = getFirstFallbackModel(requirement)
       }
     }

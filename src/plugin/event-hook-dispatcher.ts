@@ -64,6 +64,7 @@ export function createEventHookDispatcher(hooks: CreatedHooks, runEventHookSafel
     await runEventHookSafely("compactionTodoPreserver", hooks.compactionTodoPreserver?.event, input);
     await runEventHookSafely("writeExistingFileGuard", hooks.writeExistingFileGuard?.event, input);
     await runEventHookSafely("atlasHook", hooks.atlasHook?.handler, input);
+    await runEventHookSafely("auditLoopHook", hooks.auditLoopHook?.event, input);
     await runEventHookSafely("autoSlashCommand", hooks.autoSlashCommand?.event, input);
   };
 }

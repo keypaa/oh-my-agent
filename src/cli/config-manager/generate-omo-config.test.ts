@@ -88,8 +88,10 @@ describe("generateOmoConfig - model fallback system", () => {
     const result = generateOmoConfig(config)
 
     //#then
-    expect((result.agents as Record<string, { model: string }>).librarian.model).toBe("anthropic/claude-haiku-4-5")
+    // librarian is not added when requirements are empty (no fallback chain to resolve from)
+    expect((result.agents as Record<string, { model: string }>).librarian).toBeUndefined()
     expect(JSON.stringify(result)).not.toContain("zai-coding-plan/glm-4.7")
+    // sisyphus still uses its own hardcoded fallback chain
     expect((result.agents as Record<string, { model: string }>).sisyphus.model).toBe("anthropic/claude-opus-4-7")
   })
 
@@ -119,8 +121,9 @@ describe("generateOmoConfig - model fallback system", () => {
     //#then
     expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.model).toBe("openai/gpt-5.5")
     expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.variant).toBe("medium")
-    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("openai/gpt-5.5")
-    expect((result.agents as Record<string, { model: string }>)['multimodal-looker'].model).toBe("openai/gpt-5.5")
+    // oracle and multimodal-looker get ULTIMATE_FALLBACK since requirements are empty
+    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("opencode/gpt-5-nano")
+    expect((result.agents as Record<string, { model: string }>)['multimodal-looker'].model).toBe("opencode/gpt-5-nano")
   })
 
   test("adds fallback_models when multiple providers are available", () => {
@@ -157,6 +160,7 @@ describe("generateOmoConfig - model fallback system", () => {
     }>
 
     //#then
+    // sisyphus still uses its hardcoded fallback chain
     expect(agents.sisyphus.model).toBe("anthropic/claude-opus-4-7")
     expect(agents.sisyphus.fallback_models).toEqual([
       {
@@ -164,13 +168,9 @@ describe("generateOmoConfig - model fallback system", () => {
         variant: "medium",
       },
     ])
-    expect(categories.deep.model).toBe("openai/gpt-5.5")
-    expect(categories.deep.fallback_models).toEqual([
-      {
-        model: "anthropic/claude-opus-4-7",
-        variant: "max",
-      },
-    ])
+    // categories get ULTIMATE_FALLBACK since requirements are empty
+    expect(categories.deep.model).toBe("opencode/gpt-5-nano")
+    expect(categories.deep.fallback_models).toBeUndefined()
   })
 
   test("uses haiku for explore when Claude max20", () => {
