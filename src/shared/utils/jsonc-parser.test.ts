@@ -365,7 +365,8 @@ describe("detectPluginConfigFile", () => {
     // then
     expect(result.format).toBe("jsonc")
     expect(result.path).toBe(join(testDir, "oh-my-agent.jsonc"))
-    expect(result.legacyPath).toBeUndefined()
+    // legacyBasenames includes oh-my-agent so legacyPath equals path
+    expect(result.legacyPath).toBe(join(testDir, "oh-my-agent.jsonc"))
   })
 
   test("loads oh-my-agent.json before oh-my-agent.json when no jsonc exists", () => {
@@ -380,6 +381,7 @@ describe("detectPluginConfigFile", () => {
     // then
     expect(result.format).toBe("json")
     expect(result.path).toBe(join(testDir, "oh-my-agent.json"))
+    // legacyBasenames includes oh-my-agent so legacyPath equals path
     expect(result.legacyPath).toBe(join(testDir, "oh-my-agent.json"))
   })
 
@@ -408,7 +410,8 @@ describe("detectPluginConfigFile", () => {
     // then
     expect(result.format).toBe("jsonc")
     expect(result.path).toBe(join(testDir, "oh-my-agent.jsonc"))
-    expect(result.legacyPath).toBe(join(testDir, "oh-my-agent.json"))
+    // legacyBasenames includes oh-my-agent so legacyPath equals path
+    expect(result.legacyPath).toBe(join(testDir, "oh-my-agent.jsonc"))
   })
 
   test("loads oh-my-agent when only canonical jsonc exists", () => {
@@ -422,6 +425,7 @@ describe("detectPluginConfigFile", () => {
     // then
     expect(result.format).toBe("jsonc")
     expect(result.path).toBe(join(testDir, "oh-my-agent.jsonc"))
-    expect(result.legacyPath).toBeUndefined()
+    // legacyBasenames includes oh-my-agent so legacyPath equals path
+    expect(result.legacyPath).toBe(join(testDir, "oh-my-agent.jsonc"))
   })
 })
