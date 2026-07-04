@@ -17,27 +17,27 @@ export const ultraworkPromptVariants = {
   planner: {
     kind: "bundled",
     content: plannerPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/planner.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/planner.md",
   },
   gpt: {
     kind: "bundled",
     content: gptPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/gpt.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/gpt.md",
   },
   gemini: {
     kind: "bundled",
     content: geminiPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/gemini.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/gemini.md",
   },
   glm: {
     kind: "bundled",
     content: glmPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/glm.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/glm.md",
   },
   default: {
     kind: "bundled",
     content: defaultPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/default.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/default.md",
   },
 } satisfies VariantTable
 
@@ -45,6 +45,6 @@ export const codexUltraworkPromptVariants = {
   codex: {
     kind: "bundled",
     content: codexPrompt,
-    filePath: "packages/prompts-core/prompts/ultrawork/codex.md",
+    filePath: "src/shared/prompts-core/prompts/ultrawork/codex.md",
   },
 } satisfies VariantTable

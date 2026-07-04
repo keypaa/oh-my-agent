@@ -5,6 +5,6 @@ export const prometheusPromptVariants = {
   default: {
     kind: "bundled",
     content: defaultPrompt,
-    filePath: "packages/prompts-core/prompts/prometheus/default.md",
+    filePath: "src/shared/prompts-core/prompts/prometheus/default.md",
   },
 } satisfies VariantTable

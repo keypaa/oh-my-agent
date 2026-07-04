@@ -3,21 +3,21 @@ import { join, relative } from "node:path"
 import { describe, expect, test } from "bun:test"
 
 const corePackages = [
-  "packages/utils",
-  "packages/model-core",
-  "packages/delegate-core",
-  "packages/prompts-core",
-  "packages/rules-engine",
-  "packages/agents-md-core",
-  "packages/lsp-core",
-  "packages/mcp-stdio-core",
-  "packages/mcp-client-core",
-  "packages/comment-checker-core",
-  "packages/hashline-core",
-  "packages/team-core",
-  "packages/boulder-state",
-  "packages/telemetry-core",
-  "packages/skills-loader-core",
+  "src/shared/utils",
+  "src/shared/model-core",
+  "src/shared/delegate-core",
+  "src/shared/prompts-core",
+  "src/shared/rules-engine",
+  "src/shared/agents-md-core",
+  "src/shared/lsp-core",
+  "src/shared/mcp-stdio-core",
+  "src/shared/mcp-client-core",
+  "src/shared/comment-checker-core",
+  "src/shared/hashline-core",
+  "src/shared/team-core",
+  "src/shared/boulder-state",
+  "src/shared/telemetry-core",
+  "src/shared/skills-loader-core",
 ] as const
 
 type ForbiddenSourcePattern = {
@@ -31,7 +31,7 @@ const forbiddenSourcePatterns: readonly ForbiddenSourcePattern[] = [
   { pattern: /plugin\/components/ },
   {
     pattern: /\b(?:SessionStart|UserPromptSubmit|PreToolUse|PostToolUse|PostCompact|Stop|SubagentStop)\b/,
-    allowPackagePaths: ["packages/claude-code-compat-core"],
+    allowPackagePaths: ["src/shared/claude-code-compat-core"],
   },
   { pattern: /\bsession\.prompt(?:Async)?\s*\(/ },
 ] as const
@@ -84,23 +84,6 @@ describe("shared core extraction guardrails", () => {
         if (!allowedByPackage && forbidden.pattern.test(source)) {
           offenders.push(`${relativeFilePath} matches ${forbidden.pattern}`)
         }
-      }
-    }
-
-    // then
-    expect(offenders).toEqual([])
-  })
-
-  test("#given core package manifests #when scanned #then they do not depend on harness adapters", async () => {
-    // given
-    const packageJsonFiles = corePackages.map((packagePath) => join(packagePath, "package.json"))
-
-    // when
-    const offenders: string[] = []
-    for (const file of packageJsonFiles) {
-      const manifest = await readFile(file, "utf8")
-      if (manifest.includes("@opencode-ai/") || manifest.includes("@oh-my-opencode/omo-codex")) {
-        offenders.push(toPosixPath(relative(process.cwd(), file)))
       }
     }
 

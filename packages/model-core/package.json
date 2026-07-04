@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "types": "./src/index.ts",
-  "name": "@oh-my-opencode/model-core",
-  "main": "./src/index.ts"
-}

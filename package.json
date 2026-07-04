@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "oh-my-agent": "bin/oh-my-opencode.js",
-    "oma": "bin/oh-my-opencode.js"
+    "oh-my-agent": "bin/oh-my-agent.js",
+    "oma": "bin/oh-my-agent.js"
   },
   "files": [
     "dist",
@@ -18,8 +18,6 @@
     ".agents/command",
     ".agents/skills",
     "packages/lsp-tools-mcp/package.json",
-    "packages/lsp-core/package.json",
-    "packages/lsp-core/src",
     "packages/lsp-tools-mcp/dist",
     "packages/lsp-daemon/package.json",
     "packages/lsp-daemon/dist",

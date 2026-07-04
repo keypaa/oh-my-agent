@@ -97,7 +97,7 @@ describe("shared builtin skill extraction", () => {
 
   test("#given checked-in frontend builtin skill artifact #when compared to shared source #then it stays byte-equivalent", async () => {
     const sharedSkill = await Bun.file("packages/shared-skills/skills/frontend/SKILL.md").text()
-    const checkedInArtifact = await Bun.file("packages/skills-loader-core/src/features/builtin-skills/frontend/SKILL.md").text()
+    const checkedInArtifact = await Bun.file("src/shared/skills-loader-core/features/builtin-skills/frontend/SKILL.md").text()
 
     expect(checkedInArtifact).toBe(sharedSkill)
   })

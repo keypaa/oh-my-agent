@@ -5,7 +5,7 @@ import { codexUltraworkPromptVariants, ultraworkPromptVariants } from "./index"
 describe("ultrawork prompt variants", () => {
   test("#given package surface #when inspected #then OpenCode and Codex ultrawork variants are exported", () => {
     // given
-    const codexPromptPath = "packages/prompts-core/prompts/ultrawork/codex.md"
+    const codexPromptPath = "src/shared/prompts-core/prompts/ultrawork/codex.md"
 
     // when
     const ultraworkVariantNames = Object.keys(ultraworkPromptVariants)

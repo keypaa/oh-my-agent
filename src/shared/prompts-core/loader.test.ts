@@ -11,7 +11,7 @@ const fixtureSource: PromptSource = {
 const bundledSource: BundledPromptSource = {
   kind: "bundled",
   content: "Bundled prompt body with {A}, {B}, and {C}.\n",
-  filePath: "packages/prompts-core/prompts/test/default.md",
+  filePath: "src/shared/prompts-core/prompts/test/default.md",
 }
 
 class ResolverFailureError extends Error {
@@ -111,7 +111,7 @@ describe("loadPrompt", () => {
     })
 
     expect(prompt.body).toBe("Bundled prompt body with Alpha, Beta, and Gamma.\n")
-    expect(prompt.filePath).toBe("packages/prompts-core/prompts/test/default.md")
+    expect(prompt.filePath).toBe("src/shared/prompts-core/prompts/test/default.md")
   })
 
   test("#given bundled prompt source #when using sync loader #then returns synchronously", () => {
@@ -123,7 +123,7 @@ describe("loadPrompt", () => {
     })
 
     expect(prompt.body).toBe("Bundled prompt body with Alpha, {B}, and {C}.\n")
-    expect(prompt.filePath).toBe("packages/prompts-core/prompts/test/default.md")
+    expect(prompt.filePath).toBe("src/shared/prompts-core/prompts/test/default.md")
   })
 
   test("#given injection resolver throws #then propagates the error", async () => {

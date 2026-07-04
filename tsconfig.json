@@ -9,6 +9,7 @@
     "rootDir": ".",
     "strict": true,
     "allowArbitraryExtensions": true,
+    "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -48,7 +49,9 @@
       "#shared/tmux-core/*": ["./src/shared/tmux-core/*"],
       "@oh-my-opencode/claude-code-compat-core/*": ["./src/shared/claude-code-compat-core/*"],
       "@oh-my-opencode/mcp-stdio-core": ["./src/shared/mcp-stdio-core/index.ts"],
-      "@oh-my-opencode/mcp-stdio-core/*": ["./src/shared/mcp-stdio-core/*"]
+      "@oh-my-opencode/mcp-stdio-core/*": ["./src/shared/mcp-stdio-core/*"],
+      "@oh-my-opencode/shared-skills": ["./packages/shared-skills/index.mjs"],
+      "@oh-my-opencode/utils": ["./src/shared/utils/index.ts"]
     }
   },
   "include": ["src/**/*"],
