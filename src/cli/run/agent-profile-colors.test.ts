@@ -1,5 +1,5 @@
 import { describe, expect, it, mock } from "bun:test"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { loadAgentProfileColors } from "./agent-profile-colors"
 
 describe("loadAgentProfileColors", () => {

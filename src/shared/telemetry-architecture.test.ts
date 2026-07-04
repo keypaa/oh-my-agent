@@ -9,7 +9,6 @@ import {
 } from "#shared/telemetry-core"
 import { createOpencodeTelemetryProductConfig } from "./telemetry-product-identity"
 
-const REPO_ROOT = join(import.meta.dir, "../../..", "..")
 const TELEMETRY_CORE_PACKAGE = "#shared/telemetry-core"
 
 function readText(path: string): string {
@@ -19,7 +18,7 @@ function readText(path: string): string {
 describe("omo-opencode telemetry architecture", () => {
   it("uses telemetry-core as the PostHog implementation boundary", () => {
     // given
-    const posthogSource = readText(join(REPO_ROOT, "packages", "omo-opencode", "src", "shared", "posthog.ts"))
+    const posthogSource = readText(join(import.meta.dir, "posthog.ts"))
 
     // when / then
     expect(posthogSource).toContain(TELEMETRY_CORE_PACKAGE)

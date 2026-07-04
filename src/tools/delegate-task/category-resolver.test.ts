@@ -6,7 +6,7 @@ import type { DelegatedModelConfig } from "./types"
 import type { CategoryConfig } from "../../config/schema"
 import type { ExecutorContext } from "./executor-types"
 import * as connectedProvidersCache from "../../shared/connected-providers-cache"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("resolveCategoryExecution", () => {
 	let connectedProvidersSpy: ReturnType<typeof spyOn> | undefined

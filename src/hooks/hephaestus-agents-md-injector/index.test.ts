@@ -5,7 +5,7 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { afterEach, describe, expect, test } from "bun:test"
 import { getAgentDisplayName } from "../../shared/agent-display-names"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createHephaestusAgentsMdInjectorHook } from "./index"
 
 const HEPHAESTUS_DISPLAY = getAgentDisplayName("hephaestus")

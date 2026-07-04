@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { getErrorMessage } from "./error-classifier"
 import type { RuntimeFallbackPluginInput } from "./types"
 import { hasVisibleAssistantResponse } from "./visible-assistant-response"

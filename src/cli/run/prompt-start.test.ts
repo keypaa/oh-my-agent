@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, mock, spyOn } from "bun:te
 import { createEventState } from "./events"
 import { waitForPromptStart } from "./prompt-start"
 import type { RunContext, SessionStatus } from "./types"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 function createMockContext(input: {
   statuses?: Record<string, SessionStatus>

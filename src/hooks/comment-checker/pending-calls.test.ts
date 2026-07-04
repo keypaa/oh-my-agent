@@ -1,6 +1,6 @@
 import { describe, test, expect } from "bun:test"
 import { fileURLToPath } from "node:url"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("pending-calls cleanup interval", () => {
   test("starts cleanup once and unrefs timer", async () => {

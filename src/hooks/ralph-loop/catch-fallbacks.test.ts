@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import type { PluginInput } from "@opencode-ai/plugin"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { handleDetectedCompletion } from "./completion-handler"
 import { continueIteration } from "./iteration-continuation"
 import { latestAssistantTurnMadeNoProgress } from "./no-progress-turn-detector"

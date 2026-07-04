@@ -180,7 +180,7 @@ describe("oh-my-agent telemetry isolation", () => {
     // then
     expect(result).not.toBe("timeout")
     expect(captured).toHaveLength(1)
-    expect(captured[0]?.event).toBe("OMA_daily_active")
+    expect(captured[0]?.event).toBe("omo_daily_active")
     expect(captured[0]?.properties).toMatchObject({
       reason: "plugin_loaded",
       source: "plugin",

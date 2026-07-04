@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { readFile } from "node:fs/promises"
-import { collectDownloadStats, createPostHogDownloadEvents } from "./stats"
+import { collectDownloadStats, createtelemetryDownloadEvents } from "./stats"
 
 describe("download stats automation", () => {
   test("#given package and release counts #when collected #then stats use aggregate download sources", async () => {
@@ -14,7 +14,7 @@ describe("download stats automation", () => {
     })
 
     // when
-    const events = createPostHogDownloadEvents(stats, "test-key")
+    const events = createtelemetryDownloadEvents(stats, "test-key")
 
     // then
     expect(events).toContainEqual({

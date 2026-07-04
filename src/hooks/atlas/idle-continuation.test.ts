@@ -7,7 +7,7 @@ import { join } from "node:path"
 import { createBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { scheduleRetry } from "./idle-continuation"
 import type { SessionState } from "./types"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 type SetTimeoutParameters = Parameters<typeof setTimeout>
 type SetTimeoutRestParameters = SetTimeoutParameters extends [

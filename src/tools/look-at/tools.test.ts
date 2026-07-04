@@ -6,7 +6,7 @@ import { join } from "node:path"
 import { clearVisionCapableModelsCache, setVisionCapableModelsCache } from "../../shared/vision-capable-models-cache"
 import { normalizeArgs, validateArgs, createLookAt } from "./tools"
 import type { LookAtArgs } from "./types"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 type LookAtPart = { type: string; url: string; mime: string; filename: string; text: string }
 type LookAtPromptBody = { model?: unknown; tools: Record<string, boolean>; parts: LookAtPart[] }

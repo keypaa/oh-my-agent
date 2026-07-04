@@ -2,7 +2,7 @@ import { afterAll, afterEach, describe, expect, it, mock } from "bun:test"
 import { chmodSync, existsSync, mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { preserveModuleMocksForTestFile, restoreModuleMocksForTestFile } from "../../testing/module-mock-lifecycle"
 
 const TEST_STORAGE_ROOT = mkdtempSync(join(tmpdir(), "omo-injector-storage-"))

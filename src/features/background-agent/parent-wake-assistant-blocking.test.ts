@@ -6,7 +6,7 @@ import {
   OMA_INTERNAL_INITIATOR_MARKER,
   OMA_INTERNAL_NOREPLY_MARKER,
 } from "../../shared/internal-initiator-marker"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { ParentWakeNotifier } from "./parent-wake-notifier"
 
 type PromptAsyncCall = {

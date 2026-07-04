@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto"
 import { clearBoulderState, readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName, setSessionAgent } from "../../features/session-state"
 import type { BoulderState } from "#shared/boulder-state"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 const TEST_STORAGE_ROOT = join(tmpdir(), `atlas-persisted-lineage-storage-${randomUUID()}`)
 const TEST_MESSAGE_STORAGE = join(TEST_STORAGE_ROOT, "message")

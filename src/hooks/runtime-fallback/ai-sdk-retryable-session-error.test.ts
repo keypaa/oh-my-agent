@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import type { OhMyOpenCodeConfig, RuntimeFallbackConfig } from "../../config"
 import { SessionCategoryRegistry } from "../../shared/session-category-registry"
 import { releaseAllPromptAsyncReservationsForTesting } from "../shared/prompt-async-gate"

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { normalizeModelToCanonicalString } from "./normalize-model"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("normalizeModelToCanonicalString", () => {
   describe("#given a plain string model", () => {

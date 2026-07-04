@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 import { afterEach, describe, expect, test } from "bun:test"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { pollSyncSession } from "./sync-session-poller"
 import { __resetTimingConfig, __setTimingConfig } from "./timing"
 import type { OpencodeClient, ToolContextWithMetadata } from "./types"

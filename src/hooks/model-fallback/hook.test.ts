@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { beforeEach, describe, expect, test } from "bun:test"
 import { _resetMemCacheForTesting, updateConnectedProvidersCache } from "../../shared/connected-providers-cache"
 

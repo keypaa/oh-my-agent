@@ -13,7 +13,7 @@ import {
 import { handleCompletedBoulderIdle } from "./idle-completion-nudge"
 import { handleAtlasSessionIdle } from "./idle-event"
 import type { SessionState } from "./types"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("handleAtlasSessionIdle completion nudge", () => {
   const SESSION_ID = "session-main-1"

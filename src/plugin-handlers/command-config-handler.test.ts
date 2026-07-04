@@ -59,7 +59,7 @@ describe("applyCommandConfig", () => {
   let getSystemMcpServerNamesSpy: ReturnType<typeof spyOn>;
 
   beforeEach(() => {
-    getSystemMcpServerNamesSpy = spyOn(mcpLoader, "getSystemMcpServerNames").mockReturnValue(new Set());
+    getSystemMcpServerNamesSpy = spyOn(mcpLoader, "getSystemMcpServerNames").mockReturnValue([]);
     loadBuiltinCommandsSpy = spyOn(builtinCommands, "loadBuiltinCommands").mockReturnValue({});
     loadUserCommandsSpy = spyOn(commandLoader, "loadUserCommands").mockResolvedValue({});
     loadProjectCommandsSpy = spyOn(commandLoader, "loadProjectCommands").mockResolvedValue({});
@@ -239,7 +239,7 @@ describe("applyCommandConfig", () => {
 
   test("excludes builtin skills whose MCP servers already exist in the system MCP config", async () => {
     // given
-    getSystemMcpServerNamesSpy.mockReturnValue(new Set(["playwright"]));
+    getSystemMcpServerNamesSpy.mockReturnValue(["playwright"]);
     const config: Record<string, unknown> = { command: {} };
 
     // when

@@ -6,7 +6,7 @@ import { join } from "node:path"
 import { tmpdir } from "node:os"
 import { randomUUID } from "node:crypto"
 import { readBoulderState, clearBoulderState } from "#shared/boulder-state"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createStartWorkHook } from "./start-work-hook"
 
 describe("start-work hook platform session ids", () => {

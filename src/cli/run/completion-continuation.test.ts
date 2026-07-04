@@ -5,7 +5,7 @@ import { tmpdir } from "node:os"
 import type { RunContext } from "./types"
 import { _resetForTesting, setSessionAgent } from "../../features/session-state"
 import { writeState as writeRalphLoopState } from "../../hooks/ralph-loop/storage"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 const testDirs: string[] = []
 

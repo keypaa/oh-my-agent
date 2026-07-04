@@ -8,7 +8,7 @@ import type { OAuthTokenData } from "../mcp-oauth/storage"
 import { setHttpClientDependenciesForTesting } from "./http-client"
 import { setStdioClientDependenciesForTesting } from "./stdio-client"
 import { SkillMcpManager, buildSkillMcpClientKey } from "./manager"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 function createMockClient(name: string): Client {
   return new Client({ name, version: "1.0.0" }, { capabilities: {} })

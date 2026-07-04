@@ -8,7 +8,7 @@ import {
   registerAgentName,
 } from "../../features/session-state"
 import { releaseAllPromptAsyncReservationsForTesting } from "../shared/prompt-async-gate"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { injectContinuation } from "./continuation-injection"
 
 describe("todo continuation registered agent resolution", () => {

@@ -63,7 +63,7 @@ describe("createSkillContext", () => {
     const getSystemMcpServerNamesSpy = spyOn(
       mcpLoader,
       "getSystemMcpServerNames",
-    ).mockReturnValue(new Set<string>())
+    ).mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({})
 
@@ -138,7 +138,7 @@ describe("createSkillContext", () => {
     const getSystemMcpServerNamesSpy = spyOn(
       mcpLoader,
       "getSystemMcpServerNames",
-    ).mockReturnValue(new Set<string>())
+    ).mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({
       browser_automation_engine: { provider: "agent-browser" },
@@ -217,7 +217,7 @@ describe("createSkillContext", () => {
     const getSystemMcpServerNamesSpy = spyOn(
       mcpLoader,
       "getSystemMcpServerNames",
-    ).mockReturnValue(new Set<string>())
+    ).mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({})
 
@@ -276,7 +276,7 @@ describe("createSkillContext", () => {
     const discoverOpencodeProjectSkillsSpy = spyOn(skillLoader, "discoverOpencodeProjectSkills").mockResolvedValue([])
     const discoverProjectAgentsSkillsSpy = spyOn(skillLoader, "discoverProjectAgentsSkills").mockResolvedValue([])
     const discoverGlobalAgentsSkillsSpy = spyOn(skillLoader, "discoverGlobalAgentsSkills").mockResolvedValue([])
-    const getSystemMcpServerNamesSpy = spyOn(mcpLoader, "getSystemMcpServerNames").mockReturnValue(new Set<string>())
+    const getSystemMcpServerNamesSpy = spyOn(mcpLoader, "getSystemMcpServerNames").mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({})
 
@@ -341,7 +341,7 @@ describe("createSkillContext", () => {
     const getSystemMcpServerNamesSpy = spyOn(
       mcpLoader,
       "getSystemMcpServerNames",
-    ).mockReturnValue(new Set<string>())
+    ).mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({
       browser_automation_engine: { provider: "playwright" },
@@ -419,7 +419,7 @@ describe("createSkillContext", () => {
     const getSystemMcpServerNamesSpy = spyOn(
       mcpLoader,
       "getSystemMcpServerNames",
-    ).mockReturnValue(new Set<string>())
+    ).mockReturnValue([])
 
     const pluginConfig = OhMyOpenCodeConfigSchema.parse({})
 

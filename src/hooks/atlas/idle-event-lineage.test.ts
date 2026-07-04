@@ -7,7 +7,7 @@ import { join } from "node:path"
 import { clearBoulderState, readBoulderState, writeBoulderState } from "#shared/boulder-state"
 import type { BoulderState } from "#shared/boulder-state"
 import { _resetForTesting, registerAgentName, setSessionAgent, subagentSessions } from "../../features/session-state"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 const { createAtlasHook } = await import("./index")
 

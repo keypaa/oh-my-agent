@@ -1,4 +1,4 @@
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { describe, it, expect } from "bun:test";
 import { createQuestionLabelTruncatorHook } from "./index";
 

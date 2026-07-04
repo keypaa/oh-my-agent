@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 import { describe, expect, test } from "bun:test"
 import type { BackgroundTask } from "../../features/background-agent"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { createBackgroundOutput } from "./create-background-output"
 import type { BackgroundOutputClient, BackgroundOutputManager } from "./clients"
 

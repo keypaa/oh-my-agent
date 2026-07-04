@@ -1,7 +1,7 @@
 /// <reference path="../../../../../bun-test.d.ts" />
 
 import { afterEach, describe, expect, test } from "bun:test"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { releaseAllPromptAsyncReservationsForTesting, releasePromptAsyncReservation } from "../shared/prompt-async-gate"
 import { latestUserMessageIsInProgress } from "./event-handler-activity"
 import { createRalphLoopEventHandler } from "./ralph-loop-event-handler"

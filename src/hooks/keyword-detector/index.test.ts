@@ -2,7 +2,7 @@
 
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test"
 import type { PluginInput } from "@opencode-ai/plugin"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import * as sessionState from "../../features/session-state"
 import { _resetForTesting, clearSessionAgent, setMainSession, updateSessionAgent } from "../../features/session-state"
 import { ContextCollector } from "../../features/context-injector"

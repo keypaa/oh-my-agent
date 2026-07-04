@@ -15,7 +15,7 @@ import {
 import type { BoulderState } from "#shared/boulder-state"
 import * as sessionState from "../../features/session-state"
 import * as worktreeDetector from "./worktree-detector"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("start-work hook", () => {
   let testDir: string

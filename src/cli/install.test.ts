@@ -6,7 +6,7 @@ import { install } from "./install"
 import * as astGrepInstall from "./install-ast-grep-sg"
 import * as configManager from "./config-manager"
 import type { InstallArgs } from "./types"
-import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../test-support/unsafe-test-value"
 
 // Mock console methods to capture output
 const mockConsoleLog = mock(() => {})

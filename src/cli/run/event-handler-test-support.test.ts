@@ -1,4 +1,4 @@
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import type { RunContext } from "./types"
 
 export function createMockContext(sessionID: string = "test-session"): RunContext {

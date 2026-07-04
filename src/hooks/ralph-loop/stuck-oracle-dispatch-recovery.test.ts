@@ -1,6 +1,6 @@
 import type { PluginInput } from "@opencode-ai/plugin"
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { releaseAllPromptAsyncReservationsForTesting } from "../shared/prompt-async-gate"
 import { handlePendingVerification, STUCK_VERIFICATION_TIMEOUT_MS } from "./pending-verification-handler"
 import type { RalphLoopState } from "./types"

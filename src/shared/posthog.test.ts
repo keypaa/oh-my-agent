@@ -303,7 +303,7 @@ describe("posthog trackActive emission contract", () => {
     if (!dailyEvent) {
       throw new Error("Expected daily event")
     }
-    expect(dailyEvent?.event).toBe("OMA_daily_active")
+    expect(dailyEvent?.event).toBe("omo_daily_active")
     expect(dailyEvent?.distinctId).toBe("distinct-cli")
     const properties = dailyEvent.properties ?? {}
     const expectedPropertyKeys = ["$os", "$os_version", "$process_person_profile", "ci", "cpu_count", "cpu_model", "day_utc", "locale", "os_arch", "os_type", "package_name", "package_version", "platform", "plugin_name", "product_name", "reason", "runtime", "runtime_version", "shell", "source", "terminal", "timezone", "total_memory_gb"]
@@ -369,7 +369,7 @@ describe("posthog trackActive emission contract", () => {
     if (!dailyEvent) {
       throw new Error("Expected plugin telemetry event")
     }
-    expect(dailyEvent.event).toBe("OMA_daily_active")
+    expect(dailyEvent.event).toBe("omo_daily_active")
     expect(dailyEvent.properties).toMatchObject({
       reason: "plugin_loaded",
       source: "plugin",

@@ -11,7 +11,7 @@ import {
   _resetForTesting as resetClaudeCodeSessionState,
 } from "../session-state/state"
 import { BackgroundManager } from "./manager"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import type { PluginInput } from "@opencode-ai/plugin"
 import { tmpdir } from "node:os"
 

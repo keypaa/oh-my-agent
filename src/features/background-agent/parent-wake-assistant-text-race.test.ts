@@ -2,7 +2,7 @@
 
 import { describe, expect, test } from "bun:test"
 import { releaseAllPromptAsyncReservationsForTesting } from "../../hooks/shared/prompt-async-gate"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { ParentWakeNotifier } from "./parent-wake-notifier"
 
 type ParentWakeClient = ConstructorParameters<typeof ParentWakeNotifier>[0]["client"]

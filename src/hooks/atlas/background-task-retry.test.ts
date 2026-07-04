@@ -9,7 +9,7 @@ import { clearBoulderState, writeBoulderState } from "#shared/boulder-state"
 import { _resetForTesting, clearSessionAgent, registerAgentName, setSessionAgent } from "../../features/session-state"
 import { DEFAULT_PROMPT_DISPATCH_TIMEOUT_MS } from "../../shared/prompt-async-gate"
 import { RETRY_DELAY_MS } from "./idle-constants"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 // Force process isolation in CI runner (globalThis.setTimeout override conflicts with other atlas tests)
 mock.module("../../shared/opencode-storage-detection", () => ({

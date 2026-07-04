@@ -4,7 +4,7 @@ import { createKeywordDetectorHook } from "./index"
 import { setMainSession, _resetForTesting } from "../../features/session-state"
 import * as sharedModule from "../../shared"
 import * as sessionState from "../../features/session-state"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 
 describe("keyword-detector hyperplan-ultrawork combo", () => {
   let logSpy: ReturnType<typeof spyOn>

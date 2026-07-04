@@ -19,7 +19,7 @@ type CapturedPostHogMessage = TelemetryCaptureMessage
 type PostHogModule = Awaited<ReturnType<typeof importPostHogModule>>
 
 const EXPECTED_DISTINCT_ID_FOR_PARITY_HOST =
-  "ad898a24f97bd14de34b9f3de62ab7cf1c2a77330ba41906af6e517f20e8272d"
+  "f07f323ff1903c9eaa8649f4477e07027f8f3d0be67325f89bd65f31c66431c1"
 
 let activePostHogModule: PostHogModule | null = null
 const originalXdgDataHome = process.env.XDG_DATA_HOME
@@ -133,7 +133,7 @@ describe("telemetry before/after parity", () => {
     await client.shutdown()
 
     // then
-    expect(product.eventName).toBe("OMA_daily_active")
+    expect(product.eventName).toBe("omo_daily_active")
     expect(product.machineIdPrefix).toBe("oh-my-agent:")
     expect(product.cacheDirName).toBe("oh-my-agent")
     expect(distinctId).toBe(EXPECTED_DISTINCT_ID_FOR_PARITY_HOST)
@@ -144,7 +144,7 @@ describe("telemetry before/after parity", () => {
     if (!dailyEvent) {
       throw new Error("Expected telemetry parity event")
     }
-    expect(dailyEvent.event).toBe("OMA_daily_active")
+    expect(dailyEvent.event).toBe("omo_daily_active")
     const payloadKeys = Object.keys(dailyEvent.properties ?? {}).sort()
     expect(payloadKeys).toContain("plugin_name")
     expect(payloadKeys).toContain("product_name")

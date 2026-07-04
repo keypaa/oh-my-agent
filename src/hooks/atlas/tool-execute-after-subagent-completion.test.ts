@@ -9,7 +9,7 @@ import {
   collectGitDiffStats as productionCollectGitDiffStats,
   formatFileChanges as productionFormatFileChanges,
 } from "../../shared/git-worktree"
-import { unsafeTestValue } from "../../../../../test-support/unsafe-test-value"
+import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { handleSubagentCompletionAfter } from "./tool-execute-after-subagent-completion"
 
 type SessionGetInput = { readonly path: { readonly id: string } }
