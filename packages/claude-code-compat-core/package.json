@@ -1,0 +1,10 @@
+{
+  "name": "@oh-my-opencode/claude-code-compat-core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": {
+      "default": "./*.ts"
+    }
+  }
+}
