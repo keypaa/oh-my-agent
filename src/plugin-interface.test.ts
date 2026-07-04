@@ -49,7 +49,6 @@ describe("createPluginInterface - command.execute.before", () => {
       },
       managers: {} as never,
       hooks: {
-        autoSlashCommand: createAutoSlashCommandHook({ skills: [] }),
         startWork: createStartWorkHook({
           directory: testDir,
           client: { tui: { showToast: async () => {} } },
@@ -58,7 +57,10 @@ describe("createPluginInterface - command.execute.before", () => {
       tools: {},
     })
     const output = {
-      parts: [{ type: "text", text: "original" }],
+      parts: [{
+        type: "text",
+        text: "<session-context>\nYou are starting a Sisyphus work session.\n</session-context>",
+      }],
     }
 
     // when
@@ -142,7 +144,6 @@ describe("createPluginInterface - command.execute.before", () => {
       },
       managers: {} as never,
       hooks: {
-        autoSlashCommand: createAutoSlashCommandHook({ skills: [] }),
         startWork: createStartWorkHook({
           directory: testDir,
           client: { tui: { showToast: async () => {} } },
@@ -152,7 +153,10 @@ describe("createPluginInterface - command.execute.before", () => {
     })
     const output = {
       message: {} as Record<string, unknown>,
-      parts: [{ type: "text", text: "/start-work" }],
+      parts: [{
+        type: "text",
+        text: "<session-context>\nYou are starting a Sisyphus work session.\n</session-context>",
+      }],
     }
 
     // when
