@@ -1,8 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it } from "bun:test"
+import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test"
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { discoverPluginCommandDefinitions } from "./plugin-command-discovery"
 
 function writePluginFixture(baseDir: string): void {
   const claudeConfigDir = join(baseDir, "claude-config")
@@ -95,8 +94,21 @@ describe("plugin command discovery utility", () => {
   })
 
   describe("#given plugin loading is enabled", () => {
-    it("#then returns plugin command and skill definitions", () => {
+    it("#then returns plugin command and skill definitions", async () => {
       // given
+      mock.module("../features/claude-code-plugin-loader", () => ({
+        discoverInstalledPlugins: () => ({
+          plugins: [{ name: "daplug", path: join(tempDir, "installed-plugins", "daplug") }],
+          errors: [],
+        }),
+        loadPluginCommands: (_plugins: Array<{ name: string; path: string }>) => ({
+          "daplug:run-prompt": { name: "run-prompt", description: "Run prompt from daplug", pluginName: "daplug" },
+        }),
+        loadPluginSkillsAsCommands: (_plugins: Array<{ name: string; path: string }>) => ({
+          "daplug:plugin-plan": { name: "plugin-plan", description: "Plan work from daplug skill", pluginName: "daplug" },
+        }),
+      }))
+      const { discoverPluginCommandDefinitions } = await import("./plugin-command-discovery")
       const options = { pluginsEnabled: true }
 
       // when

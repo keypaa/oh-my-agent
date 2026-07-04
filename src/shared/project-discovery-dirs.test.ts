@@ -92,12 +92,16 @@ describe("project-discovery-dirs", () => {
 
   it("#given ancestor claude and agents skill directories #when finding project compatibility dirs #then discovers both scopes", async () => {
     // given
+    mock.module("node:child_process", () => ({
+      execFileSync: () => TEST_DIR,
+    }))
     const projectDir = join(TEST_DIR, "project")
     const childDir = join(projectDir, "src", "nested")
     mkdirSync(join(projectDir, ".claude", "skills"), { recursive: true })
     mkdirSync(join(TEST_DIR, ".agents", "skills"), { recursive: true })
 
-    const { findProjectAgentsSkillDirs, findProjectClaudeSkillDirs } = await import("./project-discovery-dirs")
+    const { clearWorktreeCache, findProjectAgentsSkillDirs, findProjectClaudeSkillDirs } = await import("./project-discovery-dirs")
+    clearWorktreeCache()
 
     // when
     const claudeDirectories = findProjectClaudeSkillDirs(childDir)

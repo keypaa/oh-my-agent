@@ -78,8 +78,7 @@ describe("createEventHandler - model fallback", () => {
         clear: () => {},
       },
       managers: unsafeTestValue({
-          onSessionDeleted: async () => {},
-        },
+        onSessionDeleted: async () => {},
         skillMcpManager: {
           disconnectSession: async () => {},
         },
@@ -988,8 +987,7 @@ describe("createEventHandler - model fallback", () => {
         clear: () => {},
       },
       managers: unsafeTestValue({
-          onSessionDeleted: async () => {},
-        },
+        onSessionDeleted: async () => {},
         skillMcpManager: {
           disconnectSession: async () => {},
         },

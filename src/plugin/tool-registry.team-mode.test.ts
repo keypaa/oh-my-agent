@@ -124,7 +124,7 @@ describe("team-mode tool registry wiring", () => {
 
   test("passes ctx.client into every team tool factory", () => {
     // given
-    const client = {} as OpencodeClient
+    const client = { id: "test-client" } as OpencodeClient
     const createTeamCreateTool = mock(() => fakeTool)
     const createTeamDeleteTool = mock(() => fakeTool)
     const createTeamShutdownRequestTool = mock(() => fakeTool)
@@ -143,8 +143,9 @@ describe("team-mode tool registry wiring", () => {
       ctx: { directory: "/tmp/team-mode", client } as Parameters<typeof createToolRegistry>[0]["ctx"],
       pluginConfig: createPluginConfig(),
       managers: {
-        backgroundManager: {},
+        backgroundManager: { name: "bg" },
         skillMcpManager: {},
+        tmuxSessionManager: {},
       } as Parameters<typeof createToolRegistry>[0]["managers"],
       skillContext: {
         mergedSkills: [],

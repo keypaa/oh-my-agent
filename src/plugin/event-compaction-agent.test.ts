@@ -15,13 +15,12 @@ function createMinimalEventHandler() {
     },
     managers: {
         onSessionDeleted: async () => {},
-      },
-      skillMcpManager: {
-        disconnectSession: async () => {},
-      },
-    } as never,
+        skillMcpManager: {
+          disconnectSession: async () => {},
+        },
+      } as never,
     hooks: {
-      autoUpdateChecker: { event: async () => {} } },
+      autoUpdateChecker: { event: async () => {} },
       backgroundNotificationHook: { event: async () => {} },
       sessionNotification: async () => {},
       todoContinuationEnforcer: { handler: async () => {} },

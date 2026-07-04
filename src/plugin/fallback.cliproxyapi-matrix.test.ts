@@ -31,8 +31,7 @@ function createEventHandlerManagers(
 ): EventHandlerArgs["managers"] {
   return unsafeTestValue<EventHandlerArgs["managers"]>({
     ...({} as EventHandlerArgs["managers"]),
-      onSessionDeleted: async () => {},
-    },
+    onSessionDeleted: async () => {},
     ...overrides,
   })
 }

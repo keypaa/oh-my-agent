@@ -216,7 +216,7 @@ describe("team-runtime shutdown", () => {
     }))
 
     // when
-    const result = await deleteTeam(fixture.teamRunId, fixture.config, undefined, undefined, { force: true })
+    const result = await deleteTeam(fixture.teamRunId, fixture.config, undefined, { force: true })
 
     // then
     expect(result.removedLayout).toBe(false)
@@ -251,7 +251,7 @@ describe("team-runtime shutdown", () => {
     })
 
     // when
-    await deleteTeam(fixture.teamRunId, fixture.config, undefined, undefined, { force: true })
+    await deleteTeam(fixture.teamRunId, fixture.config, undefined, { force: true })
 
     // then
     expect(transitionedStatuses).toContain("deleted")
@@ -279,7 +279,7 @@ describe("team-runtime shutdown", () => {
     })
 
     // when
-    await deleteTeam(fixture.teamRunId, fixture.config, undefined, undefined, { force: true })
+    await deleteTeam(fixture.teamRunId, fixture.config, undefined, { force: true })
 
     // then
     expect(transitionedStatuses).toContain("deleted")
@@ -311,7 +311,7 @@ describe("team-runtime shutdown", () => {
     })
 
     // when
-    const result = await deleteTeam(fixture.teamRunId, fixture.config, undefined, undefined, { force: true })
+    const result = await deleteTeam(fixture.teamRunId, fixture.config, undefined, { force: true })
 
     // then
     expect(result.removedWorktrees.sort()).toEqual([leadWorktreePath, ...fixture.worktreePaths].sort())
@@ -349,7 +349,7 @@ describe("team-runtime shutdown", () => {
     }
 
     // when
-    await deleteTeam(fixture.teamRunId, fixture.config, undefined, bgMgr as never, { force: true })
+    await deleteTeam(fixture.teamRunId, fixture.config, bgMgr as never, { force: true })
 
     // then
     expect(cancelTaskMock).toHaveBeenCalledTimes(2)

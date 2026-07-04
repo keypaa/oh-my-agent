@@ -20,6 +20,7 @@ const PROMPT_GATE_FILE = path.join(SOURCE_ROOT, "shared", "prompt-async-gate.ts"
 const PROMPT_GATE_FILES = new Set([
   PROMPT_GATE_FILE,
   path.join(WORKSPACE_ROOT, "packages", "utils", "src", "prompt-async-gate.ts"),
+  path.join(SOURCE_ROOT, "shared", "utils", "prompt-async-gate.ts"),
 ])
 const RAW_PROMPT_ALLOWLIST = new Map<string, string>([
   [

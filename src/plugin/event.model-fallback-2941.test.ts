@@ -35,8 +35,7 @@ function asChatPluginConfig(config: unknown): ChatMessageHandlerArgs["pluginConf
 
 function createEventHandlerManagers(): EventHandlerArgs["managers"] {
 	return unsafeTestValue<EventHandlerArgs["managers"]>({
-			onSessionDeleted: async () => {},
-		},
+		onSessionDeleted: async () => {},
 		skillMcpManager: {
 			disconnectSession: async () => {},
 		},

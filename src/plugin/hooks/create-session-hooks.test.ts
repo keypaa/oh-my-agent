@@ -77,12 +77,6 @@ describe("createSessionHooks", () => {
     expect("contextWindowMonitor" in result).toBe(false)
   })
 
-
-
-    // then
-    expect(result.interactiveBashSession).toBeNull()
-  })
-
   it("skips codegraph bootstrap when disabled hooks exclude it", () => {
     // given
     const pluginConfig = unsafeTestValue<OhMyOpenCodeConfig>({})

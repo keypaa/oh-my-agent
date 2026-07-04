@@ -55,7 +55,7 @@ describe("deleteTeam cancels only this team's background tasks", () => {
     } satisfies DeleteTeamBackgroundManager
 
     // when
-    await deleteTeam(fixture.teamRunId, fixture.config, undefined, bgMgr, { force: true })
+    await deleteTeam(fixture.teamRunId, fixture.config, bgMgr, { force: true })
 
     // then
     expect(getTasksByParentSessionMock).toHaveBeenCalledTimes(1)
@@ -84,7 +84,7 @@ describe("deleteTeam cancels only this team's background tasks", () => {
     // when
     let thrownError: unknown
     try {
-      await deleteTeam(fixture.teamRunId, fixture.config, undefined, bgMgr)
+      await deleteTeam(fixture.teamRunId, fixture.config, bgMgr)
     } catch (error) {
       thrownError = error
     }
@@ -118,7 +118,7 @@ describe("deleteTeam cancels only this team's background tasks", () => {
     // when
     let errorMessage = ""
     try {
-      await deleteTeam(fixture.teamRunId, fixture.config, undefined, bgMgr)
+      await deleteTeam(fixture.teamRunId, fixture.config, bgMgr)
     } catch (error) {
       errorMessage = error instanceof Error ? error.message : String(error)
     }
@@ -151,7 +151,7 @@ describe("deleteTeam cancels only this team's background tasks", () => {
     } satisfies DeleteTeamBackgroundManager
 
     // when
-    await deleteTeam(fixture.teamRunId, fixture.config, undefined, bgMgr, { force: true })
+    await deleteTeam(fixture.teamRunId, fixture.config, bgMgr, { force: true })
 
     // then
     expect(cancelTaskMock).toHaveBeenCalledTimes(1)

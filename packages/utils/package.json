@@ -15,6 +15,9 @@
     },
     "./atomic-write": {
       "default": "./src/atomic-write.ts"
+    },
+    "./xdg-data-dir": {
+      "default": "./src/xdg-data-dir.ts"
     }
   }
 }

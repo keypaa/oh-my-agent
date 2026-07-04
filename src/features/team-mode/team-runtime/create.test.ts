@@ -400,7 +400,6 @@ describe("createTeamRun", () => {
       createContext(baseDir, manager),
       createConfig(baseDir),
       manager,
-      undefined,
       { callerAgentTypeId: "sisyphus" },
     )
 
@@ -442,7 +441,6 @@ describe("createTeamRun", () => {
       createContext(baseDir, manager),
       createConfig(baseDir),
       manager,
-      undefined,
       { callerAgentTypeId: "sisyphus" },
     )
 
@@ -481,7 +479,6 @@ describe("createTeamRun", () => {
       createContext(baseDir, manager),
       createConfig(baseDir),
       manager,
-      undefined,
       { callerAgentTypeId: "sisyphus" },
     )
 

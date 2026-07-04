@@ -77,8 +77,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
         clear: () => {},
       },
       managers: unsafeTestValue({
-          onSessionDeleted: async () => {},
-        },
+        onSessionDeleted: async () => {},
         skillMcpManager: {
           disconnectSession: async () => {},
         },
