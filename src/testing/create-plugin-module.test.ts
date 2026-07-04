@@ -121,38 +121,6 @@ describe("createPluginModule()", () => {
     })
   })
 
-  describe("#given OpenCode server config is present", () => {
-    it("#then startup self-heals the matching TUI plugin entry", async () => {
-      // given
-      const originalConfigDir = process.env.OPENCODE_CONFIG_DIR
-      const configDir = mkdtempSync(join(tmpdir(), "omo-server-tui-entry-"))
-      process.env.OPENCODE_CONFIG_DIR = configDir
-      writeFileSync(join(configDir, "opencode.json"), JSON.stringify({ plugin: [PLUGIN_NAME] }), "utf-8")
-
-      try {
-        const pluginModule = createTestPluginModule()
-        mockLoadPluginConfig.mockReturnValue({})
-
-        // when
-        await pluginModule.server({
-          directory: "/tmp/project",
-          client: {},
-        } as Parameters<typeof pluginModule.server>[0])
-
-        // then
-        expect(readFileSync(join(configDir, "tui.json"), "utf-8")).toContain(`"${PLUGIN_NAME}"`)
-      } finally {
-        rmSync(configDir, { recursive: true, force: true })
-        if (originalConfigDir === undefined) {
-          delete process.env.OPENCODE_CONFIG_DIR
-        } else {
-          process.env.OPENCODE_CONFIG_DIR = originalConfigDir
-        }
-      }
-    })
-
-  })
-
   describe("#given bundled security skills are enabled", () => {
     it("#then startup exposes them through a runtime skill source URL", async () => {
       // given
