@@ -93,7 +93,7 @@ createMlAiEngineeringAgent.mode = MODE;
 
 export const mlAiEngineeringPromptMetadata: AgentPromptMetadata = {
   category: "specialist",
-  cost: "CHEAP",
+  cost: "EXPENSIVE",
   promptAlias: "ML/AI Engineering",
   triggers: [
     {

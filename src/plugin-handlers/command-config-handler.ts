@@ -8,10 +8,10 @@ import {
   loadProjectCommands,
   loadOpencodeGlobalCommands,
   loadOpencodeProjectCommands,
-} from "../features/claude-code-command-loader";
+} from "../features/claude-code-stubs";
 import { loadBuiltinCommands } from "../features/builtin-commands";
 import { resolveActiveBuiltinSkills } from "../features/builtin-skills";
-import { getSystemMcpServerNames } from "../features/claude-code-mcp-loader";
+import { getSystemMcpServerNames } from "../features/claude-code-stubs";
 import {
   builtinSkillsToCommandDefinitionRecord,
   discoverConfigSourceSkills,

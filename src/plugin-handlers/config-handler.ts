@@ -1,6 +1,6 @@
 import type { OhMyOpenCodeConfig } from "../config";
 import { applyRuntimeSkillSourceConfig } from "../features/opencode-runtime-skills"
-import { setAdditionalAllowedMcpEnvVars } from "../features/claude-code-mcp-loader";
+import { setAdditionalAllowedMcpEnvVars } from "../features/claude-code-stubs";
 import type { ModelCacheState } from "../plugin-state";
 import { log } from "../shared";
 import { applyAgentConfig } from "./agent-config-handler";

@@ -9,7 +9,7 @@ import {
   EXCLUDED_DIRS,
 } from "./command-discovery-deps"
 import type { CommandDefinition } from "@oh-my-opencode/claude-code-compat-core/claude-code-command-loader/types"
-import type { CommandFrontmatter } from "../../features/claude-code-command-loader/types"
+import type { CommandFrontmatter } from "../../features/claude-code-stubs"
 import { isMarkdownFile } from "../../shared/file-utils"
 import { getClaudeConfigDir } from "../../shared/claude-config-dir"
 import { log } from "../../shared/logger"

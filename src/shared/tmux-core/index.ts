@@ -9,15 +9,15 @@ export interface TmuxCommandResult {
 }
 
 export async function runTmuxCommand(_tmuxPath: string, _args: string[], _options?: { retry?: number; timeoutMs?: number }): Promise<TmuxCommandResult> {
-  throw new Error("tmux-core was pruned — stub implementation")
+  return { success: false, output: "", stdout: "", stderr: "tmux-core was pruned — stub implementation", exitCode: 1 }
 }
 
 export async function isServerRunning(_serverUrl: string): Promise<boolean> {
-  throw new Error("tmux-core was pruned — stub implementation")
+  return false
 }
 
 export async function closeTmuxPane(_paneId: string): Promise<boolean> {
-  throw new Error("tmux-core was pruned — stub implementation")
+  return false
 }
 
 export interface SweepTmuxSessionsOptions {

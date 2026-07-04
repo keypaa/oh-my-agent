@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test"
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { clearCommandLoaderCache } from "../../features/claude-code-command-loader"
+import { clearCommandLoaderCache } from "../../features/claude-code-stubs"
 import { executeSlashCommand } from "./executor"
 
 const ENV_KEYS = [

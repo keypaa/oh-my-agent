@@ -1,8 +1,8 @@
 import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
-import { McpOAuthProvider } from "../mcp-oauth/provider"
-import { withRefreshMutex } from "../mcp-oauth/refresh-mutex"
-import type { OAuthTokenData } from "../mcp-oauth/storage"
-import { isStepUpRequired, mergeScopes } from "../mcp-oauth/step-up"
+import { McpOAuthProvider } from "./oauth-stubs"
+import { withRefreshMutex } from "./oauth-stubs"
+import type { OAuthTokenData } from "./oauth-stubs"
+import { isStepUpRequired, mergeScopes } from "./oauth-stubs"
 import type { OAuthProviderFactory, OAuthProviderLike } from "./types"
 
 function ignoreOAuthFallbackError(error: unknown): void {

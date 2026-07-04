@@ -1,5 +1,4 @@
 import type { AgentOverrides } from "../../config"
-import type { TopLevelTaskRef } from "#shared/boulder-state"
 
 export type ModelInfo = { providerID: string; modelID: string; variant?: string }
 
@@ -30,7 +29,7 @@ export interface ToolExecuteAfterOutput {
   metadata: Record<string, unknown>
 }
 
-export type TrackedTopLevelTaskRef = Pick<TopLevelTaskRef, "key" | "label" | "title">
+export type TrackedTopLevelTaskRef = { key: string; label: string; title: string }
 
 export type PendingTaskRef =
   | { kind: "track"; task: TrackedTopLevelTaskRef }
@@ -48,14 +47,11 @@ export interface SessionState {
   waitingForFinalWaveApproval?: boolean
   pendingFinalWaveTaskCount?: number
   approvedFinalWaveTaskCount?: number
-  boulderCompletionNudgedAt?: Record<string, number>
   awaitingToolProgressAfterContinuation?: boolean
   iterationsSinceLastToolProgress?: number
   lastToolProgressAt?: number
   stalledContinuationReason?: string
   stalledContinuationPlanPath?: string
-  /** The plan path the in-progress no-tool-progress counter is keyed to. Changes here reset the counter. */
   activeContinuationPlanPath?: string
-  /** Top-level task keys whose completion gate already fired, used to suppress repeat 4-phase reminders. */
   verifiedTaskKeys?: Set<string>
 }

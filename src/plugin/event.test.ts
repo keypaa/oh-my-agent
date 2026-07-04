@@ -391,7 +391,6 @@ describe("createEventHandler - idle deduplication", () => {
 
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
-				todoContinuationEnforcer: { handler: async () => {} },
 				unstableAgentBabysitter: { event: async () => {} },
 				directoryAgentsInjector: { event: async () => {} },
 				directoryReadmeInjector: { event: async () => {} },
@@ -475,7 +474,6 @@ describe("createEventHandler - idle deduplication", () => {
 
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
-				todoContinuationEnforcer: { handler: async () => {} },
 				unstableAgentBabysitter: { event: async () => {} },
 				directoryAgentsInjector: { event: async () => {} },
 				directoryReadmeInjector: { event: async () => {} },
@@ -531,7 +529,6 @@ describe("createEventHandler - idle deduplication", () => {
 
 				backgroundNotificationHook: { event: async () => {} },
 				sessionNotification: async () => {},
-				todoContinuationEnforcer: { handler: async () => {} },
 				unstableAgentBabysitter: { event: async () => {} },
 				directoryAgentsInjector: { event: async () => {} },
 				directoryReadmeInjector: { event: async () => {} },

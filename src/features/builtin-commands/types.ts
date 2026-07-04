@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../claude-code-command-loader"
+import type { CommandDefinition } from "../claude-code-stubs"
 
 export type BuiltinCommandName = "ralph-loop" | "cancel-ralph" | "ulw-loop" | "refactor" | "start-work" | "stop-continuation" | "handoff" | "remove-ai-slops" | "hyperplan"
 

@@ -24,10 +24,19 @@ export type { GeneratedOmoConfig } from "./model-fallback-types"
 export const ULTIMATE_FALLBACK = "opencode/gpt-5-nano"
 const SCHEMA_URL = "https://raw.githubusercontent.com/code-yeongyu/oh-my-agent/dev/assets/oh-my-agent.schema.json"
 
+function pickBestAvailableProviderModel(avail: ReturnType<typeof toProviderAvailability>): string | null {
+  if (avail.native.claude) return "anthropic/claude-haiku-4-5"
+  if (avail.native.openai) return "openai/gpt-5.4-mini-fast"
+  if (avail.native.gemini) return "google/gemini-3-flash-lite"
+  if (avail.copilot) return "github-copilot/gpt-5-mini"
+  if (avail.opencodeZen) return "opencode/gpt-5-nano"
+  return null
+}
+
 const DEFAULT_AGENT_NAMES = [
   "sisyphus", "hephaestus", "oracle", "librarian", "explore",
   "multimodal-looker", "prometheus", "metis", "momus", "atlas",
-  "sisyphus-junior",
+  "sisyphus-junior", "the-auditor", "cold-eyes", "ml-ai-engineering",
 ]
 const DEFAULT_CATEGORY_NAMES = [
   "visual-engineering", "ultrabrain", "deep", "artistry", "quick",
@@ -252,7 +261,8 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
     }
 
     if (!req) {
-      agents[role] = { model: ULTIMATE_FALLBACK }
+      const providerModel = pickBestAvailableProviderModel(avail)
+      agents[role] = { model: providerModel ?? ULTIMATE_FALLBACK }
       continue
     }
 
@@ -269,7 +279,8 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
       const agentConfig = toCompatibleModelConfig(resolved.model, { variant })
       agents[role] = attachFallbackModels(agentConfig, req.fallbackChain, avail)
     } else {
-      agents[role] = { model: ULTIMATE_FALLBACK }
+      const providerModel = pickBestAvailableProviderModel(avail)
+      agents[role] = { model: providerModel ?? ULTIMATE_FALLBACK }
     }
   }
 
@@ -277,7 +288,8 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
     const req = CLI_CATEGORY_MODEL_REQUIREMENTS[cat]
 
     if (!req) {
-      categories[cat] = { model: ULTIMATE_FALLBACK }
+      const providerModel = pickBestAvailableProviderModel(avail)
+      categories[cat] = { model: providerModel ?? ULTIMATE_FALLBACK }
       continue
     }
 
@@ -300,7 +312,8 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
       const categoryConfig = toCompatibleModelConfig(resolved.model, { variant })
       categories[cat] = attachFallbackModels(categoryConfig, fallbackChain, avail)
     } else {
-      categories[cat] = { model: ULTIMATE_FALLBACK }
+      const providerModel = pickBestAvailableProviderModel(avail)
+      categories[cat] = { model: providerModel ?? ULTIMATE_FALLBACK }
     }
   }
 

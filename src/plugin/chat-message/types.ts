@@ -57,6 +57,10 @@ type RalphLoopHook = {
   cancelLoop: (sessionID: string) => boolean | void
 }
 
+export type AuditLoopHook = {
+  startAudit: (sessionID: string, context: { originalTask: string; agentClaims: string; changedFiles: string; plan?: string }) => boolean
+}
+
 export type ChatMessageHooks = {
   modelFallback?: ChatMessageHook | null
   stopContinuationGuard?: StopContinuationGuard | null
@@ -70,4 +74,5 @@ export type ChatMessageHooks = {
   hephaestusAgentsMdInjector?: ChatMessageHook | null
   startWork?: ChatMessageHook | null
   ralphLoop?: RalphLoopHook | null
+  auditLoopHook?: AuditLoopHook | null
 }

@@ -1,5 +1,5 @@
 import type { OhMyOpenCodeConfig } from "../config";
-import { loadAllPluginComponents } from "../features/claude-code-plugin-loader";
+import { loadAllPluginComponents } from "../features/claude-code-stubs";
 export interface PluginHooksConfig {
   name: string
   version: string

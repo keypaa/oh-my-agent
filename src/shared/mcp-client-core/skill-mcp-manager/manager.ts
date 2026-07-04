@@ -1,6 +1,6 @@
 import type { Prompt, Resource, Tool } from "@modelcontextprotocol/sdk/types.js"
 import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
-import { McpOAuthProvider } from "../mcp-oauth/provider"
+import { McpOAuthProvider } from "./oauth-stubs"
 import { disconnectAll, disconnectSession, forceReconnect } from "./cleanup"
 import { getOrCreateClient, getOrCreateClientWithRetryImpl } from "./connection"
 import { handlePostRequestAuthError, handleStepUpIfNeeded } from "./oauth-handler"

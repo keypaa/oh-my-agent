@@ -1,4 +1,3 @@
-import { readCurrentTopLevelTask } from "#shared/boulder-state"
 import type { PendingTaskRef, TrackedTopLevelTaskRef } from "./types"
 
 export function resolvePreferredSessionId(currentSessionId?: string, trackedSessionId?: string): string {
@@ -7,7 +6,7 @@ export function resolvePreferredSessionId(currentSessionId?: string, trackedSess
 
 export function resolveTaskContext(
   pendingTaskRef: PendingTaskRef | undefined,
-  planPath: string,
+  _planPath: string,
 ): {
   currentTask: TrackedTopLevelTaskRef | null
   shouldSkipTaskSessionUpdate: boolean
@@ -15,7 +14,7 @@ export function resolveTaskContext(
 } {
   if (!pendingTaskRef) {
     return {
-      currentTask: readCurrentTopLevelTask(planPath),
+      currentTask: null,
       shouldSkipTaskSessionUpdate: false,
       shouldIgnoreCurrentSessionId: false,
     }
@@ -31,7 +30,7 @@ export function resolveTaskContext(
 
   if (pendingTaskRef.reason === "explicit_resume") {
     return {
-      currentTask: readCurrentTopLevelTask(planPath),
+      currentTask: null,
       shouldSkipTaskSessionUpdate: true,
       shouldIgnoreCurrentSessionId: true,
     }

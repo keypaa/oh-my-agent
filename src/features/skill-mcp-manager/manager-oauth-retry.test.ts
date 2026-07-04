@@ -1,6 +1,6 @@
 import { describe, expect, it, mock, spyOn } from "bun:test"
-import type { ClaudeCodeMcpServer } from "../claude-code-mcp-loader/types"
-import type { OAuthTokenData } from "../mcp-oauth/storage"
+import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
+import type { OAuthTokenData } from "../../../shared/mcp-client-core/skill-mcp-manager/oauth-stubs"
 import { unsafeTestValue } from "../../../test-support/unsafe-test-value"
 import { SkillMcpManager } from "./manager"
 import type { McpClient, SkillMcpClientInfo, SkillMcpServerContext } from "./types"

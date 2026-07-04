@@ -1,10 +1,10 @@
-# src/hooks/ — ~54 Lifecycle Hooks Across 60 Dirs
+# src/hooks/ — ~55 Lifecycle Hooks Across 60 Dirs
 
 **Generated:** 2026-06-08
 
 ## OVERVIEW
 
-53 base registered hooks (60 with team-mode), composed from 52 `index.ts` hook dirs (51 wired + `task-reminder/` unwired) plus 5 standalone hook `.ts` files at the `src/hooks/` top level (bash-file-read-guard, empty-task-response-detector, preemptive-compaction, session-notification, tool-output-truncator). The 60 directories = 52 with `index.ts` + 8 without (`shared/`, `team-session-events/`, `hashline-edit-diff-enhancer/` unwired, and 5 `zauc-mocks-*`/`zauc-sync-mocks`). 5-tier composition wired in `src/plugin/hooks/`. All hooks follow `createXXXHook(deps) -> HookFunction` factory pattern.
+53 base registered hooks (63 with team-mode), composed from 52 `index.ts` hook dirs (51 wired + `task-reminder/` unwired) plus 5 standalone hook `.ts` files at the `src/hooks/` top level (bash-file-read-guard, empty-task-response-detector, preemptive-compaction, session-notification, tool-output-truncator). The 60 directories = 52 with `index.ts` + 8 without (`shared/`, `team-session-events/`, `hashline-edit-diff-enhancer/` unwired, and 5 `zauc-mocks-*`/`zauc-sync-mocks`). 5-tier composition wired in `src/plugin/hooks/`. All hooks follow `createXXXHook(deps) -> HookFunction` factory pattern.
 
 **Unwired WIP (do not modify casually):** `task-reminder/` (has `index.ts` + `createTaskReminderHook` but NOT exported from barrel, NOT imported by any composer) and `hashline-edit-diff-enhancer/` (has only `hook.ts`, NOT registered). Treat as orphaned until wired in.
 
@@ -12,18 +12,18 @@
 
 | Tier | Composer | Base | With team-mode | Where |
 |------|----------|------|----------------|-------|
-| **Session** | `create-session-hooks.ts` | 23 | 23 | OpenCode session lifecycle + chat.params + chat.message |
+| **Session** | `create-session-hooks.ts` | 24 | 24 | OpenCode session lifecycle + chat.params + chat.message |
 | **Tool Guard** | `create-tool-guard-hooks.ts` | 17 | 18 | Pre/post tool execution (+1: `team-tool-gating`) |
-| **Transform** | `create-transform-hooks.ts` | 4 | 6 | `experimental.chat.messages.transform` (+2: `team-mode-status-injector`, `team-mailbox-injector`) |
-| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification |
+| **Transform** | `create-transform-hooks.ts` | 3 | 5 | `experimental.chat.messages.transform` (+2: `team-mode-status-injector`, `team-mailbox-injector`) |
+| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification/audit-loop |
 | **Skill** | `create-skill-hooks.ts` | 2 | 2 | Skill awareness (categorySkillReminder, autoSlashCommand) |
 | **Direct event handlers** | `src/plugin/event.ts` | 0 | +4 | `team-session-events/` sub-files: `team-idle-wake-hint`, `team-lead-orphan-handler`, `team-member-error-handler`, `team-member-status-handler` |
 
-Total exposed hooks: **53 base, 60 with team-mode** (counts the 4 team-session-events handlers individually).
+Total exposed hooks: **53 base, 63 with team-mode** (counts the 4 team-session-events handlers individually).
 
 Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated in [`src/config/schema/hooks.ts`](../config/schema/hooks.ts) `HookNameSchema`. Team-session-event sub-hooks are not individually listed in the schema — they activate together with `team_mode.enabled`.
 
-### Tier 1: Session Hooks (23)
+### Tier 1: Session Hooks (24)
 
 | Hook | Event | Purpose |
 |------|-------|---------|
@@ -32,6 +32,8 @@ Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated
 | `thinkMode` | chat.params | Model variant switching for extended thinking |
 | `anthropicContextWindowLimitRecovery` | session.error | Multi-strategy context recovery (truncation, compaction, dedup) |
 | `autoUpdateChecker` | session.created | Check npm for plugin updates |
+| `codegraphBootstrap` | session.created | Bootstrap codegraph MCP if configured |
+| `astGrepSgProvision` | session.created | Provision ast-grep `sg` binary if needed |
 | `agentUsageReminder` | chat.message | Remind about available agents |
 | `nonInteractiveEnv` | chat.message | Adjust behavior for `run` command |
 | `interactiveBashSession` | tool.execute | Tmux session lifecycle for interactive_bash tool |
@@ -72,11 +74,10 @@ Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated
 | `notepadWriteGuard` | tool.execute.before | Block `Write` to append-only notepad paths (`.omo/notepads`, `.sisyphus/notepads`) |
 | `planFormatValidator` | tool.execute.before | Validate plan/todo checkbox format on `Write`/`Edit` of boulder plans |
 
-### Tier 3: Transform Hooks (5)
+### Tier 3: Transform Hooks (3)
 
 | Hook | Event | Purpose |
 |------|-------|---------|
-| `claudeCodeHooks` | messages.transform | Claude Code settings.json compatibility |
 | `keywordDetector` | messages.transform | Detect ultrawork/search/analyze/team modes; inject mode-specific prompt |
 | `contextInjectorMessagesTransform` | messages.transform | Inject AGENTS.md/README.md into context |
 | `toolPairValidator` | messages.transform | Validate tool call/result pairing |
@@ -88,10 +89,10 @@ Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated
 | `stopContinuationGuard` | chat.message | `/stop-continuation` command handler |
 | `compactionContextInjector` | session.compacted | Re-inject context after compaction |
 | `compactionTodoPreserver` | session.compacted | Preserve todos through compaction |
-| `todoContinuationEnforcer` | session.idle | **Boulder** — force continuation on incomplete todos |
 | `unstableAgentBabysitter` | session.idle | Monitor unstable agent behavior |
 | `backgroundNotificationHook` | event | Background task completion notifications |
 | `atlasHook` | event | Master orchestrator for boulder/background sessions |
+| `auditLoopHook` | event | Multi-verifier audit loop (the-auditor + cold-eyes) |
 
 ### Tier 5: Skill Hooks (2)
 
@@ -120,7 +121,7 @@ The 4 `team-session-events/` handlers live in `src/hooks/team-session-events/` (
 hooks/
 ├── shared/                                  # Cross-hook helpers (timing, prompt builders, etc.)
 ├── team-session-events/                     # 4 team event handlers (wired via src/plugin/event.ts)
-├── (53 index.ts hook directories incl. `task-reminder/` unwired — see tier tables above)
+├── (53 index.ts hook dirs incl. `task-reminder/` unwired — see tier tables above)
 ├── zauc-mocks-{bg,cache,hook,ws}, zauc-sync-mocks  # 5 test mocks (NOT hooks; named for sort-order isolation)
 └── (each hook dir)/
     ├── index.ts        # createXXXHook factory + barrel
@@ -145,5 +146,5 @@ hooks/
 
 - **Tier order matters within a phase:** within Session tier the registration order in `create-session-hooks.ts` determines invocation order — earlier hooks see un-mutated input, later hooks see accumulated output.
 - **Mock files** (`zauc-mocks-*`, `zauc-sync-mocks`) are NOT hooks. They are placed inside `src/hooks/` purely so `bun:test` discovers them with the hook test fixtures.
-- **`atlasHook` vs `todoContinuationEnforcer`:** atlas handles boulder/ralph/subagent sessions, todoContinuationEnforcer handles the main Sisyphus session. Both fire on `session.idle` but check session type first.
+- **`atlasHook` vs `auditLoopHook`:** atlas handles boulder/ralph/subagent sessions; auditLoopHook runs the multi-verifier audit loop. Both fire on event but check session type first.
 - **`runtime-fallback` vs `model-fallback`:** runtime-fallback is reactive (after error); model-fallback is proactive (chat.params). They operate independently.

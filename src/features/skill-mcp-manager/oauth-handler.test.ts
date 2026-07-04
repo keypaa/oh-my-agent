@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from "bun:test"
-import type { ClaudeCodeMcpServer } from "../claude-code-mcp-loader/types"
-import type { OAuthTokenData } from "../mcp-oauth/storage"
+import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
+import type { OAuthTokenData } from "../../../shared/mcp-client-core/skill-mcp-manager/oauth-stubs"
 import type { OAuthProviderFactory, OAuthProviderLike } from "./types"
 
 type OAuthHandlerModule = typeof import("./oauth-handler")

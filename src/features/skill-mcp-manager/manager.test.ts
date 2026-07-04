@@ -3,8 +3,8 @@ import { describe, it, expect, beforeEach, afterEach, afterAll, mock, spyOn } fr
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js"
 import * as connectionModule from "./connection"
 import type { SkillMcpClientInfo, SkillMcpServerContext } from "./types"
-import type { ClaudeCodeMcpServer } from "../claude-code-mcp-loader/types"
-import type { OAuthTokenData } from "../mcp-oauth/storage"
+import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
+import type { OAuthTokenData } from "../../../shared/mcp-client-core/skill-mcp-manager/oauth-stubs"
 import { setHttpClientDependenciesForTesting } from "./http-client"
 import { setStdioClientDependenciesForTesting } from "./stdio-client"
 import { SkillMcpManager, buildSkillMcpClientKey } from "./manager"
@@ -902,8 +902,8 @@ describe("SkillMcpManager", () => {
       expect(mockTokens).not.toHaveBeenCalled()
     })
 
-    it("handles step-up auth by triggering re-login on 403 with scope", async () => {
-      // given
+    it("does not attempt step-up when oauth is not available", async () => {
+      // given - OAuth is stubbed out, so step-up is not available
       const info: SkillMcpClientInfo = {
         serverName: "stepup-server",
         skillName: "stepup-skill",
@@ -923,16 +923,10 @@ describe("SkillMcpManager", () => {
       }
 
       mockTokens.mockReturnValue({ accessToken: "initial-token" })
-      mockLogin.mockResolvedValue({ accessToken: "upgraded-token" })
 
-      let callCount = 0
       const mockClient = {
         callTool: mock(async () => {
-          callCount++
-          if (callCount === 1) {
-            throw new Error('403 WWW-Authenticate: Bearer scope="admin write"')
-          }
-          return { content: [{ type: "text", text: "success" }] }
+          throw new Error('403 WWW-Authenticate: Bearer scope="admin write"')
         }),
         close: mock(() => Promise.resolve()),
       }
@@ -940,12 +934,9 @@ describe("SkillMcpManager", () => {
       const getOrCreateSpy = spyOn(unsafeTestValue(manager), "getOrCreateClientWithRetry")
       getOrCreateSpy.mockResolvedValue(mockClient)
 
-      // when
-      const result = await manager.callTool(info, context, "test-tool", {})
-
-      // then
-      expect(result).toEqual([{ type: "text", text: "success" }])
-      expect(mockLogin).toHaveBeenCalled()
+      // when / #then - step-up is not available with stubbed OAuth, so error is thrown
+      await expect(manager.callTool(info, context, "test-tool", {})).rejects.toThrow(/403/)
+      expect(mockLogin).not.toHaveBeenCalled()
     })
 
     it("does not attempt step-up when oauth config is absent", async () => {

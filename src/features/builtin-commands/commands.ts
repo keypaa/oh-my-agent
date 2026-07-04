@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../claude-code-command-loader"
+import type { CommandDefinition } from "../claude-code-stubs"
 import { isAgentRegistered } from "../session-state"
 import type { BuiltinCommandName, BuiltinCommands } from "./types"
 import { RALPH_LOOP_TEMPLATE, ULW_LOOP_TEMPLATE, CANCEL_RALPH_TEMPLATE } from "./templates/ralph-loop"

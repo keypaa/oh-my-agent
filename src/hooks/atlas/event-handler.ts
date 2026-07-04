@@ -3,7 +3,6 @@ import { log } from "../../shared/logger"
 import { resolveMessageEventSessionID, resolveSessionEventID } from "../../shared/event-session-id"
 import { HOOK_NAME } from "./hook-name"
 import { isAbortError } from "./is-abort-error"
-import { handleAtlasSessionIdle } from "./idle-event"
 import type { AtlasHookOptions, SessionState } from "./types"
 
 export function createAtlasEventHandler(input: {
@@ -26,23 +25,10 @@ export function createAtlasEventHandler(input: {
       state.lastEventWasAbortError = isAbort
 
       log(`[${HOOK_NAME}] session.error`, { sessionID, isAbort })
-      if (!isAbort) {
-        const previousInjectedAt = state.lastContinuationInjectedAt
-        await handleAtlasSessionIdle({ ctx, options, getState, sessionID })
-        if (
-          state.lastContinuationInjectedAt !== undefined
-          && state.lastContinuationInjectedAt !== previousInjectedAt
-        ) {
-          state.skipNextIdleAfterRuntimeErrorRetry = true
-        }
-      }
       return
     }
 
     if (event.type === "session.idle") {
-      const sessionID = resolveSessionEventID(props)
-      if (!sessionID) return
-      await handleAtlasSessionIdle({ ctx, options, getState, sessionID })
       return
     }
 

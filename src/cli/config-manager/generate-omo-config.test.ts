@@ -121,9 +121,9 @@ describe("generateOmoConfig - model fallback system", () => {
     //#then
     expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.model).toBe("openai/gpt-5.5")
     expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.variant).toBe("medium")
-    // oracle and multimodal-looker get ULTIMATE_FALLBACK since requirements are empty
-    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("opencode/gpt-5-nano")
-    expect((result.agents as Record<string, { model: string }>)['multimodal-looker'].model).toBe("opencode/gpt-5-nano")
+    // oracle and multimodal-looker get provider model since requirements are empty but OpenAI is available
+    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("openai/gpt-5.4-mini-fast")
+    expect((result.agents as Record<string, { model: string }>)['multimodal-looker'].model).toBe("openai/gpt-5.4-mini-fast")
   })
 
   test("adds fallback_models when multiple providers are available", () => {
@@ -168,8 +168,8 @@ describe("generateOmoConfig - model fallback system", () => {
         variant: "medium",
       },
     ])
-    // categories get ULTIMATE_FALLBACK since requirements are empty
-    expect(categories.deep.model).toBe("opencode/gpt-5-nano")
+    // categories get provider model since requirements are empty but providers are available
+    expect(categories.deep.model).toBe("anthropic/claude-haiku-4-5")
     expect(categories.deep.fallback_models).toBeUndefined()
   })
 

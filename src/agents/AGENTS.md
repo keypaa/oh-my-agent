@@ -1,15 +1,15 @@
 ---
 name: agents-directory
-description: Developer reference for all 11 Oh My OpenAgent agent definitions, factory patterns, tool restrictions, and model routing.
+description: Developer reference for all 14 Oh My OpenAgent agent definitions, factory patterns, tool restrictions, and model routing.
 ---
 
-# src/agents/ — 11 Agent Definitions
+# src/agents/ — 14 Agent Definitions
 
 **Generated:** 2026-05-15
 
 ## OVERVIEW
 
-11 built-in agents. Type enum: [`src/config/schema/agent-names.ts`](../config/schema/agent-names.ts) `BuiltinAgentNameSchema`. 10 of them register via [`builtin-agents.ts`](builtin-agents.ts) `agentSources` record (factory functions). **Prometheus is special-cased** — it has no `createPrometheusAgent` factory; instead [`prometheus-agent-config-builder.ts`](../plugin-handlers/prometheus-agent-config-builder.ts) constructs its config directly during `agent-config-handler` Phase 3.
+14 built-in agents. Type enum: [`src/config/schema/agent-names.ts`](../config/schema/agent-names.ts) `BuiltinAgentNameSchema`. 13 of them register via [`builtin-agents.ts`](builtin-agents.ts) `agentSources` record (factory functions). **Prometheus is special-cased** — it has no `createPrometheusAgent` factory; instead [`prometheus-agent-config-builder.ts`](../plugin-handlers/prometheus-agent-config-builder.ts) constructs its config directly during `agent-config-handler` Phase 3.
 
 All factories follow `createXXXAgent(model) → AgentConfig`. Each carries a static `mode` property (`AgentFactory` type in [`src/agents/types.ts`](types.ts)). Composed via `buildAgent()`.
 
@@ -30,6 +30,9 @@ Modes verified from each agent file's `const MODE: AgentMode = ...` and (for Pro
 | **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.6 → gpt-5.5 medium → minimax-m3 → minimax-m2.7 | Todo-list orchestrator |
 | **Prometheus** | claude-opus-4-7 max | (override-only) | primary | gpt-5.5 high → glm-5.1 → gemini-3.1-pro | Strategic planner (interview); built via `buildPrometheusAgentConfig` (not in `agentSources`) |
 | **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m3 → minimax-m2.7 → big-pickle | Category-spawned executor |
+| **The-Auditor** | claude-opus-4-7 max | (model default) | all | — | Work verifier (audit-loop verifier 1); checks spec compliance, stubs, test passage |
+| **Cold-Eyes** | claude-opus-4-7 max | (model default) | subagent | — | Unbiased second verifier (audit-loop verifier 2); receives sanitized context only |
+| **ML-AI-Engineering** | claude-opus-4-7 max | (model default) | all | — | ML/AI specialist; experiment tracking, data pipeline, training, evaluation, model surgery |
 
 ## TOOL RESTRICTIONS
 
@@ -74,8 +77,11 @@ agents/
 ├── momus.ts                                   # Plan review
 ├── atlas/agent.ts                             # Todo orchestrator
 ├── prometheus/                                # Strategic planner prompt router; prompt content in packages/prompts-core/prompts/prometheus/
+├── the-auditor.ts                             # Audit-loop verifier 1
+├── cold-eyes.ts                               # Audit-loop verifier 2 (sanitized context)
+├── ml-ai-engineering.ts                       # ML/AI specialist
 ├── types.ts                                   # BuiltinAgentName, AgentMode, AgentConfig
-├── builtin-agents.ts                          # agentSources registry (10 → 11 with sisyphus-junior)
+├── builtin-agents.ts                          # agentSources registry (13 + prometheus special-cased)
 ├── builtin-agents/                            # maybeCreateXXXConfig conditional factories + general-agents.ts + available-skills.ts
 ├── agent-builder.ts                           # buildAgent() composition
 ├── utils.ts                                   # agent utilities
@@ -106,8 +112,8 @@ Model resolution: 4-step pipeline → override → category-default → provider
 Definition (from [`src/agents/types.ts`](types.ts)):
 
 - **`primary`** — respects user's UI-selected model. Used by: sisyphus, hephaestus, atlas, prometheus.
-- **`subagent`** — uses own fallback chain, ignores UI selection. Used by: oracle, librarian, explore, multimodal-looker, metis, momus, sisyphus-junior.
-- **`all`** — declared in the type for OpenCode compatibility but no built-in agent currently uses it.
+- **`subagent`** — uses own fallback chain, ignores UI selection. Used by: oracle, librarian, explore, multimodal-looker, metis, momus, sisyphus-junior, cold-eyes.
+- **`all`** — can be used as primary or subagent. Used by: the-auditor, ml-ai-engineering.
 
 ## CANONICAL ORDER
 

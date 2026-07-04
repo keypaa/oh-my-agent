@@ -1,5 +1,5 @@
 import type { OhMyOpenCodeConfig } from "../config";
-import { loadMcpConfigs } from "../features/claude-code-mcp-loader";
+import { loadMcpConfigs } from "../features/claude-code-stubs";
 import { createBuiltinMcps } from "../mcp";
 import type { PluginComponents } from "./plugin-components-loader";
 import { log } from "../shared";

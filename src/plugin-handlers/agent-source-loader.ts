@@ -5,7 +5,7 @@ import {
   loadProjectAgents,
   loadUserAgents,
   readOpencodeConfigAgents,
-} from "../features/claude-code-agent-loader";
+} from "../features/claude-code-stubs";
 import { log, migrateAgentConfig } from "../shared";
 import type {
   AgentConfigRecord,

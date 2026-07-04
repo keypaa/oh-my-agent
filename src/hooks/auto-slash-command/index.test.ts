@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, mock, spyOn } from "bun:te
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { clearCommandLoaderCache } from "../../features/claude-code-command-loader"
+import { clearCommandLoaderCache } from "../../features/claude-code-stubs"
 import type { LoadedSkill } from "../../features/opencode-skill-loader/types"
 // Import real shared module to avoid mock leaking to other test files
 import * as shared from "../../shared"

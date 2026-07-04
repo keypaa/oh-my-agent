@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, mock, afterAll } from "bun:test"
 import type { StdioServerParameters } from "@modelcontextprotocol/sdk/client/stdio.js"
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js"
-import type { ClaudeCodeMcpServer } from "../claude-code-mcp-loader/types"
+import type { ClaudeCodeMcpServer } from "#shared/claude-code-compat-core/claude-code-mcp-loader/types"
 import { setStdioClientDependenciesForTesting } from "./stdio-client"
 import type { SkillMcpClientInfo, SkillMcpManagerState } from "./types"
 

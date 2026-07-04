@@ -52,9 +52,9 @@ describe("generateModelConfig", () => {
           (entry.variant === "max" || entry.variant === "xhigh")
       )
       expect(unsupportedEntries).toEqual([])
-      // With empty requirements, agents that previously resolved from chains get ULTIMATE_FALLBACK
+      // With empty requirements, agents get provider model when provider is available
       expect(result.agents?.momus).toEqual({
-        model: "opencode/gpt-5-nano",
+        model: "github-copilot/gpt-5-mini",
       })
     })
     test("omits librarian when only ZAI is available", () => {
@@ -218,94 +218,94 @@ describe("generateModelConfig", () => {
   })
 
   describe("OpenAI fallback coverage", () => {
-    test("Atlas resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
+    test("Atlas resolves to provider model when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
-      expect(result.agents?.atlas?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, agents get provider model
+      expect(result.agents?.atlas?.model).toBe("openai/gpt-5.4-mini-fast")
     })
 
-    test("Metis resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
+    test("Metis resolves to provider model when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
-      expect(result.agents?.metis?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, agents get provider model
+      expect(result.agents?.metis?.model).toBe("openai/gpt-5.4-mini-fast")
     })
 
-    test("Sisyphus-Junior resolves to ULTIMATE_FALLBACK when only OpenAI is available (empty requirements)", () => {
+    test("Sisyphus-Junior resolves to provider model when only OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, agents get ULTIMATE_FALLBACK
-      expect(result.agents?.["sisyphus-junior"]?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, agents get provider model
+      expect(result.agents?.["sisyphus-junior"]?.model).toBe("openai/gpt-5.4-mini-fast")
     })
   })
 
   describe("Hephaestus agent special cases", () => {
-    test("Hephaestus gets ULTIMATE_FALLBACK when OpenAI is available (empty requirements)", () => {
+    test("Hephaestus gets provider model when OpenAI is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpenAI: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, hephaestus gets provider model
+      expect(result.agents?.hephaestus?.model).toBe("openai/gpt-5.4-mini-fast")
     })
 
-    test("Hephaestus gets ULTIMATE_FALLBACK when only Copilot is available (empty requirements)", () => {
+    test("Hephaestus gets provider model when only Copilot is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasCopilot: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, hephaestus gets provider model
+      expect(result.agents?.hephaestus?.model).toBe("github-copilot/gpt-5-mini")
     })
 
-    test("Hephaestus gets ULTIMATE_FALLBACK when OpenCode Zen is available (empty requirements)", () => {
+    test("Hephaestus gets provider model when OpenCode Zen is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasOpencodeZen: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      // #then - With empty requirements, hephaestus gets provider model
       expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
 
-    test("Hephaestus gets ULTIMATE_FALLBACK when only Claude is available (empty requirements)", () => {
+    test("Hephaestus gets provider model when only Claude is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasClaude: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK (not omitted)
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, hephaestus gets provider model
+      expect(result.agents?.hephaestus?.model).toBe("anthropic/claude-haiku-4-5")
     })
 
-    test("Hephaestus gets ULTIMATE_FALLBACK when only Gemini is available (empty requirements)", () => {
+    test("Hephaestus gets provider model when only Gemini is available (empty requirements)", () => {
       // #given
       const config = createConfig({ hasGemini: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
+      // #then - With empty requirements, hephaestus gets provider model
+      expect(result.agents?.hephaestus?.model).toBe("google/gemini-3-flash-lite")
     })
 
     test("Hephaestus gets ULTIMATE_FALLBACK when only ZAI is available (empty requirements)", () => {
@@ -315,7 +315,7 @@ describe("generateModelConfig", () => {
       // #when
       const result = generateModelConfig(config)
 
-      // #then - With empty requirements, hephaestus gets ULTIMATE_FALLBACK
+      // #then - ZAI not in provider priority, falls back to ULTIMATE_FALLBACK
       expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5-nano")
     })
   })

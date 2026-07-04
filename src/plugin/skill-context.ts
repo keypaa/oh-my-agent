@@ -23,7 +23,7 @@ import {
   readOpencodeConfigSkills,
 } from "../features/opencode-skill-loader"
 import { resolveActiveBuiltinSkills } from "../features/builtin-skills"
-import { getSystemMcpServerNames } from "../features/claude-code-mcp-loader"
+import { getSystemMcpServerNames } from "../features/claude-code-stubs"
 import { adaptHostSkillConfig } from "../shared/host-skill-config"
 
 export type SkillContext = {

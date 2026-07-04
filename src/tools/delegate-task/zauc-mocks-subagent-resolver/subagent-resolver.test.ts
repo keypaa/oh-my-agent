@@ -89,11 +89,7 @@ describe("resolveSubagentExecution", () => {
       hasProviderModelsCache: () => readProviderModelsCacheMock() !== null,
       _resetMemCacheForTesting: () => {},
     }))
-    mock.module("../../../features/claude-code-agent-loader/loader", () => ({
-      loadUserAgents: loadUserAgentsMock,
-      loadProjectAgents: loadProjectAgentsMock,
-    }))
-    mock.module("../../../features/claude-code-agent-loader", () => ({
+    mock.module("../../../features/claude-code-stubs", () => ({
       loadUserAgents: loadUserAgentsMock,
       loadProjectAgents: loadProjectAgentsMock,
     }))
@@ -1360,11 +1356,7 @@ describe("resolveSubagentExecution - agent name sanitization", () => {
       hasProviderModelsCache: () => readProviderModelsCacheMock() !== null,
       _resetMemCacheForTesting: () => {},
     }))
-    mock.module("../../../features/claude-code-agent-loader/loader", () => ({
-      loadUserAgents: loadUserAgentsMock,
-      loadProjectAgents: loadProjectAgentsMock,
-    }))
-    mock.module("../../../features/claude-code-agent-loader", () => ({
+    mock.module("../../../features/claude-code-stubs", () => ({
       loadUserAgents: loadUserAgentsMock,
       loadProjectAgents: loadProjectAgentsMock,
     }))

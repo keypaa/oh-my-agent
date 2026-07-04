@@ -1,4 +1,4 @@
-import { loadProjectAgents, loadUserAgents } from "../../features/claude-code-agent-loader"
+import { loadProjectAgents, loadUserAgents } from "../../features/claude-code-stubs"
 import {
   getAgentConfigKey,
   getAgentDisplayName,

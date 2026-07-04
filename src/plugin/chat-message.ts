@@ -109,6 +109,18 @@ export function createChatMessageHandler(args: {
       output.message.model = storedMainSessionModel
     }
 
+    if (isFirstMessage && hooks.auditLoopHook?.startAudit) {
+      const userParts = output.parts
+        .filter((p) => p.type === "text" && p.text)
+        .map((p) => p.text ?? "")
+        .join("\n")
+      hooks.auditLoopHook.startAudit(input.sessionID, {
+        originalTask: userParts || input.sessionID,
+        agentClaims: "",
+        changedFiles: "",
+      })
+    }
+
     await runChatMessageHooks({
       input,
       output,

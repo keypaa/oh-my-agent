@@ -64,7 +64,10 @@ export function createPluginInterface(args: {
       ctx,
       pluginConfig,
       firstMessageVariantGate,
-      hooks,
+      hooks: {
+        ...hooks,
+        auditLoopHook: hooks.auditLoopHook,
+      },
     }),
 
     "experimental.chat.messages.transform": createMessagesTransformHandler({
