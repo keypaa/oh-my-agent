@@ -102,8 +102,12 @@ describe("createEventHandler - model fallback", () => {
   test("triggers retry prompt for assistant message.updated APIError payloads (headless resume)", async () => {
     //#given
     const sessionID = "ses_message_updated_fallback"
+    setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["anthropic/claude-sonnet-4-6"] } } },
+    })
 
     //#when
     await handler({
@@ -126,8 +130,6 @@ describe("createEventHandler - model fallback", () => {
             parentID: "msg_user_1",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            mode: "Sisyphus - Ultraworker",
-            agent: "Sisyphus - Ultraworker",
             path: { cwd: "/tmp", root: "/tmp" },
             cost: 0,
             tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
@@ -144,9 +146,11 @@ describe("createEventHandler - model fallback", () => {
   test("#given model-fallback promptAsync may have been accepted before EOF #when the same assistant error repeats after the gate hold #then fallback continue is not duplicated", async () => {
     //#given
     const sessionID = "ses_message_updated_fallback_eof"
+    setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     const { handler, abortCalls, promptAsyncCalls } = createHandler({
       hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["anthropic/claude-sonnet-4-6"] } } },
       promptAsync: async () => {
         throw new Error("JSON Parse error: Unexpected EOF")
       },
@@ -171,7 +175,6 @@ describe("createEventHandler - model fallback", () => {
             parentID: "msg_user_eof",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
             path: { cwd: "/tmp", root: "/tmp" },
           },
         },
@@ -196,7 +199,10 @@ describe("createEventHandler - model fallback", () => {
     const sessionID = "ses_main_fallback_nested"
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["anthropic/claude-sonnet-4-6"] } } },
+    })
 
     //#when
     await handler({
@@ -482,7 +488,10 @@ describe("createEventHandler - model fallback", () => {
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
 
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["opencode-go/kimi-k2.6"] } } },
+    })
 
     const chatMessageHandler = createChatMessageHandler({
       ctx: unsafeTestValue({
@@ -519,7 +528,6 @@ describe("createEventHandler - model fallback", () => {
             content: [],
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
             path: { cwd: "/tmp", root: "/tmp" },
           },
         },
@@ -569,7 +577,10 @@ describe("createEventHandler - model fallback", () => {
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["opencode-go/kimi-k2.6"] } } },
+    })
 
     await handler({
       event: {
@@ -581,7 +592,6 @@ describe("createEventHandler - model fallback", () => {
             role: "user",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
           },
         },
       },
@@ -630,7 +640,10 @@ describe("createEventHandler - model fallback", () => {
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["opencode-go/kimi-k2.6", "kimi-for-coding/k2p5"] } } },
+    })
     const chatMessageHandler = createChatMessageHandler({
       ctx: unsafeTestValue({
         client: {
@@ -677,7 +690,6 @@ describe("createEventHandler - model fallback", () => {
             role: "user",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
           },
         },
       },
@@ -712,7 +724,10 @@ describe("createEventHandler - model fallback", () => {
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
-    const { handler, abortCalls, promptCalls } = createHandler({ hooks: { modelFallback } })
+    const { handler, abortCalls, promptCalls } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: ["opencode-go/kimi-k2.6"] } } },
+    })
     const chatMessageHandler = createChatMessageHandler({
       ctx: unsafeTestValue({
         client: {
@@ -754,7 +769,6 @@ describe("createEventHandler - model fallback", () => {
             },
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
           },
         },
       },
@@ -981,7 +995,7 @@ describe("createEventHandler - model fallback", () => {
           },
         },
       }),
-      pluginConfig: unsafeTestValue({}),
+      pluginConfig: unsafeTestValue({ agents: { sisyphus: { fallback_models: ["opencode-go/kimi-k2.6", "kimi-for-coding/k2p5"] } } }),
       firstMessageVariantGate: {
         markSessionCreated: () => {},
         clear: () => {},

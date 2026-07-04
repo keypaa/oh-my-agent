@@ -40,9 +40,14 @@ describe("model fallback hook", () => {
       ) => Promise<void>
     }>(modelFallback)
 
+    const sessionID = "ses_model_fallback_main"
+    setSessionFallbackChain(modelFallback, sessionID, [
+      { providers: ["anthropic", "github-copilot", "opencode", "vercel"], model: "claude-opus-4-7", variant: "max" },
+    ])
+
     const set = setPendingModelFallback(
       modelFallback,
-      "ses_model_fallback_main",
+      sessionID,
       "Sisyphus - Ultraworker",
       "anthropic",
       "claude-opus-4-7-thinking",
@@ -58,7 +63,7 @@ describe("model fallback hook", () => {
     }
 
     await hook["chat.message"]?.(
-      { sessionID: "ses_model_fallback_main" },
+      { sessionID },
       output,
     )
 
@@ -76,6 +81,11 @@ describe("model fallback hook", () => {
       ) => Promise<void>
     }>(modelFallback)
     const sessionID = "ses_model_fallback_main"
+
+    setSessionFallbackChain(modelFallback, sessionID, [
+      { providers: ["anthropic", "github-copilot", "opencode", "vercel"], model: "claude-opus-4-7", variant: "max" },
+      { providers: ["opencode-go", "vercel"], model: "kimi-k2.6" },
+    ])
 
     expect(
       setPendingModelFallback(modelFallback, sessionID, "Sisyphus - Ultraworker", "anthropic", "claude-opus-4-7-thinking"),
@@ -118,6 +128,10 @@ describe("model fallback hook", () => {
   test("does not re-arm fallback when one is already pending", () => {
     const sessionID = "ses_model_fallback_pending_guard"
     clearPendingModelFallback(modelFallback, sessionID)
+
+    setSessionFallbackChain(modelFallback, sessionID, [
+      { providers: ["anthropic", "github-copilot", "opencode", "vercel"], model: "claude-opus-4-7", variant: "max" },
+    ])
 
     const firstSet = setPendingModelFallback(
       modelFallback,
@@ -322,9 +336,14 @@ describe("model fallback hook", () => {
       },
     }))
 
+    const sessionID = "ses_model_fallback_toast"
+    setSessionFallbackChain(hook, sessionID, [
+      { providers: ["anthropic", "github-copilot", "opencode", "vercel"], model: "claude-opus-4-7", variant: "max" },
+    ])
+
     const set = setPendingModelFallback(
       hook,
-      "ses_model_fallback_toast",
+      sessionID,
       "Sisyphus - Ultraworker",
       "anthropic",
       "claude-opus-4-7-thinking",
@@ -339,7 +358,7 @@ describe("model fallback hook", () => {
       parts: [{ type: "text", text: "continue" }],
     }
 
-    await hook["chat.message"]?.({ sessionID: "ses_model_fallback_toast" }, output)
+    await hook["chat.message"]?.({ sessionID }, output)
 
     expect(toastCalls.length).toBe(1)
     expect(toastCalls[0]?.title).toBe("Model fallback")

@@ -7,12 +7,10 @@ import { SISYPHUS_JUNIOR_AGENT } from "./sisyphus-junior-agent"
 import { resolveCategoryConfig } from "./categories"
 import { CATEGORY_PROMPT_APPEND_RESOLVERS } from "./constants"
 import { parseModelString } from "../../shared/model-string-parser"
-import { CATEGORY_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
-import { normalizeFallbackModels, flattenToFallbackModelStrings } from "../../shared/model-resolver"
-import { buildFallbackChainFromModels, findMostSpecificFallbackEntry } from "../../shared/fallback-chain-from-models"
+import { normalizeFallbackModels } from "../../shared/model-resolver"
+import { buildFallbackChainFromModels } from "../../shared/fallback-chain-from-models"
 import { CONFIG_BASENAME } from "../../shared/plugin-identity"
 import { getAvailableModelsForDelegateTask } from "./available-models"
-import { resolveModelForDelegateTask } from "./model-selection"
 import type { DelegatedModelConfig } from "./types"
 import { applyCategoryParams } from "./delegated-model-config"
 
@@ -85,109 +83,29 @@ export async function resolveCategoryExecution(
   })
 
   if (!resolved) {
-    const requirement = CATEGORY_MODEL_REQUIREMENTS[categoryName]
     const allCategoryNames = Object.keys(enabledCategories).join(", ")
-
-    if (categoryExists && requirement?.requiresModel) {
-      return categoryResolutionError(`Category "${categoryName}" requires model "${requirement.requiresModel}" which is not available.
-
-To use this category:
-1. Connect a provider with this model: ${requirement.requiresModel}
-2. Or configure an alternative model in your ${CONFIG_BASENAME}.json for this category
-
-Available categories: ${allCategoryNames}`)
-    }
-
     return categoryResolutionError(`Unknown category: "${categoryName}". Available: ${allCategoryNames}`)
   }
 
-  const requirement = CATEGORY_MODEL_REQUIREMENTS[args.category!]
   const normalizedConfiguredFallbackModels = normalizeFallbackModels(resolved.config.fallback_models)
   let actualModel: string | undefined
   let modelInfo: ModelFallbackInfo | undefined
   let categoryModel: DelegatedModelConfig | undefined
-  let isModelResolutionSkipped = false
-  let fallbackEntry: FallbackEntry | undefined
-  let matchedFallback = false
 
   const overrideModel = sisyphusJuniorModel
   const explicitCategoryModel = userCategories?.[args.category!]?.model
 
-  if (!requirement) {
-    // Precedence: explicit category model > sisyphus-junior default > category resolved model
-    // This keeps `sisyphus-junior.model` useful as a global default while allowing
-    // per-category overrides via `categories[category].model`.
-    actualModel = explicitCategoryModel ?? overrideModel ?? resolved.model
-    if (actualModel) {
-      modelInfo = explicitCategoryModel || overrideModel
-        ? { model: actualModel, type: "user-defined", source: "override" }
-        : { model: actualModel, type: "system-default", source: "system-default" }
-      const parsedModel = parseModelString(actualModel)
-      const variantToUse = userCategories?.[args.category!]?.variant ?? resolved.config.variant
-      categoryModel = parsedModel
-        ? applyCategoryParams({ ...parsedModel, variant: variantToUse ?? parsedModel.variant }, resolved.config)
-        : undefined
-    }
-  } else {
-    const resolution = resolveModelForDelegateTask({
-      userModel: explicitCategoryModel ?? overrideModel,
-      userFallbackModels: flattenToFallbackModelStrings(normalizedConfiguredFallbackModels),
-      categoryDefaultModel: resolved.model,
-      isUserConfiguredCategoryModel: resolved.isUserConfiguredModel,
-      fallbackChain: requirement.fallbackChain,
-      availableModels,
-      systemDefaultModel,
-    })
-
-    if (resolution && "skipped" in resolution) {
-      isModelResolutionSkipped = true
-      const userModelOverride = explicitCategoryModel ?? overrideModel
-      if (userModelOverride) {
-        actualModel = userModelOverride
-        const parsedModel = parseModelString(userModelOverride)
-        const variantToUse = userCategories?.[args.category!]?.variant ?? resolved.config.variant
-        categoryModel = parsedModel
-          ? applyCategoryParams({ ...parsedModel, variant: variantToUse ?? parsedModel.variant }, resolved.config)
-          : undefined
-        modelInfo = { model: userModelOverride, type: "user-defined", source: "override" }
-      }
-    } else if (resolution) {
-      const {
-        model: resolvedModel,
-        variant: resolvedVariant,
-        fallbackEntry: resolvedFallbackEntry,
-        matchedFallback: resolvedMatchedFallback,
-      } = resolution
-      fallbackEntry = resolvedFallbackEntry
-      matchedFallback = resolvedMatchedFallback === true
-      actualModel = resolvedModel
-
-      if (!parseModelString(actualModel)) {
-        return categoryResolutionError(`Invalid model format "${actualModel}". Expected "provider/model" format (e.g., "anthropic/claude-sonnet-4-6").`)
-      }
-
-      const type: "user-defined" | "inherited" | "category-default" | "system-default" =
-        (explicitCategoryModel || overrideModel)
-          ? "user-defined"
-          : (systemDefaultModel && actualModel === systemDefaultModel)
-              ? "system-default"
-              : "category-default"
-
-      const source: "override" | "category-default" | "system-default" =
-        type === "user-defined"
-          ? "override"
-          : type === "system-default"
-              ? "system-default"
-              : "category-default"
-
-      modelInfo = { model: actualModel, type, source }
-
-      const parsedModel = parseModelString(actualModel)
-      const variantToUse = userCategories?.[args.category!]?.variant ?? resolvedVariant ?? resolved.config.variant
-      categoryModel = parsedModel
-        ? applyCategoryParams({ ...parsedModel, variant: variantToUse ?? parsedModel.variant }, resolved.config)
-        : undefined
-    }
+  // Precedence: explicit category model > sisyphus-junior default > category resolved model
+  actualModel = explicitCategoryModel ?? overrideModel ?? resolved.model
+  if (actualModel) {
+    modelInfo = explicitCategoryModel || overrideModel
+      ? { model: actualModel, type: "user-defined", source: "override" }
+      : { model: actualModel, type: "system-default", source: "system-default" }
+    const parsedModel = parseModelString(actualModel)
+    const variantToUse = userCategories?.[args.category!]?.variant ?? resolved.config.variant
+    categoryModel = parsedModel
+      ? applyCategoryParams({ ...parsedModel, variant: variantToUse ?? parsedModel.variant }, resolved.config)
+      : undefined
   }
 
   if (!categoryModel && actualModel) {
@@ -201,7 +119,7 @@ Available categories: ${allCategoryNames}`)
     userCategories?.[args.category!]?.prompt_append,
   )
 
-  if (!categoryModel && !actualModel && !isModelResolutionSkipped) {
+  if (!categoryModel && !actualModel) {
     const categoryNames = Object.keys(enabledCategories)
     return categoryResolutionError(`Model not configured for category "${args.category}".
 
@@ -225,28 +143,6 @@ Available categories: ${categoryNames.join(", ")}`)
     defaultProviderID,
   )
 
-  // Only promote fallback-only settings when resolution actually selected a fallback model.
-  const effectiveEntry = matchedFallback && categoryModel
-    ? (
-        fallbackEntry
-        ?? (configuredFallbackChain
-          ? findMostSpecificFallbackEntry(categoryModel.providerID, categoryModel.modelID, configuredFallbackChain)
-          : undefined)
-      )
-    : undefined
-
-  if (categoryModel && effectiveEntry) {
-    categoryModel = {
-      ...categoryModel,
-      variant: userCategories?.[args.category!]?.variant ?? effectiveEntry.variant ?? categoryModel.variant,
-      reasoningEffort: effectiveEntry.reasoningEffort ?? categoryModel.reasoningEffort,
-      temperature: effectiveEntry.temperature ?? categoryModel.temperature,
-      top_p: effectiveEntry.top_p ?? categoryModel.top_p,
-      maxTokens: effectiveEntry.maxTokens ?? categoryModel.maxTokens,
-      thinking: effectiveEntry.thinking ?? categoryModel.thinking,
-    }
-  }
-
   return {
     agentToUse: SISYPHUS_JUNIOR_AGENT,
     categoryModel,
@@ -255,7 +151,6 @@ Available categories: ${categoryNames.join(", ")}`)
     modelInfo,
     actualModel,
     isUnstableAgent,
-    // Don't use hardcoded fallback chain when resolution was skipped (cold cache)
-    fallbackChain: configuredFallbackChain ?? ((isModelResolutionSkipped || explicitCategoryModel || overrideModel) ? undefined : requirement?.fallbackChain),
+    fallbackChain: configuredFallbackChain,
   }
 }

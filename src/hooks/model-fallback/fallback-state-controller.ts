@@ -1,6 +1,4 @@
 import type { FallbackEntry } from "../../shared/model-requirements"
-import { getAgentConfigKey } from "../../shared/agent-display-names"
-import { AGENT_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
 import { log } from "../../shared/logger"
 import { getNextReachableFallback } from "./next-fallback"
 
@@ -70,12 +68,10 @@ export function createModelFallbackStateController(input: {
     currentProviderID: string,
     currentModelID: string,
   ): boolean {
-    const agentKey = getAgentConfigKey(agentName)
-    const requirements = AGENT_MODEL_REQUIREMENTS[agentKey]
-    const fallbackChain = sessionFallbackChains.get(sessionID) ?? requirements?.fallbackChain
+    const fallbackChain = sessionFallbackChains.get(sessionID)
 
     if (!fallbackChain?.length) {
-      log(`[model-fallback] No fallback chain for agent: ${agentName} (key: ${agentKey})`)
+      log(`[model-fallback] No fallback chain for session: ${sessionID}, agent: ${agentName}`)
       return false
     }
 

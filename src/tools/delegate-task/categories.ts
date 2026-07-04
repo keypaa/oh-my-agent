@@ -1,10 +1,7 @@
 import type { CategoryConfig, CategoriesConfig } from "../../config/schema"
 import { DEFAULT_CATEGORIES, CATEGORY_PROMPT_APPENDS } from "./constants"
 import { resolveModel } from "../../shared/model-resolver"
-import { isModelAvailable } from "../../shared/model-availability"
 import { normalizeModel } from "../../shared/model-normalization"
-import { CATEGORY_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
-import { log } from "../../shared/logger"
 
 export interface ResolveCategoryConfigOptions {
   userCategories?: CategoriesConfig
@@ -28,23 +25,15 @@ export function resolveCategoryConfig(
   categoryName: string,
   options: ResolveCategoryConfigOptions
 ): ResolveCategoryConfigResult | null {
-  const { userCategories, inheritedModel: _inheritedModel, systemDefaultModel, availableModels } = options
+  const { userCategories, inheritedModel: _inheritedModel, systemDefaultModel, availableModels: _availableModels } = options
 
   const defaultConfig = DEFAULT_CATEGORIES[categoryName]
   const userConfig = userCategories?.[categoryName]
-  const hasExplicitUserConfig = userConfig !== undefined
 
   if (userConfig?.disable) {
     return null
   }
 
-  const categoryReq = CATEGORY_MODEL_REQUIREMENTS[categoryName]
-  if (categoryReq?.requiresModel && availableModels && !hasExplicitUserConfig) {
-    if (!isModelAvailable(categoryReq.requiresModel, availableModels)) {
-      log(`[resolveCategoryConfig] Category ${categoryName} requires ${categoryReq.requiresModel} but not available`)
-      return null
-    }
-  }
   const defaultPromptAppend = CATEGORY_PROMPT_APPENDS[categoryName] ?? ""
 
   if (!defaultConfig && !userConfig) {
@@ -52,10 +41,9 @@ export function resolveCategoryConfig(
   }
 
   // Model priority for categories: user override > category default > system default
-  // Categories have explicit models - no inheritance from parent session
   const model = resolveModel({
     userModel: userConfig?.model,
-    inheritedModel: defaultConfig?.model, // Category's built-in model takes precedence over system default
+    inheritedModel: defaultConfig?.model,
     systemDefault: systemDefaultModel,
   })
   const isUserConfiguredModel = normalizeModel(userConfig?.model) !== undefined

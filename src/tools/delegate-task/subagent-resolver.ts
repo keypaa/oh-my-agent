@@ -1,5 +1,5 @@
 import type { DelegateTaskArgs } from "./types"
-import type { ExecutorContext } from "./executor-types"
+import type { ExecutorContext, ParentContext } from "./executor-types"
 import { log } from "../../shared/logger"
 import { resolveSubagentAgentMatch } from "./subagent-agent-match"
 import { resolveSubagentModel } from "./subagent-model-resolution"
@@ -14,6 +14,7 @@ export async function resolveSubagentExecution(
   parentAgent: string | undefined,
   categoryExamples: string,
   options: ResolveSubagentExecutionOptions = {},
+  parentModel?: ParentContext["model"],
 ): Promise<ResolveSubagentExecutionResult> {
   const preflight = validateSubagentRequest(args, parentAgent, categoryExamples, options)
   if (preflight.kind === "invalid") {
@@ -29,7 +30,7 @@ export async function resolveSubagentExecution(
     }
 
     agentToUse = agentMatch.agentToUse
-    const { categoryModel, fallbackChain } = await resolveSubagentModel(agentToUse, agentMatch.matchedAgent, executorCtx)
+    const { categoryModel, fallbackChain } = await resolveSubagentModel(agentToUse, agentMatch.matchedAgent, executorCtx, parentModel)
     return { agentToUse, categoryModel, fallbackChain }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)

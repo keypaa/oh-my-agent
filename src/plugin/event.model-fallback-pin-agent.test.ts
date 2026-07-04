@@ -39,6 +39,7 @@ function expectSyntheticContinuation(body: PromptBody["body"]): void {
 }
 
 describe("createEventHandler - model-fallback auto-continuation pins agent/model/variant", () => {
+  const FALLBACK_MODELS = ["anthropic/claude-sonnet-4-6"]
   const createHandler = (args?: {
     hooks?: unknown
     pluginConfig?: unknown
@@ -102,7 +103,10 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
-    const { handler, promptAsyncBodies } = createHandler({ hooks: { modelFallback } })
+    const { handler, promptAsyncBodies } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: FALLBACK_MODELS } } },
+    })
 
     // when
     await handler({
@@ -125,7 +129,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
             parentID: "msg_user_pin_1",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
+            agent: "sisyphus",
           },
         },
       },
@@ -135,7 +139,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
     expect(promptAsyncBodies.length).toBe(1)
     const body = promptAsyncBodies[0]!.body
     expect(body.agent).toBeDefined()
-    expect(body.agent).toContain("Sisyphus")
+    expect(body.agent?.toLowerCase()).toContain("sisyphus")
     expect(body.model).toEqual({
       providerID: "anthropic",
       modelID: "claude-opus-4-7",
@@ -149,7 +153,10 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
     setMainSession(sessionID)
     const modelFallback = createModelFallbackHook()
     clearPendingModelFallback(modelFallback, sessionID)
-    const { handler, promptAsyncBodies } = createHandler({ hooks: { modelFallback } })
+    const { handler, promptAsyncBodies } = createHandler({
+      hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: FALLBACK_MODELS } } },
+    })
 
     // when
     await handler({
@@ -192,6 +199,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
     clearPendingModelFallback(modelFallback, sessionID)
     const { handler, promptBodies, promptAsyncBodies } = createHandler({
       hooks: { modelFallback },
+      pluginConfig: { agents: { sisyphus: { fallback_models: FALLBACK_MODELS } } },
       withPromptAsync: false,
     })
 
@@ -205,7 +213,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
             role: "user",
             modelID: "claude-opus-4-7-thinking",
             providerID: "anthropic",
-            agent: "Sisyphus - Ultraworker",
+            agent: "sisyphus",
           },
         },
       },
@@ -233,7 +241,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
     expect(promptBodies.length).toBe(1)
     const body = promptBodies[0]!.body
     expect(body.agent).toBeDefined()
-    expect(body.agent).toContain("Sisyphus")
+    expect(body.agent?.toLowerCase()).toContain("sisyphus")
     expect(body.model).toEqual({
       providerID: "anthropic",
       modelID: "claude-opus-4-7",
@@ -251,6 +259,7 @@ describe("createEventHandler - model-fallback auto-continuation pins agent/model
       agents: {
         sisyphus: {
           variant: "thinking",
+          fallback_models: FALLBACK_MODELS,
         },
       },
     }

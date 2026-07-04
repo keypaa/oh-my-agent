@@ -4174,8 +4174,8 @@ describe("sisyphus-task", () => {
       })
     }, { timeout: 20000 })
 
-    test("agent without model resolves via fallback chain", async () => {
-      // given - agent registered without model field, fallback chain should resolve
+    test("agent without model resolves via parent model inheritance", async () => {
+      // given - agent registered without model field; parent model is inherited from previous message
       const { createDelegateTask } = require("./tools")
       let promptBody: CapturedPromptBody = {}
 
@@ -4201,7 +4201,10 @@ describe("sisyphus-task", () => {
            prompt: promptMock,
            promptAsync: promptMock,
            messages: async () => ({
-             data: [{ info: { role: "assistant" }, parts: [{ type: "text", text: "Done" }] }],
+             data: [{
+               info: { role: "assistant", model: { providerID: "anthropic", modelID: "claude-sonnet-4-6" } },
+               parts: [{ type: "text", text: "Done" }],
+             }],
            }),
            status: async () => ({ data: { "ses_no_model_agent": { type: "idle" } } }),
          },
@@ -4210,6 +4213,8 @@ describe("sisyphus-task", () => {
        const tool = createDelegateTask({
          manager: mockManager,
          client: mockClient,
+         connectedProvidersOverride: TEST_CONNECTED_PROVIDERS,
+         availableModelsOverride: createTestAvailableModels(),
        })
 
       const toolContext = {
@@ -4231,8 +4236,10 @@ describe("sisyphus-task", () => {
         toolContext
       )
 
-      // then - model should be resolved via AGENT_MODEL_REQUIREMENTS fallback chain
+      // then - model should be resolved via parent model inheritance
       expect(promptBody.model).toBeDefined()
+      expect(promptBody.model.providerID).toBe("anthropic")
+      expect(promptBody.model.modelID).toBe("claude-sonnet-4-6")
     }, { timeout: 20000 })
 
     test("agentOverrides model takes priority over matchedAgent.model (#1357)", async () => {
@@ -4367,7 +4374,7 @@ describe("sisyphus-task", () => {
     }, { timeout: 20000 })
 
     test("fallback chain resolves model when no override and no matchedAgent.model (#1357)", async () => {
-      // given - agent registered without model, no override, but AGENT_MODEL_REQUIREMENTS has fallback
+      // given - agent registered without model, no override; parent model is inherited from previous message
       const { createDelegateTask } = require("./tools")
       let promptBody: CapturedPromptBody = {}
 
@@ -4393,7 +4400,10 @@ describe("sisyphus-task", () => {
            prompt: promptMock,
            promptAsync: promptMock,
            messages: async () => ({
-             data: [{ info: { role: "assistant" }, parts: [{ type: "text", text: "Done" }] }],
+             data: [{
+               info: { role: "assistant", model: { providerID: "openai", modelID: "gpt-5.5" } },
+               parts: [{ type: "text", text: "Done" }],
+             }],
            }),
            status: async () => ({ data: { "ses_fallback_test": { type: "idle" } } }),
          },
@@ -4402,7 +4412,6 @@ describe("sisyphus-task", () => {
        const tool = createDelegateTask({
          manager: mockManager,
          client: mockClient,
-         // no agentOverrides
          connectedProvidersOverride: TEST_CONNECTED_PROVIDERS,
          availableModelsOverride: createTestAvailableModels(),
        })
@@ -4426,9 +4435,7 @@ describe("sisyphus-task", () => {
         toolContext
       )
 
-      // then - should resolve via AGENT_MODEL_REQUIREMENTS fallback chain for oracle
-      // oracle fallback chain: gpt-5.5 (openai) > gemini-3.1-pro (google) > claude-opus-4-7 (anthropic)
-      // Since openai is in connectedProviders, should resolve to openai/gpt-5.5
+      // then - should resolve via parent model inheritance
       expect(promptBody.model).toBeDefined()
       expect(promptBody.model.providerID).toBe("openai")
       expect(promptBody.model.modelID).toContain("gpt-5.5")

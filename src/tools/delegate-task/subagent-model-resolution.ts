@@ -4,7 +4,6 @@ import { fuzzyMatchModel } from "../../shared/model-availability"
 import { buildFallbackChainFromModels } from "../../shared/fallback-chain-from-models"
 import { normalizeModelFormat } from "../../shared/model-format-normalizer"
 import { flattenToFallbackModelStrings, normalizeFallbackModels } from "../../shared/model-resolver"
-import { AGENT_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
 import { log } from "../../shared/logger"
 import { getAvailableModelsForDelegateTask } from "./available-models"
 import { applyCategoryParams } from "./delegated-model-config"
@@ -24,13 +23,13 @@ export async function resolveSubagentModel(
   agentToUse: string,
   matchedAgent: AgentInfo,
   executorCtx: ExecutorContext,
+  parentModel?: { providerID: string; modelID: string; variant?: string },
 ): Promise<ResolvedSubagentModel> {
   let categoryModel = undefined
   let fallbackChain = undefined
 
   const agentConfigKey = getAgentConfigKey(agentToUse)
   const agentOverride = findAgentOverride(executorCtx.agentOverrides, agentConfigKey)
-  const agentRequirement = AGENT_MODEL_REQUIREMENTS[agentConfigKey]
   const agentCategoryConfig = agentOverride?.category
     ? executorCtx.userCategories?.[agentOverride.category]
     : undefined
@@ -49,12 +48,17 @@ export async function resolveSubagentModel(
     ? `${normalizedMatchedModel.providerID}/${normalizedMatchedModel.modelID}`
     : undefined
 
-  if (agentOverride?.model || agentCategoryModel || agentRequirement || matchedAgent.model) {
+  // Caller model inheritance: use parent model as default unless config overrides
+  const parentModelStr = parentModel
+    ? `${parentModel.providerID}/${parentModel.modelID}`
+    : undefined
+
+  if (agentOverride?.model || agentCategoryModel || parentModelStr || matchedAgent.model) {
     const resolution = resolveModelForDelegateTask({
       userModel: agentOverride?.model ?? agentCategoryModel,
       userFallbackModels: flattenToFallbackModelStrings(normalizedAgentFallbackModels),
-      categoryDefaultModel: matchedAgentModelStr,
-      fallbackChain: agentRequirement?.fallbackChain,
+      categoryDefaultModel: parentModelStr ?? matchedAgentModelStr,
+      fallbackChain: undefined,
       availableModels,
       systemDefaultModel: undefined,
     })
@@ -84,13 +88,14 @@ export async function resolveSubagentModel(
 
     const defaultProviderID = categoryModel?.providerID
       ?? normalizedMatchedModel?.providerID
+      ?? parentModel?.providerID
       ?? "opencode"
     const configuredFallbackChain = buildFallbackChainFromModels(
       normalizedAgentFallbackModels,
       defaultProviderID,
     )
     fallbackChain = configuredFallbackChain
-      ?? ((resolutionSkipped || hasExplicitUserModel) ? undefined : agentRequirement?.fallbackChain)
+      ?? (resolutionSkipped || hasExplicitUserModel ? undefined : undefined)
     const effectiveEntry = resolveEffectiveFallbackEntry({
       categoryModel,
       configuredFallbackChain,

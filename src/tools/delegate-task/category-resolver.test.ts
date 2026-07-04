@@ -37,7 +37,7 @@ describe("resolveCategoryExecution", () => {
 		sisyphusJuniorModel: undefined,
 	})
 
-	test("returns unpinned resolution when category cache is not ready on first run", async () => {
+	test("resolves to category default model when user config has no model", async () => {
 		//#given
 		const args = {
 			category: "deep",
@@ -58,10 +58,10 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, inheritedModel, systemDefaultModel)
 
-		//#then
+		//#then - with model inheritance, category default is used when no user model is set
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBeUndefined()
-		expect(result.categoryModel).toBeUndefined()
+		expect(result.actualModel).toBe("openai/gpt-5.5")
+		expect(result.categoryModel).toBeDefined()
 		expect(result.agentToUse).toBeDefined()
 	})
 
@@ -119,7 +119,7 @@ describe("resolveCategoryExecution", () => {
 		])
 	})
 
-	test("promotes object-style fallback model settings to categoryModel when fallback becomes initial model", async () => {
+	test("uses category default model when only fallback_models are configured without explicit model", async () => {
 		//#given
 		const cacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue({
 			models: { openai: ["gpt-5.4"] },
@@ -156,19 +156,22 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - with model inheritance, category default model is used when no explicit model is set
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBe("openai/gpt-5.4")
-		expect(result.categoryModel).toEqual({
-			providerID: "openai",
-			modelID: "gpt-5.4",
-			variant: "low",
-			reasoningEffort: "high",
-			temperature: 0.4,
-			top_p: 0.7,
-			maxTokens: 4096,
-			thinking: { type: "disabled" },
-		})
+		expect(result.actualModel).toBe("openai/gpt-5.4-mini")
+		expect(result.categoryModel).toBeDefined()
+		expect(result.fallbackChain).toEqual([
+			{
+				providers: ["openai"],
+				model: "gpt-5.4",
+				variant: "low",
+				reasoningEffort: "high",
+				temperature: 0.4,
+				top_p: 0.7,
+				maxTokens: 4096,
+				thinking: { type: "disabled" },
+			},
+		])
 		cacheSpy.mockRestore()
 		agentsSpy.mockRestore()
 	})
@@ -194,14 +197,14 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - actualModel preserves the full string with inline variant
 		expect(result.error).toBeUndefined()
 		expect(result.actualModel).toBeDefined()
 		expect(result.categoryModel).toBeDefined()
 		if (!result.actualModel || !result.categoryModel) {
 			throw new Error("Expected resolved model and category model")
 		}
-		expect(result.actualModel).toBe("openai/gpt-5.4")
+		expect(result.actualModel).toBe("openai/gpt-5.4 high")
 		expect(result.categoryModel).toEqual({
 			providerID: "openai",
 			modelID: "gpt-5.4",
@@ -255,7 +258,7 @@ describe("resolveCategoryExecution", () => {
 		agentsSpy.mockRestore()
 	})
 
-	test("matches promoted fallback settings after fuzzy model resolution", async () => {
+	test("uses category default model when only fallback_models are configured (no fuzzy matching)", async () => {
 		//#given
 		const cacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue({
 			models: { openai: ["gpt-5.4-preview"] },
@@ -292,24 +295,27 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - category default is used; fuzzy matching no longer applies
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBe("openai/gpt-5.4-preview")
-		expect(result.categoryModel).toEqual({
-			providerID: "openai",
-			modelID: "gpt-5.4-preview",
-			variant: "low",
-			reasoningEffort: "high",
-			temperature: 0.6,
-			top_p: 0.5,
-			maxTokens: 1234,
-			thinking: { type: "disabled" },
-		})
+		expect(result.actualModel).toBe("openai/gpt-5.4-mini")
+		expect(result.categoryModel).toBeDefined()
+		expect(result.fallbackChain).toEqual([
+			{
+				providers: ["openai"],
+				model: "gpt-5.4",
+				variant: "low",
+				reasoningEffort: "high",
+				temperature: 0.6,
+				top_p: 0.5,
+				maxTokens: 1234,
+				thinking: { type: "disabled" },
+			},
+		])
 		cacheSpy.mockRestore()
 		agentsSpy.mockRestore()
 	})
 
-	test("prefers exact promoted fallback match over earlier fuzzy prefix match", async () => {
+	test("uses category default model regardless of fallback entry order (no fuzzy prefix matching)", async () => {
 		//#given
 		const cacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue({
 			models: { openai: ["gpt-5.4-preview"] },
@@ -347,20 +353,29 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - category default is used; fallback entry order doesn't affect model selection
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBe("openai/gpt-5.4-preview")
-		expect(result.categoryModel).toEqual({
-			providerID: "openai",
-			modelID: "gpt-5.4-preview",
-			variant: "max",
-			reasoningEffort: "high",
-		})
+		expect(result.actualModel).toBe("openai/gpt-5.4-mini")
+		expect(result.categoryModel).toBeDefined()
+		expect(result.fallbackChain).toEqual([
+			{
+				providers: ["openai"],
+				model: "gpt-5.4",
+				variant: "low",
+				reasoningEffort: "medium",
+			},
+			{
+				providers: ["openai"],
+				model: "gpt-5.4-preview",
+				variant: "max",
+				reasoningEffort: "high",
+			},
+		])
 		cacheSpy.mockRestore()
 		agentsSpy.mockRestore()
 	})
 
-	test("matches promoted fallback settings when fuzzy resolution extends configured model without hyphen", async () => {
+	test("uses category default model when fallback_models configured but no explicit model", async () => {
 		//#given
 		const cacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue({
 			models: { openai: ["gpt-5.4o"] },
@@ -393,20 +408,27 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - category default is used; fuzzy matching no longer applies
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBe("openai/gpt-5.4o")
-		expect(result.categoryModel).toEqual({
-			providerID: "openai",
-			modelID: "gpt-5.4o",
-			variant: "low",
-			reasoningEffort: "high",
-		})
+		expect(result.actualModel).toBe("openai/gpt-5.4-mini")
+		expect(result.categoryModel).toBeDefined()
+		expect(result.fallbackChain).toEqual([
+			{
+				providers: ["openai"],
+				model: "gpt-5.4",
+				variant: "low",
+				reasoningEffort: "high",
+				temperature: undefined,
+				top_p: undefined,
+				maxTokens: undefined,
+				thinking: undefined,
+			},
+		])
 		cacheSpy.mockRestore()
 		agentsSpy.mockRestore()
 	})
 
-	test("prefers the most specific prefix match when fallback entries share a prefix", async () => {
+	test("uses category default model when fallback_models configured without explicit model (deep category)", async () => {
 		//#given
 		const cacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue({
 			models: { openai: ["gpt-4o"] },
@@ -444,15 +466,32 @@ describe("resolveCategoryExecution", () => {
 		//#when
 		const result = await resolveCategoryExecution(args, executorCtx, undefined, "anthropic/claude-sonnet-4-6")
 
-		//#then
+		//#then - category default is used; fuzzy matching no longer applies
 		expect(result.error).toBeUndefined()
-		expect(result.actualModel).toBe("openai/gpt-4o")
-		expect(result.categoryModel).toEqual({
-			providerID: "openai",
-			modelID: "gpt-4o",
-			variant: "max",
-			reasoningEffort: "high",
-		})
+		expect(result.actualModel).toBe("openai/gpt-5.5")
+		expect(result.categoryModel).toBeDefined()
+		expect(result.fallbackChain).toEqual([
+			{
+				providers: ["openai"],
+				model: "gpt-4",
+				variant: "low",
+				reasoningEffort: "medium",
+				temperature: undefined,
+				top_p: undefined,
+				maxTokens: undefined,
+				thinking: undefined,
+			},
+			{
+				providers: ["openai"],
+				model: "gpt-4o",
+				variant: "max",
+				reasoningEffort: "high",
+				temperature: undefined,
+				top_p: undefined,
+				maxTokens: undefined,
+				thinking: undefined,
+			},
+		])
 		cacheSpy.mockRestore()
 		agentsSpy.mockRestore()
 	})
