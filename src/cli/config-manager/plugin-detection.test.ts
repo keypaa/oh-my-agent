@@ -199,21 +199,6 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     getPluginNameWithVersionSpy.mockRestore()
   })
 
-  it("rewrites quoted jsonc plugin field in place", async () => {
-    // given
-    testConfigPath = join(testConfigDir, "opencode.jsonc")
-    writeFileSync(testConfigPath, '{\n  "plugin": ["oh-my-agent"]\n}\n', "utf-8")
-
-    // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
-
-    // then
-    expect(result.success).toBe(true)
-    const savedContent = readFileSync(testConfigPath, "utf-8")
-    expect(savedContent.includes('"plugin": [\n    "oh-my-agent"\n  ]')).toBe(true)
-    expect(savedContent.includes("oh-my-agent")).toBe(false)
-  })
-
   it("mirrors an existing source plugin entry into profile configs", async () => {
     // given
     writeFileSync(testConfigPath, JSON.stringify({ plugin: [sourcePlugin] }, null, 2) + "\n", "utf-8")

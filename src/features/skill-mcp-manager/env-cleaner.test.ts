@@ -3,6 +3,10 @@
 import { describe, it, expect, afterEach } from "bun:test"
 import { createCleanMcpEnvironment, EXCLUDED_ENV_PATTERNS } from "./env-cleaner"
 
+function getPath(env: Record<string, string>): string | undefined {
+  return env.PATH ?? env.Path
+}
+
 describe("createCleanMcpEnvironment", () => {
   // Store original env to restore after tests
   const originalEnv = { ...process.env }
@@ -34,7 +38,7 @@ describe("createCleanMcpEnvironment", () => {
       expect(cleanEnv.NPM_CONFIG_REGISTRY).toBeUndefined()
       expect(cleanEnv.NPM_CONFIG_CACHE).toBeUndefined()
       expect(cleanEnv.NPM_CONFIG_PREFIX).toBeUndefined()
-      expect(cleanEnv.PATH).toBe("/usr/bin")
+      expect(getPath(cleanEnv)).toBe("/usr/bin")
     })
 
     it("filters out lowercase npm_config_* variables", () => {
@@ -122,7 +126,7 @@ describe("createCleanMcpEnvironment", () => {
       const cleanEnv = createCleanMcpEnvironment(customEnv)
 
       // then
-      expect(cleanEnv.PATH).toBe("/usr/bin")
+      expect(getPath(cleanEnv)).toBe("/usr/bin")
       expect(cleanEnv.NPM_CONFIG_REGISTRY).toBeUndefined()
       expect(cleanEnv.SAFE_CUSTOM_VAR).toBe("custom-value")
       expect(cleanEnv.ANOTHER_SAFE_VAR).toBe("another-value")
@@ -159,7 +163,7 @@ describe("createCleanMcpEnvironment", () => {
       expect(cleanEnv.MCP_API_KEY).toBe("skill-declared-api-key")
       expect(cleanEnv.TELEGRAM_BOT_TOKEN).toBe("skill-configured-bot-token")
       expect(cleanEnv.SAFE_VAR).toBe("safe-value")
-      expect(cleanEnv.PATH).toBe("/usr/bin")
+      expect(getPath(cleanEnv)).toBe("/usr/bin")
     })
 
     it("passes TELEGRAM_BOT_TOKEN through when declared in skill env (issue #3995)", () => {
@@ -189,7 +193,7 @@ describe("createCleanMcpEnvironment", () => {
 
       // then
       expect(cleanEnv.AMBIENT_API_KEY).toBeUndefined()
-      expect(cleanEnv.PATH).toBe("/usr/bin")
+      expect(getPath(cleanEnv)).toBe("/usr/bin")
       expect(cleanEnv.SAFE_CUSTOM_VAR).toBe("custom-value")
     })
   })
@@ -197,8 +201,7 @@ describe("createCleanMcpEnvironment", () => {
   describe("undefined value handling", () => {
     it("skips undefined values from process.env", () => {
       // given - process.env can have undefined values in TypeScript
-      const envWithUndefined = { ...process.env, UNDEFINED_VAR: undefined }
-      Object.assign(process.env, envWithUndefined)
+      delete process.env.UNDEFINED_VAR
 
       // when
       const cleanEnv = createCleanMcpEnvironment()
@@ -273,7 +276,7 @@ describe("secret env var filtering", () => {
 
     // then
     expect(cleanEnv.ANTHROPIC_API_KEY).toBeUndefined()
-    expect(cleanEnv.PATH).toBe("/usr/bin")
+    expect(getPath(cleanEnv)).toBe("/usr/bin")
   })
 
   it("filters out AWS_SECRET_ACCESS_KEY", () => {
@@ -346,7 +349,7 @@ describe("secret env var filtering", () => {
     // then
     expect(cleanEnv.GOOGLE_APPLICATION_CREDENTIALS).toBeUndefined()
     expect(cleanEnv.GOOGLE_CLOUD_PROJECT).toBeUndefined()
-    expect(cleanEnv.PATH).toBe("/usr/bin")
+    expect(getPath(cleanEnv)).toBe("/usr/bin")
   })
 })
 
@@ -482,7 +485,7 @@ describe("cloud provider env filtering", () => {
     expect(cleanEnv.DOCKER_AUTH_CONFIG).toBeUndefined()
     expect(cleanEnv.KUBECONFIG).toBeUndefined()
     expect(cleanEnv.VAULT_TOKEN_HELPER).toBeUndefined()
-    expect(cleanEnv.PATH).toBe("/usr/bin")
+    expect(getPath(cleanEnv)).toBe("/usr/bin")
     expect(cleanEnv.USER).toBe("testuser")
   })
 })
@@ -496,7 +499,7 @@ describe("safe environment variables preserved", () => {
     const cleanEnv = createCleanMcpEnvironment()
 
     // then
-    expect(cleanEnv.PATH).toBe("/usr/bin:/usr/local/bin")
+    expect(getPath(cleanEnv)).toBe("/usr/bin:/usr/local/bin")
   })
 
   it("preserves HOME", () => {

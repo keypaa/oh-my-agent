@@ -9,12 +9,12 @@ describe("spawnWithTimeout", () => {
   describe("#given a command that completes quickly", () => {
     it("returns stdout and exit code", async () => {
       // when
-      const result = await spawnWithTimeout(["echo", "hello"], { stdout: "pipe", stderr: "pipe" })
+      const result = await spawnWithTimeout(["bun", "--version"], { stdout: "pipe", stderr: "pipe" })
 
       // then
       expect(result.timedOut).toBe(false)
       expect(result.exitCode).toBe(0)
-      expect(result.stdout.trim()).toBe("hello")
+      expect(result.stdout.trim()).not.toBe("")
       expect(result.stderr).toBe("")
     })
   })

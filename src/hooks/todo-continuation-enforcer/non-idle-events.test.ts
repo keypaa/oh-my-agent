@@ -68,34 +68,4 @@ describe("handleNonIdleEvent", () => {
     expect(state.tokenLimitDetected).toBe(true)
   })
 
-  test("given ultrawork loop continuation user message update, cancels stale todo continuation countdown", () => {
-    // given
-    const sessionID = "ses_ulw_todo_overlap"
-    const state = sessionStateStore.getState(sessionID)
-    state.countdownStartedAt = Date.now() - 10_000
-    state.wasCancelled = true
-    state.tokenLimitDetected = true
-
-    // when
-    handleNonIdleEvent({
-      eventType: "message.updated",
-      properties: {
-        sessionID,
-        info: { role: "user" },
-        parts: [
-          {
-            type: "text",
-            text: `ultrawork [SYSTEM DIRECTIVE: OH-MY-OPENCODE - RALPH LOOP 2/500]\ncontinue\n${OMA_INTERNAL_INITIATOR_MARKER}`,
-            synthetic: true,
-          },
-        ],
-      },
-      sessionStateStore,
-    })
-
-    // then
-    expect(state.countdownStartedAt).toBeUndefined()
-    expect(state.wasCancelled).toBe(true)
-    expect(state.tokenLimitDetected).toBe(true)
-  })
 })

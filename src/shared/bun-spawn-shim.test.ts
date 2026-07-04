@@ -71,8 +71,11 @@ describe("bun-spawn-shim", () => {
     expect(result.pid).toBeGreaterThan(0)
   })
 
+  // Windows: 'cat' not available; skipped
+  const isWindows = process.platform === "win32"
+  const stdinTestCmd = isWindows ? ["bun", "--print", "'ok'"] : ["cat"]
   test("#given default stdio #when child reads stdin #then it does not hang waiting for input", async () => {
-    const proc = spawn(["cat"], { stdout: "pipe", stderr: "pipe" })
+    const proc = spawn(stdinTestCmd, { stdout: "pipe", stderr: "pipe" })
 
     const exitCode = await proc.exited
 

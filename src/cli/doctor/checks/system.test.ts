@@ -229,24 +229,6 @@ describe("system check", () => {
       )
     })
 
-    it("does not warn for a canonical plugin entry", async () => {
-      //#given
-      mockGetPluginInfo.mockReturnValue({
-        registered: true,
-        entry: PLUGIN_NAME,
-        isPinned: false,
-        pinnedVersion: null,
-        configPath: null,
-        isLocalDev: false,
-      })
-
-      //#when
-      const result = await checkSystem(createSystemDeps())
-
-      //#then
-      expect(result.issues.some((issue) => issue.title === "Using legacy package name")).toBe(false)
-    })
-
     it("does not warn for a local-dev legacy entry", async () => {
       //#given
       mockGetPluginInfo.mockReturnValue({

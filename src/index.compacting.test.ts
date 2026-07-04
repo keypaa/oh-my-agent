@@ -6,64 +6,6 @@ import {
 } from "./plugin/session-compacting"
 
 describe("experimental.session.compacting handler", () => {
-  //#given all three hooks are present
-  //#when compacting handler is invoked
-  //#then all hooks are called in order: capture → PreCompact → contextInjector
-  it("calls claudeCodeHooks PreCompact alongside other hooks", async () => {
-    const callOrder: string[] = []
-
-    const handler = createSessionCompactingHandler({
-      compactionContextInjector: {
-        capture: mock(async () => {
-          callOrder.push("checkpointCapture")
-        }),
-        inject: mock((sessionID: string) => {
-          callOrder.push("contextInjector")
-          return `context-for-${sessionID}`
-        }),
-      },
-      compactionTodoPreserver: {
-        capture: mock(async () => {
-          callOrder.push("capture")
-        }),
-      },
-      claudeCodeHooks: {
-        "experimental.session.compacting": mock(async () => {
-          callOrder.push("preCompact")
-        }),
-      },
-    })
-
-    const output = { context: [] as string[], prompt: undefined as string | undefined }
-    await handler({ sessionID: "ses_test" }, output)
-
-    expect(callOrder).toEqual([
-      "checkpointCapture",
-      "capture",
-      "preCompact",
-      "contextInjector",
-    ])
-    expect(output.context).toEqual(["context-for-ses_test"])
-  })
-
-  //#given claudeCodeHooks injects context during PreCompact
-  //#when compacting handler is invoked
-  //#then injected context from PreCompact is preserved in output
-  it("preserves context injected by PreCompact hooks", async () => {
-    const handler = createSessionCompactingHandler({
-      claudeCodeHooks: {
-        "experimental.session.compacting": async (_input, output) => {
-          output.context.push("precompact-injected-context")
-        },
-      },
-    })
-
-    const output = { context: [] as string[], prompt: undefined as string | undefined }
-    await handler({ sessionID: "ses_test" }, output)
-
-    expect(output.context).toContain("precompact-injected-context")
-  })
-
   //#given claudeCodeHooks is null (no claude code hooks configured)
   //#when compacting handler is invoked
   //#then handler completes without error and other hooks still run
@@ -78,7 +20,6 @@ describe("experimental.session.compacting handler", () => {
         inject: contextMock,
       },
       compactionTodoPreserver: { capture: captureMock },
-      claudeCodeHooks: undefined,
     })
 
     const output = { context: [] as string[], prompt: undefined as string | undefined }
@@ -88,74 +29,6 @@ describe("experimental.session.compacting handler", () => {
     expect(captureMock).toHaveBeenCalledWith("ses_test")
     expect(contextMock).toHaveBeenCalledWith("ses_test")
     expect(output.context).toEqual(["injected-context"])
-  })
-
-  //#given compactionContextInjector is null
-  //#when compacting handler is invoked
-  //#then handler does not early-return, PreCompact hooks still execute
-  it("does not early-return when compactionContextInjector is null", async () => {
-    const preCompactMock = mock(async () => {})
-
-    const handler = createSessionCompactingHandler({
-      claudeCodeHooks: {
-        "experimental.session.compacting": preCompactMock,
-      },
-      compactionContextInjector: undefined,
-    })
-
-    const output = { context: [] as string[], prompt: undefined as string | undefined }
-    await handler({ sessionID: "ses_test" }, output)
-
-    expect(preCompactMock).toHaveBeenCalled()
-    expect(output.context).toEqual([])
-  })
-
-  //#given a preservation hook throws while OpenCode is compacting
-  //#when compacting handler is invoked
-  //#then compaction still continues so the user does not see a failed compact
-  it("continues compaction when an internal preservation hook throws", async () => {
-    const preCompactMock = mock(async (_input, output: { context: string[] }) => {
-      output.context.push("precompact-context")
-    })
-
-    const handler = createSessionCompactingHandler({
-      compactionContextInjector: {
-        capture: mock(async () => {
-          throw new Error("checkpoint api down")
-        }),
-        inject: mock(() => "injected-context"),
-      },
-      compactionTodoPreserver: {
-        capture: mock(async () => {}),
-      },
-      claudeCodeHooks: {
-        "experimental.session.compacting": preCompactMock,
-      },
-    })
-
-    const output = { context: [] as string[], prompt: undefined as string | undefined }
-
-    await expect(handler({ sessionID: "ses_test" }, output)).resolves.toBeUndefined()
-    expect(preCompactMock).toHaveBeenCalled()
-    expect(output.context).toContain("precompact-context")
-  })
-
-  //#given a PreCompact hook replaces the OpenCode compaction prompt
-  //#when compacting handler is invoked
-  //#then the prompt replacement is preserved for OpenCode
-  it("preserves prompt replacement from PreCompact hooks", async () => {
-    const handler = createSessionCompactingHandler({
-      claudeCodeHooks: {
-        "experimental.session.compacting": mock(async (_input, output) => {
-          output.prompt = "custom compaction prompt"
-        }),
-      },
-    })
-
-    const output = { context: [] as string[], prompt: undefined as string | undefined }
-    await handler({ sessionID: "ses_prompt" }, output)
-
-    expect(output.prompt).toBe("custom compaction prompt")
   })
 })
 

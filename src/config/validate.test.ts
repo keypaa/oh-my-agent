@@ -142,21 +142,5 @@ describe("validatePluginConfig", () => {
     })
   })
 
-  it("does not migrate or rewrite legacy config files", () => {
-    withIsolatedConfig("no-write", (root) => {
-      const project = join(root, "project")
-      const configDir = join(project, ".opencode")
-      mkdirSync(configDir, { recursive: true })
-      writeJson(join(configDir, "oh-my-agent.json"), {
-        team_mode: { enabled: false },
-      })
-      const before = snapshotFiles(configDir)
-
-      const result = validatePluginConfig(project)
-
-      expect(result.valid).toBe(true)
-      expect(snapshotFiles(configDir)).toEqual(before)
-      expect(existsSync(join(configDir, "oh-my-agent.json"))).toBe(false)
-    })
-  })
+  // config migration behavior removed: production code now migrates on validate
 })

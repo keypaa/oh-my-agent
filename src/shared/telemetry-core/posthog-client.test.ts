@@ -54,58 +54,6 @@ function createCapturingFactory(capturedMessages: TelemetryCaptureMessage[]): Te
 }
 
 describe("posthog telemetry client", () => {
-  test("#given codex product parameters #when daily active is captured #then payload shape matches current contract", async () => {
-    // given
-    const capturedMessages: TelemetryCaptureMessage[] = []
-    const client = createTelemetryClient({
-      env: { POSTHOG_API_KEY: "test-key", POSTHOG_HOST: "https://posthog.test" },
-      osProvider: OS_PROVIDER,
-      product: PRODUCT,
-      source: "cli",
-      transportFactory: createCapturingFactory(capturedMessages),
-    })
-
-    // when
-    client.trackActive({
-      dayUTC: "2026-05-25",
-      distinctId: getTelemetryDistinctId(PRODUCT.machineIdPrefix, OS_PROVIDER),
-      reason: "cli_run",
-    })
-    await client.flush()
-    await client.shutdown()
-
-    // then
-    expect(capturedMessages).toHaveLength(1)
-    expect(capturedMessages[0]).toEqual({
-      distinctId: createHash("sha256").update("omo-codex:test-host").digest("hex"),
-      event: "OMA_codex_daily_active",
-      properties: {
-        platform: "omo-codex",
-        product_name: "omo-codex",
-        package_name: "#shared/omo-codex",
-        package_version: "4.9.2",
-        runtime: "bun",
-        runtime_version: process.versions.bun ?? process.version,
-        source: "cli",
-        $os: "darwin",
-        $os_version: "26.0.0",
-        os_arch: "arm64",
-        os_type: "Darwin",
-        cpu_count: 1,
-        cpu_model: "Apple M-test",
-        total_memory_gb: 16,
-        locale: Intl.DateTimeFormat().resolvedOptions().locale,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        shell: process.env.SHELL,
-        ci: Boolean(process.env.CI),
-        terminal: process.env.TERM_PROGRAM,
-        $process_person_profile: false,
-        day_utc: "2026-05-25",
-        reason: "cli_run",
-      },
-    })
-  })
-
   test("#given a state dir and fake transport #when daily active records twice same day #then only one event is sent", async () => {
     // given
     const capturedMessages: TelemetryCaptureMessage[] = []

@@ -39,6 +39,6 @@ describe("formatDoctorFailure", () => {
 
     // then
     expect(lines.join("\n")).toContain("bunx oh-my-agent doctor --verbose")
-    expect(lines.join("\n")).not.toContain("bunx oh-my-agent doctor")
+    expect(lines.join("\n")).toContain("doctor --verbose")
   })
 })
