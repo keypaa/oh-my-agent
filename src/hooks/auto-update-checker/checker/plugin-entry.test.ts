@@ -24,7 +24,7 @@ function runFindPluginEntry(
   envOverrides: Record<string, string | undefined> = {},
 ): { status: number | null; stdout: string; stderr: string } {
   const command = [
-    `import { findPluginEntry } from ${JSON.stringify("./packages/omo-opencode/src/hooks/auto-update-checker/checker/plugin-entry")};`,
+    `import { findPluginEntry } from ${JSON.stringify("./src/hooks/auto-update-checker/checker/plugin-entry")};`,
     `const result = findPluginEntry(${JSON.stringify(directory)});`,
     "console.log(JSON.stringify(result));",
   ].join("")

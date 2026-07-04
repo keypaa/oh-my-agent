@@ -25,7 +25,7 @@ describe("getCachedVersion (GH-3257)", () => {
   beforeEach(() => {
     cacheRoot = mkdtempSync(join(tmpdir(), "omo-cached-version-"))
     mockState.candidates = [
-      join(cacheRoot, "node_modules", "oh-my-agent", "package.json"),
+      join(cacheRoot, "node_modules", "oh-my-opencode", "package.json"),
       join(cacheRoot, "node_modules", "oh-my-agent", "package.json"),
     ]
     mockState.walkUpResult = null
@@ -56,14 +56,14 @@ describe("getCachedVersion (GH-3257)", () => {
     expect(getIsolatedCachedVersion()).toBe("3.16.0")
   })
 
-  it("prefers oh-my-agent when both are installed", () => {
+  it("prefers oh-my-opencode when both are installed", () => {
+    const preferredDir = join(cacheRoot, "node_modules", "oh-my-opencode")
+    mkdirSync(preferredDir, { recursive: true })
+    writeFileSync(join(preferredDir, "package.json"), JSON.stringify({ name: "oh-my-opencode", version: "3.16.0" }))
+
     const legacyDir = join(cacheRoot, "node_modules", "oh-my-agent")
     mkdirSync(legacyDir, { recursive: true })
-    writeFileSync(join(legacyDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.16.0" }))
-
-    const aliasDir = join(cacheRoot, "node_modules", "oh-my-agent")
-    mkdirSync(aliasDir, { recursive: true })
-    writeFileSync(join(aliasDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.15.0" }))
+    writeFileSync(join(legacyDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.15.0" }))
 
     expect(getIsolatedCachedVersion()).toBe("3.16.0")
   })
@@ -121,18 +121,20 @@ describe("getCachedVersion (GH-3257)", () => {
 
   it("tries the next candidate when reading a candidate throws a non-Error", () => {
     // given
+    const preferredDir = join(cacheRoot, "node_modules", "oh-my-opencode")
+    mkdirSync(preferredDir, { recursive: true })
+    writeFileSync(join(preferredDir, "package.json"), JSON.stringify({ name: "oh-my-opencode", version: "3.18.0" }))
+
     const legacyDir = join(cacheRoot, "node_modules", "oh-my-agent")
     mkdirSync(legacyDir, { recursive: true })
-    writeFileSync(join(legacyDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.18.0" }))
-
-    const aliasDir = join(cacheRoot, "node_modules", "oh-my-agent")
-    mkdirSync(aliasDir, { recursive: true })
-    writeFileSync(join(aliasDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.18.1" }))
+    writeFileSync(join(legacyDir, "package.json"), JSON.stringify({ name: "oh-my-agent", version: "3.18.1" }))
 
     const originalParse = JSON.parse
     const nonError = Symbol("candidate read failed")
+    let parseCallCount = 0
     const parseSpy = spyOn(JSON, "parse").mockImplementation((text: string) => {
-      if (String(text).includes("oh-my-agent")) {
+      parseCallCount++
+      if (parseCallCount === 1) {
         throw nonError
       }
       return originalParse(text)
