@@ -104,7 +104,6 @@ export const createTeamRunMock = mock(async (spec: TeamSpec, leadSessionId: stri
 export const deleteTeamMock = mock(async (
   teamRunId: string,
   _config?: unknown,
-  _tmuxMgr?: unknown,
   _bgMgr?: unknown,
   options?: { force?: boolean },
 ) => {

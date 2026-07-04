@@ -46,7 +46,7 @@ const lifecycleDeps = {
 }
 
 function createTeamCreateToolForTest() {
-  return createTeamCreateTool(config, mockClient, backgroundManager, undefined, undefined, lifecycleDeps)
+  return createTeamCreateTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
 }
 
 function parseToolResult<TValue>(value: ToolResult): TValue {
@@ -78,7 +78,6 @@ describe("team lifecycle tools", () => {
       expect.objectContaining({ client: mockClient }),
       config,
       backgroundManager,
-      undefined,
       { callerAgentTypeId: undefined, parentMessageID: expect.any(String) },
     )
   })
@@ -101,7 +100,6 @@ describe("team lifecycle tools", () => {
       expect.objectContaining({ client: mockClient }),
       config,
       backgroundManager,
-      undefined,
       { callerAgentTypeId: "sisyphus", parentMessageID: expect.any(String) },
     )
   })
@@ -140,7 +138,6 @@ describe("team lifecycle tools", () => {
       expect.anything(),
       config,
       expect.anything(),
-      undefined,
       { callerAgentTypeId: undefined, parentMessageID: expect.any(String) },
     )
     expect(result.runtimeState.members).toHaveLength(2)
@@ -161,7 +158,6 @@ describe("team lifecycle tools", () => {
       expect.anything(),
       config,
       expect.anything(),
-      undefined,
       { callerAgentTypeId: undefined, parentMessageID: expect.any(String) },
     )
   })
@@ -198,7 +194,7 @@ describe("team lifecycle tools", () => {
   test("team_delete propagates active-member errors", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
 
     // when
@@ -211,7 +207,7 @@ describe("team lifecycle tools", () => {
   test("team_delete force=true succeeds even with active members", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
 
     // when
@@ -225,7 +221,7 @@ describe("team lifecycle tools", () => {
   test("team_delete force=true allows non-lead caller on orphaned team", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     const runtimeState = requireRuntime(created.teamRunId)
     runtimeState.status = "orphaned"
@@ -245,7 +241,7 @@ describe("team lifecycle tools", () => {
   test("team_delete still rejects non-participants even with force=true", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     requireRuntime(created.teamRunId).status = "orphaned"
 
@@ -259,7 +255,7 @@ describe("team lifecycle tools", () => {
   test("team_delete force=true allows member participant to recover a stuck deleting team", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     const runtimeState = requireRuntime(created.teamRunId)
     runtimeState.status = "deleting"
@@ -276,7 +272,7 @@ describe("team lifecycle tools", () => {
   test("team_delete force=false on orphaned team still requires lead", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     const runtimeState = requireRuntime(created.teamRunId)
     runtimeState.status = "orphaned"
@@ -292,7 +288,7 @@ describe("team lifecycle tools", () => {
   test("team_delete resolves member participants from the session registry before persisted member session IDs", async () => {
     // given
     const createTool = createTeamCreateToolForTest()
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     const runtimeState = requireRuntime(created.teamRunId)
     runtimeState.status = "orphaned"
@@ -325,7 +321,7 @@ describe("team lifecycle tools", () => {
     const createTool = createTeamCreateToolForTest()
     const requestTool = createTeamShutdownRequestTool(config, mockClient, lifecycleDeps)
     const approveTool = createTeamApproveShutdownTool(config, mockClient, lifecycleDeps)
-    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, undefined, lifecycleDeps)
+    const deleteTool = createTeamDeleteTool(config, mockClient, backgroundManager, lifecycleDeps)
     const created = parseToolResult<{ teamRunId: string; runtimeState: RuntimeState }>(await createTool.execute({ inline_spec: createSpec() }, createToolContext("lead-session")))
     const memberSessionId = created.runtimeState.members.find((member) => member.name === "member-a")?.sessionId
 
