@@ -15,6 +15,7 @@ import { createHephaestusAgent } from "./hephaestus"
 import { createSisyphusJuniorAgentWithOverrides } from "./sisyphus-junior"
 import { createTheAuditorAgent, theAuditorPromptMetadata } from "./the-auditor"
 import { createColdEyesAgent, coldEyesPromptMetadata } from "./cold-eyes"
+import { createMlAiEngineeringAgent, mlAiEngineeringPromptMetadata } from "./ml-ai-engineering"
 import type { AvailableCategory } from "./dynamic-agent-prompt-builder"
 import {
   fetchAvailableModels,
@@ -46,6 +47,7 @@ const agentSources: Record<BuiltinAgentName, AgentSource> = {
   "sisyphus-junior": createSisyphusJuniorAgentWithOverrides as AgentFactory,
   "the-auditor": createTheAuditorAgent,
   "cold-eyes": createColdEyesAgent,
+  "ml-ai-engineering": createMlAiEngineeringAgent,
 }
 
 /**
@@ -62,6 +64,7 @@ const agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>> = {
   atlas: atlasPromptMetadata,
   "the-auditor": theAuditorPromptMetadata,
   "cold-eyes": coldEyesPromptMetadata,
+  "ml-ai-engineering": mlAiEngineeringPromptMetadata,
 }
 
 export async function createBuiltinAgents(

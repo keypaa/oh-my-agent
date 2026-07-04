@@ -127,9 +127,9 @@ describe("createBuiltinSkills", () => {
 		const devBrowserSkills = createBuiltinSkills({ browserProvider: "dev-browser" })
 
 		// then
-		expect(defaultSkills).toHaveLength(10)
-		expect(agentBrowserSkills).toHaveLength(10)
-		expect(devBrowserSkills).toHaveLength(10)
+		expect(defaultSkills).toHaveLength(16)
+		expect(agentBrowserSkills).toHaveLength(16)
+		expect(devBrowserSkills).toHaveLength(16)
 	})
 
 	test("should exclude playwright when it is in disabledSkills", () => {
@@ -151,7 +151,7 @@ describe("createBuiltinSkills", () => {
 		expect(skills.map((s) => s.name)).toContain("security-research")
 		expect(skills.map((s) => s.name)).toContain("security-review")
 		expect(skills.map((s) => s.name)).toContain("visual-qa")
-		expect(skills.length).toBe(9)
+		expect(skills.length).toBe(15)
 	})
 
 	test("should exclude multiple skills when they are in disabledSkills", () => {
@@ -173,7 +173,7 @@ describe("createBuiltinSkills", () => {
 		expect(skills.map((s) => s.name)).toContain("security-research")
 		expect(skills.map((s) => s.name)).toContain("security-review")
 		expect(skills.map((s) => s.name)).toContain("visual-qa")
-		expect(skills.length).toBe(8)
+		expect(skills.length).toBe(14)
 	})
 
 	test("should return an empty array when all skills are disabled", () => {
@@ -190,6 +190,12 @@ describe("createBuiltinSkills", () => {
 				"security-research",
 				"security-review",
 				"visual-qa",
+				"ml-ai-experiment-tracking",
+				"ml-ai-data-pipeline-hygiene",
+				"ml-ai-reproducible-training",
+				"ml-ai-hyperparameter-discipline",
+				"ml-ai-evaluation-integrity",
+				"ml-ai-model-surgery-safety",
 			]),
 		}
 
@@ -200,7 +206,7 @@ describe("createBuiltinSkills", () => {
 		expect(skills.length).toBe(0)
 	})
 
-	test("should return all 10 skills when disabledSkills set is empty", () => {
+	test("should return all 16 skills when disabledSkills set is empty", () => {
 		// #given
 		const options = { disabledSkills: new Set<string>() }
 
@@ -208,7 +214,7 @@ describe("createBuiltinSkills", () => {
 		const skills = createBuiltinSkills(options)
 
 		// #then
-		expect(skills.length).toBe(10)
+		expect(skills.length).toBe(16)
 	})
 
 	test("#given disabled_skills with debugging and visual-qa #when creating builtin skills #then both are filtered out", () => {

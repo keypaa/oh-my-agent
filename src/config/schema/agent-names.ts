@@ -14,6 +14,7 @@ export const BuiltinAgentNameSchema = z.enum([
   "sisyphus-junior",
   "the-auditor",
   "cold-eyes",
+  "ml-ai-engineering",
 ])
 
 export const BuiltinSkillNameSchema = z.enum([
@@ -30,6 +31,12 @@ export const BuiltinSkillNameSchema = z.enum([
   "security-review",
   "visual-qa",
   "team-mode",
+  "ml-ai-experiment-tracking",
+  "ml-ai-data-pipeline-hygiene",
+  "ml-ai-reproducible-training",
+  "ml-ai-hyperparameter-discipline",
+  "ml-ai-evaluation-integrity",
+  "ml-ai-model-surgery-safety",
 ])
 
 export const OverridableAgentNameSchema = z.enum([
@@ -49,6 +56,7 @@ export const OverridableAgentNameSchema = z.enum([
   "atlas",
   "the-auditor",
   "cold-eyes",
+  "ml-ai-engineering",
 ])
 
 export const AgentNameSchema = BuiltinAgentNameSchema

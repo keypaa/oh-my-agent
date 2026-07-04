@@ -16,6 +16,12 @@ import {
   securityReviewSkill,
   visualQaSkill,
   teamModeSkill,
+  mlAiExperimentTrackingSkill,
+  mlAiDataPipelineHygieneSkill,
+  mlAiReproducibleTrainingSkill,
+  mlAiHyperparameterDisciplineSkill,
+  mlAiEvaluationIntegritySkill,
+  mlAiModelSurgerySafetySkill,
 } from "./skills/index"
 
 export interface CreateBuiltinSkillsOptions {
@@ -49,6 +55,12 @@ export function createBuiltinSkills(options: CreateBuiltinSkillsOptions = {}): B
 		securityResearchSkill,
 		securityReviewSkill,
 		visualQaSkill,
+		mlAiExperimentTrackingSkill,
+		mlAiDataPipelineHygieneSkill,
+		mlAiReproducibleTrainingSkill,
+		mlAiHyperparameterDisciplineSkill,
+		mlAiEvaluationIntegritySkill,
+		mlAiModelSurgerySafetySkill,
 	]
 
   if (teamModeEnabled && !disabledSkills?.has("team-mode")) {
