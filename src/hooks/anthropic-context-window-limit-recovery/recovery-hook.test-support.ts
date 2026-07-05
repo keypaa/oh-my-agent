@@ -43,7 +43,7 @@ const pluginConfig = {
   model_tier: {
     cheap: ["explore", "librarian", "sisyphus-junior"],
     medium: ["momus", "metis", "cold-eyes"],
-    expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
+    expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineer"],
   },
   haruspex_guard: {
     enabled: true,

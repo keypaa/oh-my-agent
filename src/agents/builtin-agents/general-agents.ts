@@ -88,6 +88,12 @@ export function collectPendingBuiltinAgents(input: {
       agentName,
       modelTierConfig,
     })
+    log("[agent-registration] Pipeline result", {
+      agent: agentName,
+      resolution: resolution ? { model: resolution.model, provenance: resolution.provenance } : null,
+      availableModelsCount: availableModels.size,
+      availableModelsSample: [...availableModels].slice(0, 3),
+    })
     if (!resolution) {
       if (override?.model) {
         // User explicitly configured a model but resolution failed (e.g., cold cache).
@@ -102,10 +108,18 @@ export function collectPendingBuiltinAgents(input: {
       }
     }
     if (!resolution) {
-      // Model-agnostic fallback: use the current model so agents register
+      // Model-agnostic fallback: use any available model so agents register
       // regardless of which provider is connected. Agents inherit the
       // caller's model at runtime anyway.
-      const fallbackModel = uiSelectedModel ?? systemDefaultModel
+      const fallbackModel = uiSelectedModel ?? systemDefaultModel ?? availableModels.values().next().value
+      log("[agent-registration] Model-agnostic fallback check", {
+        agent: agentName,
+        uiSelectedModel,
+        systemDefaultModel,
+        availableModelsCount: availableModels.size,
+        availableModelsSample: [...availableModels].slice(0, 3),
+        fallbackModel,
+      })
       if (fallbackModel) {
         resolution = { model: fallbackModel, provenance: "system-default" as const }
       }

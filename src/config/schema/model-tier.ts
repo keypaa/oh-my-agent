@@ -6,7 +6,7 @@ export const ModelTierConfigSchema = z.object({
   /** Agents that use medium-tier models */
   medium: z.array(z.string()).default(["momus", "metis", "cold-eyes"]),
   /** Agents that use expensive models */
-  expensive: z.array(z.string()).default(["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"]),
+  expensive: z.array(z.string()).default(["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineer"]),
 })
 
 export type ModelTierConfig = z.infer<typeof ModelTierConfigSchema>

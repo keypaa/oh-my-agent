@@ -32,7 +32,7 @@ Modes verified from each agent file's `const MODE: AgentMode = ...` and (for Pro
 | **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m3 → minimax-m2.7 → big-pickle | Category-spawned executor |
 | **The-Auditor** | claude-opus-4-7 max | (model default) | all | — | Work verifier (audit-loop verifier 1); checks spec compliance, stubs, test passage |
 | **Cold-Eyes** | claude-opus-4-7 max | (model default) | subagent | — | Unbiased second verifier (audit-loop verifier 2); receives sanitized context only |
-| **ML-AI-Engineering** | claude-opus-4-7 max | (model default) | all | — | ML/AI specialist; experiment tracking, data pipeline, training, evaluation, model surgery |
+| **ML-AI-Engineer** | claude-opus-4-7 max | (model default) | all | — | ML/AI specialist; experiment tracking, data pipeline, training, evaluation, model surgery |
 
 ## TOOL RESTRICTIONS
 
@@ -79,7 +79,7 @@ agents/
 ├── prometheus/                                # Strategic planner prompt router; prompt content in packages/prompts-core/prompts/prometheus/
 ├── the-auditor.ts                             # Audit-loop verifier 1
 ├── cold-eyes.ts                               # Audit-loop verifier 2 (sanitized context)
-├── ml-ai-engineering.ts                       # ML/AI specialist
+├── ml-ai-engineer.ts                       # ML/AI specialist
 ├── types.ts                                   # BuiltinAgentName, AgentMode, AgentConfig
 ├── builtin-agents.ts                          # agentSources registry (13 + prometheus special-cased)
 ├── builtin-agents/                            # maybeCreateXXXConfig conditional factories + general-agents.ts + available-skills.ts
@@ -113,7 +113,7 @@ Definition (from [`src/agents/types.ts`](types.ts)):
 
 - **`primary`** — respects user's UI-selected model. Used by: sisyphus, hephaestus, atlas, prometheus.
 - **`subagent`** — uses own fallback chain, ignores UI selection. Used by: oracle, librarian, explore, multimodal-looker, metis, momus, sisyphus-junior, cold-eyes.
-- **`all`** — can be used as primary or subagent. Used by: the-auditor, ml-ai-engineering.
+- **`all`** — can be used as primary or subagent. Used by: the-auditor, ml-ai-engineer.
 
 ## CANONICAL ORDER
 

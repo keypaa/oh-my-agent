@@ -36,7 +36,7 @@ function pickBestAvailableProviderModel(avail: ReturnType<typeof toProviderAvail
 const DEFAULT_AGENT_NAMES = [
   "sisyphus", "hephaestus", "oracle", "librarian", "explore",
   "multimodal-looker", "prometheus", "metis", "momus", "atlas",
-  "sisyphus-junior", "the-auditor", "cold-eyes", "ml-ai-engineering",
+  "sisyphus-junior", "the-auditor", "cold-eyes", "ml-ai-engineer",
   "haruspex",
 ]
 const DEFAULT_CATEGORY_NAMES = [

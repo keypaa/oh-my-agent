@@ -149,7 +149,7 @@ export type BuiltinAgentName =
   | "sisyphus-junior"
   | "the-auditor"
   | "cold-eyes"
-  | "ml-ai-engineering"
+  | "ml-ai-engineer"
   | "haruspex";
 
 // "plan" and "OpenCode-Builder" are legacy names that exist only for config migration

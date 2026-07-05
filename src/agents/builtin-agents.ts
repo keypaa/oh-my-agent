@@ -15,7 +15,7 @@ import { createHephaestusAgent } from "./hephaestus"
 import { createSisyphusJuniorAgentWithOverrides } from "./sisyphus-junior"
 import { createTheAuditorAgent, theAuditorPromptMetadata } from "./the-auditor"
 import { createColdEyesAgent, coldEyesPromptMetadata } from "./cold-eyes"
-import { createMlAiEngineeringAgent, mlAiEngineeringPromptMetadata } from "./ml-ai-engineering"
+import { createMlAiEngineerAgent, mlAiEngineerPromptMetadata } from "./ml-ai-engineer"
 import { createHaruspexAgent, haruspexPromptMetadata } from "./haruspex"
 import type { AvailableCategory } from "./dynamic-agent-prompt-builder"
 import {
@@ -49,7 +49,7 @@ const agentSources: Record<Exclude<BuiltinAgentName, "prometheus">, AgentSource>
   "sisyphus-junior": createSisyphusJuniorAgentWithOverrides as AgentFactory,
   "the-auditor": createTheAuditorAgent,
   "cold-eyes": createColdEyesAgent,
-  "ml-ai-engineering": createMlAiEngineeringAgent,
+  "ml-ai-engineer": createMlAiEngineerAgent,
   haruspex: createHaruspexAgent,
 }
 
@@ -67,7 +67,7 @@ const agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>> = {
   atlas: atlasPromptMetadata,
   "the-auditor": theAuditorPromptMetadata,
   "cold-eyes": coldEyesPromptMetadata,
-  "ml-ai-engineering": mlAiEngineeringPromptMetadata,
+  "ml-ai-engineer": mlAiEngineerPromptMetadata,
   haruspex: haruspexPromptMetadata,
 }
 

@@ -158,7 +158,7 @@ export const OhMyOpenCodeConfigSchema = z.object({
   model_tier: ModelTierConfigSchema.default({
     cheap: ["explore", "librarian", "sisyphus-junior"],
     medium: ["momus", "metis", "cold-eyes"],
-    expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
+          expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineer"],
   }),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),

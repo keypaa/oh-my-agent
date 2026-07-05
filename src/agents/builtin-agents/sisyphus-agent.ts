@@ -72,8 +72,8 @@ export function maybeCreateSisyphusConfig(input: {
   }
 
   if (!sisyphusResolution) {
-    // Model-agnostic fallback: use the current model
-    const fallbackModel = uiSelectedModel ?? systemDefaultModel
+    // Model-agnostic fallback: use any available model
+    const fallbackModel = uiSelectedModel ?? systemDefaultModel ?? availableModels.values().next().value
     if (fallbackModel) {
       sisyphusResolution = { model: fallbackModel, provenance: "system-default" as const }
     }

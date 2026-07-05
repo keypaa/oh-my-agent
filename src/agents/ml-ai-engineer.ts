@@ -78,7 +78,7 @@ When working on ML/AI tasks:
 - Be explicit about assumptions and limitations
 `;
 
-export function createMlAiEngineeringAgent(model: string): AgentConfig {
+export function createMlAiEngineerAgent(model: string): AgentConfig {
   return {
     description:
       "ML/AI specialist for experiment tracking, data hygiene, reproducible training, hyperparameter tuning, evaluation integrity, and model surgery safety. (ML/AI Engineering - OhMyOpenCode)",
@@ -89,9 +89,9 @@ export function createMlAiEngineeringAgent(model: string): AgentConfig {
     ...buildClaudeThinkingConfig(model),
   } as AgentConfig;
 }
-createMlAiEngineeringAgent.mode = MODE;
+createMlAiEngineerAgent.mode = MODE;
 
-export const mlAiEngineeringPromptMetadata: AgentPromptMetadata = {
+export const mlAiEngineerPromptMetadata: AgentPromptMetadata = {
   category: "specialist",
   cost: "EXPENSIVE",
   promptAlias: "ML/AI Engineering",

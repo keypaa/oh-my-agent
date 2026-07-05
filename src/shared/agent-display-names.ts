@@ -10,7 +10,7 @@
  * type selector dropdown. Use ` - ` (space-dash-space) instead of `(...)`.
  */
 export const AGENT_DISPLAY_NAMES: Record<string, string> = {
-  sisyphus: "Sisyphus - ultraworker",
+  sisyphus: "Sisyphus - Ultraworker",
   hephaestus: "Hephaestus - Deep Agent",
   prometheus: "Prometheus - Plan Builder",
   atlas: "Atlas - Plan Executor",
@@ -19,10 +19,14 @@ export const AGENT_DISPLAY_NAMES: Record<string, string> = {
   momus: "Momus - Plan Critic",
   athena: "Athena - Council",
   "athena-junior": "Athena-Junior - Council",
-  oracle: "oracle",
-  librarian: "librarian",
-  explore: "explore",
-  "multimodal-looker": "multimodal-looker",
+  oracle: "Oracle",
+  librarian: "Librarian",
+  explore: "Explore",
+  "multimodal-looker": "Multimodal-Looker",
+  "the-auditor": "The Auditor",
+  "cold-eyes": "Cold Eyes",
+  "ml-ai-engineer": "ML/AI Engineer",
+  haruspex: "Haruspex",
   "council-member": "council-member",
 }
 
@@ -103,6 +107,7 @@ const LEGACY_DISPLAY_NAMES: Record<string, string> = {
   "momus (plan critic)": "momus",
   "athena (council)": "athena",
   "athena-junior (council)": "athena-junior",
+  "sisyphus - ultraworker": "sisyphus",
 }
 
 function resolveKnownAgentConfigKey(agentName: string): string | undefined {

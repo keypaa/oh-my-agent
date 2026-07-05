@@ -6969,7 +6969,7 @@
           "sisyphus",
           "hephaestus",
           "the-auditor",
-          "ml-ai-engineering"
+          "ml-ai-engineer"
         ]
       },
       "type": "object",
@@ -7001,7 +7001,7 @@
             "sisyphus",
             "hephaestus",
             "the-auditor",
-            "ml-ai-engineering"
+            "ml-ai-engineer"
           ],
           "type": "array",
           "items": {
