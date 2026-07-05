@@ -312,6 +312,21 @@ Examples:
     })
   })
 
+program
+  .command("uninstall")
+  .description("Remove oh-my-agent plugin, config, and data files")
+  .option("--keep-config", "Keep config files (oh-my-agent.jsonc)")
+  .option("--keep-data", "Keep data files (cost-tracker.jsonl, failure-journal.jsonl)")
+  .option("--dry-run", "Show what would be removed without deleting")
+  .action(async (options) => {
+    const { uninstallCommand } = await import("./commands/uninstall")
+    await uninstallCommand({
+      keepConfig: options.keepConfig ?? false,
+      keepData: options.keepData ?? false,
+      dryRun: options.dryRun ?? false,
+    })
+  })
+
 configureRuntimeCommands(program)
 
 export function runCli(): void {
