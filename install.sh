@@ -124,8 +124,9 @@ if [[ ! -d "$INSTALL_DIR/.git" ]]; then
   git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
 else
   if [[ "$FORCE" -eq 1 ]]; then
-    log "force mode: pulling latest changes..."
-    git -C "$INSTALL_DIR" pull --ff-only || warn "pull failed — using existing code"
+    log "force mode: resetting to latest..."
+    git -C "$INSTALL_DIR" fetch --depth 1 origin || warn "fetch failed"
+    git -C "$INSTALL_DIR" reset --hard origin/$(git -C "$INSTALL_DIR" rev-parse --abbrev-ref HEAD) || warn "reset failed — using existing code"
   else
     log "repository already exists at $INSTALL_DIR (use --force to update)"
   fi
