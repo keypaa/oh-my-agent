@@ -37,8 +37,8 @@
   "scripts": {
     "build": "bun run build:git-bash-mcp && bun run build:lsp-tools-mcp && bun run build:lsp-daemon && bun build src/index.ts --outdir dist --target bun --format esm --external zod && bun run build:shared-skills-assets && tsc --emitDeclarationOnly && bun build src/cli/index.ts --outdir dist/cli --target bun --format esm && bun run build:cli-node && bun run build:schema",
     "build:shared-skills-assets": "node -e \"fs.rmSync('dist/skills',{recursive:true,force:true})\" && node -e \"fs.cpSync('packages/shared-skills/skills','dist/skills',{recursive:true,force:true})\"",
-    "build:lsp-tools-mcp": "npm --prefix packages/lsp-tools-mcp install && npm --prefix packages/lsp-tools-mcp run build",
-    "build:lsp-daemon": "npm --prefix packages/lsp-daemon install && npm --prefix packages/lsp-daemon run build",
+    "build:lsp-tools-mcp": "bun install --cwd packages/lsp-tools-mcp --ignore-scripts && bun run --cwd packages/lsp-tools-mcp build",
+    "build:lsp-daemon": "bun install --cwd packages/lsp-daemon --ignore-scripts && bun run --cwd packages/lsp-daemon build",
     "build:all": "bun run build",
     "build:schema": "bun run script/build-schema.ts",
     "build:model-capabilities": "bun run script/build-model-capabilities.ts",
