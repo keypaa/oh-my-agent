@@ -102,7 +102,16 @@ export function collectPendingBuiltinAgents(input: {
       }
     }
     if (!resolution) {
-      log("[agent-registration] Agent skipped: model resolution returned no result", {
+      // Model-agnostic fallback: use the current model so agents register
+      // regardless of which provider is connected. Agents inherit the
+      // caller's model at runtime anyway.
+      const fallbackModel = uiSelectedModel ?? systemDefaultModel
+      if (fallbackModel) {
+        resolution = { model: fallbackModel, provenance: "system-default" as const }
+      }
+    }
+    if (!resolution) {
+      log("[agent-registration] Agent skipped: no model available at all", {
         agent: agentName,
         configuredModel: override?.model,
       })

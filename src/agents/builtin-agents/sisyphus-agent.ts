@@ -53,11 +53,11 @@ export function maybeCreateSisyphusConfig(input: {
     isAnyFallbackModelAvailable(sisyphusRequirement.fallbackChain, availableModels)
 
   if (!disabledAgents.includes("sisyphus") && !meetsSisyphusAnyModelRequirement) {
-    log("[agent-registration] Agent skipped: no model in fallback chain is available", {
+    log("[agent-registration] Sisyphus: no fallback chain model available, will use current model", {
       agent: "sisyphus",
     })
   }
-  if (disabledAgents.includes("sisyphus") || !meetsSisyphusAnyModelRequirement) return undefined
+  if (disabledAgents.includes("sisyphus")) return undefined
 
   let sisyphusResolution = applyModelResolution({
     uiSelectedModel: sisyphusOverride?.model !== undefined ? undefined : uiSelectedModel,
@@ -72,7 +72,14 @@ export function maybeCreateSisyphusConfig(input: {
   }
 
   if (!sisyphusResolution) {
-    log("[agent-registration] Agent skipped: model resolution returned no result", {
+    // Model-agnostic fallback: use the current model
+    const fallbackModel = uiSelectedModel ?? systemDefaultModel
+    if (fallbackModel) {
+      sisyphusResolution = { model: fallbackModel, provenance: "system-default" as const }
+    }
+  }
+  if (!sisyphusResolution) {
+    log("[agent-registration] Agent skipped: no model available at all", {
       agent: "sisyphus",
       configuredModel: sisyphusOverride?.model,
     })

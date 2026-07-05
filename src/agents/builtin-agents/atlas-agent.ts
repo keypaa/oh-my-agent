@@ -54,7 +54,15 @@ export function maybeCreateAtlasConfig(input: {
   }
 
   if (!atlasResolution) {
-    log("[agent-registration] Agent skipped: model resolution returned no result", {
+    // Model-agnostic fallback: use the current model
+    const fallbackModel = uiSelectedModel ?? systemDefaultModel
+    if (fallbackModel) {
+      atlasResolution = { model: fallbackModel, provenance: "system-default" as const }
+    }
+  }
+
+  if (!atlasResolution) {
+    log("[agent-registration] Agent skipped: no model available at all", {
       agent: "atlas",
       configuredModel: orchestratorOverride?.model,
     })

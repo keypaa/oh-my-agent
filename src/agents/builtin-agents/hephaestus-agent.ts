@@ -72,7 +72,14 @@ export function maybeCreateHephaestusConfig(input: {
   }
 
   if (!hephaestusResolution) {
-    log("[agent-registration] Agent skipped: model resolution returned no result", {
+    // Model-agnostic fallback: use the current model
+    const fallbackModel = systemDefaultModel
+    if (fallbackModel) {
+      hephaestusResolution = { model: fallbackModel, provenance: "system-default" as const }
+    }
+  }
+  if (!hephaestusResolution) {
+    log("[agent-registration] Agent skipped: no model available at all", {
       agent: "hephaestus",
       configuredModel: hephaestusOverride?.model,
     })
