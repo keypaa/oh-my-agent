@@ -422,6 +422,13 @@ describe("parseConfigPartially", () => {
           include_co_authored_by: true,
           git_env_prefix: "GIT_MASTER=1",
         },
+        cost_tracker: { enabled: true, max_file_size_mb: 10 },
+        failure_journal: { enabled: true, max_age_days: 90 },
+        model_tier: {
+          cheap: ["explore", "librarian", "sisyphus-junior"],
+          medium: ["momus", "metis", "cold-eyes"],
+          expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
+        },
       });
     });
   });

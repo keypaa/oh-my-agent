@@ -30,5 +30,8 @@ export * from "./schema/sisyphus-agent"
 export * from "./schema/tmux"
 export * from "./schema/tui"
 export * from "./schema/websearch"
+export * from "./schema/cost-tracker"
+export * from "./schema/failure-journal"
+export * from "./schema/model-tier"
 
 export { AnyMcpNameSchema, type AnyMcpName, McpNameSchema, type McpName } from "../mcp/types"

@@ -1184,3 +1184,56 @@ describe("skills schema", () => {
     expect(result.success).toBe(true)
   })
 })
+
+describe("cost-tracker config schema", () => {
+  test("should have defaults when omitted", () => {
+    const result = OhMyOpenCodeConfigSchema.safeParse({})
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.cost_tracker).toEqual({ enabled: true, max_file_size_mb: 10 })
+    }
+  })
+
+  test("should accept cost_tracker config", () => {
+    const result = OhMyOpenCodeConfigSchema.safeParse({
+      cost_tracker: { enabled: false, max_file_size_mb: 50 },
+    })
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.cost_tracker).toEqual({ enabled: false, max_file_size_mb: 50 })
+    }
+  })
+})
+
+describe("failure-journal config schema", () => {
+  test("should have defaults when omitted", () => {
+    const result = OhMyOpenCodeConfigSchema.safeParse({})
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.failure_journal).toEqual({ enabled: true, max_age_days: 90 })
+    }
+  })
+
+  test("should accept failure_journal config", () => {
+    const result = OhMyOpenCodeConfigSchema.safeParse({
+      failure_journal: { enabled: false, max_age_days: 30 },
+    })
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.failure_journal).toEqual({ enabled: false, max_age_days: 30 })
+    }
+  })
+})
+
+describe("model-tier config schema", () => {
+  test("should have defaults when omitted", () => {
+    const result = OhMyOpenCodeConfigSchema.safeParse({})
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.model_tier).toBeDefined()
+      expect(result.data.model_tier.cheap).toContain("explore")
+      expect(result.data.model_tier.medium).toContain("cold-eyes")
+      expect(result.data.model_tier.expensive).toContain("sisyphus")
+    }
+  })
+})

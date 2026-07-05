@@ -3,6 +3,8 @@ import { install } from "./install"
 import { run } from "./run"
 import { doctor, resolveDoctorTarget } from "./doctor"
 import { configureRuntimeCommands } from "./runtime-commands"
+import { costCommand } from "./commands/cost"
+import { journalCommand } from "./commands/journal"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { DoctorOptions } from "./doctor"
@@ -212,6 +214,64 @@ Examples:
     }
     const exitCode = await doctor(doctorOptions)
     process.exit(exitCode)
+  })
+
+program
+  .command("cost")
+  .description("Show token usage and cost summary")
+  .option("-s, --session <id>", "Show cost for a specific session")
+  .option("-a, --agent <name>", "Show cost for a specific agent (requires --session)")
+  .option("--json", "Output results in JSON format")
+  .addHelpText("after", `
+Examples:
+  $ bunx oh-my-agent cost                  # Show all costs
+  $ bunx oh-my-agent cost --session abc123  # Show session cost
+  $ bunx oh-my-agent cost -s abc123 -a Sisyphus  # Show agent cost
+  $ bunx oh-my-agent cost --json           # JSON output
+`)
+  .action(async (options) => {
+    await costCommand({
+      session: options.session,
+      agent: options.agent,
+      json: options.json ?? false,
+    })
+  })
+
+program
+  .command("journal")
+  .description("View and manage failure journal entries")
+  .option("-f, --file <path>", "Show known issues for a specific file")
+  .option("-l, --limit <n>", "Number of recent failures to show", parseInt)
+  .option("--resolve <id>", "Mark a failure as resolved")
+  .option("--record", "Record a new failure (requires other flags)")
+  .option("--session-id <id>", "Session ID for recording")
+  .option("--root-cause <text>", "Root cause description for recording")
+  .option("--pattern <type>", "Failure pattern: race-condition, off-by-one, stale-cache, null-reference, type-error, logic-error, performance, security, other")
+  .option("--fix <text>", "Fix description for recording")
+  .option("--reported-by <who>", "Reporter: the-auditor, cold-eyes, user")
+  .option("--file-path <path>", "File path for recording")
+  .option("--json", "Output results in JSON format")
+  .addHelpText("after", `
+Examples:
+  $ bunx oh-my-agent journal                        # Show recent failures
+  $ bunx oh-my-agent journal --file src/foo.ts      # Issues for a file
+  $ bunx oh-my-agent journal --resolve fj_xxx       # Mark resolved
+  $ bunx oh-my-agent journal --json                 # JSON output
+`)
+  .action(async (options) => {
+    await journalCommand({
+      file: options.file,
+      limit: options.limit,
+      resolve: options.resolve,
+      record: options.record,
+      sessionId: options.sessionId,
+      rootCause: options.rootCause,
+      pattern: options.pattern,
+      fix: options.fix,
+      reportedBy: options.reportedBy,
+      filePath: options.filePath,
+      json: options.json ?? false,
+    })
   })
 
 configureRuntimeCommands(program)

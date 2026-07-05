@@ -31,6 +31,9 @@ import { WebsearchConfigSchema } from "./websearch"
 import { ClaudeCodeConfigSchema } from "./claude-code"
 import { TmuxConfigSchema } from "./tmux"
 import { AuditLoopConfigSchema } from "./audit-loop"
+import { CostTrackerConfigSchema } from "./cost-tracker"
+import { FailureJournalConfigSchema } from "./failure-journal"
+import { ModelTierConfigSchema } from "./model-tier"
 import { ConfidentialFilesConfigSchema, SecretScannerConfigSchema } from "../../features/security-guards/config-schema"
 import { ProvenanceGuardConfigSchema } from "../../features/provenance-guard/config-schema"
 
@@ -114,6 +117,16 @@ export const OhMyOpenCodeConfigSchema = z.object({
   secret_scanner: SecretScannerConfigSchema.optional(),
   /** Provenance guard: validates external skills and MCP servers before installation */
   provenance_guard: ProvenanceGuardConfigSchema.optional(),
+  /** Cost tracker: JSONL store for token usage and cost per agent per session */
+  cost_tracker: CostTrackerConfigSchema.default({ enabled: true, max_file_size_mb: 10 }),
+  /** Failure journal: persistent memory of bugs found by auditors across sessions */
+  failure_journal: FailureJournalConfigSchema.default({ enabled: true, max_age_days: 90 }),
+  /** Model tiering: which agents use cheap/medium/expensive models */
+  model_tier: ModelTierConfigSchema.default({
+    cheap: ["explore", "librarian", "sisyphus-junior"],
+    medium: ["momus", "metis", "cold-eyes"],
+    expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
+  }),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })

@@ -6674,6 +6674,148 @@
       ],
       "additionalProperties": false
     },
+    "confidential_files": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "paths": {
+          "default": [
+            ".env",
+            ".env.*",
+            "**/secrets/**",
+            "**/*.pem",
+            "**/credentials.json",
+            "**/service-account.json"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "block_message": {
+          "default": "Access to '{path}' is blocked by security policy.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "paths",
+        "block_message"
+      ],
+      "additionalProperties": false
+    },
+    "secret_scanner": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "severity": {
+          "default": {
+            "known_patterns": "block",
+            "entropy": "warn"
+          },
+          "type": "object",
+          "properties": {
+            "known_patterns": {
+              "default": "block",
+              "type": "string",
+              "enum": [
+                "block",
+                "warn"
+              ]
+            },
+            "entropy": {
+              "default": "warn",
+              "type": "string",
+              "enum": [
+                "block",
+                "warn"
+              ]
+            }
+          },
+          "required": [
+            "known_patterns",
+            "entropy"
+          ],
+          "additionalProperties": false
+        },
+        "allowlist_patterns": {
+          "default": [
+            "test-*",
+            "**/fixtures/**"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowlist_paths": {
+          "default": [
+            "**/*.test.ts",
+            "**/*.md"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "enabled",
+        "severity",
+        "allowlist_patterns",
+        "allowlist_paths"
+      ],
+      "additionalProperties": false
+    },
+    "provenance_guard": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "trusted_sources": {
+          "default": [
+            "github.com/obra/superpowers",
+            "github.com/prime-radiant-inc/*"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "min_repo_age_days": {
+          "default": 30,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "min_stars": {
+          "default": 10,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "require_permission_review": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "enabled",
+        "trusted_sources",
+        "min_repo_age_days",
+        "min_stars",
+        "require_permission_review"
+      ],
+      "additionalProperties": false
+    },
     "_migrations": {
       "type": "array",
       "items": {

@@ -38,6 +38,13 @@ const pluginConfig = {
     include_co_authored_by: false,
     git_env_prefix: "",
   },
+  cost_tracker: { enabled: true, max_file_size_mb: 10 },
+  failure_journal: { enabled: true, max_age_days: 90 },
+  model_tier: {
+    cheap: ["explore", "librarian", "sisyphus-junior"],
+    medium: ["momus", "metis", "cold-eyes"],
+    expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
+  },
 } satisfies OhMyOpenCodeConfig
 
 export function createRecoveryHook() {
