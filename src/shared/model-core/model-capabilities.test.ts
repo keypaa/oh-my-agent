@@ -404,7 +404,7 @@ describe("getModelCapabilities", () => {
     })
   })
 
-  test("keeps every built-in OmO requirement model snapshot-backed", () => {
+  test("keeps every built-in oh-my-agent requirement model snapshot-backed", () => {
     const bundledSnapshot = getBundledModelCapabilitiesSnapshot(bundledModelCapabilitiesSnapshotJson)
     const requirementModels = new Set<string>()
 

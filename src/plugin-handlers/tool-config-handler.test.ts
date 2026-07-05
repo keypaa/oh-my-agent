@@ -26,7 +26,7 @@ function createParams(overrides: {
 describe("applyToolConfig", () => {
   describe("#given config permission sets webfetch and external_directory", () => {
     describe("#when applying tool config", () => {
-      it("#then should preserve explicit deny over OmO defaults", () => {
+      it("#then should preserve explicit deny over oh-my-agent defaults", () => {
         const params = createParams({})
         params.config.permission = {
           webfetch: "deny",
