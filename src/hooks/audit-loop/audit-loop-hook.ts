@@ -93,11 +93,34 @@ function normalizeInheritedAgentForPrompt(agent: string | undefined): string | u
   return clean || undefined
 }
 
+async function extractModelFromSession(
+  ctx: PluginInput,
+  sessionID: string,
+  directory: string,
+): Promise<{ providerID: string; modelID: string } | undefined> {
+  try {
+    const response = await ctx.client.session.messages({
+      path: { id: sessionID },
+      query: { directory },
+    })
+    const messages = normalizeSDKResponse(response, [] as SessionMessage[])
+    for (const msg of messages) {
+      if (msg.info?.model?.providerID && msg.info?.model?.modelID) {
+        return { providerID: msg.info.model.providerID, modelID: msg.info.model.modelID }
+      }
+    }
+  } catch {
+    // Fallback: no model available
+  }
+  return undefined
+}
+
 async function spawnVerifierSession(
   ctx: PluginInput,
   agentName: string,
   prompt: string,
   directory: string,
+  parentModel?: { providerID: string; modelID: string },
 ): Promise<{ sessionID?: string; error?: string }> {
   try {
     const agent = normalizeInheritedAgentForPrompt(agentName) ?? agentName
@@ -113,6 +136,7 @@ async function spawnVerifierSession(
         path: { id: "new" },
         body: {
           agent,
+          model: parentModel,
           parts: [createInternalAgentContinuationTextPart(prompt)],
         },
         query: { directory },
@@ -235,6 +259,8 @@ export function createAuditLoopHook(
       .map((m) => collectAssistantText(m))
       .join("\n\n")
 
+    const parentModel = await extractModelFromSession(ctx, sessionID, directory)
+
     const fullContext = buildFullContext({
       originalTask: state.originalTask,
       agentClaims,
@@ -242,8 +268,8 @@ export function createAuditLoopHook(
       plan: state.plan,
     })
 
-    log(`[${HOOK_NAME}] Spawning The-Auditor (Verifier 1)`, { sessionID })
-    const theAuditorResult = await spawnVerifierSession(ctx, "the-auditor", fullContext, directory)
+    log(`[${HOOK_NAME}] Spawning The-Auditor (Verifier 1)`, { sessionID, parentModel })
+    const theAuditorResult = await spawnVerifierSession(ctx, "the-auditor", fullContext, directory, parentModel)
     if (theAuditorResult.error) {
       log(`[${HOOK_NAME}] The-Auditor spawn failed`, { error: theAuditorResult.error })
       return
@@ -274,8 +300,8 @@ export function createAuditLoopHook(
         changedFiles: state.changedFiles,
       })
 
-      log(`[${HOOK_NAME}] Spawning Cold-Eyes (Verifier 2)`, { sessionID })
-      const coldEyesResult = await spawnVerifierSession(ctx, "cold-eyes", sanitizedContext, directory)
+      log(`[${HOOK_NAME}] Spawning Cold-Eyes (Verifier 2)`, { sessionID, parentModel })
+      const coldEyesResult = await spawnVerifierSession(ctx, "cold-eyes", sanitizedContext, directory, parentModel)
       if (coldEyesResult.error) {
         log(`[${HOOK_NAME}] Cold-Eyes spawn failed`, { error: coldEyesResult.error })
       } else {

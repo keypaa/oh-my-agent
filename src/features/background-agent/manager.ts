@@ -2226,9 +2226,9 @@ The task was re-queued on a fallback model after a retryable failure.
       return
     }
 
-    const notificationContent = pendingNotifications.join("\n\n")
+    // Clear pending notifications without injecting into chat.
+    // Toast notifications are shown separately via showCompletionToast.
     this.pendingNotifications.delete(sessionID)
-    this.queuePendingParentWake(sessionID, notificationContent, {}, false, PENDING_PARENT_WAKE_DEBOUNCE_MS)
   }
 
   /**
@@ -2666,64 +2666,13 @@ The task was re-queued on a fallback model after a retryable failure.
         : task.status === "error"
           ? "ERROR"
           : "CANCELLED"
-    const notification = buildBackgroundTaskNotificationText({
-      task,
-      duration,
-      statusText,
-      allComplete,
-      remainingCount,
-      completedTasks,
+    // Parent-wake prompt injection is intentionally disabled.
+    // Toast notifications are shown via TaskToastManager above.
+    // Background task status is not injected into the user's chat.
+    log("[background-agent] notifyParentSession toast shown, skipping prompt injection:", {
+      taskId: task.id,
+      parentSessionID: task.parentSessionId,
     })
-
-      if (this.enableParentSessionNotifications) {
-        const parentPromptContext = await this.resolveParentWakePromptContext(task)
-
-        log("[background-agent] notifyParentSession context:", {
-          taskId: task.id,
-          resolvedAgent: parentPromptContext.agent,
-          resolvedModel: parentPromptContext.model,
-        })
-
-        const isTaskFailure = task.status === "error" || task.status === "cancelled" || task.status === "interrupt"
-        const shouldReply = allComplete || isTaskFailure
-
-        const shouldDeferNotification = await this.isSessionActive(task.parentSessionId)
-
-        if (shouldDeferNotification) {
-          this.queuePendingParentWake(
-            task.parentSessionId,
-            notification,
-            parentPromptContext,
-            shouldReply,
-            PENDING_PARENT_WAKE_DEBOUNCE_MS,
-          )
-          log("[background-agent] Queued notification while parent session is active:", {
-            taskId: task.id,
-            allComplete,
-            isTaskFailure,
-            shouldReply,
-          })
-        } else {
-          this.queuePendingParentWake(
-            task.parentSessionId,
-            notification,
-            parentPromptContext,
-            shouldReply,
-            PENDING_PARENT_WAKE_DEBOUNCE_MS,
-          )
-          log("[background-agent] Queued notification for short-debounce flush to idle parent:", {
-            taskId: task.id,
-            allComplete,
-            isTaskFailure,
-            shouldReply,
-          })
-        }
-      } else {
-        log("[background-agent] Parent session notifications disabled, skipping prompt injection:", {
-          taskId: task.id,
-          parentSessionID: task.parentSessionId,
-        })
-      }
 
     if (task.status !== "running" && task.status !== "pending") {
       this.scheduleTaskRemoval(task.id)

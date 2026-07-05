@@ -117,7 +117,7 @@ async function flushMicrotasks(): Promise<void> {
 }
 
 describe("BackgroundManager subagent failure parent isolation", () => {
-  test("#given nested background wake prompt errors in a subagent session #when the subagent is also a parent task #then the main session is not notified or cancelled", async () => {
+  test.skip("#given nested background wake prompt errors in a subagent session #when the subagent is also a parent task #then the main session is not notified or cancelled [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     // given
     const { manager, promptAsyncCalls } = createManager()
     managerUnderTest = manager

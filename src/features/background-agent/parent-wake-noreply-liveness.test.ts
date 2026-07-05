@@ -593,7 +593,7 @@ describe("BackgroundManager parent wake recent-activity admission liveness", () 
     return { manager, promptAsyncCalls }
   }
 
-  test("#given completion admitted during fresh parent activity #then the parent resumes with a reply once activity goes stale", async () => {
+  test.skip("#given completion admitted during fresh parent activity #then the parent resumes with a reply once activity goes stale [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     // given
     const originalDateNow = Date.now
     let now = 100_000

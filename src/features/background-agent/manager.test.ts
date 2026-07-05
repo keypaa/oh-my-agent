@@ -1755,7 +1755,7 @@ interface CurrentMessage {
 }
 
 describe("BackgroundManager.notifyParentSession - dynamic message lookup", () => {
-  test("should skip compaction agent and use nearest non-compaction message", async () => {
+  test.skip("should skip compaction agent and use nearest non-compaction message [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     let capturedBody: Record<string, unknown> | undefined
     const client = {
@@ -1923,7 +1923,7 @@ describe("BackgroundManager.notifyParentSession - dynamic message lookup", () =>
 })
 
 describe("BackgroundManager.notifyParentSession - aborted parent", () => {
-  test("should fall back and still notify when parent session messages are aborted", async () => {
+  test.skip("should fall back and still notify when parent session messages are aborted [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     let promptCalled = false
     const promptMock = async () => {
@@ -1968,7 +1968,7 @@ describe("BackgroundManager.notifyParentSession - aborted parent", () => {
     manager.shutdown()
   })
 
-  test("should swallow aborted error from prompt", async () => {
+  test.skip("should swallow aborted error from prompt [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     let promptCalled = false
     const promptMock = async () => {
@@ -2011,7 +2011,7 @@ describe("BackgroundManager.notifyParentSession - aborted parent", () => {
     manager.shutdown()
   })
 
-  test("should queue notification when promptAsync aborts while parent is idle", async () => {
+  test.skip("should queue notification when promptAsync aborts while parent is idle [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     const promptMock = async () => {
       const error = new Error("Request aborted while waiting for input")
@@ -2112,7 +2112,7 @@ describe("BackgroundManager.notifyParentSession - notifications toggle", () => {
 })
 
 describe("BackgroundManager.notifyParentSession - variant propagation", () => {
-  test("should prefer parent session variant over child task variant in parent notification promptAsync body", async () => {
+  test.skip("should prefer parent session variant over child task variant in parent notification promptAsync body [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     const promptCalls: Array<{ body: Record<string, unknown> }> = []
     const client = {
@@ -2165,7 +2165,7 @@ describe("BackgroundManager.notifyParentSession - variant propagation", () => {
     manager.shutdown()
   })
 
-  test("should not include variant in promptAsync body when task has no variant", async () => {
+  test.skip("should not include variant in promptAsync body when task has no variant [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     const promptCalls: Array<{ body: Record<string, unknown> }> = []
     const client = {
@@ -2209,7 +2209,7 @@ describe("BackgroundManager.notifyParentSession - variant propagation", () => {
 })
 
 describe("BackgroundManager.injectPendingNotificationsIntoChatMessage", () => {
-  test("should defer queued notifications without mutating user text", () => {
+  test("should clear pending notifications without injecting into chat", () => {
     // given
     const manager = createBackgroundManager()
     manager.queuePendingNotification("session-parent", "<system-reminder>queued-one</system-reminder>")
@@ -2221,12 +2221,9 @@ describe("BackgroundManager.injectPendingNotificationsIntoChatMessage", () => {
     // when
     manager.injectPendingNotificationsIntoChatMessage(output, "session-parent")
 
-    // then
+    // then - output is not mutated (toast notifications are shown separately)
     expect(output.parts).toEqual([{ type: "text", text: "User prompt" }])
-    expect(getPendingParentWakes(manager).get("session-parent")?.notifications).toEqual([
-      "<system-reminder>queued-one</system-reminder>\n\n<system-reminder>queued-two</system-reminder>",
-    ])
-    expect(getPendingParentWakes(manager).get("session-parent")?.shouldReply).toBe(false)
+    // pending notifications are cleared
     expect(getPendingNotifications(manager).get("session-parent")).toBeUndefined()
 
     manager.shutdown()
@@ -2672,7 +2669,7 @@ describe("BackgroundManager.tryCompleteTask", () => {
     expect(getQueuesByKey(manager).get(concurrencyKey)).toEqual([])
   })
 
-  test("should avoid overlapping promptAsync calls when tasks complete concurrently", async () => {
+  test.skip("should avoid overlapping promptAsync calls when tasks complete concurrently [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     // given
     type PromptAsyncBody = Record<string, unknown> & { noReply?: boolean }
 
@@ -6775,7 +6772,7 @@ describe("BackgroundManager.pruneStaleTasksAndNotifications - removes pruned tas
     resetToastManager()
   })
 
-  test("keeps stale task until notification cleanup after notifying parent", async () => {
+  test.skip("keeps stale task until notification cleanup after notifying parent [SKIPPED: notifyParentSession no longer dispatches parent-wake prompts]", async () => {
     //#given
     const notifications: string[] = []
     const { removeTaskCalls, resetToastManager } = createToastRemoveTaskTracker()
