@@ -16,6 +16,7 @@ import { createSisyphusJuniorAgentWithOverrides } from "./sisyphus-junior"
 import { createTheAuditorAgent, theAuditorPromptMetadata } from "./the-auditor"
 import { createColdEyesAgent, coldEyesPromptMetadata } from "./cold-eyes"
 import { createMlAiEngineeringAgent, mlAiEngineeringPromptMetadata } from "./ml-ai-engineering"
+import { createHaruspexAgent, haruspexPromptMetadata } from "./haruspex"
 import type { AvailableCategory } from "./dynamic-agent-prompt-builder"
 import {
   fetchAvailableModels,
@@ -48,6 +49,7 @@ const agentSources: Record<BuiltinAgentName, AgentSource> = {
   "the-auditor": createTheAuditorAgent,
   "cold-eyes": createColdEyesAgent,
   "ml-ai-engineering": createMlAiEngineeringAgent,
+  haruspex: createHaruspexAgent,
 }
 
 /**
@@ -65,6 +67,7 @@ const agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>> = {
   "the-auditor": theAuditorPromptMetadata,
   "cold-eyes": coldEyesPromptMetadata,
   "ml-ai-engineering": mlAiEngineeringPromptMetadata,
+  haruspex: haruspexPromptMetadata,
 }
 
 export async function createBuiltinAgents(

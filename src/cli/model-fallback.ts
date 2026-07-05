@@ -37,6 +37,7 @@ const DEFAULT_AGENT_NAMES = [
   "sisyphus", "hephaestus", "oracle", "librarian", "explore",
   "multimodal-looker", "prometheus", "metis", "momus", "atlas",
   "sisyphus-junior", "the-auditor", "cold-eyes", "ml-ai-engineering",
+  "haruspex",
 ]
 const DEFAULT_CATEGORY_NAMES = [
   "visual-engineering", "ultrabrain", "deep", "artistry", "quick",
