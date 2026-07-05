@@ -8,6 +8,18 @@ import { parseAllowedTools } from "./allowed-tools-parser"
 import { loadMcpJsonFromDir, parseSkillMcpConfigFromFrontmatter } from "./skill-mcp-config"
 import type { SkillScope, SkillMetadata, LoadedSkill, LazyContentLoader } from "./types"
 
+export function normalizeTriggers(triggers: string | string[] | undefined): string[] | undefined {
+  if (triggers === undefined) return undefined
+  if (typeof triggers === "string") {
+    const trimmed = triggers.trim()
+    return trimmed.length > 0 ? [trimmed] : undefined
+  }
+  const normalized = triggers
+    .map((t) => (typeof t === "string" ? t.trim() : ""))
+    .filter((t) => t.length > 0)
+  return normalized.length > 0 ? normalized : undefined
+}
+
 export async function loadSkillFromPath(options: {
   skillPath: string
   resolvedPath: string
@@ -60,6 +72,7 @@ export async function loadSkillFromPath(options: {
       compatibility: data.compatibility,
       metadata: data.metadata,
       allowedTools: parseAllowedTools(data["allowed-tools"]),
+      triggers: normalizeTriggers(data.triggers),
       mcpConfig,
       lazyContent: eagerLoader,
     }

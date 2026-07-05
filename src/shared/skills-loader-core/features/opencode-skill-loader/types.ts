@@ -14,6 +14,7 @@ export interface SkillMetadata {
   compatibility?: string
   metadata?: Record<string, string>
   "allowed-tools"?: string | string[]
+  triggers?: string | string[]
   mcp?: SkillMcpConfig
 }
 
@@ -33,6 +34,7 @@ export interface LoadedSkill {
   compatibility?: string
   metadata?: Record<string, string>
   allowedTools?: string[]
+  triggers?: string[]
   mcpConfig?: SkillMcpConfig
   lazyContent?: LazyContentLoader
 }

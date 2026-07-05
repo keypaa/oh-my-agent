@@ -4,6 +4,7 @@ import { sharedSkillsRootPath } from "@oh-my-opencode/shared-skills"
 import type { BuiltinSkill } from "../../builtin-skills/types"
 import type { CommandDefinition } from "#shared/claude-code-compat-core/claude-code-command-loader/types"
 import type { LoadedSkill } from "../types"
+import { normalizeTriggers } from "../loaded-skill-from-path"
 
 function resolveBuiltinSkillPath(builtin: BuiltinSkill): string | undefined {
   if (builtin.resolvedPath !== undefined) return builtin.resolvedPath
@@ -31,6 +32,7 @@ export function builtinToLoadedSkill(builtin: BuiltinSkill): LoadedSkill {
     compatibility: builtin.compatibility,
     metadata: builtin.metadata,
     allowedTools: builtin.allowedTools,
+    triggers: normalizeTriggers(builtin.triggers),
     mcpConfig: builtin.mcpConfig,
     resolvedPath: resolveBuiltinSkillPath(builtin),
   }

@@ -13,6 +13,11 @@ export function mergeSkillDefinitions(base: LoadedSkill, patch: SkillDefinition)
 
   const description = patch.description || base.definition.description?.replace(/^\([^)]+\) /, "")
 
+  const patchTriggers = patch.triggers as string | string[] | undefined
+  const mergedTriggers = base.triggers || patchTriggers
+    ? [...(base.triggers || []), ...(Array.isArray(patchTriggers) ? patchTriggers : patchTriggers ? [patchTriggers] : [])]
+    : undefined
+
   return {
     ...base,
     definition: {
@@ -27,5 +32,6 @@ export function mergeSkillDefinitions(base: LoadedSkill, patch: SkillDefinition)
     compatibility: patch.compatibility || base.compatibility,
     metadata: mergedMetadata as Record<string, string> | undefined,
     allowedTools: mergedTools ? [...new Set(mergedTools)] : undefined,
+    triggers: mergedTriggers ? [...new Set(mergedTriggers)] : undefined,
   }
 }

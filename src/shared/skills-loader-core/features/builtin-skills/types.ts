@@ -9,6 +9,7 @@ export interface BuiltinSkill {
   compatibility?: string
   metadata?: Record<string, string>
   allowedTools?: string[]
+  triggers?: string | string[]
   agent?: string
   model?: string
   subtask?: boolean

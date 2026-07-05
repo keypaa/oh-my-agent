@@ -25,6 +25,7 @@ export interface SkillDefinition {
   readonly compatibility?: string
   readonly metadata?: Record<string, unknown>
   readonly "allowed-tools"?: string[]
+  readonly triggers?: string | string[]
   readonly disable?: boolean
 }
 

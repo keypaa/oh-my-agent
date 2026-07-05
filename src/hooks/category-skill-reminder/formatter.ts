@@ -1,4 +1,5 @@
 import type { AvailableSkill } from "../../agents/dynamic-agent-prompt-builder"
+import { buildSkillCommands, buildTriggerCommands } from "../../features/skill-command-registrar"
 
 function formatSkillNames(skills: AvailableSkill[], limit: number): string {
   if (skills.length === 0) return "(none)"
@@ -6,6 +7,35 @@ function formatSkillNames(skills: AvailableSkill[], limit: number): string {
   const remaining = skills.length - shown.length
   const suffix = remaining > 0 ? ` (+${remaining} more)` : ""
   return shown.join(", ") + suffix
+}
+
+function buildCommandLines(skills: AvailableSkill[]): string[] {
+  const skillCommands = skills
+    .filter((s) => s.triggers && s.triggers.length > 0)
+    .map((s) => ({
+      name: s.name,
+      description: s.description,
+      triggers: s.triggers!,
+      command: s.name.toLowerCase().replace(/[^a-z0-9\s/+-]/g, "").replace(/\s+/g, "-"),
+      skillPath: undefined,
+    }))
+
+  if (skillCommands.length === 0) return []
+
+  const allCommands = [...skillCommands, ...buildTriggerCommands(skillCommands)]
+  const lines: string[] = []
+
+  lines.push("**Available /commands:**")
+  for (const cmd of allCommands.slice(0, 10)) {
+    lines.push(`  /${cmd.command} — ${cmd.name}`)
+  }
+
+  const remaining = allCommands.length - 10
+  if (remaining > 0) {
+    lines.push(`  (+${remaining} more)`)
+  }
+
+  return lines
 }
 
 export function buildReminderMessage(availableSkills: AvailableSkill[]): string {
@@ -17,6 +47,8 @@ export function buildReminderMessage(availableSkills: AvailableSkill[]): string 
 
   const exampleSkillName = customSkills[0]?.name ?? builtinSkills[0]?.name
   const loadSkills = exampleSkillName ? `["${exampleSkillName}"]` : "[]"
+
+  const commandLines = buildCommandLines(availableSkills)
 
   const lines = [
     "",
@@ -32,6 +64,10 @@ export function buildReminderMessage(availableSkills: AvailableSkill[]): string 
     "```",
     "",
   ]
+
+  if (commandLines.length > 0) {
+    lines.push(...commandLines, "")
+  }
 
   return lines.join("\n")
 }

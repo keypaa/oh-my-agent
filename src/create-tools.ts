@@ -8,6 +8,7 @@ import type { Managers } from "./create-managers"
 import { createAvailableCategories } from "./plugin/available-categories"
 import { createSkillContext } from "./plugin/skill-context"
 import { createToolRegistry } from "./plugin/tool-registry"
+import { buildSkillCommands, writeSkillManifest } from "./features/skill-command-registrar"
 
 type CreateToolsResult = {
   filteredTools: ToolsRecord
@@ -40,6 +41,9 @@ export async function createTools(args: {
     skillContext,
     availableCategories,
   })
+
+  const skillCommands = buildSkillCommands(skillContext.mergedSkills)
+  writeSkillManifest(skillCommands)
 
   return {
     filteredTools,
