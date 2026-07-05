@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { ProvenanceGuardConfigSchema } from "../provenance-guard/config-schema"
 
 const GuardSeveritySchema = z.enum(["block", "warn"])
 
@@ -30,3 +31,6 @@ export const SecretScannerConfigSchema = z.object({
 export type ConfidentialFilesConfig = z.infer<typeof ConfidentialFilesConfigSchema>
 export type SecretScannerSeverityConfig = z.infer<typeof SecretScannerSeverityConfigSchema>
 export type SecretScannerConfig = z.infer<typeof SecretScannerConfigSchema>
+
+export { ProvenanceGuardConfigSchema } from "../provenance-guard/config-schema"
+export type { ProvenanceGuardConfig } from "../provenance-guard/config-schema"
