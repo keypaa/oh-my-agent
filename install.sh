@@ -200,6 +200,30 @@ else
   log "plugin installed to $PLUGIN_DEST"
 fi
 
+# ── Add CLI to PATH ──────────────────────────────────────────────────────────
+
+LOCAL_BIN="$HOME/.local/bin"
+CLI_ENTRY="$PLUGIN_DEST/dist/cli/index.js"
+
+if [[ -f "$CLI_ENTRY" ]]; then
+  mkdir -p "$LOCAL_BIN"
+  CLI_LINK="$LOCAL_BIN/oh-my-agent"
+  cat > "$CLI_LINK" <<WRAPPER
+#!/usr/bin/env bash
+exec node "$CLI_ENTRY" "\$@"
+WRAPPER
+  chmod +x "$CLI_LINK"
+  log "CLI linked to $CLI_LINK"
+
+  # Warn if ~/.local/bin is not on PATH
+  case ":$PATH:" in
+    *":$LOCAL_BIN:"*) ;;
+    *) warn "~/.local/bin is not on PATH — add it or run: export PATH=\"\$HOME/.local/bin:\$PATH\"" ;;
+  esac
+else
+  warn "CLI entry not found at $CLI_ENTRY — oh-my-agent command not available"
+fi
+
 # ── Register plugin in OpenCode config ──────────────────────────────────────
 
 OPENCODE_CONFIG="$OPENCODE_CONFIG_DIR/opencode.json"
