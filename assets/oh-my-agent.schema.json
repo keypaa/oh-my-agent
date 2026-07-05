@@ -6816,6 +6816,206 @@
       ],
       "additionalProperties": false
     },
+    "haruspex_guard": {
+      "default": {
+        "enabled": true,
+        "allowed_paths": [
+          "src/agents/**",
+          "src/hooks/**",
+          "src/features/builtin-skills/**",
+          "src/config/schema/**",
+          "src/cli/**",
+          "packages/shared-skills/**",
+          "docs/**",
+          "*.md"
+        ],
+        "denied_paths": [
+          "src/plugin/**",
+          "src/shared/**",
+          "src/mcp/**",
+          "package.json",
+          "bun.lock",
+          ".git/**"
+        ],
+        "require_confirmation": [
+          "src/agents/builtin-agents.ts",
+          "src/config/schema/oh-my-opencode-config.ts",
+          "src/plugin-handlers/**"
+        ],
+        "show_diff": true
+      },
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "allowed_paths": {
+          "default": [
+            "src/agents/**",
+            "src/hooks/**",
+            "src/features/builtin-skills/**",
+            "src/config/schema/**",
+            "src/cli/**",
+            "packages/shared-skills/**",
+            "docs/**",
+            "*.md"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "denied_paths": {
+          "default": [
+            "src/plugin/**",
+            "src/shared/**",
+            "src/mcp/**",
+            "package.json",
+            "bun.lock",
+            ".git/**"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "require_confirmation": {
+          "default": [
+            "src/agents/builtin-agents.ts",
+            "src/config/schema/oh-my-opencode-config.ts",
+            "src/plugin-handlers/**"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "show_diff": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "enabled",
+        "allowed_paths",
+        "denied_paths",
+        "require_confirmation",
+        "show_diff"
+      ],
+      "additionalProperties": false
+    },
+    "cost_tracker": {
+      "default": {
+        "enabled": true,
+        "max_file_size_mb": 10
+      },
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "max_file_size_mb": {
+          "default": 10,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "enabled",
+        "max_file_size_mb"
+      ],
+      "additionalProperties": false
+    },
+    "failure_journal": {
+      "default": {
+        "enabled": true,
+        "max_age_days": 90
+      },
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "max_age_days": {
+          "default": 90,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 365
+        }
+      },
+      "required": [
+        "enabled",
+        "max_age_days"
+      ],
+      "additionalProperties": false
+    },
+    "model_tier": {
+      "default": {
+        "cheap": [
+          "explore",
+          "librarian",
+          "sisyphus-junior"
+        ],
+        "medium": [
+          "momus",
+          "metis",
+          "cold-eyes"
+        ],
+        "expensive": [
+          "sisyphus",
+          "hephaestus",
+          "the-auditor",
+          "ml-ai-engineering"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "cheap": {
+          "default": [
+            "explore",
+            "librarian",
+            "sisyphus-junior"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "medium": {
+          "default": [
+            "momus",
+            "metis",
+            "cold-eyes"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expensive": {
+          "default": [
+            "sisyphus",
+            "hephaestus",
+            "the-auditor",
+            "ml-ai-engineering"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "cheap",
+        "medium",
+        "expensive"
+      ],
+      "additionalProperties": false
+    },
     "_migrations": {
       "type": "array",
       "items": {
@@ -6824,7 +7024,11 @@
     }
   },
   "required": [
-    "git_master"
+    "git_master",
+    "haruspex_guard",
+    "cost_tracker",
+    "failure_journal",
+    "model_tier"
   ],
   "additionalProperties": false
 }

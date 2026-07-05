@@ -22,6 +22,7 @@ import {
   createPlanFormatValidatorHook,
   createConfidentialFileGuardHook,
   createSecretScannerHook,
+  createHaruspexGuardHook,
 } from "../../hooks"
 import {
   getOpenCodeVersion,
@@ -51,6 +52,7 @@ export type ToolGuardHooks = {
   planFormatValidator: ReturnType<typeof createPlanFormatValidatorHook> | null
   confidentialFileGuard: ReturnType<typeof createConfidentialFileGuardHook> | null
   secretScanner: ReturnType<typeof createSecretScannerHook> | null
+  haruspexGuard: ReturnType<typeof createHaruspexGuardHook> | null
 }
 
 export function createToolGuardHooks(args: {
@@ -163,6 +165,11 @@ export function createToolGuardHooks(args: {
         createSecretScannerHook({ config: pluginConfig.secret_scanner ?? { enabled: true, severity: { known_patterns: "block", entropy: "warn" }, allowlist_patterns: ["test-*", "**/fixtures/**"], allowlist_paths: ["**/*.test.ts", "**/*.md"] } }))
     : null
 
+  const haruspexGuard = isHookEnabled("haruspex-guard")
+    ? safeHook("haruspex-guard", () =>
+        createHaruspexGuardHook(ctx, pluginConfig.haruspex_guard ?? { enabled: true, allowed_paths: ["src/agents/**", "src/hooks/**", "src/features/builtin-skills/**", "src/config/schema/**", "src/cli/**", "packages/shared-skills/**", "docs/**", "*.md"], denied_paths: ["src/plugin/**", "src/shared/**", "src/mcp/**", "package.json", "bun.lock", ".git/**"], require_confirmation: ["src/agents/builtin-agents.ts", "src/config/schema/oh-my-opencode-config.ts", "src/plugin-handlers/**"], show_diff: true }))
+    : null
+
   return {
     commentChecker,
     toolOutputTruncator,
@@ -183,5 +190,6 @@ export function createToolGuardHooks(args: {
     planFormatValidator,
     confidentialFileGuard,
     secretScanner,
+    haruspexGuard,
   }
 }

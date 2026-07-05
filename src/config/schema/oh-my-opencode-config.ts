@@ -36,6 +36,7 @@ import { FailureJournalConfigSchema } from "./failure-journal"
 import { ModelTierConfigSchema } from "./model-tier"
 import { ConfidentialFilesConfigSchema, SecretScannerConfigSchema } from "../../features/security-guards/config-schema"
 import { ProvenanceGuardConfigSchema } from "../../features/provenance-guard/config-schema"
+import { HaruspexGuardConfigSchema } from "./haruspex-guard"
 
 export const OhMyOpenCodeConfigSchema = z.object({
   $schema: z.string().optional(),
@@ -117,6 +118,34 @@ export const OhMyOpenCodeConfigSchema = z.object({
   secret_scanner: SecretScannerConfigSchema.optional(),
   /** Provenance guard: validates external skills and MCP servers before installation */
   provenance_guard: ProvenanceGuardConfigSchema.optional(),
+  /** Haruspex guard: restricts Haruspex agent to its maintenance scope */
+  haruspex_guard: HaruspexGuardConfigSchema.default({
+    enabled: true,
+    allowed_paths: [
+      "src/agents/**",
+      "src/hooks/**",
+      "src/features/builtin-skills/**",
+      "src/config/schema/**",
+      "src/cli/**",
+      "packages/shared-skills/**",
+      "docs/**",
+      "*.md",
+    ],
+    denied_paths: [
+      "src/plugin/**",
+      "src/shared/**",
+      "src/mcp/**",
+      "package.json",
+      "bun.lock",
+      ".git/**",
+    ],
+    require_confirmation: [
+      "src/agents/builtin-agents.ts",
+      "src/config/schema/oh-my-opencode-config.ts",
+      "src/plugin-handlers/**",
+    ],
+    show_diff: true,
+  }),
   /** Cost tracker: JSONL store for token usage and cost per agent per session */
   cost_tracker: CostTrackerConfigSchema.default({ enabled: true, max_file_size_mb: 10 }),
   /** Failure journal: persistent memory of bugs found by auditors across sessions */

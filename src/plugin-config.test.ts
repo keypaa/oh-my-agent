@@ -429,6 +429,33 @@ describe("parseConfigPartially", () => {
           medium: ["momus", "metis", "cold-eyes"],
           expensive: ["sisyphus", "hephaestus", "the-auditor", "ml-ai-engineering"],
         },
+        haruspex_guard: {
+          enabled: true,
+          allowed_paths: [
+            "src/agents/**",
+            "src/hooks/**",
+            "src/features/builtin-skills/**",
+            "src/config/schema/**",
+            "src/cli/**",
+            "packages/shared-skills/**",
+            "docs/**",
+            "*.md",
+          ],
+          denied_paths: [
+            "src/plugin/**",
+            "src/shared/**",
+            "src/mcp/**",
+            "package.json",
+            "bun.lock",
+            ".git/**",
+          ],
+          require_confirmation: [
+            "src/agents/builtin-agents.ts",
+            "src/config/schema/oh-my-opencode-config.ts",
+            "src/plugin-handlers/**",
+          ],
+          show_diff: true,
+        },
       });
     });
   });
