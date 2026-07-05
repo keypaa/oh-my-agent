@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --outDir dist --declaration --rootDir src",
+    "build": "tsc --outDir dist --declaration --rootDir src --skipLibCheck --noCheck",
     "typecheck": "tsgo --noEmit -p tsconfig.json",
     "test": "bun test src/*.test.ts"
   },

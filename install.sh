@@ -138,28 +138,9 @@ cd "$INSTALL_DIR"
 if command -v bun >/dev/null 2>&1; then
   log "installing dependencies with bun..."
   bun install --ignore-scripts
-
-  # Install vendored package dependencies (needed for file: symlinks)
-  for pkg in packages/git-bash-mcp packages/lsp-tools-mcp packages/lsp-daemon; do
-    if [[ -f "$pkg/package.json" ]]; then
-      log "installing deps for $pkg..."
-      (cd "$pkg" && bun install --ignore-scripts 2>/dev/null) || \
-      (cd "$pkg" && npm install --ignore-scripts 2>/dev/null) || \
-      warn "failed to install deps for $pkg (non-fatal)"
-    fi
-  done
 else
   log "installing dependencies with npm..."
   npm install --ignore-scripts
-
-  # Install vendored package dependencies
-  for pkg in packages/git-bash-mcp packages/lsp-tools-mcp packages/lsp-daemon; do
-    if [[ -f "$pkg/package.json" ]]; then
-      log "installing deps for $pkg..."
-      (cd "$pkg" && npm install --ignore-scripts) || \
-      warn "failed to install deps for $pkg (non-fatal)"
-    fi
-  done
 fi
 
 # ── Build ───────────────────────────────────────────────────────────────────
