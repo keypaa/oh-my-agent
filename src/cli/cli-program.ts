@@ -5,6 +5,7 @@ import { doctor, resolveDoctorTarget } from "./doctor"
 import { configureRuntimeCommands } from "./runtime-commands"
 import { costCommand } from "./commands/cost"
 import { journalCommand } from "./commands/journal"
+import { configExportCommand, configImportCommand } from "./commands/config"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { DoctorOptions } from "./doctor"
@@ -271,6 +272,43 @@ Examples:
       reportedBy: options.reportedBy,
       filePath: options.filePath,
       json: options.json ?? false,
+    })
+  })
+
+const configCommand = program
+  .command("config")
+  .description("Manage oh-my-agent configuration")
+
+configCommand
+  .command("export")
+  .description("Export current config to a file or stdout (sensitive fields redacted)")
+  .option("-o, --output <file>", "Write to file (default: stdout)")
+  .addOption(new Option("-f, --format <format>", "Output format").choices(["json", "jsonc"]).default("json"))
+  .addHelpText("after", `
+Examples:
+  $ oh-my-agent config export                          # Print to stdout
+  $ oh-my-agent config export -o config.json           # Write to file
+  $ oh-my-agent config export -f jsonc -o config.jsonc # JSONC format
+`)
+  .action(async (options) => {
+    await configExportCommand({
+      output: options.output,
+      format: options.format,
+    })
+  })
+
+configCommand
+  .command("import <file>")
+  .description("Import config from a file (validates, backs up existing, merges or replaces)")
+  .option("-m, --merge", "Merge with existing config instead of replacing")
+  .addHelpText("after", `
+Examples:
+  $ oh-my-agent config import config.json            # Replace config
+  $ oh-my-agent config import config.json --merge    # Merge with existing
+`)
+  .action(async (file: string, options) => {
+    await configImportCommand(file, {
+      merge: options.merge ?? false,
     })
   })
 
