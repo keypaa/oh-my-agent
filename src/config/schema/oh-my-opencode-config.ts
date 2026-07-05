@@ -31,6 +31,7 @@ import { WebsearchConfigSchema } from "./websearch"
 import { ClaudeCodeConfigSchema } from "./claude-code"
 import { TmuxConfigSchema } from "./tmux"
 import { AuditLoopConfigSchema } from "./audit-loop"
+import { ConfidentialFilesConfigSchema, SecretScannerConfigSchema } from "../../features/security-guards/config-schema"
 
 export const OhMyOpenCodeConfigSchema = z.object({
   $schema: z.string().optional(),
@@ -106,6 +107,10 @@ export const OhMyOpenCodeConfigSchema = z.object({
   tmux: TmuxConfigSchema.optional(),
   /** Audit loop: dual-verifier completion check (the-auditor + Cold-Eyes) */
   audit_loop: AuditLoopConfigSchema.optional(),
+  /** Confidential file guard: blocks reading secrets from files */
+  confidential_files: ConfidentialFilesConfigSchema.optional(),
+  /** Secret scanner: blocks writing secrets into files */
+  secret_scanner: SecretScannerConfigSchema.optional(),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })

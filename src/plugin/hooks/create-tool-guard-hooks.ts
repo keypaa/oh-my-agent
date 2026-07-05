@@ -11,7 +11,6 @@ import {
   createRulesInjectorHook,
   createTasksTodowriteDisablerHook,
   createWriteExistingFileGuardHook,
-  createBashFileReadGuardHook,
   createHashlineReadEnhancerHook,
   createReadImageResizerHook,
   createJsonErrorRecoveryHook,
@@ -21,6 +20,8 @@ import {
   createFsyncSkipWarningHook,
   createNotepadWriteGuardHook,
   createPlanFormatValidatorHook,
+  createConfidentialFileGuardHook,
+  createSecretScannerHook,
 } from "../../hooks"
 import {
   getOpenCodeVersion,
@@ -39,7 +40,6 @@ export type ToolGuardHooks = {
   rulesInjector: ReturnType<typeof createRulesInjectorHook> | null
   tasksTodowriteDisabler: ReturnType<typeof createTasksTodowriteDisablerHook> | null
   writeExistingFileGuard: ReturnType<typeof createWriteExistingFileGuardHook> | null
-  bashFileReadGuard: ReturnType<typeof createBashFileReadGuardHook> | null
   hashlineReadEnhancer: ReturnType<typeof createHashlineReadEnhancerHook> | null
   jsonErrorRecovery: ReturnType<typeof createJsonErrorRecoveryHook> | null
   readImageResizer: ReturnType<typeof createReadImageResizerHook> | null
@@ -49,6 +49,8 @@ export type ToolGuardHooks = {
   teamToolGating: ReturnType<typeof createTeamToolGating> | null
   notepadWriteGuard: ReturnType<typeof createNotepadWriteGuardHook> | null
   planFormatValidator: ReturnType<typeof createPlanFormatValidatorHook> | null
+  confidentialFileGuard: ReturnType<typeof createConfidentialFileGuardHook> | null
+  secretScanner: ReturnType<typeof createSecretScannerHook> | null
 }
 
 export function createToolGuardHooks(args: {
@@ -115,10 +117,6 @@ export function createToolGuardHooks(args: {
     ? safeHook("write-existing-file-guard", () => createWriteExistingFileGuardHook(ctx))
     : null
 
-  const bashFileReadGuard = isHookEnabled("bash-file-read-guard")
-    ? safeHook("bash-file-read-guard", () => createBashFileReadGuardHook())
-    : null
-
   const hashlineReadEnhancer = isHookEnabled("hashline-read-enhancer")
     ? safeHook("hashline-read-enhancer", () => createHashlineReadEnhancerHook(ctx, { hashline_edit: { enabled: pluginConfig.hashline_edit ?? false } }))
     : null
@@ -155,6 +153,16 @@ export function createToolGuardHooks(args: {
     ? safeHook("notepad-write-guard", () => createNotepadWriteGuardHook())
     : null
 
+  const confidentialFileGuard = isHookEnabled("confidential-file-guard")
+    ? safeHook("confidential-file-guard", () =>
+        createConfidentialFileGuardHook({ config: pluginConfig.confidential_files ?? { enabled: true, paths: [".env", ".env.*", "**/secrets/**", "**/*.pem", "**/credentials.json", "**/service-account.json"], block_message: "Access to '{path}' is blocked by security policy." } }))
+    : null
+
+  const secretScanner = isHookEnabled("secret-scanner")
+    ? safeHook("secret-scanner", () =>
+        createSecretScannerHook({ config: pluginConfig.secret_scanner ?? { enabled: true, severity: { known_patterns: "block", entropy: "warn" }, allowlist_patterns: ["test-*", "**/fixtures/**"], allowlist_paths: ["**/*.test.ts", "**/*.md"] } }))
+    : null
+
   return {
     commentChecker,
     toolOutputTruncator,
@@ -164,7 +172,6 @@ export function createToolGuardHooks(args: {
     rulesInjector,
     tasksTodowriteDisabler,
     writeExistingFileGuard,
-    bashFileReadGuard,
     hashlineReadEnhancer,
     jsonErrorRecovery,
     readImageResizer,
@@ -174,5 +181,7 @@ export function createToolGuardHooks(args: {
     teamToolGating,
     notepadWriteGuard,
     planFormatValidator,
+    confidentialFileGuard,
+    secretScanner,
   }
 }

@@ -106,7 +106,6 @@ export function createToolExecuteBeforeHandler(args: {
     await hooks.notepadWriteGuard?.["tool.execute.before"]?.(input, output)
     await hooks.questionLabelTruncator?.["tool.execute.before"]?.(input, output)
     await hooks.nonInteractiveEnv?.["tool.execute.before"]?.(input, output)
-    await hooks.bashFileReadGuard?.["tool.execute.before"]?.(input, output)
     await hooks.commentChecker?.["tool.execute.before"]?.(input, output)
     await hooks.directoryAgentsInjector?.["tool.execute.before"]?.(input, output)
     await hooks.directoryReadmeInjector?.["tool.execute.before"]?.(input, output)
@@ -119,6 +118,8 @@ export function createToolExecuteBeforeHandler(args: {
     await hooks.atlasHook?.["tool.execute.before"]?.(input, output)
     await hooks.compactionTodoPreserver?.["tool.execute.before"]?.(input, output)
     await hooks.teamToolGating?.["tool.execute.before"]?.(input, output)
+    await hooks.confidentialFileGuard?.["tool.execute.before"]?.(input, output)
+    await hooks.secretScanner?.["tool.execute.before"]?.(input, output)
 
     const normalizedToolName = input.tool.toLowerCase()
     if (

@@ -57,7 +57,6 @@ export { createPreemptiveCompactionHook } from "./preemptive-compaction";
 export { createTasksTodowriteDisablerHook } from "./tasks-todowrite-disabler";
 export { createRuntimeFallbackHook, type RuntimeFallbackHook, type RuntimeFallbackOptions } from "./runtime-fallback";
 export { createWriteExistingFileGuardHook } from "./write-existing-file-guard";
-export { createBashFileReadGuardHook } from "./bash-file-read-guard";
 export { createHashlineReadEnhancerHook } from "./hashline-read-enhancer";
 export { createJsonErrorRecoveryHook, JSON_ERROR_TOOL_EXCLUDE_LIST, JSON_ERROR_PATTERNS, JSON_ERROR_REMINDER } from "./json-error-recovery";
 export { createReadImageResizerHook } from "./read-image-resizer"
@@ -68,3 +67,5 @@ export { createFsyncSkipWarningHook } from "./fsync-skip-warning"
 export { createNotepadWriteGuardHook } from "./notepad-write-guard"
 export { createPlanFormatValidatorHook } from "./plan-format-validator"
 export { createAuditLoopHook, type AuditLoopHook } from "./audit-loop"
+export { createConfidentialFileGuardHook } from "./confidential-file-guard"
+export { createSecretScannerHook } from "./secret-scanner"

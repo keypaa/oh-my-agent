@@ -50,7 +50,6 @@ export const HookNameSchema = z.enum([
   "runtime-fallback",
   "write-existing-file-guard",
   "notepad-write-guard",
-  "bash-file-read-guard",
   "hashline-read-enhancer",
   "read-image-resizer",
   "todo-description-override",
@@ -59,6 +58,8 @@ export const HookNameSchema = z.enum([
   "plan-format-validator",
   "legacy-plugin-toast",
   "audit-loop",
+  "confidential-file-guard",
+  "secret-scanner",
 ])
 
 export type HookName = z.infer<typeof HookNameSchema>
