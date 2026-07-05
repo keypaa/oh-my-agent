@@ -208,12 +208,19 @@ CLI_ENTRY="$PLUGIN_DEST/dist/cli/index.js"
 if [[ -f "$CLI_ENTRY" ]]; then
   mkdir -p "$LOCAL_BIN"
   CLI_LINK="$LOCAL_BIN/oh-my-agent"
+
+  # Pick runtime: prefer bun (already available), fallback to node
+  RUNTIME="node"
+  if command -v bun >/dev/null 2>&1; then
+    RUNTIME="bun"
+  fi
+
   cat > "$CLI_LINK" <<WRAPPER
 #!/usr/bin/env bash
-exec node "$CLI_ENTRY" "\$@"
+exec $RUNTIME "$CLI_ENTRY" "\$@"
 WRAPPER
   chmod +x "$CLI_LINK"
-  log "CLI linked to $CLI_LINK"
+  log "CLI linked to $CLI_LINK (using $RUNTIME)"
 
   # Warn if ~/.local/bin is not on PATH
   case ":$PATH:" in
