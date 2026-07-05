@@ -129,7 +129,7 @@ async function readSessionMessages(
   timeoutMs = 30000,
 ): Promise<string> {
   const deadline = Date.now() + timeoutMs
-  const pollInterval = 2000
+  const pollInterval = Number(process.env.OMA_AUDIT_POLL_INTERVAL_MS) || 2000
 
   while (Date.now() < deadline) {
     try {

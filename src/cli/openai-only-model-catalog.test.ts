@@ -74,7 +74,7 @@ describe("generateModelConfig OpenAI-only model catalog", () => {
     expect(result.agents?.explore).toMatchObject({ model: "openai/gpt-5.4-mini-fast" })
     expect(result.agents?.librarian).toBeUndefined()
     expect(result.agents?.explore).not.toMatchObject({ variant: "medium" })
-    expect(result.categories?.quick).toEqual({ model: "opencode/gpt-5-nano" })
+    expect(result.categories?.quick).toEqual({ model: "openai/gpt-5.4-mini-fast" })
   })
 
   for (const { name, overrides } of mixedProviderCases) {
