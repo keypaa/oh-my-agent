@@ -166,13 +166,32 @@ describe("createConfidentialFileGuardHook", () => {
     })
   })
 
-  describe("#given non-blocked tools", () => {
-    test("#when write tool #then no interception", async () => {
+  describe("#given write/edit tools on confidential paths", () => {
+    test("#when write tool targets .env #then blocks", async () => {
+      const hook = createHook()
+      const msg = await expectBlocked(hook, "write", { filePath: ".env" })
+      expect(msg).toContain(".env")
+      expect(msg).toContain("blocked by security policy")
+    })
+
+    test("#when edit tool targets .env.production #then blocks", async () => {
+      const hook = createHook()
+      const msg = await expectBlocked(hook, "edit", { filePath: ".env.production" })
+      expect(msg).toContain("blocked by security policy")
+    })
+
+    test("#when write tool targets regular src file #then allows", async () => {
       const hook = createHook()
       await hook["tool.execute.before"]?.(
         { tool: "write", sessionID: "test", callID: "c1" } as never,
-        { args: { filePath: ".env" } } as never,
+        { args: { filePath: "src/index.ts" } } as never,
       )
+    })
+
+    test("#when edit tool targets secrets path #then blocks", async () => {
+      const hook = createHook()
+      const msg = await expectBlocked(hook, "edit", { filePath: "config/secrets/api-key.json" })
+      expect(msg).toContain("blocked by security policy")
     })
   })
 })

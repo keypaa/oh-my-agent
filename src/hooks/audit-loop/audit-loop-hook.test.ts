@@ -391,7 +391,7 @@ describe("audit-loop-hook", () => {
       expect(state.cycleCount).toBe(1)
     })
 
-    test("should trigger on 'are all tasks complete?' because regex has no word boundary", async () => {
+    test("should NOT trigger on 'are all tasks complete?' because it is a question, not a claim", async () => {
       const ctx = createMockPluginInput({ sessions: makeSessions("Are all tasks complete? Let me check.") })
       const config = createMockConfig({ skip_verifier_2: true })
       const hook = createAuditLoopHook(ctx, { pluginConfig: config, directory: "/test/dir" })
@@ -400,11 +400,11 @@ describe("audit-loop-hook", () => {
       await hook.event({ event: { type: "session.idle", properties: { sessionID: "session-123" } } })
 
       const state = hook.getState() as AuditLoopState
-      expect(state.active).toBe(false)
-      expect(state.cycleCount).toBe(1)
+      expect(state.active).toBe(true)
+      expect(state.cycleCount).toBe(0)
     })
 
-    test("should trigger on 'I'm not done yet' because 'done' is a substring match", async () => {
+    test("should NOT trigger on 'I'm not done yet' because it indicates work in progress", async () => {
       const ctx = createMockPluginInput({ sessions: makeSessions("I'm not done yet, still working.") })
       const config = createMockConfig({ skip_verifier_2: true })
       const hook = createAuditLoopHook(ctx, { pluginConfig: config, directory: "/test/dir" })
@@ -413,8 +413,8 @@ describe("audit-loop-hook", () => {
       await hook.event({ event: { type: "session.idle", properties: { sessionID: "session-123" } } })
 
       const state = hook.getState() as AuditLoopState
-      expect(state.active).toBe(false)
-      expect(state.cycleCount).toBe(1)
+      expect(state.active).toBe(true)
+      expect(state.cycleCount).toBe(0)
     })
 
     test("should NOT trigger when only user messages contain completion words", async () => {

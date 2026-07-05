@@ -86,8 +86,8 @@ export async function checkRepoHeuristic(
   if (!info) {
     return {
       allowed: true,
-      reason: "Could not fetch repo info; proceeding with unknown risk",
-      requiresConfirmation: false,
+      reason: "Could not fetch repo info; untrusted source requires confirmation",
+      requiresConfirmation: true,
       riskLevel: "medium",
     }
   }

@@ -3,6 +3,7 @@ import { buildCodegraphInitGuidanceForToolResult } from "#shared/utils"
 import type { CreatedHooks } from "../create-hooks"
 import { log as defaultLog } from "../shared/logger"
 import { stripInvisibleAgentCharacters } from "../shared/agent-display-names"
+import { recordTokenUsage } from "../features/cost-tracker"
 import type { PluginContext } from "./types"
 
 const VERIFICATION_ATTEMPT_PATTERN = /<ulw_verification_attempt_id>(.*?)<\/ulw_verification_attempt_id>/i
@@ -86,6 +87,21 @@ export function createToolExecuteAfterHandler(args: {
     if (!output) return
 
     appendCodegraphInitGuidance(input, output, getPluginDirectory(ctx))
+
+    const tokenInputTokens = typeof output.metadata?.inputTokens === "number" ? output.metadata.inputTokens : 0
+    const tokenOutputTokens = typeof output.metadata?.outputTokens === "number" ? output.metadata.outputTokens : 0
+    const tokenModel = typeof output.metadata?.model === "string" ? output.metadata.model : "unknown"
+    const tokenAgent = typeof output.metadata?.agent === "string" ? output.metadata.agent : input.tool
+
+    recordTokenUsage({
+      sessionId: input.sessionID,
+      agentName: tokenAgent,
+      model: tokenModel,
+      inputTokens: tokenInputTokens,
+      outputTokens: tokenOutputTokens,
+      estimatedCost: 0,
+      timestamp: new Date().toISOString(),
+    })
 
     const hookInput = {
       tool: input.tool,

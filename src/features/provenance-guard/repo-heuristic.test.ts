@@ -102,7 +102,7 @@ describe("checkRepoHeuristic", () => {
       }
     })
 
-    test("#when API fails #then degrades gracefully", async () => {
+    test("#when API fails #then requires confirmation", async () => {
       const originalFetch = globalThis.fetch
       globalThis.fetch = mock(() =>
         Promise.reject(new Error("Network error")),
@@ -115,6 +115,7 @@ describe("checkRepoHeuristic", () => {
           10,
         )
         expect(result.allowed).toBe(true)
+        expect(result.requiresConfirmation).toBe(true)
         expect(result.riskLevel).toBe("medium")
         expect(result.reason).toContain("Could not fetch repo info")
       } finally {

@@ -14,6 +14,11 @@ function isBlockedTool(tool: string): boolean {
   return t === "read" || t === "glob" || t === "grep" || t === "bash" || t === "lsp_diagnostics"
 }
 
+function isWriteTool(tool: string): boolean {
+  const t = tool.toLowerCase()
+  return t === "write" || t === "edit"
+}
+
 function getFilePath(args: Record<string, unknown>): string | undefined {
   const raw = args["filePath"] ?? args["path"] ?? args["file_path"]
   return typeof raw === "string" ? raw : undefined
@@ -32,6 +37,19 @@ export function createConfidentialFileGuardHook(deps: Deps): Hooks {
       output: { args: Record<string, unknown> },
     ): Promise<void> => {
       if (!config.enabled) return
+
+      if (isWriteTool(input.tool)) {
+        const filePath = getFilePath(output.args)
+        if (filePath && matchesGlob(filePath, config.paths)) {
+          log("[confidential-file-guard] blocked write to confidential file", {
+            sessionID: input.sessionID,
+            filePath,
+          })
+          throw new Error(buildBlockMessage(config.block_message, filePath))
+        }
+        return
+      }
+
       if (!isBlockedTool(input.tool)) return
 
       const toolLower = input.tool.toLowerCase()

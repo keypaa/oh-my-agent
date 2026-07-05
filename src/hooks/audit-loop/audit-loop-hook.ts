@@ -5,6 +5,7 @@ import { log } from "../../shared/logger"
 import { HOOK_NAME, getMaxCycles, isAuditLoopEnabled, shouldSkipVerifier2 } from "./constants"
 import { buildFullContext, buildSanitizedContext } from "./sanitized-context-builder"
 import { dispatchInternalPrompt } from "../shared/prompt-async-gate"
+import { recordFailure } from "../../features/failure-journal"
 import {
   createInternalAgentContinuationTextPart,
   isAmbiguousPostDispatchPromptFailure,
@@ -14,12 +15,23 @@ import { resolveRegisteredAgentName } from "../../features/session-state"
 import { normalizeAgentForPromptKey, stripAgentListSortPrefix } from "../../shared/agent-display-names"
 
 const COMPLETION_CLAIM_PATTERNS = [
-  /(?:done|completed|finished|all (?:tasks?|todos?) (?:are )?complete)/i,
-  /(?:everything (?:is )?(?:done|complete|finished))/i,
-  /(?:all (?:items?|checkboxes?) (?:are )?checked)/i,
-  /(?:work (?:is )?(?:complete|done|finished))/i,
-  /(?:implementation (?:is )?(?:complete|done|finished))/i,
-  /(?:task (?:is )?(?:complete|done|finished))/i,
+  /\b(?:done|completed|finished)\b/i,
+  /\ball (?:tasks?|todos?) (?:are )?complete\b/i,
+  /\beverything (?:is )?(?:done|complete|finished)\b/i,
+  /\ball (?:items?|checkboxes?) (?:are )?checked\b/i,
+  /\bwork (?:is )?(?:complete|done|finished)\b/i,
+  /\bimplementation (?:is )?(?:complete|done|finished)\b/i,
+  /\btask (?:is )?(?:complete|done|finished)\b/i,
+]
+
+const NEGATION_PATTERNS = [
+  /\bnot\b/i,
+  /\bnever\b/i,
+  /\bdidn't\b/i,
+  /\bwasn't\b/i,
+  /\bisn't\b/i,
+  /\bare not\b/i,
+  /\bweren't\b/i,
 ]
 
 type MessageInfo = {
@@ -46,9 +58,13 @@ function detectCompletionClaim(messages: SessionMessage[]): boolean {
   for (const msg of messages) {
     const text = collectAssistantText(msg)
     if (!text) continue
-    for (const pattern of COMPLETION_CLAIM_PATTERNS) {
-      if (pattern.test(text)) return true
-    }
+    const hasCompletion = COMPLETION_CLAIM_PATTERNS.some((pattern) => pattern.test(text))
+    if (!hasCompletion) continue
+    const hasNegation = NEGATION_PATTERNS.some((pattern) => pattern.test(text))
+    if (hasNegation) continue
+    if (/\?\s*$/.test(text.trim())) continue
+    if (/^[^.!?\n]*\?/.test(text.trim())) continue
+    return true
   }
   return false
 }
@@ -287,6 +303,34 @@ export function createAuditLoopHook(
       log(`[${HOOK_NAME}] Both verifiers approved`, { sessionID, cycle: state.cycleCount })
       state.active = false
       return
+    }
+
+    if (!theAuditorVerdict.approved) {
+      for (const issue of theAuditorVerdict.issues) {
+        recordFailure({
+          sessionId: sessionID,
+          filePath: state.changedFiles,
+          rootCause: issue,
+          pattern: "other",
+          fixDescription: theAuditorVerdict.summary,
+          reportedBy: "the-auditor",
+          resolved: false,
+        })
+      }
+    }
+
+    if (coldEyesVerdict && !coldEyesVerdict.approved) {
+      for (const issue of coldEyesVerdict.issues) {
+        recordFailure({
+          sessionId: sessionID,
+          filePath: state.changedFiles,
+          rootCause: issue,
+          pattern: "other",
+          fixDescription: coldEyesVerdict.summary,
+          reportedBy: "cold-eyes",
+          resolved: false,
+        })
+      }
     }
 
     const allIssues = [

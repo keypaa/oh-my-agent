@@ -26,6 +26,36 @@ export const KNOWN_SECRET_PATTERNS: SecretPattern[] = [
     severity: "block",
   },
   {
+    name: "Slack Token",
+    regex: /xox[bpars]-[0-9]{10,}-[a-zA-Z0-9\-]+/,
+    severity: "block",
+  },
+  {
+    name: "Stripe API Key",
+    regex: /[sr]k_live_[0-9a-zA-Z]{24,}/,
+    severity: "block",
+  },
+  {
+    name: "Stripe Test Key",
+    regex: /[sr]k_test_[0-9a-zA-Z]{24,}/,
+    severity: "block",
+  },
+  {
+    name: "npm Token",
+    regex: /npm_[A-Za-z0-9]{36}/,
+    severity: "block",
+  },
+  {
+    name: "GCP Service Account Key",
+    regex: /"type"\s*:\s*"service_account"/,
+    severity: "block",
+  },
+  {
+    name: "Database Connection String",
+    regex: /(mysql|postgres|postgresql|mongodb|redis|mssql):\/\/[^:]+:[^@\s]+@/,
+    severity: "block",
+  },
+  {
     name: "Private Key",
     regex: /-----BEGIN (?:RSA|EC|OPENSSH|PGP) PRIVATE KEY-----/,
     severity: "block",

@@ -1,5 +1,6 @@
 import { resolveModelPipeline } from "../../shared"
 import { transformModelForProvider } from "../../shared/provider-model-id-transform"
+import type { OhMyOpenCodeConfig } from "../../config"
 
 export function applyModelResolution(input: {
   uiSelectedModel?: string
@@ -7,13 +8,15 @@ export function applyModelResolution(input: {
   requirement?: { fallbackChain?: { providers: string[]; model: string; variant?: string }[] }
   availableModels: Set<string>
   systemDefaultModel?: string
+  agentName?: string
+  modelTierConfig?: OhMyOpenCodeConfig["model_tier"]
 }) {
-  const { uiSelectedModel, userModel, requirement, availableModels, systemDefaultModel } = input
+  const { uiSelectedModel, userModel, requirement, availableModels, systemDefaultModel, agentName, modelTierConfig } = input
   return resolveModelPipeline({
     intent: { uiSelectedModel, userModel },
     constraints: { availableModels },
     policy: { fallbackChain: requirement?.fallbackChain, systemDefaultModel },
-  })
+  }, { agentName, modelTierConfig })
 }
 
 export function getFirstFallbackModel(requirement?: {

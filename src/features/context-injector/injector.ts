@@ -1,6 +1,7 @@
 import type { Message, Part } from "@opencode-ai/sdk"
 import { isRealUserMessage, isRealUserTextPart, log } from "../../shared"
 import { getMainSessionID } from "../session-state"
+import { getKnownIssuesForFile } from "../failure-journal"
 import type { ContextCollector } from "./collector"
 
 interface OutputPart {
@@ -87,6 +88,31 @@ function hasText(part: Part): boolean {
   return "text" in part && typeof part.text === "string" && part.text.length > 0
 }
 
+const FILE_PATH_PATTERN = /(?:^|\s)((?:[A-Za-z]:\\|\.\/|\.\.\/|\/)[^\s,;:"')]+)/gm
+
+function extractFilePaths(text: string): string[] {
+  const paths: string[] = []
+  const seen = new Set<string>()
+  let match: RegExpExecArray | null
+  FILE_PATH_PATTERN.lastIndex = 0
+  while ((match = FILE_PATH_PATTERN.exec(text)) !== null) {
+    const filePath = match[1].replace(/[.,;:]+$/, "")
+    if (!seen.has(filePath)) {
+      seen.add(filePath)
+      paths.push(filePath)
+    }
+  }
+  return paths
+}
+
+function formatKnownIssues(issues: ReturnType<typeof getKnownIssuesForFile>): string | null {
+  if (issues.length === 0) return null
+  const unresolved = issues.filter((i) => !i.resolved)
+  if (unresolved.length === 0) return null
+  const lines = unresolved.map((i) => `- [${i.reportedBy}] ${i.rootCause} (${i.pattern})`)
+  return `### Known Issues for This File\n${lines.join("\n")}`
+}
+
 export function createContextInjectorMessagesTransformHook(
   collector: ContextCollector
 ): MessagesTransformHook {
@@ -148,12 +174,28 @@ export function createContextInjectorMessagesTransformHook(
         return
       }
 
+      const textPart = lastUserMessage.parts[textPartIndex]
+      const userText = (textPart && "text" in textPart && typeof textPart.text === "string") ? textPart.text : ""
+      const filePaths = extractFilePaths(userText)
+      let knownIssuesContext = ""
+      for (const filePath of filePaths) {
+        const issues = getKnownIssuesForFile(filePath)
+        const formatted = formatKnownIssues(issues)
+        if (formatted) {
+          knownIssuesContext += `\n\n${formatted}`
+        }
+      }
+
+      const combinedContext = knownIssuesContext
+        ? `${pending.merged}\n\n${knownIssuesContext}`
+        : pending.merged
+
       const syntheticPart = {
         id: `prt_synthetic_hook_${sessionID}`,
         messageID: lastUserMessage.info.id,
         sessionID: messageSessionID ?? "",
         type: "text" as const,
-        text: pending.merged,
+        text: combinedContext,
         synthetic: true,
       }
 

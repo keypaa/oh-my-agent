@@ -77,6 +77,7 @@ export function createCoreTools(args: {
     manager: managers.skillMcpManager,
     getLoadedSkills,
     getSessionID: getSessionIDForMcp,
+    provenanceGuardConfig: pluginConfig.provenance_guard,
   })
   const commands = factories.discoverCommandsSync(ctx.directory)
   const skillTool = factories.createSkillTool({

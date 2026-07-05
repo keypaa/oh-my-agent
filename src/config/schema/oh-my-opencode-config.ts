@@ -51,9 +51,13 @@ export const OhMyOpenCodeConfigSchema = z.object({
   disabled_mcps: z.array(AnyMcpNameSchema).optional(),
   disabled_agents: z.array(z.string()).optional(),
   disabled_skills: z.array(z.string()).optional(),
+  // NOTE: intentionally z.string() (not a known-value enum) — unknown values are silently
+  // ignored to allow forward-compat with future hooks/tools without breaking older configs.
   disabled_hooks: z.array(z.string()).optional(),
   disabled_commands: z.array(BuiltinCommandNameSchema).optional(),
   /** Disable specific tools by name (e.g., ["todowrite", "todoread"]) */
+  // NOTE: intentionally z.string() (not a known-value enum) — unknown values are silently
+  // ignored to allow forward-compat with future hooks/tools without breaking older configs.
   disabled_tools: z.array(z.string()).optional(),
   /**
    * Provider prefixes to exclude from every agent/category fallback chain at

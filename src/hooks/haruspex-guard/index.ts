@@ -10,7 +10,7 @@ const HARUSPEX_AGENT = "haruspex"
 const WRITE_TOOLS = new Set(["write", "edit", "apply_patch"])
 
 function isHaruspexAgent(agentName: string | undefined): boolean {
-  return agentName?.toLowerCase().includes(HARUSPEX_AGENT) ?? false
+  return agentName?.toLowerCase() === HARUSPEX_AGENT
 }
 
 function getFilePath(args: Record<string, unknown>): string | undefined {
@@ -57,11 +57,16 @@ export function createHaruspexGuardHook(
       }
 
       if (verdict === "confirm") {
-        log("[haruspex-guard] Warning: Haruspex modifying confirmation-required path", {
+        log("[haruspex-guard] Blocked write to confirmation-required path", {
           sessionID: input.sessionID,
           filePath,
           agent: agentName,
         })
+        throw new Error(
+          `[haruspex-guard] Haruspex is not allowed to modify ${filePath} without explicit approval. ` +
+          `This path requires confirmation. ` +
+          `Confirmation-required paths: ${config.require_confirmation.join(", ")}`,
+        )
       }
 
       if (config.show_diff) {

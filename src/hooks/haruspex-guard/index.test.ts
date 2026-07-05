@@ -61,13 +61,21 @@ describe("createHaruspexGuardHook", () => {
       )
     })
 
-    test("#when Haruspex agent writing to confirmation path #then allows with warning", async () => {
+    test("#when Haruspex agent writing to confirmation path #then blocks with approval required", async () => {
       updateSessionAgent("test", "Haruspex")
       const hook = createHook()
-      await hook["tool.execute.before"](
-        { tool: "write", sessionID: "test", callID: "c1" },
-        { args: { filePath: "src/agents/builtin-agents.ts", content: "updated" } },
-      )
+      let caughtMessage = ""
+      try {
+        await hook["tool.execute.before"](
+          { tool: "write", sessionID: "test", callID: "c1" },
+          { args: { filePath: "src/agents/builtin-agents.ts", content: "updated" } },
+        )
+      } catch (err) {
+        if (err instanceof Error) caughtMessage = err.message
+        else throw err
+      }
+      expect(caughtMessage).toContain("not allowed to modify")
+      expect(caughtMessage).toContain("requires confirmation")
     })
 
     test("#when edit tool on denied path #then blocks", async () => {

@@ -37,12 +37,6 @@ function isAllowlisted(
   return false
 }
 
-function extractStagedDiffContent(command: string): string | null {
-  if (!/\bgit\s+commit\b/.test(command)) return null
-  if (!/\bdiff\b.*--cached/.test(command) && !/\bstaged/.test(command)) return null
-  return null
-}
-
 export function createSecretScannerHook(deps: Deps): Hooks {
   const { config } = deps
 

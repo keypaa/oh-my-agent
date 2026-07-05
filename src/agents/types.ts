@@ -137,6 +137,8 @@ export function isGpt5_5Model(model: string): boolean {
 export type BuiltinAgentName =
   | "sisyphus"
   | "hephaestus"
+  // NOTE: Prometheus is special-cased — built via prometheus-agent-config-builder.ts, not in agentSources
+  | "prometheus"
   | "oracle"
   | "librarian"
   | "explore"
@@ -150,7 +152,8 @@ export type BuiltinAgentName =
   | "ml-ai-engineering"
   | "haruspex";
 
-export type OverridableAgentName = "build" | BuiltinAgentName;
+// "plan" and "OpenCode-Builder" are legacy names that exist only for config migration
+export type OverridableAgentName = "build" | "plan" | "OpenCode-Builder" | BuiltinAgentName;
 
 export type AgentName = BuiltinAgentName;
 

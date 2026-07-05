@@ -33,7 +33,8 @@ import { maybeCreateAtlasConfig } from "./builtin-agents/atlas-agent"
 
 type AgentSource = AgentFactory | AgentConfig
 
-const agentSources: Record<BuiltinAgentName, AgentSource> = {
+// Note: "prometheus" is excluded — it's built via prometheus-agent-config-builder.ts, not in agentSources
+const agentSources: Record<Exclude<BuiltinAgentName, "prometheus">, AgentSource> = {
   sisyphus: createSisyphusAgent,
   hephaestus: createHephaestusAgent,
   oracle: createOracleAgent,
@@ -85,6 +86,7 @@ export async function createBuiltinAgents(
   useTaskSystem = false,
   disableOmoEnv = false,
   teamModeEnabled = false,
+  modelTierConfig?: import("../config/schema/model-tier").ModelTierConfig,
 ): Promise<Record<string, AgentConfig>> {
 
   const connectedProviders = readConnectedProvidersCache()
@@ -129,6 +131,7 @@ export async function createBuiltinAgents(
     disabledSkills,
     teamModeEnabled,
     disableOmoEnv,
+    modelTierConfig,
   })
 
   const sisyphusConfig = maybeCreateSisyphusConfig({

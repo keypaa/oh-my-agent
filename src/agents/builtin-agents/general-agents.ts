@@ -10,9 +10,10 @@ import { applyOverrides } from "./agent-overrides"
 import { applyEnvironmentContext } from "./environment-context"
 import { applyModelResolution, getFirstFallbackModel } from "./model-resolution"
 import { log } from "../../shared/logger"
+import type { ModelTierConfig } from "../../config/schema/model-tier"
 
 export function collectPendingBuiltinAgents(input: {
-  agentSources: Record<BuiltinAgentName, import("../agent-builder").AgentSource>
+  agentSources: Record<Exclude<BuiltinAgentName, "prometheus">, import("../agent-builder").AgentSource>
   agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>>
   disabledAgents: string[]
   agentOverrides: AgentOverrides
@@ -28,6 +29,7 @@ export function collectPendingBuiltinAgents(input: {
   teamModeEnabled?: boolean
   useTaskSystem?: boolean
   disableOmoEnv?: boolean
+  modelTierConfig?: ModelTierConfig
 }): { pendingAgentConfigs: Map<string, AgentConfig>; availableAgents: AvailableAgent[] } {
   const {
     agentSources,
@@ -45,6 +47,7 @@ export function collectPendingBuiltinAgents(input: {
     disabledSkills,
     teamModeEnabled,
     disableOmoEnv = false,
+    modelTierConfig,
   } = input
 
   const availableAgents: AvailableAgent[] = []
@@ -82,6 +85,8 @@ export function collectPendingBuiltinAgents(input: {
       requirement,
       availableModels,
       systemDefaultModel,
+      agentName,
+      modelTierConfig,
     })
     if (!resolution) {
       if (override?.model) {

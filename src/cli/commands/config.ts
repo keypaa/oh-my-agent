@@ -35,11 +35,20 @@ function containsSensitiveKey(key: string): boolean {
   return SENSITIVE_FIELDS.some((field) => lower.includes(field.toLowerCase()))
 }
 
+function isLikelyCredentialValue(value: string): boolean {
+  // Match hex strings (API keys, tokens), base64-like strings, or prefixed secrets
+  return /^(sk-|ghp_|gho_|xoxb-|xoxp-|Bearer\s+|eyJ)/i.test(value)
+    || /^[A-Za-z0-9+/=_-]{20,}$/.test(value)
+    || /^[0-9a-f]{20,}$/i.test(value)
+}
+
 export function redactSensitiveFields(obj: unknown): unknown {
   if (obj === null || obj === undefined) return obj
 
   if (typeof obj === "string") {
-    if (SENSITIVE_FIELDS.some((field) => obj.toLowerCase().includes(field.toLowerCase()))) {
+    // Only redact strings that look like actual credentials (long opaque values),
+    // not strings that merely contain a sensitive keyword (e.g. descriptions, URLs).
+    if (isLikelyCredentialValue(obj)) {
       return "[REDACTED]"
     }
     return obj

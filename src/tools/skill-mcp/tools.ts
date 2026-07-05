@@ -2,14 +2,18 @@ import { tool, type ToolDefinition } from "@opencode-ai/plugin"
 import type { ToolContext } from "@opencode-ai/plugin/tool"
 import { BUILTIN_MCP_TOOL_HINTS, SKILL_MCP_DESCRIPTION } from "./constants"
 import { parseSkillMcpArguments } from "./parse-skill-mcp-arguments"
+import { createProvenanceGuard } from "../../features/provenance-guard"
 import type { SkillMcpArgs } from "./types"
 import type { SkillMcpManager, SkillMcpClientInfo, SkillMcpServerContext } from "../../features/skill-mcp-manager"
 import type { LoadedSkill } from "../../features/opencode-skill-loader/types"
+
+import type { ProvenanceGuardConfig } from "../../features/provenance-guard"
 
 interface SkillMcpToolOptions {
   manager: SkillMcpManager
   getLoadedSkills: () => LoadedSkill[] | Promise<LoadedSkill[]>
   getSessionID?: () => string | undefined
+  provenanceGuardConfig?: ProvenanceGuardConfig
 }
 
 type OperationType = { type: "tool" | "resource" | "prompt"; name: string }
@@ -98,7 +102,7 @@ export function applyGrepFilter(output: string, pattern: string | undefined): st
 }
 
 export function createSkillMcpTool(options: SkillMcpToolOptions): ToolDefinition {
-  const { manager, getLoadedSkills, getSessionID } = options
+  const { manager, getLoadedSkills, getSessionID, provenanceGuardConfig } = options
 
   return tool({
     description: `${SKILL_MCP_DESCRIPTION} Optional cdp_url connects Playwright to a runtime CDP endpoint.`,
@@ -161,6 +165,20 @@ export function createSkillMcpTool(options: SkillMcpToolOptions): ToolDefinition
       }
 
       const parsedArgs = parseSkillMcpArguments(args.arguments)
+
+      if (provenanceGuardConfig) {
+        const guard = await createProvenanceGuard(provenanceGuardConfig)
+        const mcpSource = found.config.url ?? found.config.command ?? "unknown"
+        const checkResult = await guard.checkSource(mcpSource)
+        if (!checkResult.allowed) {
+          throw new Error(
+            `MCP server "${args.mcp_name}" failed provenance check.\n` +
+            `Source: ${mcpSource}\n` +
+            `Risk level: ${checkResult.riskLevel}\n` +
+            `Reason: ${checkResult.reason ?? "untrusted source"}`,
+          )
+        }
+      }
 
       let output: string
       const cdpOptions = args.cdp_url ? { cdpUrl: args.cdp_url } : undefined

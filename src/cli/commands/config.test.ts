@@ -50,6 +50,24 @@ describe("config export/import", () => {
       expect(redactSensitiveFields(42)).toBe(42)
       expect(redactSensitiveFields("hello")).toBe("hello")
     })
+
+    it("does not redact strings that merely contain sensitive keywords", async () => {
+      const { redactSensitiveFields } = await import("./config")
+
+      expect(redactSensitiveFields("Enter your api_key below")).toBe("Enter your api_key below")
+      expect(redactSensitiveFields("https://example.com/token/endpoint")).toBe("https://example.com/token/endpoint")
+      expect(redactSensitiveFields("Set the password policy")).toBe("Set the password policy")
+    })
+
+    it("redacts actual credential values (prefixed secrets, long hex/base64)", async () => {
+      const { redactSensitiveFields } = await import("./config")
+
+      expect(redactSensitiveFields("sk-abc123def456")).toBe("[REDACTED]")
+      expect(redactSensitiveFields("ghp_abcdefghijklmnopqrstuvwxyz")).toBe("[REDACTED]")
+      expect(redactSensitiveFields("eyJhbGciOiJIUzI1NiJ9")).toBe("[REDACTED]")
+      expect(redactSensitiveFields("a".repeat(40))).toBe("[REDACTED]")
+      expect(redactSensitiveFields("abcdef1234567890abcdef1234567890")).toBe("[REDACTED]")
+    })
   })
 
   describe("configExportCommand", () => {
